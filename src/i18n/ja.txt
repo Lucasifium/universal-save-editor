@@ -3022,8 +3022,8 @@ SMG ammo
 Sniper ammo
 = スナイパーの弾薬
 
-A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
-= キャラクターのセーブ（1.sav、2.sav …）。場所は Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam ID>。復号に使う Steam アカウントを見つけるため、そのフォルダから開いてください。所持金、エリジウム、レベル、弾薬、スキルポイントを編集できます。アイテムなどはツリーにあります。
+A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= キャラクターのセーブ（1.sav、2.sav …）。場所は Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam ID または Epic アカウント ID>。復号に使うアカウントを見つけるため、そのフォルダから開いてください。所持金、エリジウム、レベル、弾薬、スキルポイントを編集できます。アイテムなどはツリーにあります。
 
 # game screens (translation audit)
 
@@ -29689,7 +29689,7 @@ YoRHa
 A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
 = キャラクターファイルです。セーブフォルダーではゲームは .sav からプレイヤーを読み込むため、そちらを開いてください（player.bic も一緒に更新されます）。
 
-A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
 = Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id> のキャラクターセーブ（1.sav、2.sav …）。解除に使う Steam アカウントを見つけられるよう、そのフォルダーから開いてください。現金、Eridium、レベル、弾薬、スキルポイント。アイテムなどはツリーにあります。
 
 Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.

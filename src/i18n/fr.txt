@@ -3022,8 +3022,8 @@ SMG ammo
 Sniper ammo
 = Munitions de sniper
 
-A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
-= Une sauvegarde de personnage (1.sav, 2.sav …) de Documents\My Games\Borderlands 4\Saved\SaveGames\<ID Steam>. Ouvrez-la depuis son propre dossier pour que le compte Steam qui la déverrouille soit trouvé. Argent, Éridium, niveau, munitions et points de compétence ; les objets et le reste sont dans l'Arbre.
+A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= Une sauvegarde de personnage (1.sav, 2.sav …) de Documents\My Games\Borderlands 4\Saved\SaveGames\<ID Steam ou ID de compte Epic>. Ouvrez-la depuis son propre dossier pour que le compte qui la déverrouille soit trouvé. Argent, Éridium, niveau, munitions et points de compétence ; les objets et le reste sont dans l'Arbre.
 
 # game screens (translation audit)
 
@@ -29618,7 +29618,7 @@ YoRHa
 A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
 = Un fichier de personnage. Dans un dossier de sauvegarde, le jeu charge le joueur depuis le .sav : ouvrez-le (player.bic est mis à jour avec lui).
 
-A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
 = Une sauvegarde de personnage (1.sav, 2.sav …) de Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Ouvrez-la depuis son propre dossier pour que le compte Steam qui la débloque soit retrouvé. Argent, Eridium, niveau, munitions et points de compétence ; les objets et le reste sont dans l'Arbre.
 
 Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.

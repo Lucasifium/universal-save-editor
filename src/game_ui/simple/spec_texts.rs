@@ -189,7 +189,7 @@ pub fn all() -> Vec<&'static str> {
         tr("Shotgun ammo"),
         tr("SMG ammo"),
         tr("Sniper ammo"),
-        tr("A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree."),
+        tr("A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree."),
         tr("Destined One"),
         tr("Will"),
         tr("Sparks"),

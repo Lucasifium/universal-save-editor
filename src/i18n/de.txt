@@ -3022,8 +3022,8 @@ SMG ammo
 Sniper ammo
 = Scharfschützengewehr-Munition
 
-A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
-= Ein Charakter-Spielstand (1.sav, 2.sav …) aus Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam-ID>. Öffne ihn aus seinem eigenen Ordner, damit das passende Steam-Konto gefunden wird. Bargeld, Eridium, Stufe, Munition und Fertigkeitspunkte; Gegenstände und der Rest stehen im Baum.
+A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= Ein Charakter-Spielstand (1.sav, 2.sav …) aus Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam-ID oder Epic-Konto-ID>. Öffne ihn aus seinem eigenen Ordner, damit das passende Konto gefunden wird. Bargeld, Eridium, Stufe, Munition und Fertigkeitspunkte; Gegenstände und der Rest stehen im Baum.
 
 # game screens (translation audit)
 
@@ -29611,8 +29611,8 @@ YoRHa
 A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
 = Eine Charakterdatei. In einem Spielstand-Ordner lädt das Spiel den Spieler stattdessen aus der .sav: diese öffnen (player.bic wird mit aktualisiert).
 
-A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
-= Ein Charakter-Spielstand (1.sav, 2.sav …) aus Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Aus seinem eigenen Ordner öffnen, damit das Steam-Konto, das ihn freischaltet, gefunden werden kann. Bargeld, Eridium, Stufe, Munition und Fertigkeitspunkte; Gegenstände und der Rest stehen im Baum.
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= Ein Charakter-Spielstand (1.sav, 2.sav …) aus Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Aus seinem eigenen Ordner öffnen, damit das Konto, das ihn freischaltet, gefunden werden kann. Bargeld, Eridium, Stufe, Munition und Fertigkeitspunkte; Gegenstände und der Rest stehen im Baum.
 
 Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.
 = Alyx, wie in der aktuellen Karte gespeichert. Die Beschreibung des Spielstands im Laden-Menü des Spiels (Gesundheit, Harz und Munition) wird beim Speichern des Spiels geschrieben und zeigt daher die alten Zahlen, bis erneut gespeichert wird.

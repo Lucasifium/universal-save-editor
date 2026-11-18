@@ -3022,8 +3022,8 @@ SMG ammo
 Sniper ammo
 = 狙击枪弹药
 
-A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
-= 角色存档（1.sav、2.sav …），位于 Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam ID>。请从其所在文件夹打开，以便找到能解锁它的 Steam 账号。可编辑现金、艾瑞迪姆、等级、弹药和技能点；物品等其余内容在树视图中。
+A character save (1.sav, 2.sav …) from Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+= 角色存档（1.sav、2.sav …），位于 Documents\My Games\Borderlands 4\Saved\SaveGames\<Steam ID 或 Epic 账号 ID>。请从其所在文件夹打开，以便找到能解锁它的账号。可编辑现金、艾瑞迪姆、等级、弹药和技能点；物品等其余内容在树视图中。
 
 # game screens (translation audit)
 
@@ -29662,7 +29662,7 @@ YoRHa
 A character file. In a save folder the game loads the player from the .sav instead: open that (player.bic is updated with it).
 = 这是角色文件。在存档文件夹中，游戏会改为从 .sav 加载玩家：请打开那个文件（player.bic 会随之更新）。
 
-A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
+A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.
 = 来自 Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id> 的角色存档（1.sav、2.sav …）。请从其所在文件夹打开，以便找到能解锁它的 Steam 账号。现金、Eridium、等级、弹药和技能点；物品及其余内容在“树状”中。
 
 Alyx as saved in the current map. The save's description in the game's Load menu (its health, resin and ammo) is written when the game saves, so it shows the old numbers until you save again.

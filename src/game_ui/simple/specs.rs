@@ -6596,7 +6596,7 @@ const BL4: Spec = Spec {
     accent: (240, 190, 60),
     kind: Some("Borderlands 4 save"),
     markers: &["/state/char_guid", "/state/currencies"],
-    subtitle: "A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id>. Open it from its own folder so the Steam account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.",
+    subtitle: "A character save (1.sav, 2.sav …) from Documents\\My Games\\Borderlands 4\\Saved\\SaveGames\\<Steam id or Epic account id>. Open it from its own folder so the account that unlocks it can be found. Cash, Eridium, level, ammunition and skill points; items and the rest are in the Tree.",
     tiles: &[("Cash", "/state/currencies/cash"), ("Eridium", "/state/currencies/eridium"), ("Level", "/state/experience/0/level")],
     sections: &[
         Section {
