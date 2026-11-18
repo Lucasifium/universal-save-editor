@@ -7,6 +7,8 @@ mod bughunt;
 #[cfg(test)]
 mod sample_check;
 #[cfg(test)]
+mod synthetic;
+#[cfg(test)]
 mod site;
 mod app;
 mod apollo;
