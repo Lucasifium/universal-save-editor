@@ -8,6 +8,7 @@ assassins-creed-odyssey 374
 atom-rpg 256
 attack-on-titan-2 412
 batman-arkham-city 729
+bioshock-infinite 397
 blasphemous 760
 borderlands-2 760
 borderlands-3 760
@@ -134,6 +135,7 @@ potion-craft-alchemist-simulator 380
 prison-architect 522
 r-e-p-o 760
 raft 374
+red-dead-redemption-2 438
 resident-evil-5 574
 rimworld 299
 risk-of-rain-2 306
