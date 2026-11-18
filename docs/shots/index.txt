@@ -60,6 +60,7 @@ fallout-3 1034
 fallout-4 1647
 fallout-new-vegas 1337
 fallout-shelter 1086
+farming-simulator-19 856
 final-fantasy-ix 801
 final-fantasy-pixel-remaster 1647
 final-fantasy-vii 1138
@@ -105,6 +106,7 @@ lego-star-wars-the-video-game 499
 lego-the-hobbit 499
 lego-the-lord-of-the-rings 522
 lethal-company 1250
+lies-of-p 1183
 like-a-dragon-ishin 1647
 mass-effect 1647
 mass-effect-1-legendary-edition 1633
@@ -121,10 +123,12 @@ minecraft 1647
 minecraft-dungeons 548
 moonlighter 1646
 mortal-shell 632
+mortal-shell-ii 1637
 mutant-year-zero-road-to-eden 1183
 my-summer-car 639
 neverwinter-nights-enhanced-edition 1132
 nier-automata 1571
+noita 534
 octopath-traveler 1014
 omori 1647
 ori-and-the-blind-forest 1407
@@ -159,6 +163,7 @@ slime-rancher 602
 snowrunner 1647
 sonic-mania 940
 sons-of-the-forest 1647
+space-haven 1342
 star-wars-jedi-fallen-order 806
 star-wars-knights-of-the-old-republic 1043
 star-wars-knights-of-the-old-republic-ii-the-sith-lords 1043
@@ -189,9 +194,11 @@ total-war-warhammer 1647
 total-war-warhammer-ii 477
 travellers-rest 1647
 tyranny 613
+ultrakill 821
 undertale 1647
 undertale-yellow 1076
 valheim 1647
+wandering-sword 597
 warhammer-40-000-rogue-trader 791
 wasteland-3 1647
 watch-dogs-2 499
