@@ -1,0 +1,29 @@
+name = "ASTLIBRA Revision"
+tab = "Hero"
+accent = [90, 150, 220]
+kind = "ASTLIBRA Revision save"
+markers = ["/Hero/Gold", "/Force/Fire"]
+subtitle = '''SAVE_<n>.DAT from AppData\Local\ASTLIBRA\SAVE (or Steam\userdata\<account>\1718570\remote). Gold, level, experience towards the next level and the six force pools (fire, earth, water, darkness, wind, holy). Both of the save's checksums are written again.'''
+tiles = [
+    ["Gold", "/Hero/Gold"],
+    ["Level", "/Hero/Level"],
+]
+
+[[sections]]
+title = "Hero"
+rows = [
+    ["Gold", "/Hero/Gold"],
+    ["Level", "/Hero/Level"],
+    ["Experience towards next level", "/Hero/Experience towards next level"],
+]
+
+[[sections]]
+title = "Force"
+rows = [
+    ["Fire", "/Force/Fire"],
+    ["Earth", "/Force/Earth"],
+    ["Water", "/Force/Water"],
+    ["Darkness", "/Force/Darkness"],
+    ["Wind", "/Force/Wind"],
+    ["Holy", "/Force/Holy"],
+]

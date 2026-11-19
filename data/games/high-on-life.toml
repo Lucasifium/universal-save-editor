@@ -1,0 +1,15 @@
+name = "High on Life"
+tab = "Bounty hunter"
+accent = [230, 120, 170]
+kind = "Unreal Engine save (ORSaveGame)"
+markers = ["/SaveData/DictionaryRaw/Inventory.Descriptor.Item.Pesos"]
+subtitle = 'Slot<n>.sav from AppData\Local\Oregon\Saved\SaveGames (Profile.sav holds settings only). Your pesos. Every other inventory count and story flag is in the Tree under SaveData/DictionaryRaw. Close the game first.'
+tiles = [
+    ["Pesos", "/SaveData/DictionaryRaw/Inventory.Descriptor.Item.Pesos"],
+]
+
+[[sections]]
+title = "Bounty hunter"
+rows = [
+    ["Pesos", "/SaveData/DictionaryRaw/Inventory.Descriptor.Item.Pesos"],
+]
