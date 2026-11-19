@@ -1316,9 +1316,6 @@ Nothing in the tree matches “{0}”.
 Nothing matches “{0}”.
 = 「{0}」に一致するものはありません。
 
-Reading {0}…
-= {0} を読み込み中…
-
 Revert to original ({0})
 = 元の値に戻す（{0}）
 
@@ -30383,6 +30380,24 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = ゲーム画面：プロフィールファイルの所持金と手配報奨金（PC版とPlayStation 2版の形式）。保存時にファイルのMD5を再計算します。公開されているオフセットから作成したもので、実際のプロフィールではまだ試していません
 
+# src/app.rs and src/formats.rs (opening progress)
+Reading the file
+= ファイルを読み込み中
+
+Unpacking
+= 展開中
+
+Reading the values
+= 値を読み込み中
+
+Getting the list ready
+= リストを準備中
+
+Stopped opening {0}.
+= {0} を開く操作を中止しました。
+
+This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
+= このセーブ（{0} MB）は、このコンピューターの空きメモリではツリーとして開くには大きすぎるため、16進表示になります。他のプログラムを閉じてから開き直すか、値検索を使ってください。
 # src/app/compare.rs
 
 Filter by name or value

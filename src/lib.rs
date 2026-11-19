@@ -26,6 +26,7 @@ mod tree;
 mod hex_view;
 mod icon;
 mod json_view;
+mod memory;
 mod names;
 mod oodle;
 mod pickle;
@@ -33,6 +34,7 @@ mod par;
 mod platform;
 mod presets;
 mod preview;
+mod progress;
 #[cfg(not(target_arch = "wasm32"))]
 mod playerprefs;
 mod renpy_sign;
