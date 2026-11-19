@@ -63,6 +63,15 @@ struct P<'a> {
     full_types: bool,
     /// UE5 large world coordinates (vectors of doubles).
     lwc: bool,
+    /// The values read so far would cost more memory than the tree may use, or the player
+    /// cancelled: every read from here on fails, so the whole parse unwinds at once.
+    stopped: &'a std::cell::Cell<Option<Stop>>,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum Stop {
+    TooBig,
+    Cancelled,
 }
 
 /// Native structs serialized as raw values: (name, component kind, count).
@@ -80,6 +89,9 @@ const NATIVE: &[(&str, &str, usize)] = &[
 
 impl P<'_> {
     fn take(&mut self, n: usize) -> Result<&[u8], String> {
+        if self.stopped.get().is_some() {
+            return Err("stopped".into());
+        }
         let end = self.pos.checked_add(n).filter(|&e| e <= self.d.len()).ok_or("unexpected end of data")?;
         let s = &self.d[self.pos..end];
         self.pos = end;
@@ -106,6 +118,16 @@ impl P<'_> {
             Ok(String::from_utf16_lossy(&u[..u.len() - 1]))
         }
     }
+    /// Every few thousand values: report how far the parse is, and stop when the tree would
+    /// outgrow the memory or the player pressed Cancel.
+    fn check_budget(&mut self) {
+        crate::progress::report(self.pos as u64, self.d.len() as u64);
+        if crate::progress::cancelled() {
+            self.stopped.set(Some(Stop::Cancelled));
+        } else if self.leaves.len() as u64 > leaf_limit() {
+            self.stopped.set(Some(Stop::TooBig));
+        }
+    }
     fn guid(&mut self) -> Result<(), String> {
         if self.u8()? != 0 {
             self.take(16)?;
@@ -115,6 +137,9 @@ impl P<'_> {
     fn leaf(&mut self, ptr: &str, start: usize, kind: Kind, sizes: &[usize], v: Value) -> Value {
         self.editable.insert(ptr.to_string(), self.leaves.len());
         self.leaves.push(Leaf { start, end: self.pos, kind, sizes: sizes.to_vec() });
+        if self.leaves.len() % CHECK_EVERY == 0 {
+            self.check_budget();
+        }
         v
     }
     fn scalar(&mut self, kind: Kind, ptr: &str, sizes: &[usize]) -> Result<Value, String> {
@@ -639,16 +664,44 @@ impl Backend for GvasBackend {
     }
 }
 
-/// The tree of a save costs about 200 times its size in memory (a 62 MB Palworld world took
-/// more than 12 GB), so a bigger save is left to the hex view and Value search instead of
-/// taking the whole machine down.
-const MAX_TREE_BYTES: usize = 24 << 20;
+/// Values between checks of the budget and the Cancel button.
+const CHECK_EVERY: usize = 4096;
+
+/// What one value (with its path, its place in the file, the copies the editor keeps to show
+/// what changed, and its row in the Values list) costs in memory, measured on real saves.
+const BYTES_PER_LEAF: u64 = 1300;
+
+/// How many values the tree may hold: what the free memory lets it (the whole of a big
+/// Palworld world used to be refused, whatever the machine had). The tests set it lower.
+fn leaf_limit() -> u64 {
+    #[cfg(test)]
+    if let Some(n) = TEST_LIMIT.with(|c| c.get()) {
+        return n;
+    }
+    crate::memory::tree_budget() / BYTES_PER_LEAF
+}
+
+#[cfg(test)]
+thread_local! {
+    pub(crate) static TEST_LIMIT: std::cell::Cell<Option<u64>> = const { std::cell::Cell::new(None) };
+}
+
+/// A save whose tree wouldn't fit in the free memory is left to the hex view and Value search.
+const TOO_BIG: &str = "too big for the tree view";
 
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
-    if d.len() > MAX_TREE_BYTES {
-        return Err(format!("save data of {} MB is too big for the tree view", d.len() >> 20));
+    match parse_checked(d) {
+        Err(e) if e == TOO_BIG => {
+            crate::progress::note_too_big(d.len());
+            Err(e)
+        }
+        r => r,
     }
+}
+
+fn parse_checked(d: &[u8]) -> Result<TreeDoc, String> {
     match parse_as(d, false, 0) {
+        Err(e) if e == TOO_BIG || e == "cancelled" => Err(e),
         Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, 0).or_else(|_| parse_as_magic(d, false, 0, b"GVAS", true)).map_err(|_| e),
         // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the
         // properties; Wandering Sword (UE 4.26) a 4-byte zero.
@@ -671,7 +724,17 @@ pub fn parse_slot(d: &[u8]) -> Result<TreeDoc, String> {
 
 /// `tail_ok`: bytes after the properties (Maneater's world actors) are kept as they are.
 fn parse_as_magic(d: &[u8], sections: bool, stamp: usize, magic: &[u8], tail_ok: bool) -> Result<TreeDoc, String> {
-    let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false };
+    let stopped = std::cell::Cell::new(None);
+    let r = parse_body(d, sections, stamp, magic, tail_ok, &stopped);
+    match stopped.get() {
+        Some(Stop::TooBig) => Err(TOO_BIG.into()),
+        Some(Stop::Cancelled) => Err("cancelled".into()),
+        None => r,
+    }
+}
+
+fn parse_body(d: &[u8], sections: bool, stamp: usize, magic: &[u8], tail_ok: bool, stopped: &std::cell::Cell<Option<Stop>>) -> Result<TreeDoc, String> {
+    let mut p = P { d, pos: 0, leaves: vec![], editable: HashMap::new(), full_types: false, lwc: false, stopped };
     if p.take(4)? != magic {
         return Err("not GVAS".into());
     }
@@ -793,6 +856,85 @@ pub(crate) mod tests {
         v.extend(fs("None"));
         v.extend(0i32.to_le_bytes());
         v
+    }
+
+    /// A save with `n` ints in one array (and a struct array, like a world's records).
+    fn big(n: usize) -> Vec<u8> {
+        let mut v = sample();
+        v.truncate(v.len() - 13); // the closing "None" and the zero after it
+        let mut arr = (n as i32).to_le_bytes().to_vec();
+        for x in 0..n {
+            arr.extend((x as i32).to_le_bytes());
+        }
+        v.extend(prop("Many", "ArrayProperty", &fs("IntProperty"), &arr, false));
+        v.extend(fs("None"));
+        v.extend(0i32.to_le_bytes());
+        v
+    }
+
+    #[test]
+    fn a_tree_over_the_memory_budget_is_refused_with_its_reason() {
+        let raw = big(20_000);
+        assert!(parse(&raw).is_ok());
+        crate::progress::take_too_big();
+        TEST_LIMIT.with(|c| c.set(Some(5_000)));
+        let r = parse(&raw);
+        TEST_LIMIT.with(|c| c.set(None));
+        assert_eq!(r.err().as_deref(), Some(TOO_BIG));
+        assert_eq!(crate::progress::take_too_big(), Some(raw.len()));
+        // Under the limit it opens, and the result is unchanged by the check.
+        TEST_LIMIT.with(|c| c.set(Some(50_000)));
+        let ok = parse(&raw);
+        TEST_LIMIT.with(|c| c.set(None));
+        assert!(ok.is_ok());
+    }
+
+    #[test]
+    fn too_big_goes_to_the_hex_view_with_a_note() {
+        let raw = big(20_000);
+        TEST_LIMIT.with(|c| c.set(Some(5_000)));
+        let d = crate::formats::decode(&raw);
+        TEST_LIMIT.with(|c| c.set(None));
+        assert!(matches!(d.content, crate::formats::Content::Binary(_)));
+        assert!(d.hint.unwrap().contains("too big"));
+        assert_eq!(crate::formats::encode(&d.layers, &d.content).unwrap(), raw);
+    }
+
+    #[test]
+    fn cancelling_stops_the_parse() {
+        let raw = big(20_000);
+        let job = crate::progress::Job::new();
+        job.cancel();
+        let _g = crate::progress::install(job);
+        assert_eq!(parse(&raw).err().as_deref(), Some("cancelled"));
+    }
+
+    #[test]
+    fn progress_is_reported_while_parsing() {
+        let raw = big(20_000);
+        let job = crate::progress::Job::new();
+        let _g = crate::progress::install(job.clone());
+        assert!(parse(&raw).is_ok());
+        assert!(job.fraction().is_some_and(|f| f > 0.5));
+    }
+
+    /// Calibrates `BYTES_PER_LEAF`: `cargo test --release --lib gvas_memory_cost -- --ignored --nocapture`.
+    #[test]
+    #[ignore]
+    fn gvas_memory_cost() {
+        fn rss() -> u64 {
+            let s = std::fs::read_to_string("/proc/self/statm").unwrap();
+            s.split_whitespace().nth(1).unwrap().parse::<u64>().unwrap() * 4096
+        }
+        let raw = big(2_000_000);
+        let before = rss();
+        let t = parse(&raw).unwrap();
+        let after_tree = rss();
+        let baseline = t.clone();
+        let model = crate::values_view::build(&t.view, &Default::default(), Some(&t.editable));
+        let after = rss();
+        println!("leaves {} tree {} B/leaf; with copy and list {} B/leaf", 2_000_000, (after_tree - before) / 2_000_000, (after - before) / 2_000_000);
+        drop((baseline, model));
     }
 
     #[test]

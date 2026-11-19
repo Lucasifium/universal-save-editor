@@ -1319,9 +1319,6 @@ Nothing in the tree matches “{0}”.
 Nothing matches “{0}”.
 = 没有与“{0}”匹配的内容。
 
-Reading {0}…
-= 正在读取 {0}…
-
 Revert to original ({0})
 = 恢复原值（{0}）
 
@@ -30361,3 +30358,23 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = 游戏界面：配置文件的金钱和追捕悬赏（PC 和 PlayStation 2 格式）；保存时重新计算文件的 MD5。依据公开的偏移量构建，尚未在真实配置文件上试过
+
+# src/app.rs and src/formats.rs (opening progress)
+Reading the file
+= 正在读取文件
+
+Unpacking
+= 正在解包
+
+Reading the values
+= 正在读取数值
+
+Getting the list ready
+= 正在准备列表
+
+Stopped opening {0}.
+= 已取消打开 {0}。
+
+This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
+= 此存档（{0} MB）太大，无法用这台电脑的可用内存以树形打开，因此以十六进制显示。请关闭其他程序后重新打开，或使用数值搜索。
+

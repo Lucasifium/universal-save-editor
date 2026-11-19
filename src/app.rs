@@ -195,6 +195,8 @@ struct Loading {
     path: PathBuf,
     opts: formats::Options,
     started: f64,
+    /// What the worker is up to, and the Cancel button's flag.
+    job: std::sync::Arc<crate::progress::Job>,
     rx: std::sync::mpsc::Receiver<Result<(usize, Prepared), String>>,
 }
 
@@ -925,7 +927,9 @@ impl App {
 
     /// Escape: closes the dialog on top (the one drawn last), or does nothing when none is open.
     fn close_top_dialog(&mut self) {
-        if self.quick_restore.is_some() {
+        if self.loading.is_some() {
+            self.cancel_loading();
+        } else if self.quick_restore.is_some() {
             self.quick_restore = None;
         } else if self.preset_apply.as_ref().is_some_and(|pa| pa.confirm_delete.is_some()) {
             if let Some(pa) = &mut self.preset_apply {
@@ -997,14 +1001,21 @@ impl App {
         let opts = formats::Options::for_path(path);
         let (tx, rx) = std::sync::mpsc::channel();
         let (p, o) = (path.to_path_buf(), opts.clone());
+        let job = crate::progress::Job::new();
+        let worker_job = job.clone();
         std::thread::spawn(move || {
+            let _guard = crate::progress::install(worker_job);
             let stamp = safety::stamp(&p);
-            let r = crate::vfs::read(&p)
+            let r = crate::progress::read_file(&p)
                 .map_err(|e| trf("Couldn't open {0}: {1}", &[&p.display(), &e]))
-                .map(|raw| (raw.len(), Prepared { stamp, ..prepare(&p, formats::decode_with(&raw, &o)) }));
+                .map(|raw| {
+                    let decoded = formats::decode_with(&raw, &o);
+                    crate::progress::stage(crate::progress::Stage::Showing);
+                    (raw.len(), Prepared { stamp, ..prepare(&p, decoded) })
+                });
             let _ = tx.send(r);
         });
-        self.loading = Some(Loading { path: path.to_path_buf(), opts, started: f64::NAN, rx });
+        self.loading = Some(Loading { path: path.to_path_buf(), opts, started: f64::NAN, job, rx });
         self.info(trf("Opening {0}\u{2026}", &[&file_name(path)]));
     }
 
@@ -1040,21 +1051,52 @@ impl App {
                     ctx.request_repaint_after(std::time::Duration::from_millis(30));
                     return;
                 }
+                let (stage, fraction) = (l.job.current_stage(), l.job.fraction());
+                let mut cancel = false;
                 modal(ctx, tr("Opening"), |ui| {
-                    ui.horizontal(|ui| {
-                        ui.spinner();
-                        ui.label(trf("Reading {0}\u{2026}", &[&name]));
-                    });
+                    ui.label(trf("Opening {0}\u{2026}", &[&name]));
+                    let what = match stage {
+                        crate::progress::Stage::Reading => tr("Reading the file"),
+                        crate::progress::Stage::Unpacking => tr("Unpacking"),
+                        crate::progress::Stage::Values => tr("Reading the values"),
+                        crate::progress::Stage::Showing => tr("Getting the list ready"),
+                    };
+                    match fraction {
+                        Some(f) => {
+                            ui.add(egui::ProgressBar::new(f).desired_width(360.0).show_percentage());
+                            ui.weak(what);
+                        }
+                        None => {
+                            ui.horizontal(|ui| {
+                                ui.spinner();
+                                ui.weak(what);
+                            });
+                        }
+                    }
                     if secs > 2.0 {
                         ui.weak(trf("{0} s. Big saves take a moment.", &[&format!("{secs:.0}")]));
                     }
+                    cancel = ui.button(tr("Cancel")).clicked();
                 });
-                ctx.request_repaint_after(std::time::Duration::from_millis(100));
+                if cancel {
+                    self.cancel_loading();
+                    return;
+                }
+                ctx.request_repaint_after(std::time::Duration::from_millis(60));
             }
             Err(_) => {
                 self.loading = None;
                 self.fail(tr("Opening the file stopped unexpectedly."));
             }
+        }
+    }
+
+    /// Cancel (or Escape) in the Opening box: the worker is told to stop, and whatever it
+    /// still produces is thrown away. The file that was open stays as it was.
+    fn cancel_loading(&mut self) {
+        if let Some(l) = self.loading.take() {
+            l.job.cancel();
+            self.info(trf("Stopped opening {0}.", &[&file_name(&l.path)]));
         }
     }
 

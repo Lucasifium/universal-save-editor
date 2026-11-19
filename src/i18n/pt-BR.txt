@@ -1319,9 +1319,6 @@ Nothing in the tree matches “{0}”.
 Nothing matches “{0}”.
 = Nada corresponde a “{0}”.
 
-Reading {0}…
-= Lendo {0}…
-
 Revert to original ({0})
 = Voltar ao original ({0})
 
@@ -30277,3 +30274,23 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Tela do jogo: dinheiro e recompensa de perseguição de um arquivo de perfil (formatos de PC e PlayStation 2); o MD5 do arquivo é refeito ao salvar. Feita a partir de offsets publicados, ainda não testada em um perfil real
+
+# src/app.rs and src/formats.rs (opening progress)
+Reading the file
+= Lendo o arquivo
+
+Unpacking
+= Descompactando
+
+Reading the values
+= Lendo os valores
+
+Getting the list ready
+= Preparando a lista
+
+Stopped opening {0}.
+= A abertura de {0} foi cancelada.
+
+This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
+= Este jogo salvo ({0} MB) é grande demais para abrir como árvore com a memória livre deste computador, por isso aparece em hexadecimal. Feche outros programas e abra de novo, ou use a busca de valores.
+

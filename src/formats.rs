@@ -644,7 +644,9 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
     // What the innermost data reads as when taken as JSON, if a reader of the last layer
     // already worked it out: kept so that a big JSON save is parsed only once.
     let mut json_seen = None;
-    while layers.len() < MAX_LAYERS {
+    crate::progress::take_too_big();
+    crate::progress::stage(crate::progress::Stage::Unpacking);
+    while layers.len() < MAX_LAYERS && !crate::progress::cancelled() {
         let json = JsonOnce::new(&data);
         match peel(&data, &mut ctx, &json) {
             Some((layer, inner)) => {
@@ -688,6 +690,7 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
         }
         Some(t.parse(&data, &file))
     });
+    crate::progress::stage(crate::progress::Stage::Values);
     let content = match cyberpunk {
         Some(doc) => Content::Tree(Box::new(doc)),
         None => classify(data, opts, json_seen),
@@ -724,6 +727,9 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
         } else if matches!(layers.last(), Some(Layer::PngChunk { .. })) {
             ctx.hint = Some("This is the emulator's memory snapshot. Use Value search to find a number you know, then load this state in mGBA.".into());
         }
+    }
+    if let (Content::Binary(_), None, Some(len)) = (&content, &ctx.hint, crate::progress::take_too_big()) {
+        ctx.hint = Some(crate::i18n::trf("This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.", &[&(len >> 20).max(1)]));
     }
     if matches!(content, Content::Binary(ref b) if ctx.hint.is_none() && fmt::crypto::looks_encrypted(b)) {
         ctx.hint = Some(
