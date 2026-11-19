@@ -40,6 +40,57 @@ const MATERIAL_SKIP2: [usize; 5] = [53, 54, 55, 73, 74];
 const GIFTS2: usize = P + 0x14B698;
 const GIFT_ROWS2: usize = 50;
 const GIFT_STRIDE2: usize = 0x30;
+/// Equipped skills: one bit per skill (bit n = byte n / 8, bit n % 8), from body 0x22C638.
+/// Matched by loading saves with different sets of bits in the game and reading the Equip Skill
+/// list. About Titans, Friendship, Upstanding Soldier and Negotiating Skill showed as equipped
+/// whatever these bits held, so they are kept elsewhere; bit 21 and bits 0, 86-99, 172-174 and
+/// 187 on matched no skill.
+const SKILLS2: usize = P + 0x22C638;
+const SKILL_BITS2: [(usize, &str); 168] = [
+    (1, "Swoop Attack"), (2, "Spinning Slash"), (3, "Multi-Strike"), (4, "Wings of Freedom"), (5, "Multi-Dash"),
+    (6, "Mid-Air Blade Swap"), (7, "Mid-Air First-Aid"), (8, "Air Move"), (9, "Blade Guard"),
+    (10, "Lightning Speed"), (11, "Anchor Spear"), (12, "Free Shooter"), (13, "Extra Bullets"),
+    (14, "Showdown Equipment Handling"), (15, "Mid-Air Gas Swap"), (16, "Exaltation"), (17, "Fresh Start"),
+    (18, "Lone Wolf"), (19, "Careful Selection"), (20, "Revenge"), (22, "Auto Reload"), (23, "Full Power"),
+    (24, "Weapons Inspection"), (25, "Elimination Bounty"), (26, "Wings of Hope"), (27, "Master Rider"),
+    (28, "Point-Blank"), (29, "Reload Ace"), (30, "Willpower"), (31, "Predicament"), (32, "Survival Instincts"),
+    (33, "Alms of the Goddess"), (34, "Goddess Grin"), (35, "Ready For Anything"), (36, "Well-Prepared"),
+    (37, "Appeal"), (38, "Stealth"), (39, "Secret Maneuver"), (40, "Secret Maneuver Lv. 2"),
+    (41, "Secret Maneuver Lv. 3"), (42, "Sudden Death"), (43, "Sudden Death Lv. 2"), (44, "Sudden Death Lv. 3"),
+    (45, "Dueler"), (46, "Dueler Lv. 2"), (47, "Dueler Lv. 3"), (48, "Surprise Attack"),
+    (49, "Surprise Attack Lv. 2"), (50, "Surprise Attack Lv. 3"), (51, "Strong Bonds"), (52, "Strength of Unity"),
+    (53, "Siege Formation"), (54, "Natural Tactics"), (55, "Motivator"), (56, "Motivator Lv. 2"),
+    (57, "Motivator Lv. 3"), (58, "Chase Down"), (59, "Chase Down Lv. 2"), (60, "Chase Down Lv. 3"),
+    (61, "Decisive Battle"), (62, "Devotee"), (63, "Research Grounding"), (64, "Research Heart"),
+    (65, "Item Meister"), (66, "Item Meister Lv. 2"), (67, "Item Meister Lv. 3"), (68, "Tail-End Rise"),
+    (69, "Easily Pleased"), (70, "Blade Art"), (71, "Ultimate Blade Art"), (72, "Back From The Brink"),
+    (73, "Never Say Die"), (74, "Never Say Die Lv. 2"), (75, "Never Say Die Lv. 3"), (76, "Advanced ODM Skills"),
+    (77, "Advanced ODM Skills Lv. 2"), (78, "Advanced ODM Skills Lv. 3"), (79, "Gas Saver"), (80, "Gas Saver Lv. 2"),
+    (81, "Gas Saver Lv. 3"), (82, "Blade Saver"), (83, "Blade Saver Lv. 2"), (84, "Blade Saver Lv. 3"),
+    (85, "Titan Hunter"), (100, "Strength +3 (1)"), (101, "Strength +3 (2)"), (102, "Strength +3 (3)"),
+    (103, "Strength +3 (4)"), (104, "Strength +3 (5)"), (105, "Strength +5 (1)"), (106, "Strength +5 (2)"),
+    (107, "Strength +5 (3)"), (108, "Strength +5 (4)"), (109, "Strength +5 (5)"), (110, "Strength +10 (1)"),
+    (111, "Strength +10 (2)"), (112, "Dexterity +3 (1)"), (113, "Dexterity +3 (2)"), (114, "Dexterity +3 (3)"),
+    (115, "Dexterity +3 (4)"), (116, "Dexterity +3 (5)"), (117, "Dexterity +5 (1)"), (118, "Dexterity +5 (2)"),
+    (119, "Dexterity +5 (3)"), (120, "Dexterity +5 (4)"), (121, "Dexterity +5 (5)"), (122, "Dexterity +10 (1)"),
+    (123, "Dexterity +10 (2)"), (124, "Concentration +3 (1)"), (125, "Concentration +3 (2)"),
+    (126, "Concentration +3 (3)"), (127, "Concentration +3 (4)"), (128, "Concentration +3 (5)"),
+    (129, "Concentration +5 (1)"), (130, "Concentration +5 (2)"), (131, "Concentration +5 (3)"),
+    (132, "Concentration +5 (4)"), (133, "Concentration +5 (5)"), (134, "Concentration +10 (1)"),
+    (135, "Concentration +10 (2)"), (136, "Agility +3 (1)"), (137, "Agility +3 (2)"), (138, "Agility +3 (3)"),
+    (139, "Agility +3 (4)"), (140, "Agility +3 (5)"), (141, "Agility +5 (1)"), (142, "Agility +5 (2)"),
+    (143, "Agility +5 (3)"), (144, "Agility +5 (4)"), (145, "Agility +5 (5)"), (146, "Agility +10 (1)"),
+    (147, "Agility +10 (2)"), (148, "Health +3 (1)"), (149, "Health +3 (2)"), (150, "Health +3 (3)"),
+    (151, "Health +3 (4)"), (152, "Health +3 (5)"), (153, "Health +5 (1)"), (154, "Health +5 (2)"),
+    (155, "Health +5 (3)"), (156, "Health +5 (4)"), (157, "Health +5 (5)"), (158, "Health +10 (1)"),
+    (159, "Health +10 (2)"), (160, "Leadership +3 (1)"), (161, "Leadership +3 (2)"), (162, "Leadership +3 (3)"),
+    (163, "Leadership +3 (4)"), (164, "Leadership +3 (5)"), (165, "Leadership +5 (1)"), (166, "Leadership +5 (2)"),
+    (167, "Leadership +5 (3)"), (168, "Leadership +5 (4)"), (169, "Leadership +5 (5)"), (170, "Leadership +10 (1)"),
+    (171, "Leadership +10 (2)"), (175, "Good Treatment"), (176, "Good Treatment Lv. 2"),
+    (177, "Good Treatment Lv. 3"), (178, "Courageousness"), (179, "Courageousness Lv. 2"),
+    (180, "Courageousness Lv. 3"), (181, "Treasure Drive"), (182, "Treasure Drive Lv. 2"),
+    (183, "Treasure Drive Lv. 3"), (184, "Robbery"), (185, "Robbery Lv. 2"), (186, "Robbery Lv. 3"),
+];
 /// Friendship records (0x180 bytes each): u16 points, then the level (0..=10) the People Log shows.
 const FRIENDS2: usize = P + 0x166978;
 const FRIEND_STRIDE2: usize = 0x180;
@@ -195,13 +246,18 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Friendship points", name], at, Kind::U16, 0, 1000);
             }
         }
+        for (bit, name) in SKILL_BITS2 {
+            super::retro::flag(&mut b, &["Skills", name, "Equipped"], SKILLS2 + bit / 8, (bit % 8) as u32);
+        }
         for i in 0..GIFT_ROWS2 {
             let at = GIFTS2 + i * GIFT_STRIDE2;
-            if w16(&p, at) != 0 && w16(&p, at) <= 99 {
+            // A gift row the game has set up (flag 0x01, or 0x41) is listed even at 0: giving it a
+            // quantity is all the game needs to show it.
+            if w16(&p, at) <= 99 && (w16(&p, at) != 0 || matches!(p[at + 2], 0x01 | 0x41)) {
                 b.ranged(&["Gifts", &format!("Gift {:02}", i + 1)], at, Kind::U16, 0, 99);
             }
         }
-        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name. Every material is listed; giving one you don't own a quantity adds it. Only gifts you own are listed.")))
+        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP.")))
     }
 }
 
@@ -254,6 +310,7 @@ mod tests {
         p[MATERIALS2 + 3 * GIFT_STRIDE2..MATERIALS2 + 3 * GIFT_STRIDE2 + 4].copy_from_slice(&[0x61, 0x03, 0x29, 0x00]);
         p[FRIENDS2 + 29 * FRIEND_STRIDE2..FRIENDS2 + 29 * FRIEND_STRIDE2 + 3].copy_from_slice(&[0x0F, 0x27, 3]);
         p[FRIENDS2..FRIENDS2 + 3].copy_from_slice(&[40, 0, 0]);
+        p[GIFTS2 + 9 * GIFT_STRIDE2 + 2] = 0x01;
         // Unowned materials as a new game marks them.
         p[MATERIALS2 + 5 * GIFT_STRIDE2 + 2] = 0x0D;
         p[MATERIALS2 + 6 * GIFT_STRIDE2 + 2] = 0x0C;
@@ -264,6 +321,8 @@ mod tests {
         let mut doc = parse(&d).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), d);
         doc.set("/Gifts/Gift 04", 99.into()).unwrap();
+        assert_eq!(doc.view.pointer("/Gifts/Gift 10").unwrap(), 0);
+        assert!(doc.view.pointer("/Gifts/Gift 11").is_none());
         // An all-zero row is not a material layout the game writes, so it stays hidden.
         assert!(doc.view.pointer("/Crafting materials/Material 01").is_none());
         doc.set("/Crafting materials/Material 04", 999.into()).unwrap();
@@ -290,9 +349,15 @@ mod tests {
         assert!(doc.view.pointer("/Crafting materials/Material 54").is_none());
         doc.set("/Crafting materials/Material 06", 50.into()).unwrap();
         doc.set("/Crafting materials/Material 07", 3.into()).unwrap();
+        // Equipped skills: bit 30 is Willpower, bit 185 Robbery Lv. 2.
+        assert_eq!(doc.view.pointer("/Skills/Willpower/Equipped").unwrap(), "No");
+        doc.set("/Skills/Willpower/Equipped", "Yes".into()).unwrap();
+        doc.set("/Skills/Robbery Lv. 2/Equipped", "Yes".into()).unwrap();
         let out = doc.to_bytes().unwrap();
         assert!(looks(&out));
         let (q, _) = unpack(&out).unwrap();
+        assert_eq!(q[SKILLS2 + 3], 1 << 6);
+        assert_eq!(q[SKILLS2 + 23], 1 << 1);
         assert_eq!(&q[MATERIALS2 + 5 * GIFT_STRIDE2..][..4], &[50, 0, 0x29, 0]);
         assert_eq!(&q[MATERIALS2 + 6 * GIFT_STRIDE2..][..4], &[3, 0, 0x21, 0]);
         assert_eq!(&q[MATERIALS2 + 53 * GIFT_STRIDE2..][..4], &[0, 0, 0x0D, 0]);

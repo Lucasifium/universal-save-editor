@@ -30049,11 +30049,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA の atwin0000.dat。資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, with a Max crafting materials button (999 each) and the quantity of every gift you own, up to 99; the stream cipher and word checksum are handled.
-= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、プレイヤーレベル（最大120）と経験値、出会ったキャラクターごとの友好度（0〜10）と友好度ポイント（最大1,000）、まだ所持していないものも含むすべての素材（各999まで、素材最大化ボタン付き）、所持している各ギフトの数量（最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、プレイヤーレベル（最大120）と経験値、出会ったキャラクターごとの友好度（0〜10）と友好度ポイント（最大1,000）、まだ所持していないものも含むすべての素材（名前付き、各999まで、素材最大化ボタン付き）、装備中のスキル、まだ所持していないものも含むすべてのギフト（名前付き、各最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Close the game first. The stream cipher and the word checksum are written again. Gifts and materials are shown by their number in the save, not by name. Every material is listed; giving one you don't own a quantity adds it. Only gifts you own are listed.
-= 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。ギフトと素材は名前ではなくセーブ内の番号で表示されます。素材はすべて一覧に出ます。所持していない素材に数量を入れると追加されます。ギフトは所持しているものだけが一覧に出ます。
+Close the game first. The stream cipher and the word checksum are written again. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP.
+= 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。素材とギフトはすべて一覧に出ます。所持していないものに数量を入れると追加されます。スキルの装備ではSPを確認しません。
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。アイテムは名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。
@@ -30061,16 +30061,16 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面：資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, the crafting materials you own with a Max crafting materials button, and the quantity of every gift you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
-= ゲーム画面（Final Battle）：連隊資金、自由の翼、所持している素材（素材最大化ボタン付き）、所持している各ギフトの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、友好度、名前付きのすべての素材とギフト（素材最大化ボタン付き）、装備中のスキル。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
 
 Friendship (characters you've met)
 = 友好度（出会ったキャラクター）
 Friendship points (characters you've met)
 = 友好度ポイント（出会ったキャラクター）
 
-Gifts (you own)
-= ギフト（所持品）
+Gifts
+= ギフト
 
 Items (you own)
 = アイテム（所持品）
