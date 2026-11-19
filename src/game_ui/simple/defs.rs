@@ -318,6 +318,7 @@ mod tests {
 
     #[test]
     fn every_definition_is_in_use_and_has_its_own_name() {
+        assert!(GAME_DEFINITIONS.len() >= 13, "data/games is missing from the build");
         assert_eq!(load().len(), GAME_DEFINITIONS.len());
         let data: HashSet<&str> = load().iter().map(|s| s.name).collect();
         for d in &data {
