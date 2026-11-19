@@ -15,6 +15,7 @@ BLOCKED = [
     (7, "l", "3747e0f8e76c3260954b5b5c6873f7e1038be9d03ed0a02585b6ac401113697b"),
     (11, "l", "ef065d1b88ddb0295bb20ceb76dc7712a97056b116868791786c7f85edf30729"),
     (11, "c", "537d4725e817b4345fb02e1e92dfe1a543908cef1c709f49cc6b464fe039aa22"),
+    (6, "h", "e54cf02e2dcb10ccd5ceef7c26da528c9a61eb4b43be9f3ae14ba3720d8cb983"),
 ]
 # The project's own account name (in links and package ids) is allowed.
 ALLOWED = {(10, "df9bab9649cc97f7fba988cbade60d952ad4a4eb1a61ff99030e7ce9b866d57d")}
