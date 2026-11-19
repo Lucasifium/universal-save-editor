@@ -30397,3 +30397,15 @@ Unlock all appearances
 
 These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
 = Estas apariencias se comparten entre todas las ranuras de guardado. Las que vienen con una edición de pago o una reserva no aparecen y se dejan como están.
+
+Not owned
+= No lo tienes
+
+Adds the charm at its top level, as if just found.
+= Añade el amuleto en su nivel máximo, como si acabara de encontrarse.
+
+Add all missing charms
+= Añadir todos los amuletos que faltan
+
+Charms that come with a paid edition or a pre-order are not offered here.
+= Los amuletos que vienen con una edición de pago o una reserva no se ofrecen aquí.

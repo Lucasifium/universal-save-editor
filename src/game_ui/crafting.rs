@@ -705,6 +705,32 @@ pub fn onimusha_new_entry(items: &str, k: usize, id: i64, order: i64, count: i64
     ]
 }
 
+/// The id Onimusha uses for "no charm" in an unused charm entry.
+const ONIMUSHA_NO_CHARM: i64 = 325704896;
+
+/// Unused entries of the charm list `list` after the last used one, and the next acquisition
+/// number.
+pub fn onimusha_charm_free(cx: &GameCtx, list: &str) -> (Vec<usize>, i64) {
+    let Some(a) = cx.get(list).and_then(Value::as_array) else { return (vec![], 0) };
+    let id = |e: &Value| e.get("#37ba528f").and_then(Value::as_i64);
+    let after = a.iter().rposition(|e| id(e).is_some_and(|i| i != ONIMUSHA_NO_CHARM)).map_or(0, |k| k + 1);
+    let blank = |e: &Value| id(e) == Some(ONIMUSHA_NO_CHARM) && e.get("Level").and_then(Value::as_i64) == Some(0) && e.get(ONIMUSHA_ORDER).and_then(Value::as_i64) == Some(0);
+    let next = a.iter().filter_map(|e| e.get(ONIMUSHA_ORDER)?.as_i64()).max().unwrap_or(0) + 1;
+    ((after..a.len()).filter(|&k| blank(&a[k])).collect(), next)
+}
+
+/// The values that make entry `k` of the charm list a charm found now, at the level and
+/// durability every charm in real saves has (the save stores the id as a signed number).
+pub fn onimusha_new_charm(list: &str, k: usize, id: i64, order: i64) -> Vec<(String, Value)> {
+    let p = |f: &str| format!("{list}/{k}/{f}");
+    vec![
+        (p("#37ba528f"), Value::from(i64::from(id as u32 as i32))),
+        (p("Level"), Value::from(3)),
+        (p("CurrentDurability"), Value::from(5)),
+        (p(ONIMUSHA_ORDER), Value::from(order)),
+    ]
+}
+
 /// Where the save keeps the appearances (sword looks, outfits, haori coats) that Change
 /// Appearance offers: a list shared by all save slots, unused entries holding 46.
 pub fn onimusha_appearance_list(cx: &GameCtx) -> Option<String> {
@@ -1235,6 +1261,16 @@ mod tests {
         let root = json!({"SaveData": {"Slots": [full]}});
         let cx = ctx(&root);
         assert_eq!(stacks(Game::Onimusha, &cx).unwrap().len(), 2);
+
+        // Charms: a missing charm takes the first blank entry after the last used one.
+        let charm = |id: i64, order: i64| json!({"#37ba528f": id, "Level": 3, "Flags": 0, "CurrentDurability": 5, "EquipSlot": -1, "IsActive": 0, "#3cfa8eb4": order});
+        let none = || json!({"#37ba528f": 325704896, "Level": 0, "Flags": 0, "CurrentDurability": -1, "EquipSlot": -1, "IsActive": 0, "#3cfa8eb4": 0});
+        let root = json!({"c": [charm(8878, 1), charm(-82133712, 2), none(), none()]});
+        let cx = ctx(&root);
+        assert_eq!(onimusha_charm_free(&cx, "/c"), (vec![2, 3], 3));
+        let e = onimusha_new_charm("/c", 2, 4212833584, 3);
+        assert_eq!(e[0], ("/c/2/#37ba528f".to_string(), json!(-82133712)));
+        assert_eq!(e.len(), 4);
 
         // Appearances: new ones go after the last used entry; listed ones are skipped; a full
         // list takes no more.

@@ -30411,3 +30411,15 @@ Unlock all appearances
 
 These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
 = Ces apparences sont communes à tous les emplacements de sauvegarde. Celles fournies avec une édition payante ou une précommande ne sont pas listées et restent inchangées.
+
+Not owned
+= Non possédé
+
+Adds the charm at its top level, as if just found.
+= Ajoute le charme à son niveau maximal, comme s'il venait d'être trouvé.
+
+Add all missing charms
+= Ajouter tous les charmes manquants
+
+Charms that come with a paid edition or a pre-order are not offered here.
+= Les charmes fournis avec une édition payante ou une précommande ne sont pas proposés ici.

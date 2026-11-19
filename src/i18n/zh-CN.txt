@@ -30455,3 +30455,15 @@ Unlock all appearances
 
 These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
 = 这些外观由所有存档槽共用。随付费版本或预购附带的外观不会列出，保持原样。
+
+Not owned
+= 未拥有
+
+Adds the charm at its top level, as if just found.
+= 以最高等级添加护符，如同刚刚获得。
+
+Add all missing charms
+= 添加所有缺少的护符
+
+Charms that come with a paid edition or a pre-order are not offered here.
+= 随付费版本或预购附带的护符不在此提供。
