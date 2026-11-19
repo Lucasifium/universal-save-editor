@@ -9133,8 +9133,8 @@ Rank goes from 0 (Intern) up; the game works it out again from experience after 
 Rank is the staff member's peak rank (S++ is the top). The six team stats follow from it, the stat distribution and bonus, medals and morale. The rest of each member's fields are in the Tree.
 = 等级为员工的最高等级（S++ 最高）。六项部门属性由等级、属性分配与加成、勋章和士气决定。每位成员的其余字段位于树视图中。
 
-Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.
-= 等级 S++、属性加成最高、三枚勋章全部授予、士气与熟练度为 15：游戏中六项属性均为 S++。只改等级会让部分属性停留在 S+。
+Rank S++, top stat bonus, all three medals, morale and proficiency at 15, the stat cap removed, and specialist stat types switched to the member's own team: in game this gives S++ in all six stats. Rank alone leaves some stats lower.
+= 等级 S++、属性加成最高、三枚勋章全部授予、士气与熟练度为 15、解除属性上限，并将专家型属性分配改为所属部门类型：游戏中六项属性均为 S++。只改等级会让部分属性偏低。
 
 Rank.json
 = Rank.json

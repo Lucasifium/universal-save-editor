@@ -869,7 +869,7 @@ mod tests {
         let Content::Tree(mut doc) = d.content else { panic!() };
         let names: Vec<String> = doc.view["Staff"].as_object().unwrap().keys().cloned().collect();
         let sections: Vec<Value> = names.iter().map(|n| doc.view["Staff"][n]["Section"].clone()).collect();
-        let fields = [("Rank", json!("S++")), ("Stat bonus", json!(3)), ("DS medal", json!(true)), ("DS cross", json!(true)), ("Honor medal", json!(true)), ("Morale", json!(15)), ("Proficiency", json!(15))];
+        let fields = [("Rank", json!("S++")), ("Stat bonus", json!(3)), ("Stats suppressed", json!(false)), ("Stat distribution", json!(6)), ("DS medal", json!(true)), ("DS cross", json!(true)), ("Honor medal", json!(true)), ("Morale", json!(15)), ("Proficiency", json!(15))];
         for n in &names {
             for (f, v) in &fields {
                 doc.set(&format!("/Staff/{}/{f}", crate::tree::esc(n)), v.clone()).unwrap();

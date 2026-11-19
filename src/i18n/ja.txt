@@ -9144,8 +9144,8 @@ Rank goes from 0 (Intern) up; the game works it out again from experience after 
 Rank is the staff member's peak rank (S++ is the top). The six team stats follow from it, the stat distribution and bonus, medals and morale. The rest of each member's fields are in the Tree.
 = ランクはスタッフの最高ランクです(S++が最高)。6つのチームステータスは、ランク、ステータス配分とボーナス、勲章、士気から決まります。各メンバーのその他の項目はツリーにあります。
 
-Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.
-= ランクS++、ステータスボーナス最大、勲章3種すべて、士気と熟練度15:ゲーム内で6つのステータスすべてがS++になります。ランクだけでは一部がS+のままです。
+Rank S++, top stat bonus, all three medals, morale and proficiency at 15, the stat cap removed, and specialist stat types switched to the member's own team: in game this gives S++ in all six stats. Rank alone leaves some stats lower.
+= ランクS++、ステータスボーナス最大、勲章3種すべて、士気と熟練度15、ステータス制限を解除し、専門家型のステータス配分を所属チームの型に変更:ゲーム内で6つのステータスすべてがS++になります。ランクだけでは一部が低いままです。
 
 Rank.json
 = Rank.json

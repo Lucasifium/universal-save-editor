@@ -128,6 +128,23 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
     });
 }
 
+/// The single-team stat type (2 Combat … 7 Medical) a specialist stat type (8–25) is switched
+/// to by "Everyone to S++": in game, specialist types keep the other team stats below S++.
+/// Other types (single-team ones, and the unique staff's own) are left alone.
+fn team_distribution(dist: u64, section: &str) -> Option<u64> {
+    if !(8..=25).contains(&dist) {
+        return None;
+    }
+    Some(match section {
+        "R&D" => 3,
+        "Base Development" => 4,
+        "Support" => 5,
+        "Intel" => 6,
+        "Medical" | "Sickbay" => 7,
+        _ => 2,
+    })
+}
+
 fn staff(ui: &mut Ui, cx: &mut GameCtx) {
     let all = names(cx, "Staff");
     if all.is_empty() {
@@ -135,7 +152,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
     }
     panel(ui, &trf("Staff ({0})", &[&all.len()]), |ui| {
         ui.horizontal_wrapped(|ui| {
-            if super::quick_button(ui, tr("Everyone to S++"), tr("Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.")) {
+            if super::quick_button(ui, tr("Everyone to S++"), tr("Rank S++, top stat bonus, all three medals, morale and proficiency at 15, the stat cap removed, and specialist stat types switched to the member's own team: in game this gives S++ in all six stats. Rank alone leaves some stats lower.")) {
                 for n in &all {
                     let s = format!("/Staff/{}", esc(n));
                     cx.set(&format!("{s}/Rank"), json!("S++"));
@@ -145,6 +162,11 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
                     }
                     cx.set(&format!("{s}/Morale"), json!(15));
                     cx.set(&format!("{s}/Proficiency"), json!(15));
+                    cx.set(&format!("{s}/Stats suppressed"), json!(false));
+                    let dist = cx.get(&format!("{s}/Stat distribution")).and_then(Value::as_u64);
+                    if let Some(team) = dist.and_then(|d| team_distribution(d, cx.get(&format!("{s}/Section")).and_then(Value::as_str).unwrap_or(""))) {
+                        cx.set(&format!("{s}/Stat distribution"), json!(team));
+                    }
                 }
             }
             if super::quick_button(ui, tr("Max stat bonus"), "") {
@@ -286,6 +308,17 @@ mod tests {
             });
         }
         size
+    }
+
+    #[test]
+    fn specialist_stat_types_switch_to_the_team_type() {
+        assert_eq!(team_distribution(18, "Intel"), Some(6));
+        assert_eq!(team_distribution(8, "Combat"), Some(2));
+        assert_eq!(team_distribution(25, "Sickbay"), Some(7));
+        assert_eq!(team_distribution(12, "Brig"), Some(2));
+        for keep in [2, 6, 7, 30, 35, 63] {
+            assert_eq!(team_distribution(keep, "R&D"), None, "{keep}");
+        }
     }
 
     /// The staff box keeps one size whatever the values in it (short or long skill names, small or

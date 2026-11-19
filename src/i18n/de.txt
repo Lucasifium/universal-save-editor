@@ -9116,8 +9116,8 @@ Rank goes from 0 (Intern) up; the game works it out again from experience after 
 Rank is the staff member's peak rank (S++ is the top). The six team stats follow from it, the stat distribution and bonus, medals and morale. The rest of each member's fields are in the Tree.
 = Der Rang ist der Spitzenrang des Mitarbeiters (S++ ist der höchste). Die sechs Team-Werte ergeben sich daraus, aus Wertverteilung und -bonus, Orden und Moral. Die übrigen Felder jedes Mitglieds stehen im Baum.
 
-Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.
-= Rang S++, höchster Wertbonus, alle drei Orden sowie Moral und Kompetenz auf 15: im Spiel ergibt das S++ in allen sechs Werten. Nur der Rang lässt manche Werte auf S+.
+Rank S++, top stat bonus, all three medals, morale and proficiency at 15, the stat cap removed, and specialist stat types switched to the member's own team: in game this gives S++ in all six stats. Rank alone leaves some stats lower.
+= Rang S++, höchster Wertbonus, alle drei Orden, Moral und Kompetenz auf 15, die Wertbegrenzung aufgehoben und Spezialisten-Wertverteilungen auf das eigene Team umgestellt: im Spiel ergibt das S++ in allen sechs Werten. Nur der Rang lässt manche Werte niedriger.
 
 Rank.json
 = Rank.json
