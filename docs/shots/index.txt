@@ -39,8 +39,8 @@ dead-rising-2-off-the-record 793
 death-must-die 656
 death-stranding 793
 death-stranding-2-on-the-beach 793
-deathloop 749
-deep-rock-galactic 1647
+deathloop 752
+deep-rock-galactic 685
 deep-rock-galactic-survivor 685
 deltarune 1647
 deus-ex 415
@@ -67,7 +67,7 @@ fallout-3 1034
 fallout-4 1647
 fallout-new-vegas 1337
 fallout-shelter 1086
-farming-simulator-19 856
+farming-simulator-19 482
 final-fantasy-ix 801
 final-fantasy-pixel-remaster 1647
 final-fantasy-vii 1138
@@ -131,7 +131,7 @@ metro-last-light-redux 558
 minecraft 1647
 minecraft-dungeons 548
 moonlighter 1646
-mortal-shell 632
+mortal-shell 1714
 mortal-shell-ii 1637
 mutant-year-zero-road-to-eden 1183
 my-summer-car 639
@@ -176,7 +176,7 @@ slime-rancher 602
 snowrunner 1647
 sonic-mania 940
 sons-of-the-forest 1647
-space-haven 1342
+space-haven 1373
 star-wars-jedi-fallen-order 806
 star-wars-knights-of-the-old-republic 1043
 star-wars-knights-of-the-old-republic-ii-the-sith-lords 1043
@@ -211,7 +211,7 @@ ultrakill 821
 undertale 1647
 undertale-yellow 1076
 valheim 1647
-wandering-sword 597
+wandering-sword 595
 warhammer-40-000-rogue-trader 791
 wasteland-3 1647
 watch-dogs-2 499
