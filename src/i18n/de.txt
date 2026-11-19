@@ -30404,3 +30404,15 @@ Unlock all appearances
 
 These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
 = Diese Aussehen gelten für alle Spielstand-Slots. Looks, die zu einer kostenpflichtigen Edition oder Vorbestellung gehören, sind nicht aufgeführt und bleiben unverändert.
+
+Not owned
+= Nicht vorhanden
+
+Adds the charm at its top level, as if just found.
+= Fügt den Talisman auf der höchsten Stufe hinzu, als wäre er gerade gefunden worden.
+
+Add all missing charms
+= Alle fehlenden Talismane hinzufügen
+
+Charms that come with a paid edition or a pre-order are not offered here.
+= Talismane aus einer kostenpflichtigen Edition oder Vorbestellung werden hier nicht angeboten.

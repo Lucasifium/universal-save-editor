@@ -907,6 +907,9 @@ fn onimusha_item(id: i64) -> Option<&'static str> {
     T.get_or_init(|| id_names(include_str!("../fmt/data/onimusha_items.tsv"))).get(&id).copied()
 }
 
+/// The game's own charms (the ones from paid editions and pre-orders are not in the text).
+const ONIMUSHA_CHARM_IDS: [i64; 16] = [8878, 10733, 11331, 13748, 22226, 367406080, 618666944, 691663040, 1280708096, 2021962368, 2239449216, 2508626048, 3208190080, 3308013888, 4193530424, 4212833584];
+
 /// English charm name for an Onimusha charm ID; the game's text uses the unsigned form.
 fn onimusha_charm(id: i64) -> Option<&'static str> {
     static T: std::sync::OnceLock<std::collections::HashMap<i64, &'static str>> = std::sync::OnceLock::new();
@@ -1045,7 +1048,6 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         if cx.get(&souls).is_some_and(Value::is_number) {
             cx.tile(ui, "Red souls", &souls, accent);
         }
-        cx.tile(ui, "Money", &format!("{d}/_ResourceData/Money"), accent);
         cx.tile(ui, "Health", &format!("{d}/_PlayerStatus/Health"), accent);
         cx.tile(ui, "Oni energy", &format!("{d}/_PlayerStatus/OniEnergy"), accent);
     });
@@ -1083,14 +1085,19 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
         });
     }
     // Charms: unused entries hold the "no charm" ID 325704896. Level 0 is the
-    // first level, and EquipSlot is -1 when the charm isn't worn.
+    // first level, and EquipSlot is -1 when the charm isn't worn. Every charm of the game is
+    // listed; the ones this slot doesn't have yet can be added.
     let charms = format!("{d}/#de498466");
     let owned: Vec<(usize, i64)> = cx
         .get(&charms)
         .and_then(Value::as_array)
         .map(|a| a.iter().enumerate().filter_map(|(k, e)| e.get("#37ba528f")?.as_i64().filter(|&id| id != 325704896 && id != 0).map(|id| (k, id))).collect())
         .unwrap_or_default();
-    if !owned.is_empty() {
+    if cx.get(&charms).is_some_and(Value::is_array) {
+        let mut missing: Vec<i64> = ONIMUSHA_CHARM_IDS.iter().copied().filter(|c| !owned.iter().any(|(_, id)| i64::from(*id as u32) == *c)).collect();
+        missing.sort_by_key(|c| onimusha_charm(*c).unwrap_or(""));
+        let (free, next) = super::crafting::onimusha_charm_free(cx, &charms);
+        let mut add: Vec<i64> = vec![];
         panel(ui, "Charms", |ui| {
             egui::Grid::new("oni_charms").num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
                 ui.strong(tr("Charm"));
@@ -1104,9 +1111,28 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.label(if cx.int(&format!("{p}/EquipSlot")).is_some_and(|n| n >= 0) { "Yes" } else { "No" });
                     ui.end_row();
                 }
+                for c in &missing {
+                    ui.weak(onimusha_charm(*c).unwrap_or("")); // i18n-ok: a name or value from the save, or already translated
+                    ui.weak(tr("Not owned"));
+                    if ui.add_enabled(free.len() > add.len(), egui::Button::new(tr("Add"))).on_hover_text(tr("Adds the charm at its top level, as if just found.")).clicked() {
+                        add.push(*c);
+                    }
+                    ui.end_row();
+                }
             });
+            if !missing.is_empty() && ui.add_enabled(free.len() >= missing.len(), egui::Button::new(tr("Add all missing charms"))).clicked() {
+                add = missing.clone();
+            }
             ui.weak(tr("Level 0 is the charm's first level; each charm has three."));
+            ui.weak(tr("Charms that come with a paid edition or a pre-order are not offered here."));
         });
+        for (n, c) in add.iter().enumerate() {
+            if let Some(&k) = free.get(n) {
+                for (p, v) in super::crafting::onimusha_new_charm(&charms, k, *c, next + n as i64) {
+                    cx.set(&p, v);
+                }
+            }
+        }
     }
     // Equipment that has gained experience (the rest of the 32 entries are unused).
     let eq = format!("{d}/_Equipments");
