@@ -84,6 +84,8 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 /// alike) and 30,000 of each plant. Offline storage holds 500,000 and 6,000 on top.
 const MATERIAL_ONLINE_CAP: i64 = 1_000_000;
 const PLANT_ONLINE_CAP: i64 = 30_000;
+const MATERIAL_LOCAL_CAP: i64 = 500_000;
+const PLANT_LOCAL_CAP: i64 = 6_000;
 
 fn resources(ui: &mut Ui, cx: &mut GameCtx) {
     let rs = names(cx, "Resources");
@@ -91,11 +93,13 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
         return;
     }
     panel(ui, "Mother Base resources", |ui| {
-        if super::quick_button(ui, tr("Max crafting materials"), tr("Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)")) {
+        if super::quick_button(ui, tr("Max crafting materials"), tr("Fuel, biological and the three metals to 1,000,000 online and 500,000 local, processed too; the eight medicinal plants to 30,000 online and 6,000 local (the game's own caps)")) {
             for (i, n) in rs.iter().enumerate() {
                 if i < 13 {
                     let cap = if i < 5 { MATERIAL_ONLINE_CAP } else { PLANT_ONLINE_CAP };
                     cx.set(&format!("/Resources/{}/Usable (online)", esc(n)), json!(cap));
+                    let local = if i < 5 { MATERIAL_LOCAL_CAP } else { PLANT_LOCAL_CAP };
+                    cx.set(&format!("/Resources/{}/Usable (local)", esc(n)), json!(local));
                 }
                 if i < 5 {
                     cx.set(&format!("/Resources/{}/Processed (online)", esc(n)), json!(MATERIAL_ONLINE_CAP));

@@ -573,7 +573,7 @@ fn add_staff_and_resources(arrays: &HashMap<String, (Vec<u64>, Vec<Leaf>)>, view
             let mut m = Map::new();
             let mut fields = vec![("Usable (online)", u[i], field(&ul[i], 1, 20, 0))];
             if let Some((d, dl)) = local {
-                if i >= 11 && i < d.len() {
+                if i < d.len() {
                     fields.push(("Usable (local)", d[i], field(&dl[i], 1, 20, 0)));
                 }
             }

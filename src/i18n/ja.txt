@@ -6304,8 +6304,8 @@ Fuel price
 Fuel range (parsecs)
 = 燃料航続距離(パーセク)
 
-Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)
-= 燃料、生物資源、3種の金属をオンライン上限の1,000,000に(加工品も)、8種の薬草をオンライン上限の30,000に設定(ゲーム自身のオンライン上限)
+Fuel, biological and the three metals to 1,000,000 online and 500,000 local, processed too; the eight medicinal plants to 30,000 online and 6,000 local (the game's own caps)
+= 燃料、生物資源、3種の金属をオンライン上限の1,000,000とローカル上限の500,000に(加工品も)、8種の薬草をオンライン上限の30,000とローカル上限の6,000に設定(ゲーム自身の上限)
 
 Full fatigue
 = 疲労最大
