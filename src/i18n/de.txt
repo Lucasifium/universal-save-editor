@@ -6756,8 +6756,8 @@ Health XP
 Health and Force
 = Gesundheit und Kraft
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= Gesundheit und Gegenstandsplätze zählen Blöcke und Plätze; Angriff, Tempo und Werfen zählen Upgrades. Das Spielmaximum ist das Ende jedes Balkens.
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= Gesundheit und Gegenstandsplätze zählen Blöcke und Plätze; Angriff, Tempo und Werfen zählen Upgrades.
 
 Health and silk
 = Gesundheit und Seide
@@ -30039,7 +30039,7 @@ save.hg, save2.hg … (with mf_save*.hg beside them)
 
 saveN.hg from %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) with the mf_saveN.hg beside it, which is made to agree with it. Units, nanites, quicksilver and the amount in the Exosuit, cargo, freighter and first two storage containers, with a Max crafting materials button for every container. Close the game first.
 = saveN.hg aus %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) mit der danebenliegenden mf_saveN.hg, die daran angepasst wird. Einheiten, Nanite, Quicksilver und die Menge in Exoanzug, Frachtraum, Frachter und den ersten beiden Lagerbehältern, mit einer Schaltfläche Max. Herstellungsmaterialien für jeden Behälter. Schließe zuerst das Spiel.
-# src/game_ui/simple/specs_sweep.rs, src/games.rs (open-source sweep games)
+# data/games, src/games.rs (open-source sweep games)
 A save from AppData\\Local\\DH\\Saved\\SaveGames (the DevAutoSave and numbered saves; SaveOptions holds only settings). Crypto's DNA, the currency spent on weapon, saucer and ability upgrades. Close the game first.
 = Ein Spielstand aus AppData\Local\DH\Saved\SaveGames (DevAutoSave und nummerierte Spielstände; SaveOptions enthält nur Einstellungen). Cryptos DNA, die Währung für Waffen-, Untertassen- und Fähigkeiten-Upgrades. Spiel vorher schließen.
 
@@ -30217,7 +30217,7 @@ Unlocked squads
 profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
 = profile.lua aus Documents\My Games\Into the Breach\profile_<Name> (ein Ordner pro Profil). Welche Trupps freigeschaltet sind und die vom Spiel geführten Summen (gespielte Spiele, besiegte Gegner, gesicherte Inseln, Kapseln). Piloten, Erfolge und der laufende Durchgang stehen im Baum. Spiel vorher schließen.
 
-# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+# data/games, src/games.rs (tycoon games)
 A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
 = Ein .career-Spielstand aus Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (die .sandbox-Spielstände enthalten kein Karrieregeld). Das Geld, das die Karriere für jede Insel führt, bis zu den 100.000.000, die das Spiel erreicht. Alles andere im Spielstand bleibt unverändert, die Prüfsumme der Datei wird neu geschrieben. Spiel vorher schließen.
 
@@ -30275,7 +30275,7 @@ Tacano
 file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
 = file__0.localstorage aus AppData\Local\Game Dev Tycoon\Local Storage (das Spiel speichert wie eine Webseite). Bargeld, Fans, Forschungspunkte, Personalgrenze und Stufe jeder gespeicherten Firma; die Kopie von Bargeld und Fans im Lademenü bleibt gleich. Spiel vorher schließen.
 
-# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+# data/games, src/fmt/sv4.rs (RollerCoaster Tycoon)
 A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
 = Ein gespeicherter Park (.SV4) aus dem Ordner Saved Games des Spiels, auch Parks aus Added Attractions und Loopy Landscapes. Bargeld, Bankkredit, Höchstkredit und Eintrittspreis des Parks. Die Datei wird beim Speichern entpackt und wieder gepackt. Spiel vorher schließen.
 
@@ -30341,3 +30341,33 @@ This save is in a folder that {0} syncs. Quit the game before saving, and if {0}
 
 Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
 = Der Charakter konnte nicht kopiert werden: Die neue Datei wurde nicht wie erwartet gelesen ({0}). Der Spielstand wurde nicht geändert.
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoriten
+
+Favourites and recent games
+= Favoriten und zuletzt gespielte Spiele
+
+Remove from favourites
+= Aus den Favoriten entfernen
+
+Add to favourites
+= Zu den Favoriten hinzufügen
+
+Show this game's saves
+= Spielstände dieses Spiels anzeigen
+
+Reset to the original value ({0})
+= Auf den ursprünglichen Wert zurücksetzen ({0})
+
+Original value: {0}
+= Ursprünglicher Wert: {0}
+
+Open another save in a new tab
+= Weiteren Spielstand in neuem Tab öffnen
+
+Next / previous tab
+= Nächster / vorheriger Tab
+

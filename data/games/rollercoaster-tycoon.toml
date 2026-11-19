@@ -1,0 +1,19 @@
+name = "RollerCoaster Tycoon"
+tab = "Park"
+accent = [230, 90, 70]
+kind = "RollerCoaster Tycoon save"
+markers = ["/Park/Cash", "/Park/Bank loan"]
+subtitle = "A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first."
+tiles = [
+    ["Cash", "/Park/Cash"],
+    ["Bank loan", "/Park/Bank loan"],
+]
+
+[[sections]]
+title = "Park finances"
+rows = [
+    ["Cash", "/Park/Cash"],
+    ["Bank loan", "/Park/Bank loan"],
+    ["Maximum loan", "/Park/Maximum loan"],
+    ["Entrance fee (tenths of a unit)", "/Park/Entrance fee (tenths of a unit)"],
+]

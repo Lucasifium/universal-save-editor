@@ -1,0 +1,15 @@
+name = "Destroy All Humans! (2020)"
+tab = "Crypto"
+accent = [120, 200, 90]
+kind = "Unreal Engine save (BFGSaveGame)"
+markers = ["/m_playerData/m_stateData/m_iDNA"]
+subtitle = '''A save from AppData\Local\DH\Saved\SaveGames (the DevAutoSave and numbered saves; SaveOptions holds only settings). Crypto's DNA, the currency spent on weapon, saucer and ability upgrades. Close the game first.'''
+tiles = [
+    ["DNA", "/m_playerData/m_stateData/m_iDNA"],
+]
+
+[[sections]]
+title = "Crypto"
+rows = [
+    ["DNA", "/m_playerData/m_stateData/m_iDNA"],
+]

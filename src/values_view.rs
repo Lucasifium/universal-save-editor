@@ -512,7 +512,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                             // Value column.
                             let w = (ui.available_width() - 120.0).clamp(120.0, 420.0);
                             let choices = if r.editable { ctx.tree.and_then(|t| t.choices(&r.ptr)) } else { None };
-                            let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(r.name()), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: true };
+                            let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(r.name()), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: true, reset_button: false };
                             let edit = match (choices, v) {
                                 (Some(list), Value::String(cur)) => widgets::choice_editor(ui, &r.ptr, cur, &list, w),
                                 _ => {

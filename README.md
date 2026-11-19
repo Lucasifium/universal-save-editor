@@ -49,7 +49,7 @@ My favourites so far:
     cargo run --release -- path\to\savefile      # path is optional
 
 or download a build from Releases (below). On desktop you can also drag a save onto the program or
-the window. The welcome screen lists recent files and common save folders (Ren'Py games, Unity, Saved
+the window. The welcome screen lists your favourite and recently opened games (star a game in *Find my game's saves*), recent files and common save folders (Ren'Py games, Unity, Saved
 Games; on Android: RetroArch, Downloads).
 
 ## Downloads
@@ -350,7 +350,7 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   **Raw JSON**: edit JSON text directly.
 - **Game screens**: save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
   sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
-- Changed values are highlighted in orange with a one-click revert.
+- Changed values are highlighted in orange; hover one to see its original value and click the arrow beside it to reset just that field.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit.
 
 ## Command line

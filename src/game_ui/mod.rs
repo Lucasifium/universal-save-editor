@@ -818,7 +818,7 @@ impl GameCtx<'_> {
         let editable = self.can_edit(p);
         let choices = if editable { self.tree.and_then(|t| t.choices(p)) } else { None };
         // One group, so a number's box and its −/+ stay in one cell of a grid.
-        let opts = widgets::EditOpts { tree: self.tree, baseline: Some(self.baseline), name: None, kind: self.tree.map(|t| t.kind_name.as_str()), show_in_tree: true };
+        let opts = widgets::EditOpts { tree: self.tree, baseline: Some(self.baseline), name: None, kind: self.tree.map(|t| t.kind_name.as_str()), show_in_tree: true, reset_button: true };
         // A value shown twice on one screen (a hero tile and its panel row) got the same widget
         // ids for both boxes: they shared focus and the debug build painted ID-clash warnings.
         // The first box keeps its ids; later ones this frame are told apart by their count.
@@ -831,7 +831,10 @@ impl GameCtx<'_> {
             n
         });
         let body = |ui: &mut Ui| match (&choices, &v) {
-            (Some(list), Value::String(cur)) => widgets::choice_editor(ui, p, cur, list, width),
+            (Some(list), Value::String(cur)) => {
+                let e = widgets::choice_editor(ui, p, cur, list, width);
+                e.or_else(|| widgets::reset_button(ui, p, &v, editable, &opts))
+            }
             _ => {
                 let o = widgets::value_editor_ex(ui, p, &v, editable, width, &opts);
                 if o.go_to_tree {
@@ -1390,6 +1393,18 @@ mod tests {
     #[test]
     fn bars_only_for_values_with_a_known_cap() {
         let mut bad = vec![];
+        let mut all_sources: Vec<String> = vec![];
+        let mut walk = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src"))];
+        while let Some(d) = walk.pop() {
+            for e in std::fs::read_dir(&d).unwrap().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    walk.push(p);
+                } else if p.extension().is_some_and(|x| x == "rs") {
+                    all_sources.push(std::fs::read_to_string(&p).unwrap());
+                }
+            }
+        }
         let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src/game_ui"))];
         while let Some(d) = stack.pop() {
             for e in std::fs::read_dir(&d).unwrap().flatten() {
@@ -1413,8 +1428,24 @@ mod tests {
                     if l.contains("Slider::new") || l.contains(".slider(") {
                         bad.push(format!("{name}:{}: slider on a game screen: {l}", n + 1));
                     }
-                    if (l.contains(".capped_attribute(") || (name != "mod.rs" && l.contains("bar(ui,"))) && !(n > 0 && lines[n - 1].trim_start().starts_with("// cap:")) {
+                    let note = if n > 0 { lines[n - 1].trim_start().strip_prefix("// cap:") } else { None };
+                    if (l.contains(".capped_attribute(") || (name != "mod.rs" && l.contains("bar(ui,"))) && note.is_none() {
                         bad.push(format!("{name}:{}: bar without a `// cap:` note above it: {l}", n + 1));
+                    }
+                    // A bar's top must be a number written at the call, or a named table of
+                    // researched limits (`// cap: table: NAME`, NAME a const in the sources), or a
+                    // note stating the numbers. "The game's own limit" is not a source.
+                    if let (true, Some(note)) = (l.contains(".capped_attribute("), note) {
+                        let args = l.trim_end_matches([';', ')', ',']);
+                        let args = args.trim_end_matches(|c| c == ')' || c == ',');
+                        let max = args.rsplit(',').nth(1).map(str::trim).unwrap_or("");
+                        let literal = max.parse::<f64>().is_ok();
+                        let table = note.split("table:").nth(1).map(|s| s.trim().split(|c: char| !(c.is_alphanumeric() || c == '_')).next().unwrap_or("").to_string());
+                        let table_ok = table.is_some_and(|tb| !tb.is_empty() && all_sources.iter().any(|s| s.contains(&format!("const {tb}")) || s.contains(&format!("static {tb}"))));
+                        let numbers = note.chars().any(|c| c.is_ascii_digit());
+                        if !(literal || table_ok || numbers) {
+                            bad.push(format!("{name}:{}: bar top `{max}` is not a number, a `// cap: table: NAME` or a note with the real limits: {l}", n + 1));
+                        }
                     }
                 }
             }

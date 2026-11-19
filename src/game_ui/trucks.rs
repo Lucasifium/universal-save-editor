@@ -34,7 +34,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     if cx.get("/driver_player").is_some() {
         panel(ui, "Skills", |ui| {
             for (name, key, max) in SKILLS {
-                // cap: each skill has the level count listed in SKILLS
+                // cap: table: SKILLS (each skill's level count)
                 cx.capped_attribute(ui, name, &format!("/driver_player/{key}"), max, ACCENT);
             }
             ui.horizontal(|ui| {

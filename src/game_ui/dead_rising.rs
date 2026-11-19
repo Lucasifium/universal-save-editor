@@ -42,9 +42,8 @@ pub fn dead_rising2(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     panel(ui, "Level-up stats", |ui| {
-        for (k, _, hi) in DR2_STAT_NAMES.iter().skip(3) {
-            // cap: hi is the game's own limit for each stat
-            cx.capped_attribute(ui, k, &p(k), *hi as f64, ACCENT);
+        for (k, _, _) in DR2_STAT_NAMES.iter().skip(3) {
+            cx.attribute_open(ui, k, &p(k));
         }
         if super::quick_button(ui, tr("Max level and stats"), "") {
             for (k, _, hi) in DR2_STAT_NAMES {
@@ -53,6 +52,6 @@ pub fn dead_rising2(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         }
-        ui.weak(tr("Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar."));
+        ui.weak(tr("Health and item slots count blocks and slots; attack, speed and throwing count upgrades."));
     });
 }

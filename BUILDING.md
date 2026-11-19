@@ -21,6 +21,10 @@ installs updates signed with the same key, so keep it.
 The browser version is built with `web/build.sh` (needs the `wasm32-unknown-unknown` target and a
 matching `wasm-bindgen-cli`) into `docs/app/`.
 
+## Adding a simple game
+
+Games whose save is a plain tree can be described in a single file in `data/games/` (no Rust). The format is in `data/games/README.md`.
+
 ## Package-manager manifests
 
 After a release is published, run `python3 -I packaging/manifests.py` to refresh the Scoop manifest
