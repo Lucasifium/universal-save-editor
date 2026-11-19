@@ -50,9 +50,32 @@ fn set(root: &mut Value, ptr: &str, v: Value) {
     }
 }
 
+/// Whether the field holds words (a name, a type, an id) rather than a number: judged by the last word
+/// of its key ("PlayerName", "item_id"), so "maple" or "budget" are not taken for "map" or "id".
 fn is_text(ptr: &str) -> bool {
-    let l = ptr.rsplit('/').next().unwrap_or("").to_lowercase();
-    l == "id" || l.ends_with("_id") || l.ends_with("guid") || ["name", "title", "type", "class", "job", "map", "location", "version"].iter().any(|k| l.contains(k))
+    let key = ptr.rsplit('/').next().unwrap_or("");
+    let mut words: Vec<String> = vec![];
+    let mut cur = String::new();
+    let mut prev_lower = false;
+    for c in key.chars() {
+        if !c.is_alphanumeric() {
+            if !cur.is_empty() {
+                words.push(std::mem::take(&mut cur));
+            }
+            prev_lower = false;
+            continue;
+        }
+        if c.is_uppercase() && prev_lower && !cur.is_empty() {
+            words.push(std::mem::take(&mut cur));
+        }
+        prev_lower = c.is_lowercase();
+        cur.extend(c.to_lowercase());
+    }
+    if !cur.is_empty() {
+        words.push(cur);
+    }
+    let last = words.last().map(String::as_str).unwrap_or("");
+    key.to_lowercase().ends_with("guid") || ["id", "guid", "name", "title", "type", "class", "job", "map", "location", "version", "nickname"].contains(&last)
 }
 
 /// A made-up, plausible mid-game figure that differs between fields.
