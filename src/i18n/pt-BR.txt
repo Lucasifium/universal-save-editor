@@ -30006,7 +30006,7 @@ save.hg, save2.hg … (with mf_save*.hg beside them)
 
 saveN.hg from %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) with the mf_saveN.hg beside it, which is made to agree with it. Units, nanites, quicksilver and the amount in the Exosuit, cargo, freighter and first two storage containers, with a Max crafting materials button for every container. Close the game first.
 = saveN.hg de %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) com o mf_saveN.hg ao lado, que é ajustado a ele. Unidades, nanitos, quicksilver e a quantidade no exotraje, na carga, no cargueiro e nos dois primeiros contêineres de armazenamento, com um botão Máx. materiais de criação para cada contêiner. Feche o jogo primeiro.
-# src/game_ui/simple/specs_sweep.rs, src/games.rs (open-source sweep games)
+# data/games, src/games.rs (open-source sweep games)
 A save from AppData\\Local\\DH\\Saved\\SaveGames (the DevAutoSave and numbered saves; SaveOptions holds only settings). Crypto's DNA, the currency spent on weapon, saucer and ability upgrades. Close the game first.
 = Um save de AppData\Local\DH\Saved\SaveGames (DevAutoSave e os saves numerados; SaveOptions guarda só configurações). O DNA de Crypto, a moeda para melhorar armas, disco voador e habilidades. Feche o jogo antes.
 
@@ -30184,7 +30184,7 @@ Unlocked squads
 profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
 = profile.lua de Documents\My Games\Into the Breach\profile_<nome> (uma pasta por perfil). Quais esquadrões estão desbloqueados e os totais do jogo (partidas, inimigos eliminados, ilhas protegidas, cápsulas). Pilotos, conquistas e a partida em andamento ficam na Árvore. Feche o jogo antes.
 
-# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+# data/games, src/games.rs (tycoon games)
 A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
 = Um save .career de Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (os saves .sandbox não têm dinheiro de carreira). O dinheiro que a carreira guarda para cada ilha, até os 100.000.000 que o jogo alcança. Todo o resto do save é mantido e a soma de verificação do arquivo é gravada de novo. Feche o jogo antes.
 
@@ -30242,7 +30242,7 @@ Tacano
 file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
 = file__0.localstorage de AppData\Local\Game Dev Tycoon\Local Storage (o jogo salva como uma página da web). O dinheiro, os fãs, os pontos de pesquisa, o limite de funcionários e o nível de cada empresa salva; a cópia do dinheiro e dos fãs do menu de carregamento é mantida igual. Feche o jogo antes.
 
-# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+# data/games, src/fmt/sv4.rs (RollerCoaster Tycoon)
 A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
 = Um parque salvo (.SV4) da pasta Saved Games do jogo, inclusive parques de Added Attractions e Loopy Landscapes. O dinheiro, o empréstimo bancário, o empréstimo máximo e o preço de entrada do parque. O arquivo é descompactado e compactado de novo ao salvar. Feche o jogo antes.
 

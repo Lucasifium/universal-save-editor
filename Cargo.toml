@@ -28,7 +28,8 @@ zip = { version = "2", default-features = false, features = ["deflate"] }
 p256 = "0.13"
 sha1 = "0.10"
 # Structured formats.
-toml_edit = "0.22"
+toml_edit = { version = "0.22", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
 serde_yaml = "0.9"
 plist = "1"
 rmpv = "1"
