@@ -6,7 +6,9 @@ assassins-creed-iv-black-flag 1355
 assassins-creed-liberation-hd 859
 assassins-creed-odyssey 853
 atom-rpg 566
+atomic-heart 793
 attack-on-titan-2 1647
+balatro 793
 batman-arkham-city 686
 bioshock-infinite 539
 bitburner 687
@@ -14,6 +16,7 @@ blasphemous 788
 borderlands-2 1275
 borderlands-3 1642
 borderlands-the-pre-sequel 1646
+cairn 793
 car-mechanic-simulator-2018 582
 car-mechanic-simulator-2021 615
 celeste 1311
@@ -31,7 +34,11 @@ dark-souls-remastered 1647
 darkest-dungeon 753
 dave-the-diver 1647
 dead-rising 637
+dead-rising-2 793
+dead-rising-2-off-the-record 793
 death-must-die 656
+death-stranding 793
+death-stranding-2-on-the-beach 793
 deathloop 749
 deep-rock-galactic 1647
 deep-rock-galactic-survivor 685
@@ -76,6 +83,7 @@ grand-theft-auto-vice-city 877
 green-hell 1147
 grim-dawn 1647
 hades 810
+half-life-2-episode-one-episode-two 793
 half-life-alyx 789
 hearts-of-iron-iv 522
 hollow-knight 1647
@@ -118,6 +126,7 @@ mass-effect-andromeda 386
 medieval-dynasty 1647
 metal-gear-solid-v-the-phantom-pain 1647
 metro-2033-redux 558
+metro-exodus 793
 metro-last-light-redux 558
 minecraft 1647
 minecraft-dungeons 548
@@ -131,13 +140,16 @@ nier-automata 1571
 noita 534
 octopath-traveler 1014
 omori 1647
+onimusha-way-of-the-sword 793
 ori-and-the-blind-forest 1407
 oxygen-not-included 1129
 palworld 524
 pathfinder-kingmaker 1625
 pathfinder-wrath-of-the-righteous 775
 payday-2 602
+persona-4-golden 793
 persona-5-royal 987
+phasmophobia 793
 pizza-tower 1647
 planescape-torment-enhanced-edition 1445
 plants-vs-zombies 1418
@@ -145,6 +157,7 @@ potion-craft-alchemist-simulator 1647
 prison-architect 738
 r-e-p-o 1647
 raft 1617
+red-dead-redemption 793
 red-dead-redemption-2 1647
 resident-evil-5 532
 rimworld 1315
@@ -203,6 +216,7 @@ warhammer-40-000-rogue-trader 791
 wasteland-3 1647
 watch-dogs-2 499
 wolcen-lords-of-mayhem 798
+world-of-horror 793
 world-war-z 705
 worldbox-god-simulator 1647
 xcom-2 1542
