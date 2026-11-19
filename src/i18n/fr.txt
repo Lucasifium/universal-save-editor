@@ -6279,8 +6279,8 @@ Fuel price
 Fuel range (parsecs)
 = Autonomie de carburant (parsecs)
 
-Fuel, biological and the three metals to 1,000,000 online, processed too; the eight medicinal plants to 30,000 online (the game's own online caps)
-= Carburant, biologique et les trois métaux à 1 000 000 en ligne, y compris transformés ; les huit plantes médicinales à 30 000 en ligne (les plafonds en ligne du jeu)
+Fuel, biological and the three metals to 1,000,000 online and 500,000 local, processed too; the eight medicinal plants to 30,000 online and 6,000 local (the game's own caps)
+= Carburant, biologique et les trois métaux à 1 000 000 en ligne et 500 000 en local, y compris transformés ; les huit plantes médicinales à 30 000 en ligne et 6 000 en local (les plafonds du jeu)
 
 Full fatigue
 = Fatigue maximale
