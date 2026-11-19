@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = (nichts, was die Liste beschreiben kann)
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= Dieser Spielstand liegt in einem Steam-Cloud-Ordner. Fragt Steam, welcher Spielstand behalten werden soll, den lokalen wählen.
-
 Check again
 = Erneut prüfen
 
@@ -6756,8 +6753,8 @@ Health XP
 Health and Force
 = Gesundheit und Kraft
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= Gesundheit und Gegenstandsplätze zählen Blöcke und Plätze; Angriff, Tempo und Werfen zählen Upgrades. Das Spielmaximum ist das Ende jedes Balkens.
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= Gesundheit und Gegenstandsplätze zählen Blöcke und Plätze; Angriff, Tempo und Werfen zählen Upgrades.
 
 Health and silk
 = Gesundheit und Seide
@@ -26978,9 +26975,6 @@ Has a screen of its own for this game
 Hex
 = Hex
 
-If Steam asks which save to keep, choose the local one.
-= Wenn Steam fragt, welcher Spielstand behalten werden soll, den lokalen wählen.
-
 Imported 1 name.
 = 1 Name importiert.
 
@@ -30326,4 +30320,69 @@ Stopped opening {0}.
 
 This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
 = Dieser Spielstand ({0} MB) ist zu groß, um ihn mit dem freien Arbeitsspeicher dieses Computers als Baum zu öffnen, deshalb wird er als Hex angezeigt. Schließe andere Programme und öffne ihn erneut, oder nutze die Wertsuche.
+# src/app/compare.rs
+
+Filter by name or value
+= Nach Name oder Wert filtern
+
+{0} differences
+= {0} Unterschiede
+
+{0} of {1} differences shown
+= {0} von {1} Unterschieden angezeigt
+
+Copy the listed differences to the clipboard
+= Die aufgelisteten Unterschiede in die Zwischenablage kopieren
+
+No difference matches the filter.
+= Kein Unterschied passt zum Filter.
+
+Copied the differences.
+= Unterschiede kopiert.
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= Wenn {0} fragt, welcher Spielstand behalten werden soll, den lokalen wählen.
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= Dieser Spielstand liegt in einem Ordner, den {0} synchronisiert. Wird gefragt, welche Kopie behalten werden soll, die lokale wählen.
+
+Cloud sync: {0}
+= Cloud-Sync: {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= Dieser Spielstand liegt in einem Ordner, den {0} synchronisiert. Das Spiel vor dem Speichern beenden; fragt {0} danach, welche Kopie behalten werden soll, die lokale wählen.
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= Der Charakter konnte nicht kopiert werden: Die neue Datei wurde nicht wie erwartet gelesen ({0}). Der Spielstand wurde nicht geändert.
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoriten
+
+Favourites and recent games
+= Favoriten und zuletzt gespielte Spiele
+
+Remove from favourites
+= Aus den Favoriten entfernen
+
+Add to favourites
+= Zu den Favoriten hinzufügen
+
+Show this game's saves
+= Spielstände dieses Spiels anzeigen
+
+Reset to the original value ({0})
+= Auf den ursprünglichen Wert zurücksetzen ({0})
+
+Original value: {0}
+= Ursprünglicher Wert: {0}
+
+Open another save in a new tab
+= Weiteren Spielstand in neuem Tab öffnen
+
+Next / previous tab
+= Nächster / vorheriger Tab
 

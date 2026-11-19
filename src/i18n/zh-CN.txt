@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = （列表无法描述任何内容）
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= 此存档位于 Steam Cloud 文件夹中。如果 Steam 询问保留哪个存档，请选择本地的。
-
 Check again
 = 重新检查
 
@@ -6737,8 +6734,8 @@ Health XP
 Health and Force
 = 生命值和原力
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。游戏的上限为每条的末端。
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。
 
 Health and silk
 = 生命值和丝线
@@ -27035,9 +27032,6 @@ Has a screen of its own for this game
 Hex
 = 十六进制
 
-If Steam asks which save to keep, choose the local one.
-= 如果 Steam 询问保留哪个存档，请选择本地存档。
-
 Imported 1 name.
 = 已导入 1 个名称。
 
@@ -30377,4 +30371,69 @@ Stopped opening {0}.
 
 This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
 = 此存档（{0} MB）太大，无法用这台电脑的可用内存以树形打开，因此以十六进制显示。请关闭其他程序后重新打开，或使用数值搜索。
+# src/app/compare.rs
+
+Filter by name or value
+= 按名称或值筛选
+
+{0} differences
+= {0} 处差异
+
+{0} of {1} differences shown
+= 显示 {1} 处差异中的 {0} 处
+
+Copy the listed differences to the clipboard
+= 将列出的差异复制到剪贴板
+
+No difference matches the filter.
+= 没有符合筛选条件的差异。
+
+Copied the differences.
+= 已复制差异。
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= 如果 {0} 询问保留哪个存档，请选择本地存档。
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= 此存档位于 {0} 同步的文件夹中。如果询问保留哪个副本，请选择本地副本。
+
+Cloud sync: {0}
+= 云同步：{0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= 此存档位于 {0} 同步的文件夹中。保存前请退出游戏；之后如果 {0} 询问保留哪个副本，请选择本地副本。
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= 无法复制角色：新文件回读结果不符合预期（{0}）。存档未被更改。
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= 收藏
+
+Favourites and recent games
+= 收藏和最近的游戏
+
+Remove from favourites
+= 从收藏中移除
+
+Add to favourites
+= 添加到收藏
+
+Show this game's saves
+= 显示此游戏的存档
+
+Reset to the original value ({0})
+= 重置为原始值 ({0})
+
+Original value: {0}
+= 原始值：{0}
+
+Open another save in a new tab
+= 在新标签页中打开另一个存档
+
+Next / previous tab
+= 下一个 / 上一个标签页
 

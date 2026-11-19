@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = （一覧で説明できるものはありません）
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= このセーブデータは Steam Cloud フォルダー内にあります。Steam からどちらを残すか尋ねられたら、ローカルのものを選んでください。
-
 Check again
 = 再確認
 
@@ -6753,8 +6750,8 @@ Health XP
 Health and Force
 = 体力とフォース
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= 体力とアイテム枠はブロックと枠の数、攻撃・速度・投擲はアップグレード数です。ゲーム上の最大値が各バーの右端です。
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= 体力とアイテム枠はブロックと枠の数、攻撃・速度・投擲はアップグレード数です。
 
 Health and silk
 = 体力と糸
@@ -27062,9 +27059,6 @@ Has a screen of its own for this game
 Hex
 = 16進
 
-If Steam asks which save to keep, choose the local one.
-= Steam にどちらのセーブデータを残すか聞かれたら、ローカルのものを選んでください。
-
 Imported 1 name.
 = 1 件の名前をインポートしました。
 
@@ -30404,4 +30398,69 @@ Stopped opening {0}.
 
 This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
 = このセーブ（{0} MB）は、このコンピューターの空きメモリではツリーとして開くには大きすぎるため、16進表示になります。他のプログラムを閉じてから開き直すか、値検索を使ってください。
+# src/app/compare.rs
+
+Filter by name or value
+= 名前または値で絞り込み
+
+{0} differences
+= {0} 件の違い
+
+{0} of {1} differences shown
+= {1} 件中 {0} 件の違いを表示
+
+Copy the listed differences to the clipboard
+= 表示中の違いをクリップボードにコピー
+
+No difference matches the filter.
+= フィルターに一致する違いはありません。
+
+Copied the differences.
+= 違いをコピーしました。
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= {0} がどのセーブを残すか尋ねたら、ローカルのものを選んでください。
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= このセーブは {0} が同期するフォルダーにあります。どちらを残すか尋ねられたら、ローカルのコピーを選んでください。
+
+Cloud sync: {0}
+= クラウド同期: {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= このセーブは {0} が同期するフォルダーにあります。保存前にゲームを終了し、その後 {0} がどちらを残すか尋ねたら、ローカルのコピーを選んでください。
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= キャラクターをコピーできませんでした。新しいファイルが想定どおりに読み戻せませんでした（{0}）。セーブは変更されていません。
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= お気に入り
+
+Favourites and recent games
+= お気に入りと最近のゲーム
+
+Remove from favourites
+= お気に入りから外す
+
+Add to favourites
+= お気に入りに追加
+
+Show this game's saves
+= このゲームのセーブを表示
+
+Reset to the original value ({0})
+= 元の値に戻す ({0})
+
+Original value: {0}
+= 元の値: {0}
+
+Open another save in a new tab
+= 別のセーブを新しいタブで開く
+
+Next / previous tab
+= 次 / 前のタブ
 

@@ -23,6 +23,8 @@ use safety::Stamp;
 mod tools;
 use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 mod tabs;
+mod compare;
+use compare::Compare;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -397,6 +399,8 @@ struct GamePicker {
     save_groups: Option<((usize, usize), Vec<String>)>,
     /// A remembered save that was picked but is no longer there (offers a new search).
     missing: Option<PathBuf>,
+    /// The starred games (copied from the settings while the window is open).
+    favs: Vec<String>,
 }
 
 /// The saves found for each game in the catalog (`None`: not looked at yet).
@@ -447,7 +451,7 @@ fn spawn_search(found: &SaveSearch, full: bool) {
 
 impl GamePicker {
     fn with(found: SaveSearch) -> Self {
-        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None }
+        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None, favs: vec![] }
     }
 }
 
@@ -463,12 +467,6 @@ struct SaveReview {
     path: PathBuf,
     running: Option<String>,
     lines: Vec<String>,
-}
-
-struct Compare {
-    other: PathBuf,
-    /// (pointer, this file's value, other file's value)
-    diffs: Vec<(String, Option<Value>, Option<Value>)>,
 }
 
 /// Tools › Cheat patches: the patch file picked and the codes ticked in it.
@@ -1126,6 +1124,9 @@ impl App {
         let Prepared { decoded, baseline, names, note, game, model, running, stamp, cjk } = p;
         self.need_cjk |= cjk || theme::has_cjk(&path.to_string_lossy());
         let desc = friendly_kind(&decoded.layers, &decoded.content);
+        if let Some(n) = game.and_then(|g| g.name()).filter(|n| crate::games::GAMES.iter().any(|g| g.name == *n)) {
+            self.settings.push_recent_game(n);
+        }
         self.doc = Some(Doc {
             path: path.to_path_buf(),
             layers: decoded.layers,
@@ -1714,7 +1715,7 @@ impl App {
         } else {
             None
         };
-        let cloud = in_steam_cloud(path).then(|| tr("If Steam asks which save to keep, choose the local one."));
+        let cloud = crate::cloud::service_for(path).map(|c| trf("If {0} asks which save to keep, choose the local one.", &[&c]));
         let mut msg = vec![trf("Saved and verified ({0}).", &[&human_size(len)])];
         msg.extend(note);
         msg.extend(extra.map(String::from));
@@ -1820,13 +1821,22 @@ impl App {
 
     fn game_picker_dialog(&mut self, ctx: &egui::Context) {
         let Some(gp) = &mut self.game_picker else { return };
+        gp.favs = self.settings.favourites.clone();
         let (open, close) = game_picker_window(ctx, gp);
+        if gp.favs != self.settings.favourites {
+            self.settings.favourites = gp.favs.clone();
+            self.settings.save();
+        }
+        let picked_game = gp.picked.map(|i| crate::games::GAMES[i].name);
         if close {
             self.game_picker = None;
         }
         if let Some(p) = open {
             if crate::vfs::exists(&p) {
                 self.game_picker = None;
+                if let Some(name) = picked_game {
+                    self.settings.push_recent_game(name);
+                }
                 self.request_open(p);
             } else if let Some(gp) = &mut self.game_picker {
                 // The remembered folder is out of date: say so and offer a new search.
@@ -1903,6 +1913,10 @@ impl App {
             Ok(o) => o,
             Err(e) => return self.fail(trf("Couldn't copy the character: {0}. The save wasn't changed.", &[&e])),
         };
+        // Read the result back before anything on disk is touched.
+        if let Err(e) = crate::fmt::slot_copy::er_verify_copy(&raw, &out, from, to) {
+            return self.fail(trf("Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.", &[&e]));
+        }
         if !WEB {
             if let Err(e) = crate::backups::take(&path) {
                 return self.fail(trf("Couldn't back up the file first: {0}. Nothing was changed.", &[&e]));
@@ -1940,8 +1954,8 @@ impl App {
                 }
             });
             ui.add_space(4.0);
-            if in_steam_cloud(&r.path) {
-                ui.weak(tr("This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one."));
+            if let Some(c) = crate::cloud::service_for(&r.path) {
+                ui.weak(trf("This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.", &[&c]));
             }
             ui.weak(if WEB {
                 tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.")
@@ -2532,154 +2546,6 @@ impl App {
         let mut opts = d.opts.clone();
         change(&mut opts);
         self.load_with(&path, opts);
-    }
-
-    fn start_compare(&mut self) {
-        self.ask(Ask::Compare, None, None);
-    }
-
-    fn compare_with(&mut self, other: PathBuf) {
-        let Some(d) = &self.doc else { return };
-        let raw = match crate::vfs::read(&other) {
-            Ok(r) => r,
-            Err(e) => return self.fail(trf("Couldn't open {0}: {1}", &[&other.display(), &e])),
-        };
-        let mut opts = formats::Options::for_path(&other);
-        opts.password = d.opts.password.clone();
-        let theirs = formats::decode_with(&raw, &opts);
-        let diffs = match (&d.content, &theirs.content) {
-            (Content::Binary(a), Content::Binary(b)) => {
-                let mut out: Vec<(String, Option<Value>, Option<Value>)> = byte_ranges(a, b)
-                    .into_iter()
-                    .take(5000)
-                    .map(|(s, e)| {
-                        let hex = |x: &[u8]| Value::String(x.iter().take(16).map(|b| format!("{b:02X}")).collect::<Vec<_>>().join(" "));
-                        (format!("0x{s:X}"), Some(hex(&a[s..e])), b.get(s..e.min(b.len())).map(hex))
-                    })
-                    .collect();
-                if a.len() != b.len() {
-                    out.push(("(file size)".into(), Some(Value::from(a.len())), Some(Value::from(b.len()))));
-                }
-                out
-            }
-            (c, t) => match (root(c), root(t)) {
-                (Some(mine), Some(other_root)) => {
-                    let (mut a, mut b) = (Vec::new(), Vec::new());
-                    flatten(mine, "", &mut a);
-                    flatten(other_root, "", &mut b);
-                    let theirs: std::collections::HashMap<String, Value> = b.into_iter().collect();
-                    let mut seen = HashSet::new();
-                    let mut out = Vec::new();
-                    for (p, v) in a {
-                        seen.insert(p.clone());
-                        match theirs.get(&p) {
-                            Some(o) if *o == v => {}
-                            o => out.push((p, Some(v), o.cloned())),
-                        }
-                    }
-                    for (p, v) in theirs {
-                        if !seen.contains(&p) {
-                            out.push((p, None, Some(v)));
-                        }
-                    }
-                    out
-                }
-                _ => return self.fail(tr("Those two files aren't the same kind of save, so they can't be compared.")),
-            },
-        };
-        let n = diffs.len();
-        self.compare = Some(Compare { other, diffs });
-        self.info(if n == 1 { tr("1 difference found.").to_string() } else { trf("{0} differences found.", &[&n]) });
-    }
-
-    fn compare_window(&mut self, ctx: &egui::Context, now: f64) {
-        let Some(cmp) = &self.compare else { return };
-        let mut open = true;
-        let mut jump: Option<String> = None;
-        let mut take: Option<(String, Value)> = None;
-        let other_name = file_name(&cmp.other);
-        let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
-        egui::Window::new(trf("Compare with {0}", &[&other_name]))
-            .open(&mut open)
-            .default_size([fit(ctx, 620.0), 460.0])
-            .max_width(fit(ctx, 1400.0))
-            .show(ctx, |ui| {
-                ui.weak(tr("Values that differ between this save and the other one. \u{201C}Use theirs\u{201D} copies the other save's value into this one."));
-                ui.separator();
-                if cmp.diffs.is_empty() {
-                    ui.label(tr("No differences. The saves hold the same values."));
-                }
-                ScrollArea::vertical().auto_shrink([false, false]).show_rows_locked(ui, 26.0, cmp.diffs.len(), |ui, range| {
-                    for (p, original, theirs) in &cmp.diffs[range] {
-                        ui.horizontal(|ui| {
-                            let name = match self.model.by_ptr.get(p.as_str()) {
-                                Some(&i) => {
-                                    let r = &self.model.rows[i];
-                                    let section = &self.model.sections[r.section].title;
-                                    let mut parts: Vec<&str> = Vec::new();
-                                    if section != "General" {
-                                        parts.push(section);
-                                    }
-                                    if !r.context().is_empty() {
-                                        parts.push(r.context());
-                                    }
-                                    parts.push(r.name());
-                                    parts.join(" \u{203A} ")
-                                }
-                                None => p.clone(),
-                            };
-                            // Show this save's *current* value, so rows update after edits.
-                            let current = self.doc.as_ref().and_then(|d| root(&d.content)).and_then(|r| r.pointer(p)).cloned();
-                            let mine = if binary { original.clone() } else { current };
-                            ui.allocate_ui_with_layout(egui::vec2(260.0, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                                ui.set_width(260.0);
-                                let color = ui.visuals().hyperlink_color;
-                                let link = ui.add(egui::Label::new(RichText::new(&name).color(color)).truncate().sense(egui::Sense::click()));
-                                if link.on_hover_text(p).clicked() {
-                                    jump = Some(p.clone());
-                                }
-                            });
-                            let show = |v: &Option<Value>| v.as_ref().map(widgets::display).unwrap_or_else(|| tr("(missing)").into());
-                            if mine == *theirs {
-                                ui.label(RichText::new(trf("{0}  (now the same)", &[&show(&mine)])).weak());
-                                return;
-                            }
-                            ui.label(RichText::new(show(&mine)).color(theme::fg(ui, theme::MODIFIED)));
-                            ui.label("\u{203A}");
-                            ui.label(show(theirs));
-                            let editable = self.model.by_ptr.get(p.as_str()).is_some_and(|&i| self.model.rows[i].editable);
-                            let scalar = theirs.as_ref().is_some_and(|t| t.is_number() || t.is_string() || t.is_boolean());
-                            if let (true, false, true, Some(t), Some(_)) = (editable, binary, scalar, theirs, &mine) {
-                                if ui.small_button(tr("Use theirs")).clicked() {
-                                    take = Some((p.clone(), t.clone()));
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-        if !open {
-            self.compare = None;
-        }
-        if let Some((p, v)) = take {
-            self.apply_edit(p, v, now);
-        }
-        if let Some(p) = jump {
-            if let Some(&i) = self.model.by_ptr.get(p.as_str()) {
-                self.tab = Tab::Values;
-                self.search.clear();
-                let sec = self.model.rows[i].section;
-                if self.collapsed.remove(&sec) {
-                    self.collapsed_gen += 1;
-                }
-                if self.model.sections[sec].advanced && !self.settings.show_advanced {
-                    self.settings.show_advanced = true;
-                }
-                self.scroll_to_row = Some(i);
-            } else if let Some(off) = p.strip_prefix("0x").and_then(|h| usize::from_str_radix(h, 16).ok()) {
-                self.hex.jump(off);
-            }
-        }
     }
 
     /// Backs the save up under `name`, then removes it and closes it so the game starts a new game. True on success.
@@ -3571,6 +3437,7 @@ impl App {
 
     fn has_warning_chips(&self, doc: &Doc) -> bool {
         self.running.is_some()
+            || crate::cloud::service_for(&doc.path).is_some()
             || doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true }))
             || matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value))
     }
@@ -3603,6 +3470,10 @@ impl App {
             Self::chip(ui, &trf("{0} is running", &[game]), theme::WARN).on_hover_text(
                 tr("The game was running when this file was opened. Quit it before saving, or it may overwrite your changes."),
             );
+        }
+        if let Some(c) = crate::cloud::service_for(&doc.path) {
+            let hover = trf("This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.", &[&c]);
+            Self::chip(ui, &trf("Cloud sync: {0}", &[&c]), theme::ACCENT).on_hover_text(hover);
         }
         let rpg = matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
         let mut locate = false;
@@ -4634,6 +4505,12 @@ impl App {
                 let w = ui.available_width().min(680.0);
                 ui.allocate_ui(egui::vec2(w, 0.0), |ui| {
                     ui.with_layout(egui::Layout::top_down(egui::Align::Min), |ui| {
+                        if let Some(p) = self.favourites_card(ui) {
+                            open = Some(p);
+                        }
+                        if self.settings.favourites.iter().chain(self.settings.recent_games.iter()).any(|n| crate::games::GAMES.iter().any(|g| g.name == n)) {
+                            ui.add_space(8.0);
+                        }
                         if let Some(p) = self.your_games(ui) {
                             open = Some(p);
                         }
@@ -4840,12 +4717,6 @@ const PHONE_W: f32 = 640.0;
 
 fn narrow(ui: &egui::Ui) -> bool {
     ui.ctx().screen_rect().width() < PHONE_W
-}
-
-/// Whether the file sits in Steam's per-account cloud folder (`userdata/<id>/<app>/remote`).
-fn in_steam_cloud(p: &Path) -> bool {
-    let parts: Vec<String> = p.components().map(|c| c.as_os_str().to_string_lossy().to_lowercase()).collect();
-    parts.iter().any(|c| c == "userdata") && parts.iter().any(|c| c == "remote")
 }
 
 /// A recent file for a list: "name \u{2014} parent folder", since many games use the same file names.
@@ -5426,9 +5297,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     crate::games::name_matches(g.name, &q) && level.is_none_or(|l| crate::games::level(g) == l)
                 };
                 // Games with saves on this computer first, then the rest; a typed name looks through all of them.
-                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i)).collect();
-                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).collect() };
-                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).count() } else { 0 };
+                // Starred games come first, wherever they are.
+                let favs = gp.favs.clone();
+                let is_fav = |i: usize| favs.iter().any(|f| f == crate::games::GAMES[i].name);
+                let starred: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| is_fav(i) && matches(i)).collect();
+                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i) && !is_fav(i)).collect();
+                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i) && !is_fav(i)).collect() };
+                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i) && !is_fav(i)).count() } else { 0 };
+                let star_clicked: std::cell::Cell<Option<usize>> = std::cell::Cell::new(None);
                 let mut show_all = false;
                 let list = |ui: &mut egui::Ui, picked: &mut Option<usize>, show_all: &mut bool| {
                     ScrollArea::vertical().id_salt("gp_list").auto_shrink([false, false]).show_locked(ui, |ui| {
@@ -5448,6 +5324,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 };
                                 // The name gives way (with the whole text on hover) so the badge always stays beside it.
                                 let chip_w = ui.fonts(|f| f.layout_no_wrap(l.label().to_string(), egui::FontId::proportional(13.0), color).size().x) + 16.0;
+                                // The star: starred games are listed first, and on the start page.
+                                let fav = is_fav(i);
+                                let star = ui
+                                    .add(egui::Button::new(RichText::new("\u{2605}").color(if fav { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().weak_text_color() })).frame(false).min_size(egui::vec2(22.0, ui.spacing().interact_size.y)))
+                                    .on_hover_text(if fav { tr("Remove from favourites") } else { tr("Add to favourites") });
+                                if star.clicked() {
+                                    star_clicked.set(Some(i));
+                                }
                                 let name_w = (ui.available_width() - chip_w - ui.spacing().item_spacing.x).max(60.0);
                                 let text = format!("{}  \u{00B7}  {n}", g.name);
                                 let r = ui
@@ -5463,6 +5347,13 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 App::chip(ui, l.label(), color).on_hover_text(l.hint());
                             });
                         };
+                        if !starred.is_empty() {
+                            ui.label(RichText::new(tr("Favourites")).strong());
+                            for &i in &starred {
+                                row(ui, i, picked);
+                            }
+                            ui.add_space(6.0);
+                        }
                         if !found_here.is_empty() {
                             ui.label(RichText::new(tr("On this computer")).strong());
                             for &i in &found_here {
@@ -5534,7 +5425,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 *show_all = true;
                             }
                         }
-                        if found_here.is_empty() && others.is_empty() && hidden == 0 {
+                        if starred.is_empty() && found_here.is_empty() && others.is_empty() && hidden == 0 {
                             ui.weak(tr("No game matches. Use Open\u{2026} to pick the file yourself."));
                         }
                     });
@@ -5662,6 +5553,15 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 }
                 if gp.picked != before {
                     gp.group = None;
+                }
+                if let Some(i) = star_clicked.get() {
+                    let name = crate::games::GAMES[i].name.to_string();
+                    match gp.favs.iter().position(|f| *f == name) {
+                        Some(k) => {
+                            gp.favs.remove(k);
+                        }
+                        None => gp.favs.push(name),
+                    }
                 }
                 if show_all {
                     gp.only_found = Some(false);

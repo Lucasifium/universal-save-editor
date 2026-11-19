@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = (rien que la liste puisse décrire)
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= Cette sauvegarde se trouve dans un dossier Steam Cloud. Si Steam demande laquelle conserver, choisissez la locale.
-
 Check again
 = Vérifier à nouveau
 
@@ -6734,8 +6731,8 @@ Health XP
 Health and Force
 = Santé et Force
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= La santé et les emplacements d'objets comptent des blocs et emplacements ; attaque, vitesse et lancer comptent des améliorations. Le maximum du jeu est le bout de chaque barre.
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= La santé et les emplacements d'objets comptent des blocs et emplacements ; attaque, vitesse et lancer comptent des améliorations.
 
 Health and silk
 = Santé et soie
@@ -26985,9 +26982,6 @@ Has a screen of its own for this game
 Hex
 = Hex
 
-If Steam asks which save to keep, choose the local one.
-= Si Steam demande quelle sauvegarde conserver, choisissez la sauvegarde locale.
-
 Imported 1 name.
 = 1 nom importé.
 
@@ -30333,4 +30327,69 @@ Stopped opening {0}.
 
 This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
 = Cette sauvegarde ({0} Mo) est trop grande pour s’ouvrir en arbre avec la mémoire libre de cet ordinateur ; elle s’affiche donc en hexadécimal. Fermez d’autres programmes et rouvrez-la, ou utilisez la recherche de valeurs.
+# src/app/compare.rs
+
+Filter by name or value
+= Filtrer par nom ou valeur
+
+{0} differences
+= {0} différences
+
+{0} of {1} differences shown
+= {0} différences sur {1} affichées
+
+Copy the listed differences to the clipboard
+= Copier les différences listées dans le presse-papiers
+
+No difference matches the filter.
+= Aucune différence ne correspond au filtre.
+
+Copied the differences.
+= Différences copiées.
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= Si {0} demande quelle sauvegarde garder, choisissez la locale.
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= Cette sauvegarde est dans un dossier synchronisé par {0}. S'il demande quelle copie garder, choisissez la locale.
+
+Cloud sync: {0}
+= Synchro cloud : {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= Cette sauvegarde est dans un dossier synchronisé par {0}. Quittez le jeu avant d'enregistrer ; si {0} demande ensuite quelle copie garder, choisissez la locale.
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= Impossible de copier le personnage : le nouveau fichier ne se relit pas comme prévu ({0}). La sauvegarde n'a pas été modifiée.
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoris
+
+Favourites and recent games
+= Favoris et jeux récents
+
+Remove from favourites
+= Retirer des favoris
+
+Add to favourites
+= Ajouter aux favoris
+
+Show this game's saves
+= Afficher les sauvegardes de ce jeu
+
+Reset to the original value ({0})
+= Rétablir la valeur d'origine ({0})
+
+Original value: {0}
+= Valeur d'origine : {0}
+
+Open another save in a new tab
+= Ouvrir une autre sauvegarde dans un nouvel onglet
+
+Next / previous tab
+= Onglet suivant / précédent
 

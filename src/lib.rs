@@ -39,6 +39,7 @@ mod progress;
 mod playerprefs;
 mod renpy_sign;
 mod risks;
+mod cloud;
 mod running;
 mod save_cache;
 mod settings;

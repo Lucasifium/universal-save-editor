@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = (nada que a lista consiga descrever)
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= Este save está em uma pasta do Steam Cloud. Se o Steam perguntar qual manter, escolha o local.
-
 Check again
 = Verificar novamente
 
@@ -6718,8 +6715,8 @@ Health XP
 Health and Force
 = Saúde e Força
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= Saúde e espaços de itens contam blocos e espaços; ataque, velocidade e arremesso contam melhorias. O máximo do jogo é o fim de cada barra.
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= Saúde e espaços de itens contam blocos e espaços; ataque, velocidade e arremesso contam melhorias.
 
 Health and silk
 = Saúde e seda
@@ -26951,9 +26948,6 @@ Has a screen of its own for this game
 Hex
 = Hex
 
-If Steam asks which save to keep, choose the local one.
-= Se o Steam perguntar qual save manter, escolha o local.
-
 Imported 1 name.
 = 1 nome importado.
 
@@ -30293,4 +30287,69 @@ Stopped opening {0}.
 
 This save ({0} MB) is too big to open as a tree with the memory free on this computer, so it is shown as hex. Close other programs and open it again, or use Value search.
 = Este jogo salvo ({0} MB) é grande demais para abrir como árvore com a memória livre deste computador, por isso aparece em hexadecimal. Feche outros programas e abra de novo, ou use a busca de valores.
+# src/app/compare.rs
+
+Filter by name or value
+= Filtrar por nome ou valor
+
+{0} differences
+= {0} diferenças
+
+{0} of {1} differences shown
+= {0} de {1} diferenças exibidas
+
+Copy the listed differences to the clipboard
+= Copiar as diferenças listadas para a área de transferência
+
+No difference matches the filter.
+= Nenhuma diferença corresponde ao filtro.
+
+Copied the differences.
+= Diferenças copiadas.
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= Se o {0} perguntar qual save manter, escolha o local.
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= Este save está em uma pasta que o {0} sincroniza. Se perguntar qual cópia manter, escolha a local.
+
+Cloud sync: {0}
+= Sincronização na nuvem: {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= Este save está em uma pasta que o {0} sincroniza. Feche o jogo antes de salvar; se depois o {0} perguntar qual cópia manter, escolha a local.
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= Não foi possível copiar o personagem: o novo arquivo não foi lido como esperado ({0}). O save não foi alterado.
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoritos
+
+Favourites and recent games
+= Favoritos e jogos recentes
+
+Remove from favourites
+= Remover dos favoritos
+
+Add to favourites
+= Adicionar aos favoritos
+
+Show this game's saves
+= Mostrar os saves deste jogo
+
+Reset to the original value ({0})
+= Restaurar o valor original ({0})
+
+Original value: {0}
+= Valor original: {0}
+
+Open another save in a new tab
+= Abrir outro save em uma nova aba
+
+Next / previous tab
+= Próxima aba / aba anterior
 

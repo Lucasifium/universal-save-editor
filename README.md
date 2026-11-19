@@ -49,7 +49,7 @@ My favourites so far:
     cargo run --release -- path\to\savefile      # path is optional
 
 or download a build from Releases (below). On desktop you can also drag a save onto the program or
-the window. The welcome screen lists recent files and common save folders (Ren'Py games, Unity, Saved
+the window. The welcome screen lists your favourite and recently opened games (star a game in *Find my game's saves*), recent files and common save folders (Ren'Py games, Unity, Saved
 Games; on Android: RetroArch, Downloads).
 
 ## Downloads
@@ -312,7 +312,8 @@ Encrypted saves: *Tools › Decrypt with password* (Easy Save 3, Godot). Archive
 ## Finding values
 
 *Tools › Compare with another save* lists every value that differs between the open save and
-another one (e.g. before and after you earned gold), with a one-click **Use theirs**.
+another one (e.g. before and after you earned gold), with how much each number changed, a filter box,
+**Copy as text**, and a one-click **Use theirs**.
 
 ## Languages
 
@@ -349,7 +350,7 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   **Raw JSON**: edit JSON text directly.
 - **Game screens**: save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
   sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
-- Changed values are highlighted in orange with a one-click revert.
+- Changed values are highlighted in orange; hover one to see its original value and click the arrow beside it to reset just that field.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit.
 
 ## Command line
@@ -412,7 +413,7 @@ compression, encryption and checksums.
 
 ## Safety
 
-- **Verified saves**: the new file is decoded again *before* anything is written. If it doesn't
+- **Verified saves**: the new file is decoded again *before* anything is written (copying an Elden Ring character is checked the same way). If it doesn't
   read back exactly as shown on screen, the save is aborted and your file is left untouched.
 - **Changed on disk**: if the save was written by something else after it was opened (the game
   autosaved, a cloud sync ran), saving stops and asks: reload the newer file, save anyway (the newer
@@ -426,6 +427,7 @@ compression, encryption and checksums.
 - **Story decisions are experimental**: changing story flags, choices, reputations or quest records can break quests, soft-lock the game or leave a save that can no longer be finished. There is no guarantee the game can still be completed, so use these panels only if you know what you're doing. Each story panel stays locked until you either make a named backup (*Back up this save first…* opens the save manager's backup) or say you accept the risk, and the file is backed up automatically before every save so you can go back.
 - **Export and import**: *File › Export decoded data* writes the unpacked data (JSON, text or bytes) for any other tool; *File › Import edited data* brings the edited file back, and saving packs, encrypts and checksums it the way the save was
 - **Game running**: if the game that owns the save is running, the app says so when opening and warns before saving (games write their save back when they autosave or quit)
+- **Cloud sync**: a save in a folder that Steam Cloud, OneDrive, Dropbox, Google Drive, iCloud Drive or Ubisoft Connect syncs shows a small *Cloud sync* label, and the save list and the message after saving say to choose the local copy if the service asks which to keep
 - **Review before saving**: Save lists every change in words first (can be turned off in that dialog)
   (*File › Restore original from backup*).
 - You're asked before closing or opening another file with unsaved changes.
