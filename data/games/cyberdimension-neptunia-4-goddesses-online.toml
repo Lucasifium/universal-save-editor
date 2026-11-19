@@ -1,0 +1,27 @@
+name = "Cyberdimension Neptunia: 4 Goddesses Online"
+tab = "Guild"
+accent = [200, 130, 220]
+kind = "Unreal Engine save (SaveEnforce_C)"
+markers = ["/SaveData/Money_40_AE7C6D824CD4904414688DACC3180872"]
+subtitle = 'SaveData<n>.sav from AppData\Local\CyberdimensionNeptunia4GoddessesOnline\Saved\SaveGames. Your money, guild rank, the totals the game keeps (money earned, enemies defeated, dungeons cleared) and the time played. Close the game first.'
+tiles = [
+    ["Money", "/SaveData/Money_40_AE7C6D824CD4904414688DACC3180872"],
+    ["Guild rank", "/SaveData/GuildRank_43_605F31164FBA852BBBF88E904413E951"],
+]
+
+[[sections]]
+title = "Guild"
+rows = [
+    ["Money", "/SaveData/Money_40_AE7C6D824CD4904414688DACC3180872"],
+    ["Guild rank", "/SaveData/GuildRank_43_605F31164FBA852BBBF88E904413E951"],
+]
+
+[[sections]]
+title = "Record"
+rows = [
+    ["Total money earned", "/SaveData/TotalMoney_45_B19CD1E041E7CD98E7256D931B16BE7B"],
+    ["Enemies defeated", "/SaveData/EnemyKillCount_44_B5DD99A84A90233FAB21F5B0D019FD4D"],
+    ["Dungeons cleared", "/SaveData/DungeonCount_54_7F7EA0BE46604B07C1C02BB020F9DAAA"],
+    ["Longest combo", "/SaveData/MaxComboCount_46_083F62E542E1A1CBE8EC9EA7F39EDC27"],
+    ["Time played (seconds)", "/SaveData/PlayTime_57_DD4EA3E4437F09E1E29692A3BAB8A3DB"],
+]

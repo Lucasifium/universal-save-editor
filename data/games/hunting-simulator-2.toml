@@ -1,0 +1,27 @@
+name = "Hunting Simulator 2"
+tab = "Hunter"
+accent = [150, 170, 90]
+kind = "Unreal Engine save (HunterSaveGame)"
+markers = ["/Credits", "/LicenseSaveData"]
+subtitle = 'HSSave.sav from AppData\Local\Hunter2\Saved\SaveGames. Your credits, the shots fired, animals spotted and tracks inspected, and the time played. Licences, weapons and gear stay in the Tree.'
+tiles = [
+    ["Credits", "/Credits"],
+    ["Animals spotted", "/AnimalsSpotted"],
+    ["Shots fired", "/ShotsFired"],
+]
+
+[[sections]]
+title = "Hunter"
+rows = [
+    ["Credits", "/Credits"],
+    ["Tracks inspected", "/TotalTracksInspected"],
+]
+
+[[sections]]
+title = "Record"
+rows = [
+    ["Animals spotted", "/AnimalsSpotted"],
+    ["Shots fired", "/ShotsFired"],
+    ["Distance travelled", "/DistanceTravelled"],
+    ["Time in game (seconds)", "/TimeInGame"],
+]
