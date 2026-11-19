@@ -392,6 +392,8 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
         }
         panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
             let q = filter(ui, &format!("t{i}/{ti}"));
+            // A table wider than the window scrolls sideways; a solid bar (only when it overflows) shows that more is there.
+            ui.style_mut().spacing.scroll = egui::style::ScrollStyle::solid();
             egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
                 egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
                     ui.label("");

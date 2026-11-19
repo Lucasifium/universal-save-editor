@@ -234,7 +234,7 @@ pub fn pack(w: &Wrap, data: &[u8]) -> Result<Vec<u8>, String> {
     }
     let mut p = data.to_vec();
     fix_md5(&mut p);
-    let stream = crate::oodle::compress(&p).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
+    let stream = crate::oodle::compress(&p).ok_or("Couldn't pack the save again (no compression library found)")?;
     Ok(join(&w.meta, &w.png, w.seed, &w.account, &stream))
 }
 

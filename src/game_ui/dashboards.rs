@@ -33,19 +33,8 @@ fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(&str, String)]) {
 /// Every scalar value of an object, as a grid spread over columns.
 fn object_columns(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, label: impl Fn(&str) -> String) {
     let ks: Vec<String> = keys(cx, base).into_iter().filter(|k| !matches!(cx.get(&join(base, k)), Some(Value::Object(_) | Value::Array(_)))).collect();
-    let cols = ((ui.available_width() / 360.0).floor() as usize).clamp(1, 3);
-    let per = ks.len().div_ceil(cols);
-    ui.columns(cols, |cs| {
-        for (c, chunk) in ks.chunks(per.max(1)).enumerate() {
-            let ui = &mut cs[c];
-            ui.push_id((id, c), |ui| {
-                let label_w = (ui.available_width() - 170.0).max(80.0);
-                for k in chunk {
-                    cx.row_fixed(ui, &label(k), &join(base, k), label_w, 80.0);
-                }
-            });
-        }
-    });
+    let rows: Vec<(String, String)> = ks.iter().map(|k| (label(k), join(base, k))).collect();
+    super::fit_rows(ui, cx, id, &rows, 80.0, 84.0);
 }
 
 // ------------------------------------------------------------------ Skyrim / Fallout 4

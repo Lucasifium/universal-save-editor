@@ -38,19 +38,8 @@ fn amount_rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, query: &str)
         ui.weak(tr("Nothing here."));
         return;
     }
-    let cols = ((ui.available_width() / 360.0).floor() as usize).clamp(1, 3);
-    let per = names.len().div_ceil(cols);
-    ui.columns(cols, |cs| {
-        for (c, chunk) in names.chunks(per.max(1)).enumerate() {
-            let ui = &mut cs[c];
-            ui.push_id((id, c), |ui| {
-                let label_w = (ui.available_width() - 150.0).clamp(80.0, 260.0);
-                for n in chunk {
-                    cx.row_fixed(ui, n, &join(base, n), label_w, 80.0);
-                }
-            });
-        }
-    });
+    let rows: Vec<(String, String)> = names.iter().map(|n| (n.clone(), join(base, n))).collect();
+    super::fit_rows(ui, cx, id, &rows, 80.0, 84.0);
 }
 
 // ------------------------------------------------------------------ Wasteland 3

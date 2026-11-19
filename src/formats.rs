@@ -428,10 +428,10 @@ impl Layer {
             Layer::KhPng { name, .. } => format!("Kingdom Hearts 1.5+2.5 save archive ({name})"),
             Layer::FileBundle { name, .. } => format!("file bundle ({name})"),
             Layer::Palworld { .. } => "Palworld container".into(),
-            Layer::PalworldOodle => "Palworld container (Oodle)".into(),
-            Layer::Sn2(_) => "Subnautica 2 save (Oodle blocks)".into(),
-            Layer::AtomicHeart(_) => "Atomic Heart save (Oodle blocks, SHA-1)".into(),
-            Layer::Deathloop(_) => "Deathloop save (Oodle, checksum)".into(),
+            Layer::PalworldOodle => "Palworld container (compressed)".into(),
+            Layer::Sn2(_) => "Subnautica 2 save (compressed blocks)".into(),
+            Layer::AtomicHeart(_) => "Atomic Heart save (compressed blocks, SHA-1)".into(),
+            Layer::Deathloop(_) => "Deathloop save (compressed, checksum)".into(),
             Layer::Rdr1 => "Red Dead Redemption save encryption (CRC-32)".into(),
             Layer::Rdr2 => "Red Dead Redemption 2 save encryption (checksums)".into(),
             Layer::Ff9 => "Final Fantasy IX save encryption".into(),
@@ -451,13 +451,13 @@ impl Layer {
             Layer::Koei(_) => "Koei Tecmo save encryption".into(),
             Layer::Dq11 { .. } => "Dragon Quest XI S save encryption (AES-256, CRC-32)".into(),
             Layer::Ds2(_) => "Death Stranding 2 save (XOR, LZ4, MD5)".into(),
-            Layer::Ds1(_) => "Death Stranding save (XOR, Oodle, MD5)".into(),
+            Layer::Ds1(_) => "Death Stranding save (XOR, compressed, MD5)".into(),
             Layer::Rgg(w) => format!("Yakuza save (Dragon Engine: {})", fmt::rgg::games(w)),
             Layer::Ue3Pkg(_) => "Dishonored save (zlib chunks)".into(),
             Layer::Bioshock { chunks } => format!("BioShock Infinite save (MD5, {} zlib chunks)", chunks.len()),
             Layer::Copeck { name, .. } => format!("Cairn save pack ({name})"),
             Layer::MetroDezp { .. } => "Metro auto save (LZ4)".into(),
-            Layer::HogwartsDb { .. } => "Hogwarts Legacy save (database, Oodle)".into(),
+            Layer::HogwartsDb { .. } => "Hogwarts Legacy save (database, compressed)".into(),
             Layer::Es3 { .. } => "Easy Save 3 encryption".into(),
             Layer::GodotEnc(_) => "Godot encryption".into(),
             Layer::Terraria => "Terraria player encryption".into(),
@@ -1079,7 +1079,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             let packed = crate::par::map(&parts, |p| crate::oodle::compress(p));
             let mut arr = Vec::with_capacity(inner.len() / 3);
             for (c, p) in packed.into_iter().zip(&parts) {
-                let c = c.ok_or("Oodle couldn't pack the database again (no Oodle library found)")?;
+                let c = c.ok_or("Couldn't pack the database again (no compression library found)")?;
                 for v in [0x9E2A_83C1u64, *block, c.len() as u64, p.len() as u64, c.len() as u64, p.len() as u64] {
                     arr.extend(v.to_le_bytes());
                 }
@@ -1133,7 +1133,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Rdr1 => fmt::rdr::pack_1(&data)?,
         Layer::Rdr2 => fmt::rdr::pack_2(&data)?,
         Layer::PalworldOodle => {
-            let packed = crate::oodle::compress(&data).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
+            let packed = crate::oodle::compress(&data).ok_or("Couldn't pack the save again (no compression library found)")?;
             let mut out = (data.len() as u32).to_le_bytes().to_vec();
             out.extend((packed.len() as u32).to_le_bytes());
             out.extend(b"PlM1");
@@ -1972,9 +1972,6 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     }
     if fmt::ds1::looks(data) {
         if let Some((w, p)) = fmt::ds1::unpack(data) {
-            if let Some(lib) = crate::oodle::location() {
-                ctx.hint = Some(format!("Death Stranding's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
-            }
             return Some((Layer::Ds1(Arc::new(w)), p));
         }
         if fmt::ds1::needs_oodle(data) {
@@ -2037,13 +2034,10 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     if fmt::deathloop::looks(data) {
         match fmt::deathloop::unpack(data) {
             Ok((l, p)) => {
-                if let Some(lib) = crate::oodle::location() {
-                    ctx.hint = Some(format!("Deathloop's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
-                }
                 return Some((Layer::Deathloop(Arc::new(l)), p));
             }
             Err(e) => {
-                ctx.hint = Some(if e.contains("Oodle") { format!("{e}. {}", crate::oodle::MISSING) } else { e });
+                ctx.hint = Some(if e.contains("compression library") { format!("{e}. {}", crate::oodle::MISSING) } else { e });
                 return None;
             }
         }
@@ -2051,13 +2045,10 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     if fmt::atomic_heart::looks(data) {
         match fmt::atomic_heart::unpack(data) {
             Ok((l, p)) => {
-                if let Some(lib) = crate::oodle::location() {
-                    ctx.hint = Some(format!("Atomic Heart's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
-                }
                 return Some((Layer::AtomicHeart(Arc::new(l)), p));
             }
             Err(e) => {
-                ctx.hint = Some(if e.contains("Oodle") { format!("{e}. {}", crate::oodle::MISSING) } else { e });
+                ctx.hint = Some(if e.contains("compression library") { format!("{e}. {}", crate::oodle::MISSING) } else { e });
                 return None;
             }
         }
@@ -2065,9 +2056,6 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     if data.starts_with(b"GSWU") {
         match fmt::sn2::unpack(data) {
             Ok((l, p)) => {
-                if let Some(lib) = crate::oodle::location() {
-                    ctx.hint = Some(format!("Subnautica 2's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
-                }
                 return Some((Layer::Sn2(Arc::new(l)), p));
             }
             Err(e) => {
@@ -2081,9 +2069,6 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
         let packed = u32::from_le_bytes(data[4..8].try_into().unwrap()) as usize;
         if packed + 12 == data.len() {
             if let Some(p) = crate::oodle::decompress(&data[12..], raw) {
-                if let Some(lib) = crate::oodle::location() {
-                    ctx.hint = Some(format!("Palworld's Oodle compression is read and written with the Oodle library from {}.", lib.display()));
-                }
                 return Some((Layer::PalworldOodle, p));
             }
         }
@@ -2346,7 +2331,7 @@ fn peel_hogwarts(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
         match b {
             Some(b) => inner.extend(b),
             None => {
-                ctx.hint = Some(format!("Hogwarts Legacy keeps gold, experience and the inventory in an Oodle-compressed database. {}", crate::oodle::MISSING));
+                ctx.hint = Some(format!("Hogwarts Legacy keeps gold, experience and the inventory in a compressed database. {}", crate::oodle::MISSING));
                 return None;
             }
         }

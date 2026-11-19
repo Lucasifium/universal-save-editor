@@ -880,7 +880,11 @@ impl GameCtx<'_> {
             return;
         }
         // Never wider than the editor and its −/+ leave room for, so a narrow column doesn't push them out.
-        let label_w = label_w.min((ui.available_width() - width - 84.0).max(56.0));
+        // A name wider than its column takes the room that is left (up to what the editor and its −/+
+        // leave free) instead of being cut short; only when even that is too little does it shorten.
+        let room = (ui.available_width() - width - 84.0).max(56.0);
+        let text_w = ui.fonts(|f| f.layout_no_wrap(label.to_string(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
+        let label_w = label_w.max(text_w.ceil() + 2.0).min(room);
         ui.horizontal(|ui| {
             let c = if self.modified(p) { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().text_color() };
             ui.allocate_ui_with_layout(egui::vec2(label_w, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
@@ -1571,4 +1575,34 @@ mod tests {
         assert_eq!(fmt_num(1234567.0), "1,234,567");
         assert_eq!(fmt_num(-1500.0), "-1,500");
     }
+}
+
+/// Item rows (name, then its editor of `width`; `extra` is room for buttons beside it) in as many
+/// columns as fit, each column as wide as its longest item name needs, so no name is cut off.
+/// Only when even one column is too narrow (a phone) is a name shortened, and its full text shows
+/// on hover.
+pub(super) fn fit_rows(ui: &mut Ui, cx: &mut GameCtx, id: impl std::hash::Hash + Copy, rows: &[(String, String)], width: f32, extra: f32) {
+    let rows: Vec<&(String, String)> = rows.iter().filter(|(_, p)| cx.get(p).is_some()).collect();
+    if rows.is_empty() {
+        return;
+    }
+    let font = egui::TextStyle::Body.resolve(ui.style());
+    let color = ui.visuals().text_color();
+    let widest = rows.iter().map(|(l, _)| ui.fonts(|f| f.layout_no_wrap(tr_any(l).to_string(), font.clone(), color).size().x)).fold(0.0_f32, f32::max);
+    let gap = ui.spacing().item_spacing.x;
+    let label_w = widest.ceil() + 4.0;
+    let need = label_w + width + extra + gap * 2.0 + 16.0;
+    let avail = ui.available_width();
+    let cols = ((avail / need).floor() as usize).clamp(1, rows.len().min(3));
+    let per = rows.len().div_ceil(cols);
+    ui.columns(cols, |cs| {
+        for (c, chunk) in rows.chunks(per.max(1)).enumerate() {
+            let ui = &mut cs[c];
+            ui.push_id((id, c), |ui| {
+                for (label, p) in chunk {
+                    cx.row_fixed(ui, label, p, label_w, width);
+                }
+            });
+        }
+    });
 }

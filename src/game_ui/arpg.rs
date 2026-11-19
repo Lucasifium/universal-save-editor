@@ -39,19 +39,7 @@ fn rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)]) {
         ui.weak(tr("Nothing here."));
         return;
     }
-    let cols = ((ui.available_width() / 330.0).floor() as usize).clamp(1, 3);
-    let per = rows.len().div_ceil(cols);
-    ui.columns(cols, |cs| {
-        for (c, chunk) in rows.chunks(per.max(1)).enumerate() {
-            let ui = &mut cs[c];
-            ui.push_id((id, c), |ui| {
-                let label_w = (ui.available_width() - 200.0).clamp(80.0, 240.0);
-                for (label, p) in chunk {
-                    cx.row_fixed(ui, label, p, label_w, 80.0);
-                }
-            });
-        }
-    });
+    super::fit_rows(ui, cx, id, rows, 80.0, 84.0);
 }
 
 /// A filterable list of the values under `base` (skills, a bag's stacks).

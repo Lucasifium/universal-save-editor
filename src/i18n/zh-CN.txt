@@ -7915,8 +7915,8 @@ Metal shards
 Metals
 = 金属
 
-Metro
-= 地铁
+Metro Redux / Metro Exodus
+= Metro Redux / Metro Exodus
 
 Might
 = 力量
@@ -8227,8 +8227,8 @@ Near the Witch Switch
 Needs
 = 需求
 
-Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
-= 需要许多游戏会安装的 Oodle 库(自动查找)。保存时会重新写入存档的 MD5。尚未在游戏中测试。
+Needs the compression library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
+= 需要许多游戏会安装的 压缩库(自动查找)。保存时会重新写入存档的 MD5。尚未在游戏中测试。
 
 Ness
 = Ness
@@ -9709,8 +9709,8 @@ Selling price
 Sepith
 = Sepith
 
-Seqence number
-= Seqence number
+Sequence number
+= 序列号
 
 Serenade of Water
 = Serenade of Water
@@ -12296,8 +12296,8 @@ userN.dat. Money is stored divided by 10; the game's cap is 99,990.
 ★ marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear).
 = ★ 表示前排。等级范围 1 至 99；经验值不会根据等级推算，请同时设置两者。HP 和 SP 为当前值（最大值由等级、职业和装备决定）。
 
-<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
-= %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames 中的 <n>.sav。存档的Oodle数据会用本机任一游戏的Oodle库解包并重新打包，并重新生成其SHA-1。仅列出存档中已有的堆叠：请先在游戏中拾取一个该物品以添加。
+<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
+= %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames 中的 <n>.sav。存档的压缩数据会用本机任一游戏的压缩库解包并重新打包，并重新生成其SHA-1。仅列出存档中已有的堆叠：请先在游戏中拾取一个该物品以添加。
 
 A .a7s save (Documents\\Anno 1800\\accounts\\<id>\\<profile>\\savegame). Coins are your company's money; the load screen's figure is changed with them. Other amounts of your company's storage are in the Tree, by GUID.
 = .a7s存档（Documents\Anno 1800\accounts\<id>\<profile>\savegame）。金币是贵公司的资金；载入界面显示的金额随之改变。公司仓库中的其他数量在树中按GUID列出。
@@ -12323,8 +12323,8 @@ A profile XML from Steam\\userdata\\<account>\\632360\\remote\\UserProfiles. Lun
 A save from Documents\\ZAUM Studio\\Disco Elysium\\SaveGames (a .ntwtf.zip; its big .2nd.ntwtf.json is edited and the rest of the zip is kept). Money, level, experience, skill points, the four attributes and the skills as the game keeps them. Skills the save lists under different names stay in the Tree.
 = 来自 Documents\ZAUM Studio\Disco Elysium\SaveGames 的存档（.ntwtf.zip；会编辑其中较大的 .2nd.ntwtf.json，zip 的其余部分保持不变）。金钱、等级、经验、技能点、四项属性以及游戏所保存的技能。存档中以其他名称列出的技能仍保留在树中。
 
-ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
-= Saved Games\\Assassin's Creed Brotherhood\\SAVES 中的 ACBROTHERHOODSAVEGAME0.SAV（或 Ubisoft Connect 的存档文件夹）。存档会被解扰、解包并连同其数据块校验一起重新打包；所属账号保持不变。请先关闭游戏并在 Ubisoft Connect 中关闭云存档，否则旧存档可能会恢复。
+ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\Assassin's Creed Brotherhood\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= Saved Games\Assassin's Creed Brotherhood\SAVES 中的 ACBROTHERHOODSAVEGAME0.SAV（或 Ubisoft Connect 的存档文件夹）。存档会被解扰、解包并连同其数据块校验一起重新打包；所属账号保持不变。请先关闭游戏并在 Ubisoft Connect 中关闭云存档，否则旧存档可能会恢复。
 
 An OpenXcom or OpenXcom Extended save (.sav in Documents\\OpenXcom\\<mod>), which also plays UFO Defense from the Steam and GOG releases. Funds, the date, the difficulty, every soldier's stats and the base stores.
 = OpenXcom 或 OpenXcom Extended 存档（Documents\OpenXcom\<mod> 中的 .sav），也可运行 Steam 和 GOG 版的 UFO Defense。资金、日期、难度、每名士兵的属性和基地库存。
@@ -12389,8 +12389,8 @@ data000.bin and the slot files in Steam\\userdata\\<account>\\3357650\\remote\\w
 file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.
 = www\save 中的 file<n>.rpgsave：蛤蜊、Headspace 和 Faraway Town 中每位朋友的等级、爱心和果汁，以及您携带的所有零食、玩具、武器和护符。
 
-save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
-= Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01 中的 save.dloop。存档的 Oodle 数据会被解包，并用本机任意游戏的 Oodle 库（游戏自带的即可）重新打包，同时重新生成文件校验和。请先关闭游戏并为其关闭 Steam 云，否则 Steam 可能会恢复旧存档。武器、饰品和石板以数字形式存储，不会列出。
+save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's compressed data is unpacked and packed again with the compression library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
+= Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01 中的 save.dloop。存档的 压缩数据会被解包，并用本机任意游戏的 压缩库（游戏自带的即可）重新打包，同时重新生成文件校验和。请先关闭游戏并为其关闭 Steam 云，否则 Steam 可能会恢复旧存档。武器、饰品和石板以数字形式存储，不会列出。
 
 saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
 = Saved Games\Falcom\ed8 中的 saveNNN.dat。米拉、塞皮斯、每位成员的等级、经验、HP、EP、CP 和属性，以及背包。
@@ -12401,8 +12401,8 @@ savegame.xml from Documents\\Teardown (inside the game's data folder). Cash, too
 savegame\\SLOT<n>\\checkpoint.dat: Raw Whalebone, runes and ammo. Each ammo count goes up to what the save says the player can carry. The save is unpacked and packed again, with its check value, on save.
 = savegame\SLOT<n>\checkpoint.dat：生鲸骨、符文和弹药。每种弹药数量最高到存档所示的玩家携带上限。保存时会解包存档并连同校验值重新打包。
 
-savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
-= %LOCALAPPDATA%\Subnautica2\Saved\SaveGames 中的 savegame_<n>.sav。编辑当前存档；上一个检查点的副本保持不变。需要本机任意游戏的 Oodle 库。本游戏中资源不会堆叠，因此没有材料最大化按钮。
+savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the compression library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
+= %LOCALAPPDATA%\Subnautica2\Saved\SaveGames 中的 savegame_<n>.sav。编辑当前存档；上一个检查点的副本保持不变。需要本机任意游戏的 压缩库。本游戏中资源不会堆叠，因此没有材料最大化按钮。
 
 4WD Cars
 = 4WD Cars
@@ -27608,8 +27608,8 @@ Game screen: Mira, the seven kinds of sepith, each character's level, and how ma
 Game screen: Raw Whalebone with a Max crafting materials button, runes, and bolts, bullets, grenades, spring razors and stun mines (each up to what the player can carry), plus the map and how many bonecharm traits are learned, for Dishonored 2. checkpoint.dat is unpacked and packed again with its check value on save; game.details opens as values (chapter, chaos level…). Checked on real saves and tried in the game
 = 游戏界面（Dishonored 2）：带有“制作材料拉满”按钮的 Raw Whalebone、符文，以及弩箭、子弹、手雷、弹簧剃刀和眩晕地雷（均可补至玩家的携带上限），另有地图和已学会的骨符特性数量。checkpoint.dat 会解包，并在保存时连同校验值重新打包；game.details 以数值形式打开（章节、混乱等级…）。已在真实存档上检查，并已在游戏中测试
 
-Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
-= 游戏界面：Residuum、压力等级、循环的日期和地点，以及进度标志（第一次循环、Golden Loop、Julianna、void essence 能力）。存档的 Oodle 数据会使用本机上任一游戏自带的 Oodle 库解包并重新打包，文件的校验和也会重新生成。已在真实存档和游戏中检查。请先关闭游戏并为其关闭 Steam 云存档，否则 Steam 可能会恢复旧存档
+Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= 游戏界面：Residuum、压力等级、循环的日期和地点，以及进度标志（第一次循环、Golden Loop、Julianna、void essence 能力）。存档的 压缩数据会使用本机上任一游戏自带的 压缩库解包并重新打包，文件的校验和也会重新生成。已在真实存档和游戏中检查。请先关闭游戏并为其关闭 Steam 云存档，否则 Steam 可能会恢复旧存档
 
 Game screen: S.P.E.C.I.A.L., hit points, level, experience, skill points, skills, traits, tagged skills, perk ranks, radiation, poison, kills, bottle caps and inventory counts. Edits haven't been tried in the game yet
 = 游戏界面：S.P.E.C.I.A.L.、生命值、等级、经验、技能点、技能、特质、标记技能、特技等级、辐射、中毒、击杀数、瓶盖和物品栏数量。编辑尚未在游戏中测试
@@ -28070,8 +28070,8 @@ Game screen: health, hunger, sanity, temperature, time alive and the day count. 
 Game screen: health, level, experience and money of each used slot, plus recovery items and materials with a Max crafting materials button (99 each). Slot checksums are written again on save. Checked on a public save, not yet tried in the game
 = 游戏界面：每个已使用存档位的生命值、等级、经验和金钱，以及恢复道具和材料（带有“制作材料拉满”按钮，每种 99）。保存时会重新写入存档位的校验和。已在公开存档上检查，尚未在游戏中测试
 
-Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game, the same way the game reads it)
-= 游戏界面：生命值、氧气、食物和水及其上限、玩家物品栏以及每个储物柜、载具和储存容器，在存档中就地修改（已在真实的抢先体验存档上检查；需要任一已安装游戏自带的 Oodle 库，与游戏读取它的方式相同）
+Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the compression library of any installed game, the same way the game reads it)
+= 游戏界面：生命值、氧气、食物和水及其上限、玩家物品栏以及每个储物柜、载具和储存容器，在存档中就地修改（已在真实的抢先体验存档上检查；需要任一已安装游戏自带的 压缩库，与游戏读取它的方式相同）
 
 Game screen: health, resin (with a Max crafting materials button that fills it to 999, an estimate), and pistol, shotgun and rapidfire ammo in the backpack, changed in place; the weapons Alyx has are listed. The Load menu keeps showing the old numbers until the game saves again. Not yet tried in the game
 = 游戏界面：生命值、resin（带有“制作材料拉满”按钮，可补满至 999，为估计值），以及背包中的手枪、霰弹枪和速射枪弹药，就地修改；会列出 Alyx 拥有的武器。在游戏再次存档之前，读取菜单仍会显示旧数值。尚未在游戏中测试
@@ -28565,8 +28565,8 @@ Game screen: your funds and the researcher, scientist, doctor and kill counters.
 Game screen: your gold, each character's HP, stats and equipment, and every inventory slot (materials, weapons, armor, accessories) and element slot. The save's packed data and checksum are written again. Checked on public saves, not yet tried in the game
 = 游戏界面：你的金币、每位角色的 HP、属性和装备，以及每个物品栏位（材料、武器、护甲、饰品）和元素栏位。存档的打包数据和校验和会重新写入。已在公开存档上检查，尚未在游戏中测试
 
-Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's Oodle data is unpacked and packed again (needs the Oodle library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
-= 游戏界面：你的金属部件、合成材料、生物材料、超导体、化学品、能量电池和微电子元件（带有“制作材料拉满”按钮），以及神经聚合物。存档的 Oodle 数据会被解包并重新打包（需要本机上任一游戏自带的 Oodle 库），其 SHA-1 也会重新生成。已在公开存档和真实存档上检查，尚未在游戏中测试
+Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's compressed data is unpacked and packed again (needs the compression library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
+= 游戏界面：你的金属部件、合成材料、生物材料、超导体、化学品、能量电池和微电子元件（带有“制作材料拉满”按钮），以及神经聚合物。存档的 压缩数据会被解包并重新打包（需要本机上任一游戏自带的 压缩库），其 SHA-1 也会重新生成。已在公开存档和真实存档上检查，尚未在游戏中测试
 
 Game screen: your money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back. Checked on public saves, not yet tried in the game
 = 游戏界面：你的金钱，并显示地图、坐骑、游戏时间和难度；存档的 zlib 外层会被去除并重新套上。已在公开存档上检查，尚未在游戏中测试

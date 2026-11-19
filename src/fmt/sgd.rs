@@ -116,9 +116,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     if q >= end {
                         break;
                     }
-                    let Some((v, e)) = field(d, *t, q) else { break };
+                    let Some((mut v, e)) = field(d, *t, q) else { break };
                     if e > end {
                         break;
+                    }
+                    // Some counters (skill levels) are stored as integers under a float type code:
+                    // read as a float they come out as 1e-45, so a non-zero value that tiny is an integer.
+                    if let (Val::Num(Kind::F32), Some(raw)) = (&v, d.get(q..q + 4)) {
+                        let bits = u32::from_le_bytes(raw.try_into().unwrap());
+                        if bits & 0x7FFF_FFFF != 0 && f32::from_bits(bits).abs() < 1e-20 {
+                            v = Val::Num(Kind::U32);
+                        }
                     }
                     vals.push((f.clone(), v, q));
                     q = e;
@@ -173,6 +181,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn tiny_floats_are_integers() {
+        // 1 stored under a float code reads as 1e-45; it must be shown as the integer 1.
+        assert!(f32::from_bits(1).abs() < 1e-20 && f32::from_bits(25).abs() < 1e-20);
+        assert!(f32::from_bits(1.0f32.to_bits()).abs() > 1e-20);
+    }
+
     /// Research aid: SAVE_EDITOR_SGD = an unpacked Dying Light 2 save.
     #[test]
     #[ignore]
