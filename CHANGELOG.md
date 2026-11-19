@@ -2,11 +2,24 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
-## Unreleased
+## 0.8.5
+
+> Many more game screens, favourites on the start page, and big saves open with a progress bar
 
 - Star games in *Find my game's saves*; favourites and recently opened games sit at the top of the start page
 - A changed value shows its original on hover and has a one-click reset beside it
 - The keyboard shortcut list covers tabs
+- New game screens: Horizon Forbidden West, Into the Breach, Escape from Duckov, ASTLIBRA Revision, Supermarket Simulator, Monster Train 2, High on Life, Hunting Simulator 2, Destroy All Humans! (2020), Cyberdimension Neptunia, Jurassic World Evolution, Game Dev Tycoon and RollerCoaster Tycoon
+- Attack on Titan 2: every crafting material and gift named, friendship points, unowned gifts and equipped skills
+- Onimusha: Appearances panel for base-game sword looks, outfits and haori coats
+- Borderlands 4: saves keyed to an Epic account id open
+- Terraria 1.4.5 player files open again; Kerbal science sandbox saves open on the Space program screen
+- Big saves open with a progress bar and a Cancel button; large Unreal saves get a full tree when memory allows
+- Compare window: filter box, number changes shown, copy as text
+- Saves in cloud-synced folders are labelled, and a copied Elden Ring character is checked before writing
+- The save finder knows more places: OneDrive and redirected Documents, old Steam library lists, other launchers' folders, Linux and macOS folders, more Wine prefixes
+- Display fixes: long labels and file names, float text, skill levels, number boxes, and titles across many screens
+- A "Did it work in your game?" form on every game page
 
 ## 0.8.4
 
