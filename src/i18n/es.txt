@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = (nada que la lista pueda describir)
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= Esta partida está en una carpeta de Steam Cloud. Si Steam pregunta cuál conservar, elige la local.
-
 Check again
 = Comprobar de nuevo
 
@@ -26980,9 +26977,6 @@ Has a screen of its own for this game
 Hex
 = Hex
 
-If Steam asks which save to keep, choose the local one.
-= Si Steam pregunta qué partida conservar, elige la local.
-
 Imported 1 name.
 = Se importó 1 nombre.
 
@@ -30303,3 +30297,20 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Pantalla del juego: dinero y recompensa de persecución de un archivo de perfil (formatos de PC y PlayStation 2); el MD5 del archivo se recalcula al guardar. Creada con offsets publicados, aún no probada con un perfil real
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= Si {0} pregunta qué partida conservar, elige la local.
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= Esta partida está en una carpeta que {0} sincroniza. Si pregunta qué copia conservar, elige la local.
+
+Cloud sync: {0}
+= Sincronización en la nube: {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= Esta partida está en una carpeta que {0} sincroniza. Cierra el juego antes de guardar; si después {0} pregunta qué copia conservar, elige la local.
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= No se pudo copiar el personaje: el archivo nuevo no se leyó como se esperaba ({0}). La partida no se modificó.

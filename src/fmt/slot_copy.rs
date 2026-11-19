@@ -79,6 +79,30 @@ pub fn er_copy(d: &[u8], from: usize, to: usize) -> Result<Vec<u8>, String> {
     bnd4_replace(&out, "USER_DATA010", &p, None, &[])
 }
 
+/// Reads `out` (what `er_copy(before, from, to)` made) back and checks it: still ten slots,
+/// slot `to` now shows the copied character and holds its data, and every other slot is as it was.
+pub fn er_verify_copy(before: &[u8], out: &[u8], from: usize, to: usize) -> Result<(), String> {
+    let (a, b) = (er_slots(before).ok_or("the original no longer reads as a save")?, er_slots(out).ok_or("the new file doesn't read as an Elden Ring save")?);
+    for i in 0..SLOTS {
+        let want = if i == to { Slot { active: true, ..a[from].clone() } } else { a[i].clone() };
+        if b[i] != want {
+            return Err(format!("slot {} doesn't read back as expected", i + 1));
+        }
+    }
+    let (ea, eb) = (bnd4_entries(before).ok_or("unreadable")?, bnd4_entries(out).ok_or("unreadable")?);
+    let data = |d: &[u8], es: &[Bnd4Entry], i: usize| bnd4_open(d, find(es, &slot_name(i))?).map(|x| x.0);
+    let copied = data(out, &eb, to).ok_or("the copied character's data is damaged")?;
+    if Some(copied) != data(before, &ea, from) {
+        return Err("the copied character's data differs from the original".into());
+    }
+    for i in (0..SLOTS).filter(|&i| i != to) {
+        if data(out, &eb, i) != data(before, &ea, i) {
+            return Err(format!("slot {} changed", i + 1));
+        }
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

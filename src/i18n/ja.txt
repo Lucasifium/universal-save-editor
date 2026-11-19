@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = （一覧で説明できるものはありません）
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= このセーブデータは Steam Cloud フォルダー内にあります。Steam からどちらを残すか尋ねられたら、ローカルのものを選んでください。
-
 Check again
 = 再確認
 
@@ -27065,9 +27062,6 @@ Has a screen of its own for this game
 Hex
 = 16進
 
-If Steam asks which save to keep, choose the local one.
-= Steam にどちらのセーブデータを残すか聞かれたら、ローカルのものを選んでください。
-
 Imported 1 name.
 = 1 件の名前をインポートしました。
 
@@ -30388,3 +30382,20 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = ゲーム画面：プロフィールファイルの所持金と手配報奨金（PC版とPlayStation 2版の形式）。保存時にファイルのMD5を再計算します。公開されているオフセットから作成したもので、実際のプロフィールではまだ試していません
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= {0} がどのセーブを残すか尋ねたら、ローカルのものを選んでください。
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= このセーブは {0} が同期するフォルダーにあります。どちらを残すか尋ねられたら、ローカルのコピーを選んでください。
+
+Cloud sync: {0}
+= クラウド同期: {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= このセーブは {0} が同期するフォルダーにあります。保存前にゲームを終了し、その後 {0} がどちらを残すか尋ねたら、ローカルのコピーを選んでください。
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= キャラクターをコピーできませんでした。新しいファイルが想定どおりに読み戻せませんでした（{0}）。セーブは変更されていません。

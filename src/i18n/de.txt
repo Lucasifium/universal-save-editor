@@ -87,9 +87,6 @@ Save changes?
 (nothing that the list can describe)
 = (nichts, was die Liste beschreiben kann)
 
-This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one.
-= Dieser Spielstand liegt in einem Steam-Cloud-Ordner. Fragt Steam, welcher Spielstand behalten werden soll, den lokalen wählen.
-
 Check again
 = Erneut prüfen
 
@@ -26981,9 +26978,6 @@ Has a screen of its own for this game
 Hex
 = Hex
 
-If Steam asks which save to keep, choose the local one.
-= Wenn Steam fragt, welcher Spielstand behalten werden soll, den lokalen wählen.
-
 Imported 1 name.
 = 1 Name importiert.
 
@@ -30310,3 +30304,20 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Spielbildschirm: Geld und Fahndungsprämie einer Profildatei (PC- und PlayStation-2-Aufbau); die MD5 der Datei wird beim Speichern neu berechnet. Nach veröffentlichten Offsets gebaut, noch nicht an einem echten Profil getestet
+
+# src/app.rs, src/cloud.rs
+
+If {0} asks which save to keep, choose the local one.
+= Wenn {0} fragt, welcher Spielstand behalten werden soll, den lokalen wählen.
+
+This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.
+= Dieser Spielstand liegt in einem Ordner, den {0} synchronisiert. Wird gefragt, welche Kopie behalten werden soll, die lokale wählen.
+
+Cloud sync: {0}
+= Cloud-Sync: {0}
+
+This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
+= Dieser Spielstand liegt in einem Ordner, den {0} synchronisiert. Das Spiel vor dem Speichern beenden; fragt {0} danach, welche Kopie behalten werden soll, die lokale wählen.
+
+Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
+= Der Charakter konnte nicht kopiert werden: Die neue Datei wurde nicht wie erwartet gelesen ({0}). Der Spielstand wurde nicht geändert.

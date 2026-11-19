@@ -1672,7 +1672,7 @@ impl App {
         } else {
             None
         };
-        let cloud = in_steam_cloud(path).then(|| tr("If Steam asks which save to keep, choose the local one."));
+        let cloud = crate::cloud::service_for(path).map(|c| trf("If {0} asks which save to keep, choose the local one.", &[&c]));
         let mut msg = vec![trf("Saved and verified ({0}).", &[&human_size(len)])];
         msg.extend(note);
         msg.extend(extra.map(String::from));
@@ -1861,6 +1861,10 @@ impl App {
             Ok(o) => o,
             Err(e) => return self.fail(trf("Couldn't copy the character: {0}. The save wasn't changed.", &[&e])),
         };
+        // Read the result back before anything on disk is touched.
+        if let Err(e) = crate::fmt::slot_copy::er_verify_copy(&raw, &out, from, to) {
+            return self.fail(trf("Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.", &[&e]));
+        }
         if !WEB {
             if let Err(e) = crate::backups::take(&path) {
                 return self.fail(trf("Couldn't back up the file first: {0}. Nothing was changed.", &[&e]));
@@ -1898,8 +1902,8 @@ impl App {
                 }
             });
             ui.add_space(4.0);
-            if in_steam_cloud(&r.path) {
-                ui.weak(tr("This save is in a Steam Cloud folder. If Steam asks which save to keep, choose the local one."));
+            if let Some(c) = crate::cloud::service_for(&r.path) {
+                ui.weak(trf("This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.", &[&c]));
             }
             ui.weak(if WEB {
                 tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.")
@@ -3529,6 +3533,7 @@ impl App {
 
     fn has_warning_chips(&self, doc: &Doc) -> bool {
         self.running.is_some()
+            || crate::cloud::service_for(&doc.path).is_some()
             || doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true }))
             || matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value))
     }
@@ -3561,6 +3566,10 @@ impl App {
             Self::chip(ui, &trf("{0} is running", &[game]), theme::WARN).on_hover_text(
                 tr("The game was running when this file was opened. Quit it before saving, or it may overwrite your changes."),
             );
+        }
+        if let Some(c) = crate::cloud::service_for(&doc.path) {
+            let hover = trf("This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.", &[&c]);
+            Self::chip(ui, &trf("Cloud sync: {0}", &[&c]), theme::ACCENT).on_hover_text(hover);
         }
         let rpg = matches!(&doc.content, Content::Json { value, .. } if names::is_rpgmaker(value));
         let mut locate = false;
@@ -4798,12 +4807,6 @@ const PHONE_W: f32 = 640.0;
 
 fn narrow(ui: &egui::Ui) -> bool {
     ui.ctx().screen_rect().width() < PHONE_W
-}
-
-/// Whether the file sits in Steam's per-account cloud folder (`userdata/<id>/<app>/remote`).
-fn in_steam_cloud(p: &Path) -> bool {
-    let parts: Vec<String> = p.components().map(|c| c.as_os_str().to_string_lossy().to_lowercase()).collect();
-    parts.iter().any(|c| c == "userdata") && parts.iter().any(|c| c == "remote")
 }
 
 /// A recent file for a list: "name \u{2014} parent folder", since many games use the same file names.
