@@ -388,7 +388,9 @@ pub fn card<R>(ui: &mut egui::Ui, add: impl FnOnce(&mut egui::Ui) -> R) -> R {
         .inner_margin(egui::Margin::same(12.0))
         .show(ui, |ui| {
             ui.set_width(ui.available_width());
-            add(ui)
+            // Not justified, even inside `ui.columns` (whose columns are): a justified label
+            // spreads its wrapped lines across the width.
+            ui.with_layout(egui::Layout::top_down(egui::Align::Min), add).inner
         })
         .inner
 }

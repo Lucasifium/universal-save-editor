@@ -132,7 +132,10 @@ pub fn label_text(ui: &mut Ui, label: &str, text: &str, weak: bool) -> Response 
     job.append(label, 0.0, egui::TextFormat::simple(font.clone(), strong));
     job.append(text, 6.0, egui::TextFormat::simple(font, rest));
     job.wrap.max_width = ui.available_width();
-    ui.add(egui::Label::new(job).wrap())
+    // Laid out here, not by the label: in a justified layout (the Find saves details) a label
+    // spreads each line to the full width, letter by letter when a line holds one word.
+    let galley = ui.fonts(|f| f.layout_job(job));
+    ui.add(egui::Label::new(galley))
 }
 
 pub fn icon(has_icons: bool, glyph: &str, fallback: &str) -> RichText {

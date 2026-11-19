@@ -49,22 +49,30 @@ fn split(file: &[u8]) -> Option<Layout> {
     }
     let at = outer.windows(NOCOMP.len()).position(|w| w == NOCOMP)?;
     // The varint (1–5 bytes) ends just before `at`; the right one gives a Base64 string that
-    // decodes to another SerV10 stream.
-    for n in 1..=5usize {
-        if at < n {
-            break;
-        }
-        let bytes = &outer[at - n..at];
-        if !(bytes.iter().take(n - 1).all(|b| b & 0x80 != 0) && bytes[n - 1] & 0x80 == 0) {
-            continue;
-        }
-        let v = bytes.iter().enumerate().fold(0usize, |a, (k, b)| a | (((b & 0x7F) as usize) << (7 * k)));
-        if v < NOCOMP.len() || at + v > outer.len() {
-            continue;
-        }
-        let Ok(inner) = STANDARD.decode(&outer[at + NOCOMP.len()..at + v]) else { continue };
-        if inner.starts_with(b"\x06SerV10") {
-            return Some(Layout { pre: outer[..at + NOCOMP.len()].to_vec(), post: outer[at + v..].to_vec(), inner, tail: file[text_end..].to_vec() });
+    // decodes to another SerV10 stream. Longest first: the last bytes of a 3-byte length also
+    // read as a shorter varint, and about one save in four then decoded a short prefix of the
+    // real string (the save opened as plain text).
+    // First pass wants the string to end where the Base64 text ends; the second drops that.
+    for strict in [true, false] {
+        for n in (1..=5usize).rev() {
+            if at < n {
+                continue;
+            }
+            let bytes = &outer[at - n..at];
+            if !(bytes.iter().take(n - 1).all(|b| b & 0x80 != 0) && bytes[n - 1] & 0x80 == 0) {
+                continue;
+            }
+            let v = bytes.iter().enumerate().fold(0usize, |a, (k, b)| a | (((b & 0x7F) as usize) << (7 * k)));
+            if v < NOCOMP.len() || at + v > outer.len() {
+                continue;
+            }
+            if strict && outer.get(at + v).is_some_and(|&c| c.is_ascii_alphanumeric() || c == b'+' || c == b'/' || c == b'=') {
+                continue;
+            }
+            let Ok(inner) = STANDARD.decode(&outer[at + NOCOMP.len()..at + v]) else { continue };
+            if inner.starts_with(b"\x06SerV10") {
+                return Some(Layout { pre: outer[..at + NOCOMP.len()].to_vec(), post: outer[at + v..].to_vec(), inner, tail: file[text_end..].to_vec() });
+            }
         }
     }
     None
@@ -198,6 +206,39 @@ mod tests {
         outer.extend_from_slice(b64.as_bytes());
         outer.extend_from_slice(b"\xFF\xFFtail");
         STANDARD.encode(&outer).into_bytes()
+    }
+
+    /// A 3-byte length whose last two bytes also read as a 2-byte length that cuts the
+    /// Base64 text at a multiple of four characters (as in real saves of about 480 KB).
+    #[test]
+    fn long_length_is_not_mistaken_for_its_tail() {
+        let mut found = false;
+        for len in 12_000..20_000usize {
+            let b64_len = len.div_ceil(3) * 4;
+            let v = NOCOMP.len() + b64_len;
+            let vb = varint_len(v);
+            if vb.len() != 3 {
+                continue;
+            }
+            let short = (vb[1] & 0x7F) as usize | ((vb[2] as usize) << 7);
+            if short < NOCOMP.len() + 8 || (short - NOCOMP.len()) % 4 != 0 || short >= v {
+                continue;
+            }
+            let mut inner = b"\x06SerV10".to_vec();
+            inner.resize(len, b'x');
+            let mut outer = b"\x06SerV10\x00\x01".to_vec();
+            outer.extend(vb);
+            outer.extend_from_slice(NOCOMP);
+            outer.extend_from_slice(STANDARD.encode(&inner).as_bytes());
+            outer.extend_from_slice(b"\xC3\xC4\xFF\xFFtail");
+            let file = STANDARD.encode(&outer).into_bytes();
+            let l = split(&file).expect("splits");
+            assert_eq!(l.inner.len(), len);
+            assert_eq!(join(&l), file);
+            found = true;
+            break;
+        }
+        assert!(found, "no length with that shape in the range");
     }
 
     #[test]

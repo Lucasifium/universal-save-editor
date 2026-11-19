@@ -3455,8 +3455,14 @@ impl App {
             let kind = friendly_kind(&doc.layers, &doc.content);
             let described = formats::describe(&doc.layers, &doc.content);
             // A game screen was found for a generic format (JSON, XML...): name the game on the chip.
-            let named = doc.game.and_then(|g| g.name()).filter(|n| !kind.contains(n));
-            let chip_text = match named {
+            // Formats shared by several games name the one in this save (Half-Life: Source,
+            // Black Mesa, Metro, the older LEGO games).
+            let in_save = match &doc.content {
+                Content::Tree(t) => ["/Save/Game", "/Game"].iter().find_map(|p| t.view.pointer(p).and_then(|v| v.as_str()).filter(|g| !g.is_empty()).map(str::to_string)),
+                _ => None,
+            };
+            let named = in_save.or_else(|| doc.game.and_then(|g| g.name()).map(str::to_string)).filter(|n| !kind.contains(n.as_str()) && n != "Source engine game");
+            let chip_text = match &named {
                 Some(n) => trf("{0} save", &[&n]),
                 None => kind_label(&kind),
             };
@@ -5547,7 +5553,8 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 if wide {
                     ui.columns(2, |c| {
                         list(&mut c[0], &mut gp.picked, &mut show_all);
-                        details(&mut c[1], gp.picked, &mut gp.group, &mut open, &mut gp.save_groups);
+                        // Not justified (columns are): wrapped lines were spread across the width.
+                        c[1].with_layout(egui::Layout::top_down(egui::Align::Min), |ui| details(ui, gp.picked, &mut gp.group, &mut open, &mut gp.save_groups));
                     });
                 } else if gp.picked.is_none() {
                     list(ui, &mut gp.picked, &mut show_all);

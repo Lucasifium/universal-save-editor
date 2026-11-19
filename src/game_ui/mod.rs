@@ -1234,7 +1234,8 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     let mut widest = 0.0_f32;
     ui.columns(cols, |cs| {
         for i in 0..n {
-            add(&mut cs[i % cols], i);
+            // Columns are justified layouts: wrapped text in them was spread across the width.
+            cs[i % cols].with_layout(egui::Layout::top_down(egui::Align::Min), |ui| add(ui, i));
         }
         widest = cs.iter().map(|c| c.min_rect().width()).fold(0.0, f32::max);
     });
