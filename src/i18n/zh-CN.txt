@@ -6737,8 +6737,8 @@ Health XP
 Health and Force
 = 生命值和原力
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。游戏的上限为每条的末端。
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。
 
 Health and silk
 = 生命值和丝线
@@ -30090,7 +30090,7 @@ save.hg, save2.hg … (with mf_save*.hg beside them)
 
 saveN.hg from %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) with the mf_saveN.hg beside it, which is made to agree with it. Units, nanites, quicksilver and the amount in the Exosuit, cargo, freighter and first two storage containers, with a Max crafting materials button for every container. Close the game first.
 = 来自 %APPDATA%\\HelloGames\\NMS\\st_<id>(Steam)的 saveN.hg,以及旁边的 mf_saveN.hg(会同步调整)。单位、纳米机器人、水银,以及外骨骼服、货舱、货运飞船和前两个储存容器中的数量,每个容器都有“最大制作材料”按钮。请先关闭游戏。
-# src/game_ui/simple/specs_sweep.rs, src/games.rs (open-source sweep games)
+# data/games, src/games.rs (open-source sweep games)
 A save from AppData\\Local\\DH\\Saved\\SaveGames (the DevAutoSave and numbered saves; SaveOptions holds only settings). Crypto's DNA, the currency spent on weapon, saucer and ability upgrades. Close the game first.
 = AppData\Local\DH\Saved\SaveGames 中的存档（DevAutoSave 和编号存档；SaveOptions 仅含设置）。克里普托的 DNA，用于升级武器、飞碟和能力的货币。请先关闭游戏。
 
@@ -30268,7 +30268,7 @@ Unlocked squads
 profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
 = Documents\My Games\Into the Breach\profile_<名称>（每个配置文件一个文件夹）中的 profile.lua。已解锁的小队以及游戏记录的累计数据（游戏局数、击杀数、已守住的岛屿、容器）。飞行员、成就和进行中的战役在“树”中。请先关闭游戏。
 
-# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+# data/games, src/games.rs (tycoon games)
 A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
 = 位于 Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves 的 .career 存档（.sandbox 存档没有生涯资金）。生涯为每座岛屿保存的资金，最高为游戏能达到的 100,000,000。存档的其余内容保持不变，文件校验和会重新写入。请先关闭游戏。
 
@@ -30326,7 +30326,7 @@ Tacano
 file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
 = 位于 AppData\Local\Game Dev Tycoon\Local Storage 的 file__0.localstorage（游戏像网页一样保存存档）。每个已保存公司的现金、粉丝、研究点数、员工上限和等级；读取菜单中的现金和粉丝副本保持一致。请先关闭游戏。
 
-# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+# data/games, src/fmt/sv4.rs (RollerCoaster Tycoon)
 A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
 = 游戏 Saved Games 文件夹中的已保存乐园（.SV4），Added Attractions 和 Loopy Landscapes 的乐园同样适用。乐园的现金、银行贷款、最高贷款和入园费。保存时文件会被解包并重新打包。请先关闭游戏。
 

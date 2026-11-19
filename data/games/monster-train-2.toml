@@ -1,0 +1,18 @@
+name = "Monster Train 2"
+tab = "Covenant"
+accent = [210, 90, 90]
+markers = ["/currentAscensionLevel", "/maxAscensionLevel", "/classXP"]
+subtitle = 'metagameSave.json from AppData\LocalLow\Shiny Shoe\MonsterTrain2 (plain JSON). The Covenant level you play at and the highest you have unlocked, and the story progress. Clan levels and unlocked cards are in the Tree.'
+tiles = [
+    ["Covenant level", "/currentAscensionLevel"],
+    ["Highest Covenant unlocked", "/maxAscensionLevel"],
+]
+
+[[sections]]
+title = "Progress"
+rows = [
+    ["Covenant level", "/currentAscensionLevel"],
+    ["Highest Covenant unlocked", "/maxAscensionLevel"],
+    ["Story chapters completed", "/storyProgressionNumCompleted"],
+    ["Railforged story chapters completed", "/storyProgressionRailforgedNumCompleted"],
+]

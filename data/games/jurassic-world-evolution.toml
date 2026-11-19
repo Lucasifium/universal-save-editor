@@ -1,0 +1,25 @@
+name = "Jurassic World Evolution"
+tab = "Islands"
+accent = [230, 140, 40]
+kind = "Jurassic World Evolution career"
+markers = ["/Money"]
+subtitle = '''A .career save from Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.'''
+
+[[sections]]
+title = "Money kept for each island"
+rows = [
+    ["Tacano", "/Money/Tacano"],
+    ["Matanceros", "/Money/Matanceros"],
+    ["Nublar", "/Money/Nublar"],
+    ["Muerta", "/Money/Muerta"],
+    ["Sorna", "/Money/Sorna"],
+    ["Pena", "/Money/Pena"],
+]
+
+[[sections]]
+title = "Career"
+rows = [
+    ["Island", "/Career/Island"],
+    ["Hours played", "/Career/Hours played"],
+    ["Minutes played", "/Career/Minutes played"],
+]

@@ -1,0 +1,18 @@
+name = "Game Dev Tycoon"
+tab = "Studio"
+accent = [70, 160, 230]
+kind = "Game Dev Tycoon save"
+markers = ["/Saves/0/Cash"]
+subtitle = '''file__0.localstorage from AppData\Local\Game Dev Tycoon\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.'''
+
+[[tables]]
+title = "Saved companies"
+path = "/Saves"
+name = ["/Company", "/Save"]
+cols = [
+    ["Cash", "/Cash"],
+    ["Fans", "/Fans"],
+    ["Research points", "/Research points"],
+    ["Staff limit", "/Staff limit"],
+    ["Company level", "/Company level"],
+]

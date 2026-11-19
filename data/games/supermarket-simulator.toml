@@ -1,0 +1,22 @@
+name = "Supermarket Simulator"
+tab = "Store"
+accent = [90, 190, 130]
+kind = "Easy Save 3 data"
+markers = ["/Progression/value/Money", "/Progression/value/CurrentStoreLevel"]
+subtitle = 'SaveFile.es3 from AppData\LocalLow\Nokta Games\Supermarket Simulator (the other .es3 files there are backups). Your money, the store level and points, the upgrade and storage levels and the day. Prices, licences and boxes stay in the Tree. Close the game first.'
+tiles = [
+    ["Money", "/Progression/value/Money"],
+    ["Store level", "/Progression/value/CurrentStoreLevel"],
+    ["Day", "/Progression/value/CurrentDay"],
+]
+
+[[sections]]
+title = "Store"
+rows = [
+    ["Money", "/Progression/value/Money"],
+    ["Store level", "/Progression/value/CurrentStoreLevel"],
+    ["Store points", "/Progression/value/CurrentStorePoint"],
+    ["Store upgrade level", "/Progression/value/StoreUpgradeLevel"],
+    ["Storage level", "/Storage/value/StorageLevel"],
+    ["Day", "/Progression/value/CurrentDay"],
+]

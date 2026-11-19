@@ -36,49 +36,6 @@ pub const DARKSIDERS_GENESIS: Spec = Spec {
     }],
 };
 
-// ------------------------------------------------------------------ Journey to the Savage Planet
-
-const JSP_NAMES: &[(&str, &str)] = &[
-    ("Base_Carbon", "Carbon"), ("Base_Silicon", "Silicon"), ("Base_Aluminium", "Aluminium"), ("Rare_AlienAlloy", "Alien alloy"),
-];
-
-pub const JOURNEY_SAVAGE_PLANET: Spec = Spec {
-    name: "Journey to the Savage Planet",
-    tab: "Stash",
-    accent: (240, 150, 40),
-    kind: Some("Unreal Engine save (TowersPlayerSaveGame)"),
-    markers: &["/SaveGameData/LootStashInventoryItems"],
-    subtitle: "PlayerSave_N.sav from %LOCALAPPDATA%\\Towers\\Saved\\SaveGames\\<id>. The resources in the stash and the items in the bag. Close the game first.",
-    tiles: &[],
-    sections: &[Section {
-        title: "Progress",
-        rows: &[("Completion (%)", "/SaveGameData/PlayerStats/TotalCompletion")],
-    }],
-    lists: &[
-        List {
-            title: "Stash",
-            path: "/SaveGameData/LootStashInventoryItems",
-            shape: Shape::Array { id_key: "LootId", qty_keys: &["AmountInInventory"] },
-            names: JSP_NAMES,
-            max: Some(Max {
-                ids: &["Base_Carbon", "Base_Silicon", "Base_Aluminium", "Rare_AlienAlloy"],
-                cap: 9999,
-                caps: &[],
-                estimate: true,
-                about: "Raises carbon, silicon, aluminium and alien alloy to 9,999. Fruit and every other item are left alone.",
-            }),
-        },
-        List {
-            title: "Bag",
-            path: "/SaveGameData/LootBagInventoryItems",
-            shape: Shape::Array { id_key: "LootId", qty_keys: &["AmountInInventory"] },
-            names: &[],
-            max: None,
-        },
-    ],
-    tables: &[],
-};
-
 // ------------------------------------------------------------------ My Hero One's Justice
 
 pub const MHOJ1: Spec = Spec {

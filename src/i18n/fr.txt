@@ -6734,8 +6734,8 @@ Health XP
 Health and Force
 = Santé et Force
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= La santé et les emplacements d'objets comptent des blocs et emplacements ; attaque, vitesse et lancer comptent des améliorations. Le maximum du jeu est le bout de chaque barre.
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= La santé et les emplacements d'objets comptent des blocs et emplacements ; attaque, vitesse et lancer comptent des améliorations.
 
 Health and silk
 = Santé et soie
@@ -30046,7 +30046,7 @@ save.hg, save2.hg … (with mf_save*.hg beside them)
 
 saveN.hg from %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) with the mf_saveN.hg beside it, which is made to agree with it. Units, nanites, quicksilver and the amount in the Exosuit, cargo, freighter and first two storage containers, with a Max crafting materials button for every container. Close the game first.
 = saveN.hg de %APPDATA%\\HelloGames\\NMS\\st_<id> (Steam) avec le mf_saveN.hg voisin, mis en accord avec lui. Unités, nanites, vif-argent et la quantité dans l'exocombinaison, la soute, le cargo et les deux premiers conteneurs de stockage, avec un bouton Max. matériaux d'artisanat pour chaque conteneur. Ferme d'abord le jeu.
-# src/game_ui/simple/specs_sweep.rs, src/games.rs (open-source sweep games)
+# data/games, src/games.rs (open-source sweep games)
 A save from AppData\\Local\\DH\\Saved\\SaveGames (the DevAutoSave and numbered saves; SaveOptions holds only settings). Crypto's DNA, the currency spent on weapon, saucer and ability upgrades. Close the game first.
 = Une sauvegarde de AppData\Local\DH\Saved\SaveGames (DevAutoSave et les sauvegardes numérotées ; SaveOptions ne contient que les réglages). L’ADN de Crypto, la monnaie des améliorations d’armes, de soucoupe et de capacités. Fermez d’abord le jeu.
 
@@ -30224,7 +30224,7 @@ Unlocked squads
 profile.lua from Documents\\My Games\\Into the Breach\\profile_<name> (one folder per profile). Which squads are unlocked, and the totals the game keeps (games played, enemies killed, islands secured, pods). Pilots, achievements and the run in progress stay in the Tree. Close the game first.
 = profile.lua de Documents\My Games\Into the Breach\profile_<nom> (un dossier par profil). Quelles escouades sont débloquées et les totaux du jeu (parties, ennemis tués, îles sécurisées, capsules). Pilotes, succès et la partie en cours sont dans l’Arbre. Fermez d’abord le jeu.
 
-# src/game_ui/simple/specs_tycoon.rs, src/games.rs (tycoon games)
+# data/games, src/games.rs (tycoon games)
 A .career save from Saved Games\\Frontier Developments\\Jurassic World Evolution\\<id>\\Saves (the .sandbox saves hold no career money). The money the career keeps for each island, up to the 100,000,000 the game reaches. Everything else in the save is kept as it was, with the file's checksum written again. Close the game first.
 = Une sauvegarde .career de Saved Games\Frontier Developments\Jurassic World Evolution\<id>\Saves (les sauvegardes .sandbox n'ont pas d'argent de carrière). L'argent que la carrière garde pour chaque île, jusqu'aux 100 000 000 que le jeu atteint. Tout le reste de la sauvegarde est conservé et la somme de contrôle du fichier est réécrite. Fermez d'abord le jeu.
 
@@ -30282,7 +30282,7 @@ Tacano
 file__0.localstorage from AppData\\Local\\Game Dev Tycoon\\Local Storage (the game keeps its saves like a web page does). Each saved company's cash, fans, research points, staff limit and level; the load menu's own copy of cash and fans is kept equal. Close the game first.
 = file__0.localstorage de AppData\Local\Game Dev Tycoon\Local Storage (le jeu enregistre comme une page web). La trésorerie, les fans, les points de recherche, la limite de personnel et le niveau de chaque entreprise enregistrée ; la copie de la trésorerie et des fans du menu de chargement reste identique. Fermez d'abord le jeu.
 
-# src/game_ui/simple/specs_tycoon.rs, src/fmt/sv4.rs (RollerCoaster Tycoon)
+# data/games, src/fmt/sv4.rs (RollerCoaster Tycoon)
 A saved park (.SV4) from the game's Saved Games folder: Added Attractions and Loopy Landscapes parks too. The park's cash, bank loan, maximum loan and entrance fee. The file is unpacked and packed again on save. Close the game first.
 = Un parc enregistré (.SV4) du dossier Saved Games du jeu, y compris les parcs d'Added Attractions et de Loopy Landscapes. La trésorerie, le prêt bancaire, le prêt maximal et le prix d'entrée du parc. Le fichier est décompressé puis recompressé à l'enregistrement. Fermez d'abord le jeu.
 
