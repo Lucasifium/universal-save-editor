@@ -78,6 +78,18 @@ pub struct TreeDoc {
     derived_log: Vec<(String, Value, Value)>,
     /// Ranges already worked out by `range` (asking some formats is slow).
     ranges: RangeCache,
+    /// Leaves shown at more than one pointer, built on the first `set` (a save can have tens
+    /// of thousands of fields, too many to scan on each of a bulk edit's thousands of sets).
+    aliases: AliasCache,
+}
+
+#[derive(Debug, Default)]
+struct AliasCache(std::sync::OnceLock<HashMap<usize, Vec<String>>>);
+
+impl Clone for AliasCache {
+    fn clone(&self) -> Self {
+        Self::default()
+    }
 }
 
 #[derive(Debug, Default)]
@@ -91,7 +103,7 @@ impl Clone for RangeCache {
 
 impl TreeDoc {
     pub fn new(view: Value, editable: HashMap<String, usize>, kind_name: impl Into<String>, backend: Box<dyn Backend>) -> Self {
-        Self { original: view.clone(), view, editable, kind_name: kind_name.into(), advanced: vec![], note: None, backend, derived_log: vec![], ranges: RangeCache::default() }
+        Self { original: view.clone(), view, editable, kind_name: kind_name.into(), advanced: vec![], note: None, backend, derived_log: vec![], ranges: RangeCache::default(), aliases: AliasCache::default() }
     }
 
     /// See `Backend::attachment`.
@@ -136,8 +148,17 @@ impl TreeDoc {
         let old = std::mem::replace(target, v.clone());
         let mut aliases = 0;
         if let Some(leaf) = leaf {
-            for (p, &l) in &self.editable {
-                if l == leaf && p != ptr {
+            let editable = &self.editable;
+            let shared = self.aliases.0.get_or_init(|| {
+                let mut by_leaf: HashMap<usize, Vec<String>> = HashMap::new();
+                for (p, &l) in editable {
+                    by_leaf.entry(l).or_default().push(p.clone());
+                }
+                by_leaf.retain(|_, ps| ps.len() > 1);
+                by_leaf
+            });
+            for p in shared.get(&leaf).into_iter().flatten() {
+                if p != ptr {
                     if let Some(t) = self.view.pointer_mut(p) {
                         *t = v.clone();
                         aliases += 1;

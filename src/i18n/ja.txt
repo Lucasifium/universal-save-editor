@@ -9141,8 +9141,11 @@ Rank 0 is Squaddie… 7 is Colonel. Stats are the soldier's own, before armour a
 Rank goes from 0 (Intern) up; the game works it out again from experience after a round. Credits, the quota and the ship are in LCSaveFile1 to LCSaveFile3. Checked on public saves, not yet tried in the game.
 = ランクは0(Intern)から始まり、ラウンド後にゲームが経験値から再計算します。クレジット、ノルマ、船はLCSaveFile1〜LCSaveFile3にあります。公開セーブで確認済みですが、ゲーム内ではまだ試していません。
 
-Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.
-= ランクはスタッフのステータスランクです(S++が最高)。他のステータスはすべてランクとステータス配分から決まります。各メンバーのその他の項目はツリーにあります。
+Rank is the staff member's peak rank (S++ is the top). The six team stats follow from it, the stat distribution and bonus, medals and morale. The rest of each member's fields are in the Tree.
+= ランクはスタッフの最高ランクです(S++が最高)。6つのチームステータスは、ランク、ステータス配分とボーナス、勲章、士気から決まります。各メンバーのその他の項目はツリーにあります。
+
+Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.
+= ランクS++、ステータスボーナス最大、勲章3種すべて、士気と熟練度15:ゲーム内で6つのステータスすべてがS++になります。ランクだけでは一部がS+のままです。
 
 Rank.json
 = Rank.json
@@ -30494,3 +30497,12 @@ Add all missing charms
 
 Charms that come with a paid edition or a pre-order are not offered here.
 = 有料エディションや予約特典のお守りはここでは追加できません。
+
+DS cross
+= DSクロス
+
+DS medal
+= DSメダル
+
+Honor medal
+= 名誉勲章

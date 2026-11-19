@@ -9113,8 +9113,11 @@ Rank 0 is Squaddie… 7 is Colonel. Stats are the soldier's own, before armour a
 Rank goes from 0 (Intern) up; the game works it out again from experience after a round. Credits, the quota and the ship are in LCSaveFile1 to LCSaveFile3. Checked on public saves, not yet tried in the game.
 = Der Rang beginnt bei 0 (Intern) und steigt; das Spiel berechnet ihn nach einer Runde aus der Erfahrung neu. Credits, Quote und Schiff stehen in LCSaveFile1 bis LCSaveFile3. An öffentlichen Spielständen geprüft, noch nicht im Spiel getestet.
 
-Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree.
-= Der Rang ist der Wert-Rang des Mitarbeiters (S++ ist der höchste); alle anderen Werte ergeben sich aus Rang und Wertverteilung. Die übrigen Felder jedes Mitglieds stehen im Baum.
+Rank is the staff member's peak rank (S++ is the top). The six team stats follow from it, the stat distribution and bonus, medals and morale. The rest of each member's fields are in the Tree.
+= Der Rang ist der Spitzenrang des Mitarbeiters (S++ ist der höchste). Die sechs Team-Werte ergeben sich daraus, aus Wertverteilung und -bonus, Orden und Moral. Die übrigen Felder jedes Mitglieds stehen im Baum.
+
+Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.
+= Rang S++, höchster Wertbonus, alle drei Orden sowie Moral und Kompetenz auf 15: im Spiel ergibt das S++ in allen sechs Werten. Nur der Rang lässt manche Werte auf S+.
 
 Rank.json
 = Rank.json
@@ -30416,3 +30419,12 @@ Add all missing charms
 
 Charms that come with a paid edition or a pre-order are not offered here.
 = Talismane aus einer kostenpflichtigen Edition oder Vorbestellung werden hier nicht angeboten.
+
+DS cross
+= DS-Kreuz
+
+DS medal
+= DS-Medaille
+
+Honor medal
+= Ehrenmedaille

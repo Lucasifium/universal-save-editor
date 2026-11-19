@@ -741,6 +741,7 @@ impl Backend for MgsvBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use serde_json::json;
 
     #[test]
     fn hashes() {
@@ -855,6 +856,36 @@ mod tests {
         let content = Content::Tree(doc);
         let bytes = encode(&d.layers, &content).unwrap();
         assert!(verified(&decode_with(&bytes, &opts).content, &content));
+    }
+
+    /// The staff screen's "Everyone to S++" fields, set on every member together, save and
+    /// read back without touching anything else (the section stays put).
+    #[test]
+    fn everyone_to_s_plus_plus_fields_save_together() {
+        use crate::formats::{decode_with, encode, verified, Content, Options};
+        let raw = encrypt("TPP_GAME_DATA", &sample());
+        let opts = Options::default();
+        let d = decode_with(&raw, &opts);
+        let Content::Tree(mut doc) = d.content else { panic!() };
+        let names: Vec<String> = doc.view["Staff"].as_object().unwrap().keys().cloned().collect();
+        let sections: Vec<Value> = names.iter().map(|n| doc.view["Staff"][n]["Section"].clone()).collect();
+        let fields = [("Rank", json!("S++")), ("Stat bonus", json!(3)), ("DS medal", json!(true)), ("DS cross", json!(true)), ("Honor medal", json!(true)), ("Morale", json!(15)), ("Proficiency", json!(15))];
+        for n in &names {
+            for (f, v) in &fields {
+                doc.set(&format!("/Staff/{}/{f}", crate::tree::esc(n)), v.clone()).unwrap();
+            }
+        }
+        let content = Content::Tree(doc);
+        let bytes = encode(&d.layers, &content).unwrap();
+        let back = decode_with(&bytes, &opts).content;
+        assert!(verified(&back, &content));
+        let Content::Tree(t) = back else { panic!() };
+        for (n, section) in names.iter().zip(&sections) {
+            for (f, v) in &fields {
+                assert_eq!(&t.view["Staff"][n][*f], v, "{n} {f}");
+            }
+            assert_eq!(&t.view["Staff"][n]["Section"], section, "{n}");
+        }
     }
 
     #[test]

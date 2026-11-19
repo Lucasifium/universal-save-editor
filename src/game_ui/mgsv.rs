@@ -135,9 +135,16 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
     }
     panel(ui, &trf("Staff ({0})", &[&all.len()]), |ui| {
         ui.horizontal_wrapped(|ui| {
-            if super::quick_button(ui, tr("Everyone to S++"), "") {
+            if super::quick_button(ui, tr("Everyone to S++"), tr("Rank S++, top stat bonus, all three medals, and morale and proficiency at 15: in game this gives S++ in all six stats. Rank alone leaves some stats at S+.")) {
                 for n in &all {
-                    cx.set(&format!("/Staff/{}/Rank", esc(n)), json!("S++"));
+                    let s = format!("/Staff/{}", esc(n));
+                    cx.set(&format!("{s}/Rank"), json!("S++"));
+                    cx.set(&format!("{s}/Stat bonus"), json!(3));
+                    for medal in ["DS medal", "DS cross", "Honor medal"] {
+                        cx.set(&format!("{s}/{medal}"), json!(true));
+                    }
+                    cx.set(&format!("{s}/Morale"), json!(15));
+                    cx.set(&format!("{s}/Proficiency"), json!(15));
                 }
             }
             if super::quick_button(ui, tr("Max stat bonus"), "") {
@@ -215,7 +222,7 @@ fn staff(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             });
         });
-        ui.weak(tr("Rank is the staff member's stat rank (S++ is the top); every other stat follows from rank and stat distribution. The rest of each member's fields are in the Tree."));
+        ui.weak(tr("Rank is the staff member's peak rank (S++ is the top). The six team stats follow from it, the stat distribution and bonus, medals and morale. The rest of each member's fields are in the Tree."));
     });
 }
 
