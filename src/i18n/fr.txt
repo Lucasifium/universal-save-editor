@@ -30317,3 +30317,33 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Écran du jeu : argent et prime de poursuite d'un fichier de profil (formats PC et PlayStation 2) ; le MD5 du fichier est recalculé à l'enregistrement. Construit d'après des offsets publiés, pas encore essayé sur un vrai profil
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoris
+
+Favourites and recent games
+= Favoris et jeux récents
+
+Remove from favourites
+= Retirer des favoris
+
+Add to favourites
+= Ajouter aux favoris
+
+Show this game's saves
+= Afficher les sauvegardes de ce jeu
+
+Reset to the original value ({0})
+= Rétablir la valeur d'origine ({0})
+
+Original value: {0}
+= Valeur d'origine : {0}
+
+Open another save in a new tab
+= Ouvrir une autre sauvegarde dans un nouvel onglet
+
+Next / previous tab
+= Onglet suivant / précédent
+

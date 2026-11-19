@@ -30361,3 +30361,33 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = 游戏界面：配置文件的金钱和追捕悬赏（PC 和 PlayStation 2 格式）；保存时重新计算文件的 MD5。依据公开的偏移量构建，尚未在真实配置文件上试过
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= 收藏
+
+Favourites and recent games
+= 收藏和最近的游戏
+
+Remove from favourites
+= 从收藏中移除
+
+Add to favourites
+= 添加到收藏
+
+Show this game's saves
+= 显示此游戏的存档
+
+Reset to the original value ({0})
+= 重置为原始值 ({0})
+
+Original value: {0}
+= 原始值：{0}
+
+Open another save in a new tab
+= 在新标签页中打开另一个存档
+
+Next / previous tab
+= 下一个 / 上一个标签页
+

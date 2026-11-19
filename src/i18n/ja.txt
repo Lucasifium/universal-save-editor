@@ -30388,3 +30388,33 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = ゲーム画面：プロフィールファイルの所持金と手配報奨金（PC版とPlayStation 2版の形式）。保存時にファイルのMD5を再計算します。公開されているオフセットから作成したもので、実際のプロフィールではまだ試していません
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= お気に入り
+
+Favourites and recent games
+= お気に入りと最近のゲーム
+
+Remove from favourites
+= お気に入りから外す
+
+Add to favourites
+= お気に入りに追加
+
+Show this game's saves
+= このゲームのセーブを表示
+
+Reset to the original value ({0})
+= 元の値に戻す ({0})
+
+Original value: {0}
+= 元の値: {0}
+
+Open another save in a new tab
+= 別のセーブを新しいタブで開く
+
+Next / previous tab
+= 次 / 前のタブ
+

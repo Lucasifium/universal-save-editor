@@ -55,6 +55,74 @@ fn when(f: &Found) -> String {
 }
 
 impl App {
+    /// "Favourites and recent games": the starred games, then the ones opened last, each one
+    /// click from its newest save. Returns a save to open.
+    pub(super) fn favourites_card(&mut self, ui: &mut egui::Ui) -> Option<PathBuf> {
+        let names: Vec<(String, bool)> = self
+            .settings
+            .favourites
+            .iter()
+            .map(|n| (n.clone(), true))
+            .chain(self.settings.recent_games.iter().filter(|n| !self.settings.is_favourite(n)).map(|n| (n.clone(), false)))
+            .filter(|(n, _)| GAMES.iter().any(|g| g.name == n))
+            .collect();
+        if names.is_empty() {
+            return None;
+        }
+        // The newest save of each game, from the search made at start (when it has finished).
+        let found = self.saves_found.as_ref().and_then(|s| s.lock().ok().map(|v| v.clone())).unwrap_or_default();
+        let mut open = None;
+        let mut pick: Option<usize> = None;
+        let mut toggle: Option<String> = None;
+        theme::card(ui, |ui| {
+            ui.label(RichText::new(tr("Favourites and recent games")).family(theme::semibold_family()).size(16.0));
+            for (name, fav) in &names {
+                let Some(i) = GAMES.iter().position(|g| g.name == name) else { continue };
+                let newest = found.get(i).and_then(|f| f.as_ref()).and_then(|f| f.iter().max_by_key(|s| s.modified)).cloned();
+                ui.horizontal(|ui| {
+                    ui.set_min_height(ui.spacing().interact_size.y);
+                    let color = if *fav { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().weak_text_color() };
+                    let star = ui.add(egui::Button::new(RichText::new("\u{2605}").color(color)).frame(false)).on_hover_text(if *fav { tr("Remove from favourites") } else { tr("Add to favourites") });
+                    if star.clicked() {
+                        toggle = Some(name.clone());
+                    }
+                    let link = ui.link(RichText::new(name).strong());
+                    if link.clicked() {
+                        match &newest {
+                            Some(n) if !games::many_games(&GAMES[i]) => open = Some(n.path.clone()),
+                            _ => pick = Some(i),
+                        }
+                    }
+                    match &newest {
+                        Some(n) => {
+                            link.on_hover_text(n.path.display().to_string());
+                            if ui.available_width() > 48.0 {
+                                ui.add(egui::Label::new(RichText::new(format!("{} \u{00B7} {}", n.label.clone().unwrap_or_else(|| file_name(&n.path)), when(n))).weak().size(12.5)).truncate());
+                            }
+                        }
+                        None => {
+                            link.on_hover_text(tr("Show this game's saves"));
+                        }
+                    }
+                });
+            }
+        });
+        if let Some(n) = toggle {
+            self.settings.toggle_favourite(&n);
+        }
+        if let Some(i) = pick {
+            let mut gp = self.picker();
+            gp.picked = Some(i);
+            self.game_picker = Some(gp);
+        }
+        if open.is_some() {
+            if let Some((name, _)) = names.iter().find(|(n, _)| GAMES.iter().position(|g| g.name == n).is_some_and(|i| found.get(i).and_then(|f| f.as_ref()).is_some_and(|f| f.iter().any(|s| Some(&s.path) == open.as_ref())))) {
+                self.settings.push_recent_game(name);
+            }
+        }
+        open
+    }
+
     /// The "Your games" card. Returns a save to open.
     pub(super) fn your_games(&mut self, ui: &mut egui::Ui) -> Option<PathBuf> {
         let search = self.saves_found.clone()?;
@@ -65,6 +133,7 @@ impl App {
         }
         let rows = rows(&found);
         let mut open = None;
+        let mut opened_game = None;
         let mut show_game: Option<Option<usize>> = None;
         theme::card(ui, |ui| {
             ui.horizontal(|ui| {
@@ -100,6 +169,7 @@ impl App {
                             let link = ui.link(RichText::new(&r.name).strong()).on_hover_text(r.newest.path.display().to_string());
                             if link.clicked() {
                                 open = Some(r.newest.path.clone());
+                                opened_game = Some(r.game);
                             }
                             let label = r.newest.label.clone().unwrap_or_else(|| file_name(&r.newest.path));
                             let mut line = format!("{label} \u{00B7} {} \u{00B7} {}", when(&r.newest), human_size(r.newest.size as usize));
@@ -125,6 +195,9 @@ impl App {
                 }
             }
         });
+        if let Some(g) = opened_game {
+            self.settings.push_recent_game(GAMES[g].name);
+        }
         if let Some(pick) = show_game {
             // Reuse what was just found rather than searching again.
             let mut gp = GamePicker::with(search);

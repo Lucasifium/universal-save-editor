@@ -395,6 +395,8 @@ struct GamePicker {
     save_groups: Option<((usize, usize), Vec<String>)>,
     /// A remembered save that was picked but is no longer there (offers a new search).
     missing: Option<PathBuf>,
+    /// The starred games (copied from the settings while the window is open).
+    favs: Vec<String>,
 }
 
 /// The saves found for each game in the catalog (`None`: not looked at yet).
@@ -445,7 +447,7 @@ fn spawn_search(found: &SaveSearch, full: bool) {
 
 impl GamePicker {
     fn with(found: SaveSearch) -> Self {
-        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None }
+        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None, favs: vec![] }
     }
 }
 
@@ -1084,6 +1086,9 @@ impl App {
         let Prepared { decoded, baseline, names, note, game, model, running, stamp, cjk } = p;
         self.need_cjk |= cjk || theme::has_cjk(&path.to_string_lossy());
         let desc = friendly_kind(&decoded.layers, &decoded.content);
+        if let Some(n) = game.and_then(|g| g.name()).filter(|n| crate::games::GAMES.iter().any(|g| g.name == *n)) {
+            self.settings.push_recent_game(n);
+        }
         self.doc = Some(Doc {
             path: path.to_path_buf(),
             layers: decoded.layers,
@@ -1778,13 +1783,22 @@ impl App {
 
     fn game_picker_dialog(&mut self, ctx: &egui::Context) {
         let Some(gp) = &mut self.game_picker else { return };
+        gp.favs = self.settings.favourites.clone();
         let (open, close) = game_picker_window(ctx, gp);
+        if gp.favs != self.settings.favourites {
+            self.settings.favourites = gp.favs.clone();
+            self.settings.save();
+        }
+        let picked_game = gp.picked.map(|i| crate::games::GAMES[i].name);
         if close {
             self.game_picker = None;
         }
         if let Some(p) = open {
             if crate::vfs::exists(&p) {
                 self.game_picker = None;
+                if let Some(name) = picked_game {
+                    self.settings.push_recent_game(name);
+                }
                 self.request_open(p);
             } else if let Some(gp) = &mut self.game_picker {
                 // The remembered folder is out of date: say so and offer a new search.
@@ -4592,6 +4606,12 @@ impl App {
                 let w = ui.available_width().min(680.0);
                 ui.allocate_ui(egui::vec2(w, 0.0), |ui| {
                     ui.with_layout(egui::Layout::top_down(egui::Align::Min), |ui| {
+                        if let Some(p) = self.favourites_card(ui) {
+                            open = Some(p);
+                        }
+                        if self.settings.favourites.iter().chain(self.settings.recent_games.iter()).any(|n| crate::games::GAMES.iter().any(|g| g.name == n)) {
+                            ui.add_space(8.0);
+                        }
                         if let Some(p) = self.your_games(ui) {
                             open = Some(p);
                         }
@@ -5384,9 +5404,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                     crate::games::name_matches(g.name, &q) && level.is_none_or(|l| crate::games::level(g) == l)
                 };
                 // Games with saves on this computer first, then the rest; a typed name looks through all of them.
-                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i)).collect();
-                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).collect() };
-                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i)).count() } else { 0 };
+                // Starred games come first, wherever they are.
+                let favs = gp.favs.clone();
+                let is_fav = |i: usize| favs.iter().any(|f| f == crate::games::GAMES[i].name);
+                let starred: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| is_fav(i) && matches(i)).collect();
+                let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i) && !is_fav(i)).collect();
+                let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i) && !is_fav(i)).collect() };
+                let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i) && !is_fav(i)).count() } else { 0 };
+                let star_clicked: std::cell::Cell<Option<usize>> = std::cell::Cell::new(None);
                 let mut show_all = false;
                 let list = |ui: &mut egui::Ui, picked: &mut Option<usize>, show_all: &mut bool| {
                     ScrollArea::vertical().id_salt("gp_list").auto_shrink([false, false]).show_locked(ui, |ui| {
@@ -5406,6 +5431,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 };
                                 // The name gives way (with the whole text on hover) so the badge always stays beside it.
                                 let chip_w = ui.fonts(|f| f.layout_no_wrap(l.label().to_string(), egui::FontId::proportional(13.0), color).size().x) + 16.0;
+                                // The star: starred games are listed first, and on the start page.
+                                let fav = is_fav(i);
+                                let star = ui
+                                    .add(egui::Button::new(RichText::new("\u{2605}").color(if fav { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().weak_text_color() })).frame(false).min_size(egui::vec2(22.0, ui.spacing().interact_size.y)))
+                                    .on_hover_text(if fav { tr("Remove from favourites") } else { tr("Add to favourites") });
+                                if star.clicked() {
+                                    star_clicked.set(Some(i));
+                                }
                                 let name_w = (ui.available_width() - chip_w - ui.spacing().item_spacing.x).max(60.0);
                                 let text = format!("{}  \u{00B7}  {n}", g.name);
                                 let r = ui
@@ -5421,6 +5454,13 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 App::chip(ui, l.label(), color).on_hover_text(l.hint());
                             });
                         };
+                        if !starred.is_empty() {
+                            ui.label(RichText::new(tr("Favourites")).strong());
+                            for &i in &starred {
+                                row(ui, i, picked);
+                            }
+                            ui.add_space(6.0);
+                        }
                         if !found_here.is_empty() {
                             ui.label(RichText::new(tr("On this computer")).strong());
                             for &i in &found_here {
@@ -5492,7 +5532,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 *show_all = true;
                             }
                         }
-                        if found_here.is_empty() && others.is_empty() && hidden == 0 {
+                        if starred.is_empty() && found_here.is_empty() && others.is_empty() && hidden == 0 {
                             ui.weak(tr("No game matches. Use Open\u{2026} to pick the file yourself."));
                         }
                     });
@@ -5620,6 +5660,15 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 }
                 if gp.picked != before {
                     gp.group = None;
+                }
+                if let Some(i) = star_clicked.get() {
+                    let name = crate::games::GAMES[i].name.to_string();
+                    match gp.favs.iter().position(|f| *f == name) {
+                        Some(k) => {
+                            gp.favs.remove(k);
+                        }
+                        None => gp.favs.push(name),
+                    }
                 }
                 if show_all {
                     gp.only_found = Some(false);
