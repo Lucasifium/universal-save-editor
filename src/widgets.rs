@@ -468,7 +468,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             // mangle multi-line text (e.g. dialogue); they're restored on edit.
             let mut text = escape_breaks(s);
             let id = ui.make_persistent_id(("str", id_src));
-            let resp = ui.add_sized([width + 8.0, ui.spacing().interact_size.y], TextEdit::singleline(&mut text).id(id));
+            let resp = ui.add_sized([width + 8.0, ui.spacing().interact_size.y], TextEdit::singleline(&mut text).id(id).vertical_align(egui::Align::Center));
             let resp = name_box(resp, opts);
             let resp = if s.contains(['\n', '\r']) { resp.on_hover_text(tr("\u{21A9} marks a line break (\u{00B6} a carriage return)")) } else { resp };
             let resp = match resp.hovered().then(|| hover_extra(opts, id_src, v)).flatten() {
@@ -519,7 +519,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
             // Wide enough for what it holds: a fixed box cut "3270" down to "327".
             let text_w = ui.fonts(|f| f.layout_no_wrap(buf.clone(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x);
             let w = width.min(160.0).max((text_w + 20.0).min(260.0));
-            let mut edit = TextEdit::singleline(&mut buf).id(id).desired_width(w);
+            let mut edit = TextEdit::singleline(&mut buf).id(id).desired_width(w).vertical_align(egui::Align::Center);
             if !valid {
                 edit = edit.text_color(theme::fg(ui, theme::ERR));
             }
@@ -549,6 +549,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                     let step = ui.input(|inp| if inp.modifiers.ctrl || inp.modifiers.command { 100 } else if inp.modifiers.shift { 10 } else { 1 });
                     // As tall as the number box beside them: small buttons were hard to hit.
                     let side = ui.spacing().interact_size.y.max(MIN_TARGET);
+                    // No vertical padding: with it the buttons grew taller than the box, and in a
+                    // centred row the second one ("+") sat lower than the first.
+                    let pad = ui.spacing().button_padding.y;
+                    ui.spacing_mut().button_padding.y = 0.0;
                     let tip = tr("Decrease by 1 (Shift: 10, Ctrl: 100)");
                     if named(ui.add_sized([side, side], egui::Button::new("\u{2212}")), egui::WidgetType::Button, tip).on_hover_text(tip).clicked() {
                         out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_sub(step))));
@@ -557,6 +561,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                     if named(ui.add_sized([side, side], egui::Button::new("+")), egui::WidgetType::Button, tip).on_hover_text(tip).clicked() {
                         out = Some(clamp_to(opts.tree.and_then(|t| t.range(id_src)), Value::from(i.saturating_add(step))));
                     }
+                    ui.spacing_mut().button_padding.y = pad;
                 }
             }
             (out, Some(resp))
