@@ -24,6 +24,8 @@ const SHORTCUTS: &[(&str, &str)] = &[
     ("Ctrl+Z", tx("Undo")),
     ("Ctrl+Y / Ctrl+Shift+Z", tx("Redo")),
     ("Ctrl+F", tx("Find on the open tab")),
+    ("Ctrl+T", tx("Open another save in a new tab")),
+    ("Ctrl+Tab / Ctrl+Shift+Tab", tx("Next / previous tab")),
     ("Ctrl+Plus / Ctrl+Minus", tx("Zoom in / out")),
     ("Ctrl+0", tx("Reset the zoom")),
     ("Enter", tx("Confirm a typed value")),

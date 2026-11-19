@@ -2,6 +2,12 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## Unreleased
+
+- Star games in *Find my game's saves*; favourites and recently opened games sit at the top of the start page
+- A changed value shows its original on hover and has a one-click reset beside it
+- The keyboard shortcut list covers tabs
+
 ## 0.8.4
 
 > Now available for macOS

@@ -5,6 +5,8 @@ use serde_json::{json, Value};
 use std::path::PathBuf;
 
 pub const MAX_RECENT: usize = 12;
+/// Games remembered as recently opened.
+pub const MAX_RECENT_GAMES: usize = 6;
 
 #[derive(Clone)]
 pub struct Settings {
@@ -33,11 +35,15 @@ pub struct Settings {
     pub dismissed_update: Option<String>,
     /// File notes (the line under the toolbar) the player dismissed, so they stay hidden.
     pub hidden_notes: Vec<String>,
+    /// Games starred by the player (catalog names), shown first on the start page.
+    pub favourites: Vec<String>,
+    /// The games opened last (catalog names), newest first.
+    pub recent_games: Vec<String>,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, search_removable: false, dismissed_update: None, hidden_notes: vec![] }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![] }
     }
 }
 
@@ -72,6 +78,12 @@ impl Settings {
         if let Some(r) = v["hidden_notes"].as_array() {
             s.hidden_notes = r.iter().filter_map(|x| x.as_str()).map(str::to_string).collect();
         }
+        if let Some(r) = v["favourites"].as_array() {
+            s.favourites = r.iter().filter_map(|x| x.as_str()).map(str::to_string).collect();
+        }
+        if let Some(r) = v["recent_games"].as_array() {
+            s.recent_games = r.iter().filter_map(|x| x.as_str()).map(str::to_string).take(MAX_RECENT_GAMES).collect();
+        }
         s
     }
 
@@ -97,6 +109,8 @@ impl Settings {
             "search_removable": self.search_removable,
             "dismissed_update": self.dismissed_update,
             "hidden_notes": self.hidden_notes,
+            "favourites": self.favourites,
+            "recent_games": self.recent_games,
         });
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
@@ -120,6 +134,27 @@ impl Settings {
         self.backup_dir = dir;
         crate::backups::set_root(self.backup_dir.clone());
         crate::backups::set_earlier_roots(self.earlier_backup_dirs.clone());
+        self.save();
+    }
+
+    /// Remembers a game (by its catalog name) as the one opened last.
+    pub fn push_recent_game(&mut self, name: &str) {
+        self.recent_games.retain(|g| g != name);
+        self.recent_games.insert(0, name.to_string());
+        self.recent_games.truncate(MAX_RECENT_GAMES);
+        self.save();
+    }
+
+    pub fn is_favourite(&self, name: &str) -> bool {
+        self.favourites.iter().any(|g| g == name)
+    }
+
+    pub fn toggle_favourite(&mut self, name: &str) {
+        if self.is_favourite(name) {
+            self.favourites.retain(|g| g != name);
+        } else {
+            self.favourites.push(name.to_string());
+        }
         self.save();
     }
 
@@ -184,4 +219,24 @@ pub fn save_locations() -> Vec<(String, PathBuf)> {
         out.push(("Local AppData (Unreal & others)".into(), local));
     }
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn favourites_toggle_and_recent_games_keep_order() {
+        let mut s = Settings::default();
+        s.toggle_favourite("A");
+        assert!(s.is_favourite("A"));
+        s.toggle_favourite("A");
+        assert!(!s.is_favourite("A"));
+        for n in ["a", "b", "c", "d", "e", "f", "g", "b"] {
+            s.push_recent_game(n);
+        }
+        assert_eq!(s.recent_games.len(), MAX_RECENT_GAMES);
+        assert_eq!(s.recent_games[0], "b");
+        assert_eq!(s.recent_games.iter().filter(|g| *g == "b").count(), 1);
+    }
 }

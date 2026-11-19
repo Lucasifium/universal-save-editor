@@ -30337,3 +30337,33 @@ No difference matches the filter.
 
 Copied the differences.
 = Différences copiées.
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoris
+
+Favourites and recent games
+= Favoris et jeux récents
+
+Remove from favourites
+= Retirer des favoris
+
+Add to favourites
+= Ajouter aux favoris
+
+Show this game's saves
+= Afficher les sauvegardes de ce jeu
+
+Reset to the original value ({0})
+= Rétablir la valeur d'origine ({0})
+
+Original value: {0}
+= Valeur d'origine : {0}
+
+Open another save in a new tab
+= Ouvrir une autre sauvegarde dans un nouvel onglet
+
+Next / previous tab
+= Onglet suivant / précédent
+

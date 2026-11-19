@@ -302,6 +302,8 @@ pub struct EditOpts<'a> {
     pub kind: Option<&'a str>,
     /// Offer "Show in Tree" in the right-click menu.
     pub show_in_tree: bool,
+    /// Draw a one-click reset beside a changed value (screens whose rows have no revert of their own).
+    pub reset_button: bool,
 }
 
 /// An editor's result: the new value if it changed, and whether "Show in Tree" was chosen.
@@ -393,6 +395,18 @@ fn value_menu(resp: &Response, ptr: &str, v: &Value, editable: bool, opts: &Edit
     });
 }
 
+/// The one-click reset beside a value that differs from the opened file: returns the original.
+pub fn reset_button(ui: &mut Ui, ptr: &str, v: &Value, editable: bool, opts: &EditOpts) -> Option<Value> {
+    if !editable || !opts.reset_button {
+        return None;
+    }
+    let orig = opts.baseline.and_then(|b| b.pointer(ptr)).filter(|o| *o != v)?;
+    let r = ui
+        .add(egui::Button::new(RichText::new("\u{21A9}").color(crate::theme::fg(ui, crate::theme::MODIFIED))).frame(false).small())
+        .on_hover_text(trf("Reset to the original value ({0})", &[&display(orig)]));
+    r.clicked().then(|| orig.clone())
+}
+
 /// Hover text for a value: the range the save file accepts (numbers) and a risk note.
 fn hover_extra(opts: &EditOpts, ptr: &str, v: &Value) -> Option<String> {
     let mut lines: Vec<String> = vec![];
@@ -400,6 +414,9 @@ fn hover_extra(opts: &EditOpts, ptr: &str, v: &Value) -> Option<String> {
         if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
             lines.push(trf("The save file accepts {0} to {1} (the game may expect less). Right-click for Max.", &[&display(&lo), &display(&hi)]));
         }
+    }
+    if let Some(orig) = opts.baseline.and_then(|b| b.pointer(ptr)).filter(|o| *o != v) {
+        lines.push(trf("Original value: {0}", &[&display(orig)]));
     }
     if let Some(note) = opts.kind.and_then(|k| crate::risks::note(k, ptr)) {
         lines.push(trf("Note: {0}", &[&note]));
@@ -412,6 +429,9 @@ pub fn value_editor_ex(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, wid
     let mut out = EditOut::default();
     let (edit, resp) = editor_body(ui, id_src, v, editable, width, opts);
     out.edit = edit;
+    if out.edit.is_none() {
+        out.edit = reset_button(ui, id_src, v, editable, opts);
+    }
     if let Some(r) = resp {
         value_menu(&r, id_src, v, editable, opts, &mut out);
     }

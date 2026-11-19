@@ -192,7 +192,7 @@ fn node_ui(ui: &mut Ui, key: &str, v: &Value, ptr: &str, ctx: &mut TreeCtx) {
                     ui.set_width(label_w);
                     ui.add(egui::Label::new(job).truncate()).on_hover_text(crate::i18n::trf("key: {0}\npath: {1}", &[&key, &ptr]));
                 });
-                let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(&label), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: false };
+                let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(&label), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: false, reset_button: false };
                 if let Some(nv) = widgets::value_editor_ex(ui, ptr, v, editable, 320.0, &opts).edit {
                     ctx.edits.push((ptr.to_string(), nv));
                 }
