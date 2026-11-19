@@ -2716,7 +2716,7 @@ const JEDI_FO: Spec = Spec {
     accent: (60, 150, 220),
     kind: Some(crate::fmt::jedi::KIND),
     markers: &["/Skill points/Unspent skill points"],
-    subtitle: "SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.",
+    subtitle: "SaveGame00.sav / SaveGameNN.sav. The zlib-packed actor records are opened and packed again on save.",
     tiles: &[("Unspent skill points", "/Skill points/Unspent skill points"), ("Stims", "/Health and Force/Stims carried"), ("Deaths", "/Progress/Deaths")],
     sections: &[
         Section {

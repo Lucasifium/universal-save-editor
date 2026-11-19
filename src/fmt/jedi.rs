@@ -12,7 +12,7 @@ use crate::tree::TreeDoc;
 use std::io::{Read, Write};
 use std::sync::Arc;
 
-pub const KIND: &str = "Star Wars Jedi: Fallen Order save";
+pub const KIND: &str = "Star Wars Jedi: Fallen Order / Survivor save";
 
 /// Where the parts sit in the original file.
 #[derive(Clone, Debug, PartialEq, Eq)]

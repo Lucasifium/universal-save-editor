@@ -229,6 +229,13 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !any {
         return Err("no inventory found".into());
     }
+    // Which game: the level path at the start of the file names it.
+    let game = match d.get(4..9) {
+        Some(b"2033\\") => "Metro 2033 Redux",
+        Some(b"2034\\") => "Metro: Last Light Redux",
+        _ => "Metro Exodus",
+    };
+    b.info(&["Game"], game);
     Ok(b.finish("Metro player save", Checksum::None).with_note(
         crate::i18n::tx("Military-grade rounds (the metro's money) and the ammunition Artyom carries at the start of this level. \
          The level's own save (the auto save) keeps the current state."),

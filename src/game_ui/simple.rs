@@ -330,7 +330,12 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     let s = &all()[i as usize];
     let accent = Color32::from_rgb(s.accent.0, s.accent.1, s.accent.2);
     let tiles: Vec<(&str, String)> = s.tiles.iter().map(|(c, p)| (*c, resolve(cx.root, p))).collect();
-    hero(ui, accent, s.name, &tr_text(s.subtitle), |ui| {
+    // A screen shared by several games shows the game the save names.
+    let title = match cx.get(&resolve(cx.root, "/Game")) {
+        Some(Value::String(g)) if s.name == "Older LEGO games" && !g.is_empty() => g.clone(),
+        _ => s.name.to_string(),
+    };
+    hero(ui, accent, &title, &tr_text(s.subtitle), |ui| {
         for (cap, p) in &tiles {
             if cx.get(p).is_some() {
                 cx.tile(ui, &tr_text(cap), p, accent);

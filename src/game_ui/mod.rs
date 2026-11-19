@@ -426,7 +426,7 @@ pub fn detect(kind: &str, root: &Value) -> Option<Game> {
         k if darkest::is_dd1(k) => Game::DarkestDungeon,
         "JSON" if darkest::dd2_file(root).is_some() => Game::DarkestDungeon2,
         crate::fmt::octopath::OT1 | crate::fmt::octopath::OT2 => Game::Octopath,
-        crate::fmt::larian::DOS2 => Game::Dos2,
+        crate::fmt::larian::DOS2 | crate::fmt::larian::DOS1 => Game::Dos2,
         crate::fmt::larian::BG3 => Game::Bg3,
         "Wasteland 3 save" => Game::Wasteland3,
         "Valheim character" => Game::Valheim,
@@ -830,6 +830,16 @@ impl GameCtx<'_> {
             d.insert_temp(seen, (frame, n));
             n
         });
+        // GameMaker INI files keep numbers as text with six decimals ("0.600000"): they are
+        // edited as numbers and written back the same way.
+        let gm = match &v {
+            Value::String(s) if choices.is_none() => gamemaker_number(s),
+            _ => None,
+        };
+        let v = match gm.and_then(serde_json::Number::from_f64) {
+            Some(n) => Value::Number(n),
+            None => v,
+        };
         let body = |ui: &mut Ui| match (&choices, &v) {
             (Some(list), Value::String(cur)) => {
                 let e = widgets::choice_editor(ui, p, cur, list, width);
@@ -845,6 +855,10 @@ impl GameCtx<'_> {
         };
         let out = if dup == 0 { ui.horizontal(body).inner } else { ui.push_id(("dup", dup), |ui| ui.horizontal(body).inner).inner };
         if let Some(nv) = out {
+            let nv = match (gm, &nv) {
+                (Some(_), Value::Number(n)) => Value::String(format!("{:.6}", n.as_f64().unwrap_or(0.0))),
+                _ => nv,
+            };
             self.set(p, nv);
         }
     }
@@ -1038,6 +1052,14 @@ impl GameCtx<'_> {
 // ------------------------------------------------------------------ layout pieces
 
 /// The header card: a coloured band with the character's name and a line under it.
+/// A number GameMaker wrote as text: digits, a point and exactly six decimals ("110.000000").
+pub fn gamemaker_number(s: &str) -> Option<f64> {
+    let t = s.strip_prefix('-').unwrap_or(s);
+    let (whole, frac) = t.split_once('.')?;
+    let ok = !whole.is_empty() && whole.len() <= 15 && whole.bytes().all(|b| b.is_ascii_digit()) && frac.len() == 6 && frac.bytes().all(|b| b.is_ascii_digit());
+    ok.then(|| s.parse().ok()).flatten()
+}
+
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
     let subtitle = tr_any(subtitle);
     let edits = edits_so_far(ui);
@@ -1605,4 +1627,17 @@ pub(super) fn fit_rows(ui: &mut Ui, cx: &mut GameCtx, id: impl std::hash::Hash +
             });
         }
     });
+}
+
+#[cfg(test)]
+mod gamemaker_number_tests {
+    #[test]
+    fn six_decimal_text_only() {
+        assert_eq!(super::gamemaker_number("0.600000"), Some(0.6));
+        assert_eq!(super::gamemaker_number("-110.000000"), Some(-110.0));
+        assert_eq!(super::gamemaker_number("0.6"), None);
+        assert_eq!(super::gamemaker_number("1.0000000"), None);
+        assert_eq!(super::gamemaker_number("v1.000000"), None);
+        assert_eq!(super::gamemaker_number(".600000"), None);
+    }
 }

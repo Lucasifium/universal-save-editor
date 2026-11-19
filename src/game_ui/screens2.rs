@@ -643,9 +643,18 @@ pub fn xcom(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(60, 120, 200);
     let hq = objects_with(cx.root, "m_iCash", 1).pop();
     let mut soldiers: Vec<(String, &'static str, &'static str)> = vec![];
+    // A soldier can be stored twice (the barracks and the last squad): list each one once.
+    let mut seen = std::collections::HashSet::new();
     for (s, c) in [("m_kSoldier", "m_kChar"), ("kSoldier", "kChar")] {
         for p in objects_with(cx.root, s, 400) {
-            soldiers.push((p, s, c));
+            let sp = format!("{p}/{s}");
+            let who: Vec<String> = ["strFirstName", "strLastName", "strNickName", "iXP", "iRank"]
+                .iter()
+                .map(|f| cx.get(&format!("{sp}/{f}")).map(|v| v.to_string()).unwrap_or_default())
+                .collect();
+            if who.iter().all(String::is_empty) || seen.insert(who) {
+                soldiers.push((p, s, c));
+            }
         }
     }
     let n = soldiers.len();
@@ -1813,7 +1822,12 @@ fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Colo
 pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 160, 60);
     const MONEY: &str = "/Inventory/Military-grade rounds (money)";
-    hero(ui, accent, "Metro Redux / Metro Exodus", "Artyom", |ui| {
+    // The game's own name when the save says which one it is.
+    let title = match cx.get("/Game") {
+        Some(Value::String(g)) => g.clone(),
+        _ => crate::i18n::tx("Metro Redux / Metro Exodus").to_string(),
+    };
+    hero(ui, accent, &title, "Artyom", |ui| {
         cx.tile(ui, "Military-grade rounds", MONEY, accent);
     });
     let rows: Vec<(String, String)> = match cx.get("/Inventory") {

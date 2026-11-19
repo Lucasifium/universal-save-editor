@@ -9547,8 +9547,8 @@ SaveData-<n>_Character_<slot>.sav. Ergo held is what you can spend; the level is
 SaveData.bin: eight Mania Mode and three Encore Mode slots. Emeralds are a bit field (127 = all seven).
 = SaveData.bin : huit emplacements Mania Mode et trois Encore Mode. Les émeraudes sont un champ de bits (127 = les sept).
 
-SaveGame00.sav. The zlib-packed actor records are opened and packed again on save.
-= SaveGame00.sav. Les enregistrements d'acteurs compressés en zlib sont ouverts puis recompressés à l'enregistrement.
+SaveGame00.sav / SaveGameNN.sav. The zlib-packed actor records are opened and packed again on save.
+= SaveGame00.sav / SaveGameNN.sav. Les enregistrements d'acteurs compressés en zlib sont ouverts puis recompressés à l'enregistrement.
 
 SaveGameData0.sav (the SAVE header and zlib packing are handled). pg, difficulty, each party member's level, experience, HP, MP and special ability points, and the item counts.
 = SaveGameData0.sav (l'en-tête SAVE et la compression zlib sont gérés). pg, difficulté, niveau, expérience, PV, PM et points de capacité spéciale de chaque membre du groupe, et quantités d'objets.

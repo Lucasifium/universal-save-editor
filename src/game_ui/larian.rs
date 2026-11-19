@@ -33,7 +33,9 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
         }
     }
     let total: i64 = members.iter().map(|m| gold_of(cx, &format!("/Party/{}", esc(m)))).sum();
-    hero(ui, teal, "Divinity: Original Sin 2", &sub.join("  \u{00B7}  "), |ui| {
+    // The first game's saves open on this screen too.
+    let title = cx.text("/Save/Game").unwrap_or_else(|| crate::i18n::tx("Divinity: Original Sin 2").into());
+    hero(ui, teal, &title, &sub.join("  \u{00B7}  "), |ui| {
         fact(ui, "Party", &members.len().to_string(), teal);
         fact(ui, "Gold carried", &fmt_num(total as f64), gold);
     });

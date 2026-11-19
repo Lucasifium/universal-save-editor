@@ -3244,7 +3244,8 @@ impl App {
         let dismiss_w = width(ui, tr("Dismiss")) + pad;
         let more_w = width(ui, tr("More")).max(width(ui, tr("Less"))) + pad;
         let note = crate::i18n::tr_any(&self.doc_note).to_string();
-        let fits = width(ui, &note) + dismiss_w + 8.0 <= ui.available_width();
+        // A note that takes up to two lines is shown whole; only a longer one gets More.
+        let fits = width(ui, &note) <= 1.8 * (ui.available_width() - dismiss_w - 8.0);
         let (mut dismiss, mut toggle) = (false, false);
         ui.horizontal_top(|ui| {
             let text_w = (ui.available_width() - dismiss_w - if fits { 0.0 } else { more_w } - 4.0).max(80.0);
@@ -3379,8 +3380,13 @@ impl App {
             if !wrap {
                 ui.separator();
             }
-            ui.label(RichText::new(file_name(&doc.path)).family(theme::semibold_family()).size(16.0))
-                .on_hover_text(doc.path.display().to_string());
+            // A long file name is shortened (the whole path is in its tooltip) rather than
+            // pushing the toolbar onto a second line.
+            let name_w = if wrap { ui.available_width() } else { (ui.available_width() - 220.0).clamp(160.0, 520.0) };
+            ui.allocate_ui(egui::vec2(name_w, ui.available_height()), |ui| {
+                ui.add(egui::Label::new(RichText::new(file_name(&doc.path)).family(theme::semibold_family()).size(16.0)).truncate())
+                    .on_hover_text(doc.path.display().to_string());
+            });
             self.file_chips(ui, true);
             if !wrap {
                 let used = ui.min_rect().width() + ui.spacing().item_spacing.x;

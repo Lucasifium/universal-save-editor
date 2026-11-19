@@ -1332,19 +1332,22 @@ pub fn subnautica(ui: &mut Ui, cx: &mut GameCtx) {
     });
     panel(ui, "In this slot", |ui| {
         ui.horizontal_wrapped(|ui| {
+            // Below Zero's file still carries Subnautica's vehicle fields (always off there):
+            // only its own are listed.
+            let below_zero = cx.get("/userName").is_some();
             for (k, label) in [("seamothPresent", "Seamoth"), ("exosuitPresent", "Prawn Suit"), ("cyclopsPresent", "Cyclops"), ("rocketPresent", "Neptune rocket"), ("basePresent", "Base")] {
+                if below_zero && !matches!(k, "exosuitPresent" | "basePresent") {
+                    continue;
+                }
                 if cx.get(&format!("/{k}")).is_some() {
-                    let have = cx.flag(&format!("/{k}"));
-                    ui.label(RichText::new(format!("{} {}", if have { "[x]" } else { "[ ]" }, crate::i18n::tr_any(label))).color(if have { theme_ok(ui) } else { ui.visuals().weak_text_color() }));
+                    // Read-only: the game sets these itself.
+                    let mut have = cx.flag(&format!("/{k}"));
+                    ui.add_enabled_ui(false, |ui| crate::widgets::checkbox(ui, &mut have, crate::i18n::tr_any(label)));
                 }
             }
         });
         ui.weak(tr("Inventory, health and blueprints are in global-objects.bin next to this file, which isn't editable yet."));
     });
-}
-
-fn theme_ok(ui: &Ui) -> Color32 {
-    crate::theme::fg(ui, crate::theme::OK)
 }
 
 pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {

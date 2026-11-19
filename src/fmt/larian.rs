@@ -22,6 +22,8 @@ use serde_json::{json, Value};
 use std::collections::HashMap;
 
 pub const DOS2: &str = "Divinity: Original Sin 2 save";
+/// Divinity: Original Sin (Enhanced Edition): the same layout in an older (version 10) package.
+pub const DOS1: &str = "Divinity: Original Sin Enhanced Edition save";
 pub const BG3: &str = "Baldur's Gate 3 save";
 
 pub const ATTRIBUTES: [&str; 6] = ["Strength", "Finesse", "Intelligence", "Constitution", "Memory", "Wits"];
@@ -276,7 +278,10 @@ fn dos2(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
         return None;
     }
     add_items(&mut b, &l, plain);
-    Some(b.finish_with(DOS2, Checksum::None, Some(add_post)))
+    if pkg.version == 10 {
+        b.info(&["Save", "Game"], "Divinity: Original Sin Enhanced Edition");
+    }
+    Some(b.finish_with(if pkg.version == 10 { DOS1 } else { DOS2 }, Checksum::None, Some(add_post)))
 }
 
 fn bg3(plain: &[u8], archive: &[u8], pkg: &lspk::Package) -> Option<TreeDoc> {
@@ -746,7 +751,7 @@ mod real {
             let rp = lspk::read(&repacked).unwrap();
             assert!(rp.checksum_ok(&repacked));
             assert_eq!(rp.file(&repacked, rp.find(&file).unwrap()).unwrap(), orig);
-            if t.kind_name == DOS2 {
+            if t.kind_name == DOS2 || t.kind_name == DOS1 {
                 let first = t.view["Party"].as_object().unwrap().keys().next().unwrap().clone();
                 let base = format!("/Party/{}", crate::tree::esc(&first));
                 let xp = t.view.pointer(&format!("{base}/Experience")).and_then(Value::as_i64).unwrap();
