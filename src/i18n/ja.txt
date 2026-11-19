@@ -6538,9 +6538,6 @@ Gold shown by the HUD
 Gold spent
 = 消費ゴールド
 
-Gold, materials and consumables
-= ゴールド、素材、消耗品
-
 Golden Lie harvests ready
 = 収穫可能なGolden Lie
 

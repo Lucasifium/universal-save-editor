@@ -744,7 +744,9 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
 /// page and most of the window tall, whatever the zoom.
 fn viewport(avail_w: f32, screen_h: f32, w: f32, h: f32) -> (f32, f32, f32) {
     let width = avail_w.max(100.0);
-    let height = (screen_h * 0.72).clamp(260.0, 1400.0);
+    // No taller than the whole world needs at full width: a wide world left a black band
+    // under it.
+    let height = (screen_h * 0.72).clamp(260.0, 1400.0).min((width * h / w.max(1.0)).max(260.0));
     (width, height, (width / w.max(1.0)).min(height / h.max(1.0)))
 }
 
@@ -757,7 +759,7 @@ mod tests {
         for (sw, sh) in [(1280.0, 800.0), (1920.0, 1080.0), (640.0, 480.0), (380.0, 760.0)] {
             let (w, h, fit) = viewport(sw - 40.0, sh, 8400.0, 2400.0);
             assert!(w <= sw && h <= sh, "viewport {w}x{h} exceeds {sw}x{sh}");
-            assert!(h >= sh * 0.7 * 0.99 || h == 260.0);
+            assert!(h >= (sh * 0.7 * 0.99).min(w * 2400.0 / 8400.0) || h == 260.0);
             assert!(fit > 0.0 && 8400.0 * fit <= w + 0.01 && 2400.0 * fit <= h + 0.01);
             // Same answer every call: zooming never feeds back into the size.
             assert_eq!(viewport(sw - 40.0, sh, 8400.0, 2400.0), (w, h, fit));

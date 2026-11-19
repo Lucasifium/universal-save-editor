@@ -1617,7 +1617,7 @@ pub fn p5r(ui: &mut Ui, cx: &mut GameCtx) {
     const STATS: [&str; 7] = ["Level", "Experience", "Strength", "Magic", "Endurance", "Agility", "Luck"];
     let grid = |ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)], hp: bool| {
         egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt((id, "s")).show_locked(ui, |ui| {
-            egui::Grid::new(id).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+            egui::Grid::new(id).striped(true).spacing([16.0, 4.0]).show(ui, |ui| {
                 ui.label("");
                 if hp {
                     ui.strong("HP");

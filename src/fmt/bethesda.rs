@@ -407,7 +407,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     root.insert("Game time".into(), Value::Object(time));
     root.insert("Misc stats".into(), Value::Object(stats));
     root.insert("Global variables".into(), Value::Object(globals));
+    // Enderal runs on Skyrim and writes the same saves; its own master file is in the plugin list.
+    let enderal = c.game == Game::Skyrim && body.get(..body.len().min(64 * 1024)).is_some_and(|b| b.windows(8).any(|w| w == b"Enderal "));
     let name = match c.game {
+        Game::Skyrim if enderal => "Enderal save",
         Game::Skyrim => "Skyrim save",
         Game::Fallout4 => "Fallout 4 save",
     };

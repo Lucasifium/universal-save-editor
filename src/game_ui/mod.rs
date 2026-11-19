@@ -249,6 +249,8 @@ impl Game {
             Game::DarkestDungeon2 => "Darkest Dungeon II",
             Game::GreenHell => "Green Hell",
             Game::X4 => "X4: Foundations",
+            Game::Hogwarts | Game::HogwartsDb => "Hogwarts Legacy",
+            Game::DyingLight2 => "Dying Light 2",
             Game::Simple(i) => simple::game_name(i),
             _ => return None,
         })

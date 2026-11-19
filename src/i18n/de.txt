@@ -6540,9 +6540,6 @@ Gold shown by the HUD
 Gold spent
 = Ausgegebenes Gold
 
-Gold, materials and consumables
-= Gold, Materialien und Verbrauchsgüter
-
 Golden Lie harvests ready
 = Goldene-Lüge-Ernten bereit
 

@@ -2890,7 +2890,7 @@ const STELLAR_BLADE: Spec = Spec {
         },
     ],
     lists: &[List {
-        title: "Gold, materials and consumables",
+        title: "Inventory",
         path: "/DataMap_SBItem/Item/Inventory",
         shape: Shape::Array { id_key: "/ItemInstance/ItemAlias", qty_keys: &["/ItemInstance/ItemCount", "/ItemInstance/ItemChargeCount"] },
         names: STELLAR_BLADE_ITEMS,

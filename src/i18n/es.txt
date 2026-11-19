@@ -6507,9 +6507,6 @@ Gold shown by the HUD
 Gold spent
 = Oro gastado
 
-Gold, materials and consumables
-= Oro, materiales y consumibles
-
 Golden Lie harvests ready
 = Cosechas de Golden Lie listas
 

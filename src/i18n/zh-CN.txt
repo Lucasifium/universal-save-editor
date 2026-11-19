@@ -6527,9 +6527,6 @@ Gold shown by the HUD
 Gold spent
 = 已花费的金币
 
-Gold, materials and consumables
-= 金币、材料和消耗品
-
 Golden Lie harvests ready
 = 可收获的 Golden Lie
 
