@@ -6726,8 +6726,8 @@ Health XP
 Health and Force
 = Salud y fuerza
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= Salud y huecos de objetos cuentan bloques y huecos; ataque, velocidad y lanzamiento cuentan mejoras. El máximo del juego es el final de cada barra.
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= Salud y huecos de objetos cuentan bloques y huecos; ataque, velocidad y lanzamiento cuentan mejoras.
 
 Health and silk
 = Salud y seda

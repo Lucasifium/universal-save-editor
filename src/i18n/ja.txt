@@ -6753,8 +6753,8 @@ Health XP
 Health and Force
 = 体力とフォース
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= 体力とアイテム枠はブロックと枠の数、攻撃・速度・投擲はアップグレード数です。ゲーム上の最大値が各バーの右端です。
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= 体力とアイテム枠はブロックと枠の数、攻撃・速度・投擲はアップグレード数です。
 
 Health and silk
 = 体力と糸

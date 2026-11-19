@@ -6737,8 +6737,8 @@ Health XP
 Health and Force
 = 生命值和原力
 
-Health and item slots count blocks and slots; attack, speed and throwing count upgrades. The game's own maximum is the end of each bar.
-= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。游戏的上限为每条的末端。
+Health and item slots count blocks and slots; attack, speed and throwing count upgrades.
+= 生命值和物品栏位按方块和栏位计数;攻击、速度和投掷按升级数计数。
 
 Health and silk
 = 生命值和丝线
