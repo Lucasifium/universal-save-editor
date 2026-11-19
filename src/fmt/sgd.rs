@@ -124,7 +124,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                     // read as a float they come out as 1e-45, so a non-zero value that tiny is an integer.
                     if let (Val::Num(Kind::F32), Some(raw)) = (&v, d.get(q..q + 4)) {
                         let bits = u32::from_le_bytes(raw.try_into().unwrap());
-                        if bits != 0 && f32::from_bits(bits).abs() < 1e-20 {
+                        if bits & 0x7FFF_FFFF != 0 && f32::from_bits(bits).abs() < 1e-20 {
                             v = Val::Num(Kind::U32);
                         }
                     }
