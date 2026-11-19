@@ -64,10 +64,9 @@ mod imp {
 /// What a tree may cost: most of the free memory, leaving room for the window and the rest.
 /// Where the free memory can't be told (the browser) the old fixed ceiling stays.
 pub fn tree_budget() -> u64 {
-    const FLOOR: u64 = 1 << 30;
     const FALLBACK: u64 = 5 << 30;
     match available() {
-        Some(a) => (a / 10 * 6).max(FLOOR),
+        Some(a) => a / 10 * 6,
         None => FALLBACK,
     }
 }

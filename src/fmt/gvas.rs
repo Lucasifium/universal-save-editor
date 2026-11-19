@@ -699,13 +699,25 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     }
 }
 
+/// The result of a second way of reading: the first reading's error is the one reported
+/// when both fail, except that running out of memory or Cancel is always reported as such.
+fn retry(first: Result<TreeDoc, String>, second: impl FnOnce() -> Result<TreeDoc, String>, e: String) -> Result<TreeDoc, String> {
+    let stop = |r: &Result<TreeDoc, String>| matches!(r, Err(x) if x == TOO_BIG || x == "cancelled");
+    let r = if first.is_ok() || stop(&first) { first } else { second() };
+    if stop(&r) || r.is_ok() {
+        r
+    } else {
+        Err(e)
+    }
+}
+
 fn parse_checked(d: &[u8]) -> Result<TreeDoc, String> {
     match parse_as(d, false, 0) {
         Err(e) if e == TOO_BIG || e == "cancelled" => Err(e),
-        Err(e) if e.starts_with("unexpected data after properties") => parse_as(d, true, 0).or_else(|_| parse_as_magic(d, false, 0, b"GVAS", true)).map_err(|_| e),
+        Err(e) if e.starts_with("unexpected data after properties") => retry(parse_as(d, true, 0), || parse_as_magic(d, false, 0, b"GVAS", true), e),
         // Mortal Shell (UE 4.25) puts an 8-byte timestamp between the class name and the
         // properties; Wandering Sword (UE 4.26) a 4-byte zero.
-        Err(e) => parse_as(d, false, 8).or_else(|_| parse_as(d, false, 4)).map_err(|_| e),
+        Err(e) => retry(parse_as(d, false, 8), || parse_as(d, false, 4), e),
         r => r,
     }
 }
