@@ -30272,6 +30272,26 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Tela do jogo: dinheiro e recompensa de perseguição de um arquivo de perfil (formatos de PC e PlayStation 2); o MD5 do arquivo é refeito ao salvar. Feita a partir de offsets publicados, ainda não testada em um perfil real
 
+# src/app/compare.rs
+
+Filter by name or value
+= Filtrar por nome ou valor
+
+{0} differences
+= {0} diferenças
+
+{0} of {1} differences shown
+= {0} de {1} diferenças exibidas
+
+Copy the listed differences to the clipboard
+= Copiar as diferenças listadas para a área de transferência
+
+No difference matches the filter.
+= Nenhuma diferença corresponde ao filtro.
+
+Copied the differences.
+= Diferenças copiadas.
+
 # src/app.rs, src/cloud.rs
 
 If {0} asks which save to keep, choose the local one.

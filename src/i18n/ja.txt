@@ -30383,6 +30383,26 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = ゲーム画面：プロフィールファイルの所持金と手配報奨金（PC版とPlayStation 2版の形式）。保存時にファイルのMD5を再計算します。公開されているオフセットから作成したもので、実際のプロフィールではまだ試していません
 
+# src/app/compare.rs
+
+Filter by name or value
+= 名前または値で絞り込み
+
+{0} differences
+= {0} 件の違い
+
+{0} of {1} differences shown
+= {1} 件中 {0} 件の違いを表示
+
+Copy the listed differences to the clipboard
+= 表示中の違いをクリップボードにコピー
+
+No difference matches the filter.
+= フィルターに一致する違いはありません。
+
+Copied the differences.
+= 違いをコピーしました。
+
 # src/app.rs, src/cloud.rs
 
 If {0} asks which save to keep, choose the local one.

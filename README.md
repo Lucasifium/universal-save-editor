@@ -312,7 +312,8 @@ Encrypted saves: *Tools › Decrypt with password* (Easy Save 3, Godot). Archive
 ## Finding values
 
 *Tools › Compare with another save* lists every value that differs between the open save and
-another one (e.g. before and after you earned gold), with a one-click **Use theirs**.
+another one (e.g. before and after you earned gold), with how much each number changed, a filter box,
+**Copy as text**, and a one-click **Use theirs**.
 
 ## Languages
 
