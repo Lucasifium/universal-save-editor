@@ -23,6 +23,8 @@ use safety::Stamp;
 mod tools;
 use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 mod tabs;
+mod compare;
+use compare::Compare;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -461,12 +463,6 @@ struct SaveReview {
     path: PathBuf,
     running: Option<String>,
     lines: Vec<String>,
-}
-
-struct Compare {
-    other: PathBuf,
-    /// (pointer, this file's value, other file's value)
-    diffs: Vec<(String, Option<Value>, Option<Value>)>,
 }
 
 /// Tools › Cheat patches: the patch file picked and the codes ticked in it.
@@ -2490,154 +2486,6 @@ impl App {
         let mut opts = d.opts.clone();
         change(&mut opts);
         self.load_with(&path, opts);
-    }
-
-    fn start_compare(&mut self) {
-        self.ask(Ask::Compare, None, None);
-    }
-
-    fn compare_with(&mut self, other: PathBuf) {
-        let Some(d) = &self.doc else { return };
-        let raw = match crate::vfs::read(&other) {
-            Ok(r) => r,
-            Err(e) => return self.fail(trf("Couldn't open {0}: {1}", &[&other.display(), &e])),
-        };
-        let mut opts = formats::Options::for_path(&other);
-        opts.password = d.opts.password.clone();
-        let theirs = formats::decode_with(&raw, &opts);
-        let diffs = match (&d.content, &theirs.content) {
-            (Content::Binary(a), Content::Binary(b)) => {
-                let mut out: Vec<(String, Option<Value>, Option<Value>)> = byte_ranges(a, b)
-                    .into_iter()
-                    .take(5000)
-                    .map(|(s, e)| {
-                        let hex = |x: &[u8]| Value::String(x.iter().take(16).map(|b| format!("{b:02X}")).collect::<Vec<_>>().join(" "));
-                        (format!("0x{s:X}"), Some(hex(&a[s..e])), b.get(s..e.min(b.len())).map(hex))
-                    })
-                    .collect();
-                if a.len() != b.len() {
-                    out.push(("(file size)".into(), Some(Value::from(a.len())), Some(Value::from(b.len()))));
-                }
-                out
-            }
-            (c, t) => match (root(c), root(t)) {
-                (Some(mine), Some(other_root)) => {
-                    let (mut a, mut b) = (Vec::new(), Vec::new());
-                    flatten(mine, "", &mut a);
-                    flatten(other_root, "", &mut b);
-                    let theirs: std::collections::HashMap<String, Value> = b.into_iter().collect();
-                    let mut seen = HashSet::new();
-                    let mut out = Vec::new();
-                    for (p, v) in a {
-                        seen.insert(p.clone());
-                        match theirs.get(&p) {
-                            Some(o) if *o == v => {}
-                            o => out.push((p, Some(v), o.cloned())),
-                        }
-                    }
-                    for (p, v) in theirs {
-                        if !seen.contains(&p) {
-                            out.push((p, None, Some(v)));
-                        }
-                    }
-                    out
-                }
-                _ => return self.fail(tr("Those two files aren't the same kind of save, so they can't be compared.")),
-            },
-        };
-        let n = diffs.len();
-        self.compare = Some(Compare { other, diffs });
-        self.info(if n == 1 { tr("1 difference found.").to_string() } else { trf("{0} differences found.", &[&n]) });
-    }
-
-    fn compare_window(&mut self, ctx: &egui::Context, now: f64) {
-        let Some(cmp) = &self.compare else { return };
-        let mut open = true;
-        let mut jump: Option<String> = None;
-        let mut take: Option<(String, Value)> = None;
-        let other_name = file_name(&cmp.other);
-        let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
-        egui::Window::new(trf("Compare with {0}", &[&other_name]))
-            .open(&mut open)
-            .default_size([fit(ctx, 620.0), 460.0])
-            .max_width(fit(ctx, 1400.0))
-            .show(ctx, |ui| {
-                ui.weak(tr("Values that differ between this save and the other one. \u{201C}Use theirs\u{201D} copies the other save's value into this one."));
-                ui.separator();
-                if cmp.diffs.is_empty() {
-                    ui.label(tr("No differences. The saves hold the same values."));
-                }
-                ScrollArea::vertical().auto_shrink([false, false]).show_rows_locked(ui, 26.0, cmp.diffs.len(), |ui, range| {
-                    for (p, original, theirs) in &cmp.diffs[range] {
-                        ui.horizontal(|ui| {
-                            let name = match self.model.by_ptr.get(p.as_str()) {
-                                Some(&i) => {
-                                    let r = &self.model.rows[i];
-                                    let section = &self.model.sections[r.section].title;
-                                    let mut parts: Vec<&str> = Vec::new();
-                                    if section != "General" {
-                                        parts.push(section);
-                                    }
-                                    if !r.context().is_empty() {
-                                        parts.push(r.context());
-                                    }
-                                    parts.push(r.name());
-                                    parts.join(" \u{203A} ")
-                                }
-                                None => p.clone(),
-                            };
-                            // Show this save's *current* value, so rows update after edits.
-                            let current = self.doc.as_ref().and_then(|d| root(&d.content)).and_then(|r| r.pointer(p)).cloned();
-                            let mine = if binary { original.clone() } else { current };
-                            ui.allocate_ui_with_layout(egui::vec2(260.0, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                                ui.set_width(260.0);
-                                let color = ui.visuals().hyperlink_color;
-                                let link = ui.add(egui::Label::new(RichText::new(&name).color(color)).truncate().sense(egui::Sense::click()));
-                                if link.on_hover_text(p).clicked() {
-                                    jump = Some(p.clone());
-                                }
-                            });
-                            let show = |v: &Option<Value>| v.as_ref().map(widgets::display).unwrap_or_else(|| tr("(missing)").into());
-                            if mine == *theirs {
-                                ui.label(RichText::new(trf("{0}  (now the same)", &[&show(&mine)])).weak());
-                                return;
-                            }
-                            ui.label(RichText::new(show(&mine)).color(theme::fg(ui, theme::MODIFIED)));
-                            ui.label("\u{203A}");
-                            ui.label(show(theirs));
-                            let editable = self.model.by_ptr.get(p.as_str()).is_some_and(|&i| self.model.rows[i].editable);
-                            let scalar = theirs.as_ref().is_some_and(|t| t.is_number() || t.is_string() || t.is_boolean());
-                            if let (true, false, true, Some(t), Some(_)) = (editable, binary, scalar, theirs, &mine) {
-                                if ui.small_button(tr("Use theirs")).clicked() {
-                                    take = Some((p.clone(), t.clone()));
-                                }
-                            }
-                        });
-                    }
-                });
-            });
-        if !open {
-            self.compare = None;
-        }
-        if let Some((p, v)) = take {
-            self.apply_edit(p, v, now);
-        }
-        if let Some(p) = jump {
-            if let Some(&i) = self.model.by_ptr.get(p.as_str()) {
-                self.tab = Tab::Values;
-                self.search.clear();
-                let sec = self.model.rows[i].section;
-                if self.collapsed.remove(&sec) {
-                    self.collapsed_gen += 1;
-                }
-                if self.model.sections[sec].advanced && !self.settings.show_advanced {
-                    self.settings.show_advanced = true;
-                }
-                self.scroll_to_row = Some(i);
-            } else if let Some(off) = p.strip_prefix("0x").and_then(|h| usize::from_str_radix(h, 16).ok()) {
-                self.hex.jump(off);
-            }
-        }
     }
 
     /// Backs the save up under `name`, then removes it and closes it so the game starts a new game. True on success.

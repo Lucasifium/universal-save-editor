@@ -30361,3 +30361,23 @@ Raises common and uncommon resources to 200, rare ones to 35 and very rare ones 
 
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = 游戏界面：配置文件的金钱和追捕悬赏（PC 和 PlayStation 2 格式）；保存时重新计算文件的 MD5。依据公开的偏移量构建，尚未在真实配置文件上试过
+
+# src/app/compare.rs
+
+Filter by name or value
+= 按名称或值筛选
+
+{0} differences
+= {0} 处差异
+
+{0} of {1} differences shown
+= 显示 {1} 处差异中的 {0} 处
+
+Copy the listed differences to the clipboard
+= 将列出的差异复制到剪贴板
+
+No difference matches the filter.
+= 没有符合筛选条件的差异。
+
+Copied the differences.
+= 已复制差异。
