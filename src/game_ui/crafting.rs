@@ -705,6 +705,40 @@ pub fn onimusha_new_entry(items: &str, k: usize, id: i64, order: i64, count: i64
     ]
 }
 
+/// Where the save keeps the appearances (sword looks, outfits, haori coats) that Change
+/// Appearance offers: a list shared by all save slots, unused entries holding 46.
+pub fn onimusha_appearance_list(cx: &GameCtx) -> Option<String> {
+    let base = super::dashboards::ree_slots(cx.root)?;
+    let top = base.trim_start_matches('/').split('/').next()?;
+    let p = format!("/{top}/_SystemSaveData/_Data/_System/#0630456e");
+    cx.get(&p).and_then(Value::as_array).is_some_and(|a| a.iter().all(Value::is_i64)).then_some(p)
+}
+
+/// The edits that add `ids` (the ones not listed yet) after the last used entry of the
+/// appearance list `list`, in the order the game would.
+pub fn onimusha_unlock(cx: &GameCtx, list: &str, ids: &[i64]) -> Vec<(String, Value)> {
+    let Some(a) = cx.get(list).and_then(Value::as_array) else { return vec![] };
+    let at = |k: usize| a.get(k).and_then(Value::as_i64);
+    let used = a.iter().rposition(|v| v.as_i64() != Some(ONIMUSHA_EMPTY)).map_or(0, |k| k + 1);
+    let mut have: HashSet<i64> = a.iter().filter_map(Value::as_i64).collect();
+    let mut out = vec![];
+    let mut next = used;
+    for &id in ids {
+        if !have.insert(id) {
+            continue;
+        }
+        while next < a.len() && at(next) != Some(ONIMUSHA_EMPTY) {
+            next += 1;
+        }
+        if next >= a.len() {
+            break;
+        }
+        out.push((format!("{list}/{next}"), Value::from(id)));
+        next += 1;
+    }
+    out
+}
+
 /// Every used save slot's material entries (for the catalog and tests; the screen's button
 /// works on one slot, see `onimusha_slot`).
 fn onimusha(cx: &GameCtx) -> Vec<Stack> {
@@ -1201,6 +1235,18 @@ mod tests {
         let root = json!({"SaveData": {"Slots": [full]}});
         let cx = ctx(&root);
         assert_eq!(stacks(Game::Onimusha, &cx).unwrap().len(), 2);
+
+        // Appearances: new ones go after the last used entry; listed ones are skipped; a full
+        // list takes no more.
+        let mut list = vec![46i64; 6];
+        list[..3].copy_from_slice(&[9523, 5932, 8133]);
+        let root = json!({"SaveData": {"Slots": [slot(1)], "_SystemSaveData": {"_Data": {"_System": {"#0630456e": list}}}}});
+        let cx = ctx(&root);
+        let l = onimusha_appearance_list(&cx).unwrap();
+        assert_eq!(l, "/SaveData/_SystemSaveData/_Data/_System/#0630456e");
+        let e = onimusha_unlock(&cx, &l, &[8133, 32699, 8874, 27768, 17135]);
+        assert_eq!(e, vec![(format!("{l}/3"), json!(32699)), (format!("{l}/4"), json!(8874)), (format!("{l}/5"), json!(27768))]);
+        assert!(onimusha_appearance_list(&ctx(&json!({"SaveData": {"Slots": [slot(1)]}}))).is_none());
 
         let names = include_str!("../fmt/data/onimusha_items.tsv");
         for (id, n) in ONIMUSHA {

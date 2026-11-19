@@ -30379,3 +30379,24 @@ Open another save in a new tab
 Next / previous tab
 = Pestaña siguiente / anterior
 
+
+Appearances
+= Apariencias
+
+Sword appearances
+= Apariencias de espada
+
+Outfits
+= Atuendos
+
+Haori coats
+= Haori
+
+Unlock
+= Desbloquear
+
+Unlock all appearances
+= Desbloquear todas las apariencias
+
+These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
+= Estas apariencias se comparten entre todas las ranuras de guardado. Las que vienen con una edición de pago o una reserva no aparecen y se dejan como están.
