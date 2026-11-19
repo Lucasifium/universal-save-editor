@@ -30437,3 +30437,24 @@ Open another save in a new tab
 Next / previous tab
 = 下一个 / 上一个标签页
 
+
+Appearances
+= 外观
+
+Sword appearances
+= 刀外观
+
+Outfits
+= 服装
+
+Haori coats
+= 羽织
+
+Unlock
+= 解锁
+
+Unlock all appearances
+= 解锁所有外观
+
+These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
+= 这些外观由所有存档槽共用。随付费版本或预购附带的外观不会列出，保持原样。

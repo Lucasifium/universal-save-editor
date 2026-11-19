@@ -953,6 +953,52 @@ fn onimusha_add_material(ui: &mut Ui, cx: &mut GameCtx, items: &str, slot: usize
     }
 }
 
+/// Base-game looks Change Appearance can offer, by menu section (the game's own item ids; the
+/// editions' bonus looks are left out).
+const ONIMUSHA_LOOKS: [(&str, &[i64]); 3] = [
+    ("Sword appearances", &[32699, 8874, 27768, 17135, 22003, 16965, 16820]),
+    ("Outfits", &[413, 5932, 14381, 18152, 14134, 24143, 28924, 32509]),
+    ("Haori coats", &[28716, 8133, 30419, 28160, 31281, 30505, 16477, 9549, 18329, 13169, 13810, 26655, 24318]),
+];
+
+/// The "Appearances" panel: which looks the game offers, and buttons to unlock the rest.
+fn onimusha_appearances(ui: &mut Ui, cx: &mut GameCtx) {
+    use super::crafting::{onimusha_appearance_list, onimusha_unlock};
+    let Some(list) = onimusha_appearance_list(cx) else { return };
+    let owned: std::collections::HashSet<i64> = cx.get(&list).and_then(Value::as_array).map(|a| a.iter().filter_map(Value::as_i64).collect()).unwrap_or_default();
+    let all: Vec<i64> = ONIMUSHA_LOOKS.iter().flat_map(|(_, ids)| ids.iter().copied()).collect();
+    let mut want: Vec<i64> = vec![];
+    panel(ui, "Appearances", |ui| {
+        for (title, ids) in ONIMUSHA_LOOKS {
+            ui.strong(tr(title));
+            egui::Grid::new(("oni_look", title)).num_columns(3).striped(true).spacing([12.0, 4.0]).show(ui, |ui| {
+                for &id in ids {
+                    let name = onimusha_item(id).map_or_else(|| trf("Item {0}", &[&id]), str::to_string);
+                    ui.label(name); // i18n-ok: a name or value from the save, or already translated
+                    if owned.contains(&id) {
+                        ui.label(tr("Unlocked"));
+                    } else {
+                        ui.weak(tr("Locked"));
+                        if ui.button(tr("Unlock")).clicked() {
+                            want.push(id);
+                        }
+                    }
+                    ui.end_row();
+                }
+            });
+            ui.add_space(4.0);
+        }
+        let missing = all.iter().filter(|id| !owned.contains(id)).count();
+        if ui.add_enabled(missing > 0, egui::Button::new(tr("Unlock all appearances"))).clicked() {
+            want = all.clone();
+        }
+        ui.weak(tr("These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are."));
+    });
+    for (p, v) in onimusha_unlock(cx, &list, &want) {
+        cx.set(&p, v);
+    }
+}
+
 pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(190, 50, 60);
     let Some(base) = ree_slots(cx.root) else { return };
@@ -1088,6 +1134,7 @@ pub fn onimusha(ui: &mut Ui, cx: &mut GameCtx) {
             }
         });
     });
+    onimusha_appearances(ui, cx);
     ui.add_space(4.0);
     ui.weak(tr("Each save slot is edited separately; the game keeps the slot you load. Item and equipment names aren't known yet \u{2014} the Values tab lists everything."));
 }

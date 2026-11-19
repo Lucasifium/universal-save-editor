@@ -30464,3 +30464,24 @@ Open another save in a new tab
 Next / previous tab
 = 次 / 前のタブ
 
+
+Appearances
+= 外観
+
+Sword appearances
+= 刀の外観
+
+Outfits
+= 衣装
+
+Haori coats
+= 羽織
+
+Unlock
+= 解放
+
+Unlock all appearances
+= すべての外観を解放
+
+These looks are shared by every save slot. Looks that come with a paid edition or a pre-order are not listed and are left as they are.
+= これらの外観はすべてのセーブスロットで共通です。有料エディションや予約特典の外観は表示されず、そのまま残ります。

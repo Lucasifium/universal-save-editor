@@ -38,7 +38,7 @@ My favourites so far:
   Terraria character editor.
 - **Onimusha: Way of the Sword save editor**: it just came out, so many fields are still missing as
   far as I can tell. It can add upgrade materials you don't have yet, and has a Max crafting materials
-  button for them.
+  button for them. An Appearances panel unlocks the base-game sword looks, outfits and haori coats.
 - **RimWorld save editor**
 - **Stardew Valley save editor**
 - **Oxygen Not Included save editor and map editor**: paint elements, temperature and mass on every
