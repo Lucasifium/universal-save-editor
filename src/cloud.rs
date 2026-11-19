@@ -36,13 +36,13 @@ mod tests {
     fn finds_the_service_that_syncs_a_folder() {
         let cases = [
             ("C:/Program Files/Steam/userdata/123/4000/remote/slot1.sav", Some("Steam Cloud")),
-            ("C:/Users/p/OneDrive/Documents/My Games/G/a.sav", Some("OneDrive")),
-            ("C:/Users/p/OneDrive - Work/Documents/a.sav", Some("OneDrive")),
+            ("D:/OneDrive/Documents/My Games/G/a.sav", Some("OneDrive")),
+            ("D:/OneDrive - Work/Documents/a.sav", Some("OneDrive")),
             ("/home/p/Dropbox/saves/a.sav", Some("Dropbox")),
             ("G:/My Drive/saves/a.sav", Some("Google Drive")),
             ("/Users/p/Library/Mobile Documents/com~apple~CloudDocs/a.sav", Some("iCloud Drive")),
             ("C:/Program Files/Ubisoft/Ubisoft Game Launcher/savegames/id/1/a.sav", Some("Ubisoft Connect")),
-            ("C:/Users/p/Documents/My Games/G/a.sav", None),
+            ("D:/Documents/My Games/G/a.sav", None),
             ("C:/Program Files/Steam/userdata/123/4000/other/a.sav", None),
         ];
         for (p, want) in cases {
