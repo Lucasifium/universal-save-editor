@@ -30392,3 +30392,33 @@ This save is in a folder that {0} syncs. Quit the game before saving, and if {0}
 
 Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
 = 无法复制角色：新文件回读结果不符合预期（{0}）。存档未被更改。
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= 收藏
+
+Favourites and recent games
+= 收藏和最近的游戏
+
+Remove from favourites
+= 从收藏中移除
+
+Add to favourites
+= 添加到收藏
+
+Show this game's saves
+= 显示此游戏的存档
+
+Reset to the original value ({0})
+= 重置为原始值 ({0})
+
+Original value: {0}
+= 原始值：{0}
+
+Open another save in a new tab
+= 在新标签页中打开另一个存档
+
+Next / previous tab
+= 下一个 / 上一个标签页
+

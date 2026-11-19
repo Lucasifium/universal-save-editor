@@ -30341,3 +30341,33 @@ This save is in a folder that {0} syncs. Quit the game before saving, and if {0}
 
 Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
 = Der Charakter konnte nicht kopiert werden: Die neue Datei wurde nicht wie erwartet gelesen ({0}). Der Spielstand wurde nicht geändert.
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= Favoriten
+
+Favourites and recent games
+= Favoriten und zuletzt gespielte Spiele
+
+Remove from favourites
+= Aus den Favoriten entfernen
+
+Add to favourites
+= Zu den Favoriten hinzufügen
+
+Show this game's saves
+= Spielstände dieses Spiels anzeigen
+
+Reset to the original value ({0})
+= Auf den ursprünglichen Wert zurücksetzen ({0})
+
+Original value: {0}
+= Ursprünglicher Wert: {0}
+
+Open another save in a new tab
+= Weiteren Spielstand in neuem Tab öffnen
+
+Next / previous tab
+= Nächster / vorheriger Tab
+

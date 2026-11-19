@@ -30419,3 +30419,33 @@ This save is in a folder that {0} syncs. Quit the game before saving, and if {0}
 
 Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
 = キャラクターをコピーできませんでした。新しいファイルが想定どおりに読み戻せませんでした（{0}）。セーブは変更されていません。
+
+# favourites, recent games, reset to original, tab shortcuts
+
+Favourites
+= お気に入り
+
+Favourites and recent games
+= お気に入りと最近のゲーム
+
+Remove from favourites
+= お気に入りから外す
+
+Add to favourites
+= お気に入りに追加
+
+Show this game's saves
+= このゲームのセーブを表示
+
+Reset to the original value ({0})
+= 元の値に戻す ({0})
+
+Original value: {0}
+= 元の値: {0}
+
+Open another save in a new tab
+= 別のセーブを新しいタブで開く
+
+Next / previous tab
+= 次 / 前のタブ
+
