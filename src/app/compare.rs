@@ -27,7 +27,8 @@ pub(super) fn delta(mine: &Option<Value>, theirs: &Option<Value>) -> Option<Stri
         return None;
     }
     let s = format!("{d:+.4}");
-    Some(s.trim_end_matches('0').trim_end_matches('.').to_string())
+    let s = s.trim_end_matches('0').trim_end_matches('.');
+    (s != "+" && s != "-" && s != "+0" && s != "-0").then(|| s.to_string())
 }
 
 /// Whether a row passes the filter box: the text is looked for, ignoring case, in the name and
@@ -137,16 +138,17 @@ impl App {
             }
         };
         let filter = cmp.filter.clone();
-        let rows: Vec<(usize, String, Option<Value>)> = cmp
-            .diffs
-            .iter()
-            .enumerate()
-            .filter_map(|(i, (p, original, theirs))| {
-                let mine = mine_of(p, original);
-                let name = self.compare_name(p);
-                matches(&filter, &name, &show(&mine), &show(theirs)).then_some((i, name, mine))
-            })
-            .collect();
+        // With no filter typed every row is listed and only the visible ones are worked out.
+        let rows: Vec<usize> = if filter.trim().is_empty() {
+            (0..cmp.diffs.len()).collect()
+        } else {
+            cmp.diffs
+                .iter()
+                .enumerate()
+                .filter(|(_, (p, original, theirs))| matches(&filter, &self.compare_name(p), &show(&mine_of(p, original)), &show(theirs)))
+                .map(|(i, _)| i)
+                .collect()
+        };
         let total = cmp.diffs.len();
         let other_name = file_name(&cmp.other);
         let mut open = true;
@@ -179,8 +181,10 @@ impl App {
                 }
                 let diffs = &self.compare.as_ref().map(|c| &c.diffs[..]).unwrap_or(&[]);
                 ScrollArea::vertical().auto_shrink([false, false]).show_rows_locked(ui, 26.0, rows.len(), |ui, range| {
-                    for (i, name, mine) in &rows[range] {
-                        let (p, _, theirs) = &diffs[*i];
+                    for &i in &rows[range] {
+                        let (p, original, theirs) = &diffs[i];
+                        let name = &self.compare_name(p);
+                        let mine = &mine_of(p, original);
                         ui.horizontal(|ui| {
                             ui.allocate_ui_with_layout(egui::vec2(260.0, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
                                 ui.set_width(260.0);
@@ -214,9 +218,9 @@ impl App {
         if copy {
             let text: Vec<String> = rows
                 .iter()
-                .map(|(i, name, mine)| {
-                    let theirs = self.compare.as_ref().and_then(|c| c.diffs[*i].2.clone());
-                    format!("{name}: {} \u{203A} {}", show(mine), show(&theirs))
+                .filter_map(|&i| {
+                    let (p, original, theirs) = &self.compare.as_ref()?.diffs[i];
+                    Some(format!("{}: {} \u{203A} {}", self.compare_name(p), show(&mine_of(p, original)), show(theirs)))
                 })
                 .collect();
             ctx.copy_text(text.join("\n"));
