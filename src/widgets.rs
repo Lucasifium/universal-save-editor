@@ -467,9 +467,9 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 ui.data_mut(|d| d.remove::<String>(id));
             }
             let mut buf = if focused {
-                ui.data(|d| d.get_temp::<String>(id)).unwrap_or_else(|| n.to_string())
+                ui.data(|d| d.get_temp::<String>(id)).unwrap_or_else(|| number_text(n))
             } else {
-                n.to_string()
+                number_text(n)
             };
             // Up/Down step the value (Shift: 10 steps) through the same path as typing and −/+.
             let mut keyed = None;
@@ -904,5 +904,47 @@ mod list_box_tests {
         let mut bad = vec![];
         walk(&std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src"), &mut bad);
         assert!(bad.is_empty(), "use ScrollArea::..show_list instead of max_height at: {bad:?}");
+    }
+}
+
+/// How a number reads in its box: whole floats without the ".0" and long fractions (a 32-bit float
+/// widened to 64 bits, 74.53125000000001) cut to six decimals. Only the display changes; the stored
+/// value is untouched unless the player edits the box.
+pub fn number_text(n: &serde_json::Number) -> String {
+    if n.is_i64() || n.is_u64() {
+        return n.to_string();
+    }
+    let Some(x) = n.as_f64() else { return n.to_string() };
+    if !x.is_finite() || x != 0.0 && x.abs() < 1e-4 {
+        return n.to_string();
+    }
+    if x.fract() == 0.0 && x.abs() < 1e18 {
+        return format!("{x:.0}");
+    }
+    if x.abs() >= 1e15 {
+        return n.to_string();
+    }
+    let t = format!("{x:.6}");
+    t.trim_end_matches('0').trim_end_matches('.').to_string()
+}
+
+#[cfg(test)]
+mod number_text_tests {
+    use super::number_text;
+    use serde_json::json;
+    fn t(v: serde_json::Value) -> String {
+        number_text(v.as_number().unwrap())
+    }
+    #[test]
+    fn floats_read_plainly() {
+        assert_eq!(t(json!(2445546.0)), "2445546");
+        assert_eq!(t(json!(110.000000)), "110");
+        assert_eq!(t(json!(74.53125)), "74.53125");
+        assert_eq!(t(json!(138.02017541119)), "138.020175");
+        assert_eq!(t(json!(0.10000000149011612)), "0.1");
+        assert_eq!(t(json!(-95.303955)), "-95.303955");
+        assert_eq!(t(json!(1423591.125)), "1423591.125");
+        assert_eq!(t(json!(42)), "42");
+        assert_eq!(t(json!(0.0)), "0");
     }
 }

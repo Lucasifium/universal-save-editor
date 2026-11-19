@@ -7895,8 +7895,8 @@ Metal shards
 Metals
 = Métaux
 
-Metro
-= Métro
+Metro Redux / Metro Exodus
+= Metro Redux / Metro Exodus
 
 Might
 = Puissance
@@ -8212,8 +8212,8 @@ Near the Witch Switch
 Needs
 = Besoins
 
-Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
-= Nécessite la bibliothèque Oodle que de nombreux jeux installent (trouvée automatiquement). Le MD5 de la sauvegarde est réécrit à l'enregistrement. Pas encore testé dans le jeu.
+Needs the compression library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
+= Nécessite la bibliothèque de compression que de nombreux jeux installent (trouvée automatiquement). Le MD5 de la sauvegarde est réécrit à l'enregistrement. Pas encore testé dans le jeu.
 
 Ness
 = Ness
@@ -9703,8 +9703,8 @@ Selling price
 Sepith
 = Sepith
 
-Seqence number
-= Seqence number
+Sequence number
+= Numéro de séquence
 
 Serenade of Water
 = Serenade of Water
@@ -12242,8 +12242,8 @@ userN.dat. Money is stored divided by 10; the game's cap is 99,990.
 ★ marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear).
 = ★ marque la rangée avant. Le niveau va de 1 à 99 ; l'EXP n'est pas calculée à partir du niveau, réglez donc les deux. PV et PS sont des valeurs actuelles (le maximum dépend du niveau, de la classe et de l'équipement).
 
-<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
-= <n>.sav dans %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames. Les données Oodle de la sauvegarde sont décompressées puis recompressées avec la bibliothèque Oodle de n'importe quel jeu de ce PC, et son SHA-1 est recalculé. Seules les piles déjà présentes dans la sauvegarde sont listées : ramassez d'abord un exemplaire de l'objet en jeu pour l'ajouter.
+<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
+= <n>.sav dans %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames. Les données compressées de la sauvegarde sont décompressées puis recompressées avec la bibliothèque de compression de n'importe quel jeu de ce PC, et son SHA-1 est recalculé. Seules les piles déjà présentes dans la sauvegarde sont listées : ramassez d'abord un exemplaire de l'objet en jeu pour l'ajouter.
 
 A .a7s save (Documents\\Anno 1800\\accounts\\<id>\\<profile>\\savegame). Coins are your company's money; the load screen's figure is changed with them. Other amounts of your company's storage are in the Tree, by GUID.
 = Une sauvegarde .a7s (Documents\Anno 1800\accounts\<id>\<profile>\savegame). Les pièces sont l'argent de votre société ; le chiffre de l'écran de chargement change avec elles. Les autres quantités du stockage de votre société sont dans l'Arbre, par GUID.
@@ -12269,8 +12269,8 @@ A profile XML from Steam\\userdata\\<account>\\632360\\remote\\UserProfiles. Lun
 A save from Documents\\ZAUM Studio\\Disco Elysium\\SaveGames (a .ntwtf.zip; its big .2nd.ntwtf.json is edited and the rest of the zip is kept). Money, level, experience, skill points, the four attributes and the skills as the game keeps them. Skills the save lists under different names stay in the Tree.
 = Une sauvegarde depuis Documents\ZAUM Studio\Disco Elysium\SaveGames (un .ntwtf.zip ; son gros .2nd.ntwtf.json est modifié et le reste du zip est conservé). Argent, niveau, expérience, points de compétence, les quatre attributs et les compétences telles que le jeu les gère. Les compétences que la sauvegarde liste sous d'autres noms restent dans l'Arborescence.
 
-ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
-= ACBROTHERHOODSAVEGAME0.SAV dans Saved Games\\Assassin's Creed Brotherhood\\SAVES (ou dans le dossier des sauvegardes d'Ubisoft Connect). La sauvegarde est désembrouillée, décompressée puis recompressée avec ses contrôles de bloc ; le compte auquel elle appartient est conservé. Fermez d'abord le jeu et désactivez les sauvegardes dans le cloud dans Ubisoft Connect, sinon l'ancienne sauvegarde risque de revenir.
+ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\Assassin's Creed Brotherhood\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= ACBROTHERHOODSAVEGAME0.SAV dans Saved Games\Assassin's Creed Brotherhood\SAVES (ou dans le dossier des sauvegardes d'Ubisoft Connect). La sauvegarde est désembrouillée, décompressée puis recompressée avec ses contrôles de bloc ; le compte auquel elle appartient est conservé. Fermez d'abord le jeu et désactivez les sauvegardes dans le cloud dans Ubisoft Connect, sinon l'ancienne sauvegarde risque de revenir.
 
 An OpenXcom or OpenXcom Extended save (.sav in Documents\\OpenXcom\\<mod>), which also plays UFO Defense from the Steam and GOG releases. Funds, the date, the difficulty, every soldier's stats and the base stores.
 = Une sauvegarde OpenXcom ou OpenXcom Extended (.sav dans Documents\OpenXcom\<mod>), qui fait aussi tourner UFO Defense des versions Steam et GOG. Fonds, date, difficulté, statistiques de chaque soldat et stocks de la base.
@@ -12335,8 +12335,8 @@ data000.bin and the slot files in Steam\\userdata\\<account>\\3357650\\remote\\w
 file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.
 = file<n>.rpgsave dans www\save : palourdes, niveau, cœur et jus de chaque ami dans Headspace et Faraway Town, ainsi que chaque en-cas, jouet, arme et porte-bonheur que vous portez.
 
-save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
-= save.dloop dans Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01. Les données Oodle de la sauvegarde sont décompressées puis recompressées avec la bibliothèque Oodle de n'importe quel jeu de ce PC (celle du jeu convient), et la somme de contrôle du fichier est recalculée. Fermez d'abord le jeu et désactivez-y Steam Cloud, sinon Steam risque de ramener l'ancienne sauvegarde. Les armes, bibelots et dalles sont stockés sous forme de nombres et ne sont pas listés.
+save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's compressed data is unpacked and packed again with the compression library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
+= save.dloop dans Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01. Les données compressées de la sauvegarde sont décompressées puis recompressées avec la bibliothèque de compression de n'importe quel jeu de ce PC (celle du jeu convient), et la somme de contrôle du fichier est recalculée. Fermez d'abord le jeu et désactivez-y Steam Cloud, sinon Steam risque de ramener l'ancienne sauvegarde. Les armes, bibelots et dalles sont stockés sous forme de nombres et ne sont pas listés.
 
 saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
 = saveNNN.dat de Saved Games\Falcom\ed8. Mira, sepith, niveau, expérience, PV, PE, PC et stats de chaque membre, et le sac.
@@ -12347,8 +12347,8 @@ savegame.xml from Documents\\Teardown (inside the game's data folder). Cash, too
 savegame\\SLOT<n>\\checkpoint.dat: Raw Whalebone, runes and ammo. Each ammo count goes up to what the save says the player can carry. The save is unpacked and packed again, with its check value, on save.
 = savegame\SLOT<n>\checkpoint.dat : os de baleine brut, runes et munitions. Chaque quantité de munitions va jusqu'à ce que la sauvegarde indique que le joueur peut porter. La sauvegarde est décompressée puis recompressée, avec sa valeur de contrôle, à l'enregistrement.
 
-savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
-= savegame_<n>.sav dans %LOCALAPPDATA%\Subnautica2\Saved\SaveGames. Modifie la sauvegarde actuelle ; la copie du point de contrôle précédent n'est pas touchée. Nécessite la bibliothèque Oodle de n'importe quel jeu de ce PC. Les ressources ne s'empilent pas dans ce jeu, il n'y a donc pas de bouton de matériaux max.
+savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the compression library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
+= savegame_<n>.sav dans %LOCALAPPDATA%\Subnautica2\Saved\SaveGames. Modifie la sauvegarde actuelle ; la copie du point de contrôle précédent n'est pas touchée. Nécessite la bibliothèque de compression de n'importe quel jeu de ce PC. Les ressources ne s'empilent pas dans ce jeu, il n'y a donc pas de bouton de matériaux max.
 
 4WD Cars
 = 4WD Cars
@@ -27561,8 +27561,8 @@ Game screen: Mira, the seven kinds of sepith, each character's level, and how ma
 Game screen: Raw Whalebone with a Max crafting materials button, runes, and bolts, bullets, grenades, spring razors and stun mines (each up to what the player can carry), plus the map and how many bonecharm traits are learned, for Dishonored 2. checkpoint.dat is unpacked and packed again with its check value on save; game.details opens as values (chapter, chaos level…). Checked on real saves and tried in the game
 = Écran de jeu : Raw Whalebone avec un bouton Matériaux d'artisanat au maximum, runes, et carreaux, balles, grenades, lames à ressort et mines étourdissantes (chacun jusqu'à ce que le joueur peut porter), plus la carte et le nombre de traits de charme d'os appris, pour Dishonored 2. checkpoint.dat est décompressé et recompressé avec sa valeur de contrôle à l'enregistrement ; game.details s'ouvre sous forme de valeurs (chapitre, niveau de chaos…). Vérifié sur de vraies sauvegardes et essayé dans le jeu
 
-Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
-= Écran de jeu : Residuum, niveau de stress, jour et lieu de la boucle, et indicateurs de progression (première boucle, Golden Loop, Julianna, capacité d'essence du vide). Les données Oodle de la sauvegarde sont décompressées et recompressées avec la bibliothèque Oodle de n'importe quel jeu présent sur ce PC, et la somme de contrôle du fichier est refaite. Vérifié sur une vraie sauvegarde et dans le jeu. Fermez d'abord le jeu et désactivez-lui Steam Cloud, sinon Steam risque de ramener l'ancienne sauvegarde
+Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= Écran de jeu : Residuum, niveau de stress, jour et lieu de la boucle, et indicateurs de progression (première boucle, Golden Loop, Julianna, capacité d'essence du vide). Les données compressées de la sauvegarde sont décompressées et recompressées avec la bibliothèque de compression de n'importe quel jeu présent sur ce PC, et la somme de contrôle du fichier est refaite. Vérifié sur une vraie sauvegarde et dans le jeu. Fermez d'abord le jeu et désactivez-lui Steam Cloud, sinon Steam risque de ramener l'ancienne sauvegarde
 
 Game screen: S.P.E.C.I.A.L., hit points, level, experience, skill points, skills, traits, tagged skills, perk ranks, radiation, poison, kills, bottle caps and inventory counts. Edits haven't been tried in the game yet
 = Écran de jeu : S.P.E.C.I.A.L., points de vie, niveau, expérience, points de compétence, compétences, traits, compétences taguées, rangs d'avantages, radiations, poison, victimes, capsules et quantités d'inventaire. Les modifications n'ont pas encore été essayées dans le jeu
@@ -28023,8 +28023,8 @@ Game screen: health, hunger, sanity, temperature, time alive and the day count. 
 Game screen: health, level, experience and money of each used slot, plus recovery items and materials with a Max crafting materials button (99 each). Slot checksums are written again on save. Checked on a public save, not yet tried in the game
 = Écran de jeu : santé, niveau, expérience et argent de chaque emplacement utilisé, plus objets de soin et matériaux avec un bouton Matériaux d'artisanat au maximum (99 chacun). Les sommes de contrôle des emplacements sont réécrites à l'enregistrement. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
 
-Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game, the same way the game reads it)
-= Écran de jeu : santé, oxygène, nourriture et eau avec leurs maximums, l'inventaire du joueur et chaque casier, véhicule et conteneur de stockage, modifiés sur place dans la sauvegarde (vérifié sur une vraie sauvegarde en accès anticipé ; nécessite la bibliothèque Oodle de n'importe quel jeu installé, comme le fait le jeu pour la lire)
+Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the compression library of any installed game, the same way the game reads it)
+= Écran de jeu : santé, oxygène, nourriture et eau avec leurs maximums, l'inventaire du joueur et chaque casier, véhicule et conteneur de stockage, modifiés sur place dans la sauvegarde (vérifié sur une vraie sauvegarde en accès anticipé ; nécessite la bibliothèque de compression de n'importe quel jeu installé, comme le fait le jeu pour la lire)
 
 Game screen: health, resin (with a Max crafting materials button that fills it to 999, an estimate), and pistol, shotgun and rapidfire ammo in the backpack, changed in place; the weapons Alyx has are listed. The Load menu keeps showing the old numbers until the game saves again. Not yet tried in the game
 = Écran de jeu : santé, résine (avec un bouton Matériaux d'artisanat au maximum qui la remplit à 999, estimation), et munitions de pistolet, de fusil à pompe et de tir rapide dans le sac à dos, modifiées sur place ; les armes qu'Alyx possède sont listées. Le menu Charger continue d'afficher les anciens chiffres jusqu'à la prochaine sauvegarde du jeu. Pas encore essayé dans le jeu
@@ -28518,8 +28518,8 @@ Game screen: your funds and the researcher, scientist, doctor and kill counters.
 Game screen: your gold, each character's HP, stats and equipment, and every inventory slot (materials, weapons, armor, accessories) and element slot. The save's packed data and checksum are written again. Checked on public saves, not yet tried in the game
 = Écran de jeu : votre or, PV, stats et équipement de chaque personnage, et chaque emplacement d'inventaire (matériaux, armes, armures, accessoires) et d'éléments. Les données compressées et la somme de contrôle de la sauvegarde sont réécrites. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
 
-Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's Oodle data is unpacked and packed again (needs the Oodle library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
-= Écran de jeu : vos pièces métalliques, matériau synthétique, biomatériau, supraconducteurs, produits chimiques, cellules d'énergie et microélectronique avec un bouton Matériaux d'artisanat au maximum, plus le neuropolymère. Les données Oodle de la sauvegarde sont décompressées et recompressées (nécessite la bibliothèque Oodle de n'importe quel jeu présent sur ce PC) et son SHA-1 est refait. Vérifié sur des sauvegardes publiques et réelles, pas encore essayé dans le jeu
+Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's compressed data is unpacked and packed again (needs the compression library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
+= Écran de jeu : vos pièces métalliques, matériau synthétique, biomatériau, supraconducteurs, produits chimiques, cellules d'énergie et microélectronique avec un bouton Matériaux d'artisanat au maximum, plus le neuropolymère. Les données compressées de la sauvegarde sont décompressées et recompressées (nécessite la bibliothèque de compression de n'importe quel jeu présent sur ce PC) et son SHA-1 est refait. Vérifié sur des sauvegardes publiques et réelles, pas encore essayé dans le jeu
 
 Game screen: your money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back. Checked on public saves, not yet tried in the game
 = Écran de jeu : votre argent, avec la carte, la monture, le temps de jeu et la difficulté affichés ; l'enveloppe zlib de la sauvegarde est retirée puis remise. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu

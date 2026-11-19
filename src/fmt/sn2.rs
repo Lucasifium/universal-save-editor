@@ -399,7 +399,7 @@ fn encode(stream: &[u8]) -> Result<Vec<u8>, String> {
     });
     let mut out = vec![];
     for (p, c) in pieces.iter().zip(packed) {
-        let c = c.ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
+        let c = c.ok_or("Couldn't pack the save again (no compression library found)")?;
         out.extend(TAG);
         out.extend((CHUNK as i64).to_le_bytes());
         out.push(2);

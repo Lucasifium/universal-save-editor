@@ -3023,7 +3023,7 @@ const SUBNAUTICA2: Spec = Spec {
     accent: (46, 196, 214),
     kind: Some("Subnautica 2 save"),
     markers: &["/Save"],
-    subtitle: "savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.",
+    subtitle: "savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the compression library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.",
     tiles: &[("Health", "/Survival/Health"), ("Oxygen", "/Survival/Oxygen"), ("Food", "/Survival/Food"), ("Water", "/Survival/Water")],
     sections: &[Section {
         title: "Survival",
@@ -3151,7 +3151,7 @@ const ATOMIC_HEART: Spec = Spec {
     accent: (200, 60, 50),
     kind: Some(crate::fmt::atomic_heart::KIND),
     markers: &["/Save/Stacks found"],
-    subtitle: "<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.",
+    subtitle: "<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.",
     tiles: &[("Neuropolymer", "/Special/Neuropolymer")],
     sections: &[Section { title: "Special", rows: &[("Neuropolymer", "/Special/Neuropolymer")] }],
     lists: &[List {
@@ -3241,7 +3241,7 @@ const DEATHLOOP: Spec = Spec {
     accent: (232, 120, 40),
     kind: None,
     markers: &["/save/commonState/TimeEssence/m_currency", "/save/commonState/Progression/m_day"],
-    subtitle: "save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.",
+    subtitle: "save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's compressed data is unpacked and packed again with the compression library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.",
     tiles: &[
         ("Residuum", "/save/commonState/TimeEssence/m_currency"),
         ("Day of the loop", "/save/commonState/Progression/m_day"),
@@ -3390,7 +3390,7 @@ const AC_BROTHERHOOD: Spec = Spec {
     accent: (180, 40, 40),
     kind: Some(crate::fmt::anvil::KIND_BROTHERHOOD),
     markers: &["/Money/Money"],
-    subtitle: "ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
+    subtitle: "ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\Assassin's Creed Brotherhood\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.",
     tiles: &[("Florins", "/Money/Money")],
     sections: &[Section { title: "Save", rows: &[("Game", "/Save/Game")] }],
     lists: &[
@@ -4692,7 +4692,7 @@ const LAST_EPOCH: Spec = Spec {
             rows: &[
                 ("Portal unlocked", "/portalUnlocked"),
                 ("Reached town", "/reachedTown"),
-                ("Seqence number", "/seqNo"),
+                ("Sequence number", "/seqNo"),
             ],
         },
     ],

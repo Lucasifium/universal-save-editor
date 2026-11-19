@@ -2,9 +2,9 @@
 //! save's party summary, gold and stack sizes of what each companion carries, and the story's
 //! global flags with the risky ones marked). See `fmt/larian.rs` and `fmt/bg3_flags.rs`.
 
-use crate::i18n::{tr, tr_any, trf};
+use crate::i18n::{tr, trf};
 use crate::widgets::{ListBox, ScrollLock};
-use super::{columns, fact, fmt_num, hero, panel, tabs, GameCtx};
+use super::{columns, fact, fit_rows as item_rows, fmt_num, hero, panel, tabs, GameCtx};
 use crate::fmt::larian::ATTRIBUTES;
 use crate::tree::esc;
 use eframe::egui::{self, Color32, RichText, Ui};
@@ -108,35 +108,6 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
     add_items(ui, cx, tr("Every kind of item found in an inventory in this save can be added, as a copy of one the game made. Items go into the chosen character's bag when you save; where they already carry a stack of the same item, that stack grows instead. Keys, containers and story items aren't offered. Keep a backup: this hasn't been tried in the game yet."));
 }
 
-/// Item rows (name, then its editor of `width`; `extra` is room for buttons beside it) in as many
-/// columns as fit, each column as wide as its longest item name needs, so no name is cut off.
-/// Only when even one column is too narrow (a phone) is a name shortened, and its full text shows
-/// on hover.
-fn item_rows(ui: &mut Ui, cx: &mut GameCtx, id: impl std::hash::Hash + Copy, rows: &[(String, String)], width: f32, extra: f32) {
-    let rows: Vec<&(String, String)> = rows.iter().filter(|(_, p)| cx.get(p).is_some()).collect();
-    if rows.is_empty() {
-        return;
-    }
-    let font = egui::TextStyle::Body.resolve(ui.style());
-    let color = ui.visuals().text_color();
-    let widest = rows.iter().map(|(l, _)| ui.fonts(|f| f.layout_no_wrap(tr_any(l).to_string(), font.clone(), color).size().x)).fold(0.0_f32, f32::max);
-    let gap = ui.spacing().item_spacing.x;
-    let label_w = widest.ceil() + 4.0;
-    let need = label_w + width + extra + gap * 2.0 + 16.0;
-    let avail = ui.available_width();
-    let cols = ((avail / need).floor() as usize).clamp(1, rows.len().min(3));
-    let per = rows.len().div_ceil(cols);
-    ui.columns(cols, |cs| {
-        for (c, chunk) in rows.chunks(per.max(1)).enumerate() {
-            let ui = &mut cs[c];
-            ui.push_id((id, c), |ui| {
-                for (label, p) in chunk {
-                    cx.row_fixed(ui, label, p, label_w, width);
-                }
-            });
-        }
-    });
-}
 
 /// "Add items": who gets them, and an amount per item kind (see `fmt::larian_add` and
 /// `fmt::bg3_add`), with `hint` under the list.

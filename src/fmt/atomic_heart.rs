@@ -46,7 +46,7 @@ pub fn unpack(d: &[u8]) -> Result<(Layout, Vec<u8>), String> {
     if !looks(d) {
         return Err("not an Atomic Heart save".into());
     }
-    let at = start(d).ok_or("this slot file's data isn't Oodle-packed")?;
+    let at = start(d).ok_or("this slot file's data isn't packed in the expected way")?;
     let total = u32::from_le_bytes(d.get(at..at + 4).ok_or("cut off")?.try_into().unwrap()) as usize;
     let first = at + 4;
     let end = first.checked_add(total).filter(|&e| e + 20 == d.len()).ok_or("the save's block length doesn't match its size")?;
@@ -67,7 +67,7 @@ pub fn unpack(d: &[u8]) -> Result<(Layout, Vec<u8>), String> {
     }
     let mut out = Vec::with_capacity(blocks.len() * CHUNK);
     for b in crate::par::map(&blocks, |&(b, n)| crate::oodle::decompress(b, n)) {
-        out.extend(b.ok_or("Oodle couldn't unpack the save's data")?);
+        out.extend(b.ok_or("Couldn't unpack the save's data (no compression library found)")?);
     }
     Ok((Layout { head: d[..at].to_vec() }, out))
 }
@@ -76,7 +76,7 @@ pub fn pack(l: &Layout, stream: &[u8]) -> Result<Vec<u8>, String> {
     let parts: Vec<&[u8]> = stream.chunks(CHUNK).collect();
     let mut blocks = vec![];
     for p in crate::par::map(&parts, |p| crate::oodle::compress(p)) {
-        blocks.push(p.ok_or("Oodle couldn't pack the save again (no Oodle library found)")?);
+        blocks.push(p.ok_or("Couldn't pack the save again (no compression library found)")?);
     }
     let mut body = vec![];
     for (raw, packed) in parts.iter().zip(&blocks) {

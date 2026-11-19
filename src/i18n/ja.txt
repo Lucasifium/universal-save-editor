@@ -7932,8 +7932,8 @@ Metal shards
 Metals
 = 金属
 
-Metro
-= メトロ
+Metro Redux / Metro Exodus
+= Metro Redux / Metro Exodus
 
 Might
 = 威力
@@ -8247,8 +8247,8 @@ Near the Witch Switch
 Needs
 = 欲求
 
-Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
-= 多くのゲームがインストールするOodleライブラリが必要です(自動で検出されます)。セーブのMD5は保存時に書き直されます。ゲームではまだ未検証です。
+Needs the compression library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game.
+= 多くのゲームがインストールする圧縮ライブラリが必要です(自動で検出されます)。セーブのMD5は保存時に書き直されます。ゲームではまだ未検証です。
 
 Ness
 = ネス
@@ -9734,8 +9734,8 @@ Selling price
 Sepith
 = セピス
 
-Seqence number
-= Seqence number
+Sequence number
+= シーケンス番号
 
 Serenade of Water
 = Serenade of Water
@@ -12328,8 +12328,8 @@ userN.dat. Money is stored divided by 10; the game's cap is 99,990.
 ★ marks the front row. Level goes from 1 to 99; EXP isn't worked out from the level, so set both. HP and SP are current values (the maximum comes from level, job and gear).
 = ★ は前列を示します。レベルは 1〜99。EXP はレベルから自動計算されないため、両方を設定してください。HP と SP は現在値です（最大値はレベル、ジョブ、装備で決まります）。
 
-<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
-= %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames 内の <n>.sav。セーブのOodleデータは、このPC上のいずれかのゲームのOodleライブラリで展開・再圧縮され、SHA-1も作り直されます。セーブにすでにあるスタックのみ一覧に表示されます。追加するには、先にゲーム内でそのアイテムを1つ拾ってください。
+<n>.sav in %LOCALAPPDATA%\\AtomicHeart\\Saved\\SaveGames. The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and its SHA-1 is made again. Only stacks the save already holds are listed: pick up one of an item in the game first to add it.
+= %LOCALAPPDATA%\AtomicHeart\Saved\SaveGames 内の <n>.sav。セーブの圧縮データは、このPC上のいずれかのゲームの圧縮ライブラリで展開・再圧縮され、SHA-1も作り直されます。セーブにすでにあるスタックのみ一覧に表示されます。追加するには、先にゲーム内でそのアイテムを1つ拾ってください。
 
 A .a7s save (Documents\\Anno 1800\\accounts\\<id>\\<profile>\\savegame). Coins are your company's money; the load screen's figure is changed with them. Other amounts of your company's storage are in the Tree, by GUID.
 = .a7sセーブ（Documents\Anno 1800\accounts\<id>\<profile>\savegame）。コインは会社のお金で、ロード画面の金額もこれで変わります。会社の倉庫にあるその他の数量はツリーにGUIDごとに表示されます。
@@ -12355,8 +12355,8 @@ A profile XML from Steam\\userdata\\<account>\\632360\\remote\\UserProfiles. Lun
 A save from Documents\\ZAUM Studio\\Disco Elysium\\SaveGames (a .ntwtf.zip; its big .2nd.ntwtf.json is edited and the rest of the zip is kept). Money, level, experience, skill points, the four attributes and the skills as the game keeps them. Skills the save lists under different names stay in the Tree.
 = Documents\ZAUM Studio\Disco Elysium\SaveGamesにあるセーブ（.ntwtf.zip。大きな.2nd.ntwtf.jsonを編集し、zipのそれ以外は保持されます）。お金、レベル、経験値、スキルポイント、4つの能力値と、ゲームが保持する形でのスキル。セーブが別名で載せているスキルはツリーに残ります。
 
-ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\\\Assassin's Creed Brotherhood\\\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
-= Saved Games\\Assassin's Creed Brotherhood\\SAVESにあるACBROTHERHOODSAVEGAME0.SAV（またはUbisoft Connectのセーブフォルダ）。セーブはスクランブル解除と展開が行われ、ブロックチェックとともに再度パックされます。紐づくアカウントは保持されます。先にゲームを終了し、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻る場合があります。
+ACBROTHERHOODSAVEGAME0.SAV in Saved Games\\Assassin's Creed Brotherhood\\SAVES (or the Ubisoft Connect savegames folder). The save is unscrambled, unpacked and packed again with its block checks; the account it belongs to is kept. Close the game and turn cloud saves off in Ubisoft Connect first, or the old save may come back.
+= Saved Games\Assassin's Creed Brotherhood\SAVESにあるACBROTHERHOODSAVEGAME0.SAV（またはUbisoft Connectのセーブフォルダ）。セーブはスクランブル解除と展開が行われ、ブロックチェックとともに再度パックされます。紐づくアカウントは保持されます。先にゲームを終了し、Ubisoft Connectでクラウドセーブをオフにしてください。そうしないと古いセーブが戻る場合があります。
 
 An OpenXcom or OpenXcom Extended save (.sav in Documents\\OpenXcom\\<mod>), which also plays UFO Defense from the Steam and GOG releases. Funds, the date, the difficulty, every soldier's stats and the base stores.
 = OpenXcomまたはOpenXcom Extendedのセーブ（Documents\OpenXcom\<mod>内の.sav）。SteamとGOG版のUFO Defenseもこれで動作します。資金、日付、難易度、全兵士のステータス、基地の保管庫。
@@ -12421,8 +12421,8 @@ data000.bin and the slot files in Steam\\userdata\\<account>\\3357650\\remote\\w
 file<n>.rpgsave in www\\save: Clams, each friend's level, heart and juice in Headspace and Faraway Town, and every snack, toy, weapon and charm you carry.
 = www\save の file<n>.rpgsave：Headspace と Faraway Town にいる各フレンドのクラム、レベル、ハート、ジュース、および所持しているすべてのスナック、おもちゃ、武器、チャーム。
 
-save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
-= Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01 の save.dloop。セーブの Oodle データは展開され、このPCにある任意のゲームの Oodle ライブラリ（ゲーム自体のもので可）で再圧縮され、ファイルのチェックサムも再作成されます。先にゲームを終了し、そのゲームの Steam クラウドをオフにしてください。そうしないと Steam が古いセーブを戻すことがあります。武器、トリンケット、スラブは数値で保存されるため一覧には表示されません。
+save.dloop in Saved Games\\Arkane Studios\\Deathloop\\base\\savegame\\<Steam id>\\SLOT01. The save's compressed data is unpacked and packed again with the compression library of any game on this PC (the game's own works), and the file's checksum is made again. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back. Weapons, trinkets and slabs are stored as numbers and are not listed.
+= Saved Games\Arkane Studios\Deathloop\base\savegame\<Steam id>\SLOT01 の save.dloop。セーブの 圧縮データは展開され、このPCにある任意のゲームの 圧縮ライブラリ（ゲーム自体のもので可）で再圧縮され、ファイルのチェックサムも再作成されます。先にゲームを終了し、そのゲームの Steam クラウドをオフにしてください。そうしないと Steam が古いセーブを戻すことがあります。武器、トリンケット、スラブは数値で保存されるため一覧には表示されません。
 
 saveNNN.dat from Saved Games\\Falcom\\ed8. Mira, sepith, each member's level, experience, HP, EP, CP and stats, and the bag.
 = Saved Games\Falcom\ed8 の saveNNN.dat。ミラ、セピス、各メンバーのレベル、経験値、HP、EP、CP、能力値、およびバッグ。
@@ -12433,8 +12433,8 @@ savegame.xml from Documents\\Teardown (inside the game's data folder). Cash, too
 savegame\\SLOT<n>\\checkpoint.dat: Raw Whalebone, runes and ammo. Each ammo count goes up to what the save says the player can carry. The save is unpacked and packed again, with its check value, on save.
 = savegame\SLOT<n>\checkpoint.dat：生のクジラの骨、ルーン、弾薬。各弾薬数はセーブが示す所持上限まで設定できます。セーブは保存時に展開され、チェック値とともに再圧縮されます。
 
-savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the Oodle library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
-= %LOCALAPPDATA%\Subnautica2\Saved\SaveGames の savegame_<n>.sav。現在のセーブを編集します。前のチェックポイントのコピーはそのままです。このPCにある任意のゲームの Oodle ライブラリが必要です。このゲームではリソースが重ならないため、素材最大ボタンはありません。
+savegame_<n>.sav in %LOCALAPPDATA%\\Subnautica2\\Saved\\SaveGames. Edits the current save; the previous-checkpoint copy is left alone. Needs the compression library of any game on this PC. Resources don't stack in this game, so there is no max-materials button.
+= %LOCALAPPDATA%\Subnautica2\Saved\SaveGames の savegame_<n>.sav。現在のセーブを編集します。前のチェックポイントのコピーはそのままです。このPCにある任意のゲームの 圧縮ライブラリが必要です。このゲームではリソースが重ならないため、素材最大ボタンはありません。
 
 4WD Cars
 = 4WD Cars
@@ -27638,8 +27638,8 @@ Game screen: Mira, the seven kinds of sepith, each character's level, and how ma
 Game screen: Raw Whalebone with a Max crafting materials button, runes, and bolts, bullets, grenades, spring razors and stun mines (each up to what the player can carry), plus the map and how many bonecharm traits are learned, for Dishonored 2. checkpoint.dat is unpacked and packed again with its check value on save; game.details opens as values (chapter, chaos level…). Checked on real saves and tried in the game
 = Dishonored 2 のゲーム画面: Raw Whalebone (クラフト素材を最大に ボタン付き)、ルーン、ボルト、弾丸、グレネード、スプリングレイザー、スタンマイン (それぞれプレイヤーの携行上限まで)、さらにマップと習得済みのボーンチャームの特性数。checkpoint.dat は展開し、保存時にチェック値とともに再び圧縮します。game.details は値として開きます (チャプター、カオスレベルなど)。実際のセーブで確認済みで、ゲームでも試験済み
 
-Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's Oodle data is unpacked and packed again with the Oodle library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
-= ゲーム画面: Residuum、ストレスレベル、ループの日付と場所、進行フラグ (最初のループ、Golden Loop、Julianna、void essence ability)。セーブの Oodle データは、このPCにある任意のゲームの Oodle ライブラリで展開して再び圧縮し、ファイルのチェックサムも作り直します。実際のセーブとゲームで確認済みです。先にゲームを終了し、そのゲームの Steam Cloud をオフにしてください。そうしないと Steam が古いセーブを戻すことがあります
+Game screen: Residuum, stress level, the loop's day and location, and the progress flags (first loop, Golden Loop, Julianna, void essence ability). The save's compressed data is unpacked and packed again with the compression library of any game on this PC, and the file's checksum is made again. Checked on a real save and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
+= ゲーム画面: Residuum、ストレスレベル、ループの日付と場所、進行フラグ (最初のループ、Golden Loop、Julianna、void essence ability)。セーブの 圧縮データは、このPCにある任意のゲームの 圧縮ライブラリで展開して再び圧縮し、ファイルのチェックサムも作り直します。実際のセーブとゲームで確認済みです。先にゲームを終了し、そのゲームの Steam Cloud をオフにしてください。そうしないと Steam が古いセーブを戻すことがあります
 
 Game screen: S.P.E.C.I.A.L., hit points, level, experience, skill points, skills, traits, tagged skills, perk ranks, radiation, poison, kills, bottle caps and inventory counts. Edits haven't been tried in the game yet
 = ゲーム画面: S.P.E.C.I.A.L.、ヒットポイント、レベル、経験値、スキルポイント、スキル、特性、タグスキル、パークランク、放射線、毒、撃破数、ボトルキャップ、インベントリの数。編集内容はゲームではまだ試していません
@@ -28100,8 +28100,8 @@ Game screen: health, hunger, sanity, temperature, time alive and the day count. 
 Game screen: health, level, experience and money of each used slot, plus recovery items and materials with a Max crafting materials button (99 each). Slot checksums are written again on save. Checked on a public save, not yet tried in the game
 = ゲーム画面: 使用中の各スロットの体力、レベル、経験値、所持金、さらに回復アイテムと素材 (各 99 まで増やす「クラフト素材を最大に」ボタン付き)。スロットのチェックサムは保存時に書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
 
-Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the Oodle library of any installed game, the same way the game reads it)
-= ゲーム画面: 体力、酸素、食料、水とそれぞれの最大値、プレイヤーのインベントリとすべてのロッカー、ビークル、収納コンテナー。セーブ内でその場で変更します (実際のアーリーアクセスのセーブで確認済み。ゲームが読み込むのと同じ方法で、インストール済みの任意のゲームの Oodle ライブラリが必要です)
+Game screen: health, oxygen, food and water with their maximums, the player inventory and every locker, vehicle and storage container, changed in place in the save (checked on a real early-access save; needs the compression library of any installed game, the same way the game reads it)
+= ゲーム画面: 体力、酸素、食料、水とそれぞれの最大値、プレイヤーのインベントリとすべてのロッカー、ビークル、収納コンテナー。セーブ内でその場で変更します (実際のアーリーアクセスのセーブで確認済み。ゲームが読み込むのと同じ方法で、インストール済みの任意のゲームの 圧縮ライブラリが必要です)
 
 Game screen: health, resin (with a Max crafting materials button that fills it to 999, an estimate), and pistol, shotgun and rapidfire ammo in the backpack, changed in place; the weapons Alyx has are listed. The Load menu keeps showing the old numbers until the game saves again. Not yet tried in the game
 = ゲーム画面: 体力、レジン (999 まで増やす「クラフト素材を最大に」ボタン付き。推定値)、バックパック内のピストル、ショットガン、ラピッドファイアの弾薬。その場で変更します。Alyx が持っている武器が一覧表示されます。ロードメニューは、ゲームが再びセーブするまで古い数値を表示し続けます。ゲームではまだ試していません
@@ -28595,8 +28595,8 @@ Game screen: your funds and the researcher, scientist, doctor and kill counters.
 Game screen: your gold, each character's HP, stats and equipment, and every inventory slot (materials, weapons, armor, accessories) and element slot. The save's packed data and checksum are written again. Checked on public saves, not yet tried in the game
 = ゲーム画面: ゴールド、各キャラクターの HP、ステータス、装備、すべてのインベントリスロット (素材、武器、防具、アクセサリー) とエレメントスロット。セーブの圧縮データとチェックサムは書き直されます。公開セーブで確認済みですが、ゲームではまだ試していません
 
-Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's Oodle data is unpacked and packed again (needs the Oodle library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
-= ゲーム画面: 金属部品、合成素材、バイオマテリアル、超伝導体、化学物質、エネルギーセル、マイクロエレクトロニクス (「クラフト素材を最大に」ボタン付き)、およびニューロポリマー。セーブの Oodle データは展開して再び圧縮し (このPCにある任意のゲームの Oodle ライブラリが必要)、SHA-1 も作り直します。公開セーブと実際のセーブで確認済みですが、ゲームではまだ試していません
+Game screen: your metal parts, synthetic material, biomaterial, superconductors, chemicals, energy cells and microelectronics with a Max crafting materials button, plus neuropolymer. The save's compressed data is unpacked and packed again (needs the compression library of any game on this PC) and its SHA-1 is made again. Checked on public and real saves, not yet tried in the game
+= ゲーム画面: 金属部品、合成素材、バイオマテリアル、超伝導体、化学物質、エネルギーセル、マイクロエレクトロニクス (「クラフト素材を最大に」ボタン付き)、およびニューロポリマー。セーブの 圧縮データは展開して再び圧縮し (このPCにある任意のゲームの 圧縮ライブラリが必要)、SHA-1 も作り直します。公開セーブと実際のセーブで確認済みですが、ゲームではまだ試していません
 
 Game screen: your money, with the map, mount, play time and difficulty shown; the save's zlib wrapping is removed and put back. Checked on public saves, not yet tried in the game
 = ゲーム画面: 所持金。マップ、マウント、プレイ時間、難易度も表示されます。セーブの zlib ラップは取り除かれ、元に戻されます。公開セーブで確認済みですが、ゲームではまだ試していません

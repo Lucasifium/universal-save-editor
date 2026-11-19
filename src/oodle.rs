@@ -117,9 +117,9 @@ pub fn location() -> Option<&'static Path> {
 }
 
 /// Why Oodle data can't be opened here (shown to the player).
-pub const MISSING: &str = "This save uses Oodle compression. No Oodle library (oo2core_*_win64.dll) was found on this \
-computer; it comes with many games (Sekiro, Telltale games…). Set SAVE_EDITOR_OODLE to its path, or open the \
-save on a computer that has one.";
+pub const MISSING: &str = "This save is packed with a compression library that this program doesn't include, and none was found \
+on this computer. It is found automatically when a game that uses it is installed (for example Sekiro or Telltale \
+games); or open the save on a computer that has one.";
 
 pub fn decompress(src: &[u8], raw_len: usize) -> Option<Vec<u8>> {
     let l = lib()?;

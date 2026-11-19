@@ -50,10 +50,17 @@ impl R<'_> {
     fn f32(&mut self) -> Result<f32, String> {
         Ok(f32::from_le_bytes(self.bytes(4)?.try_into().unwrap()))
     }
-    /// u16 length + Windows-1252 text.
+    /// u16 length + text: UTF-8 when the bytes are valid UTF-8 (Russian and other non-Latin games write it),
+    /// otherwise Windows-1252.
     fn wstring(&mut self) -> Result<String, String> {
         let n = self.u16()? as usize;
-        Ok(self.bytes(n)?.iter().map(|&b| cp1252(b)).collect())
+        let b = self.bytes(n)?;
+        if !b.is_ascii() {
+            if let Ok(s) = std::str::from_utf8(b) {
+                return Ok(s.to_string());
+            }
+        }
+        Ok(b.iter().map(|&b| cp1252(b)).collect())
     }
     /// Variable-size value: low two bits give the width (1, 2 or 4 bytes).
     fn vsval(&mut self) -> Result<u32, String> {
@@ -415,6 +422,17 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn header_text_is_utf8_or_cp1252() {
+        let mut d = vec![0u8, 0];
+        let ru = "8д 9ч".as_bytes();
+        d[0] = ru.len() as u8;
+        d.extend_from_slice(ru);
+        d.extend_from_slice(&[3, 0, 0x63, 0x61, 0xE9]); // "caé" in Windows-1252 is not UTF-8
+        let mut r = super::R { d: &d, i: 0 };
+        assert_eq!(r.wstring().unwrap(), "8д 9ч");
+        assert_eq!(r.wstring().unwrap(), "caé");
+    }
     use super::*;
 
     #[test]

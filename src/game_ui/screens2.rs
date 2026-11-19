@@ -67,23 +67,7 @@ pub(super) fn filter_box(ui: &mut Ui, id: &str, hint: &str) -> String {
 
 /// Label + editor rows for the given (label, pointer) pairs, spread over columns.
 pub(super) fn value_rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(String, String)]) {
-    let rows: Vec<&(String, String)> = rows.iter().filter(|(_, p)| cx.get(p).is_some()).collect();
-    if rows.is_empty() {
-        return;
-    }
-    let cols = ((ui.available_width() / 340.0).floor() as usize).clamp(1, 3);
-    let per = rows.len().div_ceil(cols);
-    ui.columns(cols, |cs| {
-        for (c, chunk) in rows.chunks(per.max(1)).enumerate() {
-            let ui = &mut cs[c];
-            ui.push_id((id, c), |ui| {
-                let label_w = (ui.available_width() - 230.0).clamp(70.0, 220.0);
-                for (label, p) in chunk {
-                    cx.row_fixed(ui, label, p, label_w, 90.0);
-                }
-            });
-        }
-    });
+    super::fit_rows(ui, cx, id, rows, 90.0, 84.0);
 }
 
 /// Every scalar (non-object) value of an object as (label, pointer) rows.
@@ -1829,7 +1813,7 @@ fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Colo
 pub fn metro(ui: &mut Ui, cx: &mut GameCtx) {
     let accent = Color32::from_rgb(200, 160, 60);
     const MONEY: &str = "/Inventory/Military-grade rounds (money)";
-    hero(ui, accent, "Metro", "Artyom", |ui| {
+    hero(ui, accent, "Metro Redux / Metro Exodus", "Artyom", |ui| {
         cx.tile(ui, "Military-grade rounds", MONEY, accent);
     });
     let rows: Vec<(String, String)> = match cx.get("/Inventory") {
@@ -2131,7 +2115,7 @@ pub fn death_stranding1(ui: &mut Ui, cx: &mut GameCtx) {
         ui.weak(tr("Facilities you have found or connected, with the materials stored at each. Connection level runs 0\u{2013}5."));
         super::crafting::offer(super::Game::DeathStranding1, ui, cx);
     });
-    ui.weak(tr("Needs the Oodle library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game."));
+    ui.weak(tr("Needs the compression library that many games install (found automatically). The save's MD5 is written again when you save. Not yet tried in the game."));
 }
 
 // ------------------------------------------------------------------ Mass Effect: Andromeda

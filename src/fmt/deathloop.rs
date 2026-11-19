@@ -40,12 +40,12 @@ pub fn unpack(d: &[u8]) -> Result<(Layout, Vec<u8>), String> {
     if raw == 0 || raw > 256 << 20 {
         return Err("unexpected size in the Deathloop save".into());
     }
-    let out = crate::oodle::decompress(&d[HEAD..], raw).ok_or("Oodle couldn't unpack the save's data")?;
+    let out = crate::oodle::decompress(&d[HEAD..], raw).ok_or("Couldn't unpack the save's data (no compression library found)")?;
     Ok((Layout { mid: d[4..0x54].to_vec() }, out))
 }
 
 pub fn pack(l: &Layout, json: &[u8]) -> Result<Vec<u8>, String> {
-    let packed = crate::oodle::compress(json).ok_or("Oodle couldn't pack the save again (no Oodle library found)")?;
+    let packed = crate::oodle::compress(json).ok_or("Couldn't pack the save again (no compression library found)")?;
     let mut body = l.mid.clone();
     body.extend((json.len() as u32).to_le_bytes());
     body.extend(packed);
