@@ -30395,3 +30395,81 @@ DS medal
 
 Honor medal
 = Medalha de honra
+All types
+= Todos os tipos
+
+Assault rifle
+= Fuzil de assalto
+
+Available
+= Disponível
+
+Battle Gear
+= Battle Gear
+
+D-Dog
+= D-Dog
+
+Develop everything available
+= Desenvolver tudo o que está disponível
+
+Developed
+= Desenvolvido
+
+Developed items appear in the iDroid as ready to use; develop an earlier grade before a later one. Items still being developed keep their timer. Close the game and turn Steam Cloud off before editing.
+= Os itens desenvolvidos aparecem no iDroid como prontos para uso; desenvolva um nível anterior antes de um posterior. Itens ainda em desenvolvimento mantêm o cronômetro. Feche o jogo e desative o Steam Cloud antes de editar.
+
+Grade
+= Nível
+
+Grenade launcher
+= Lança-granadas
+
+Handgun
+= Pistola
+
+Horse
+= Cavalo
+
+Machine gun
+= Metralhadora
+
+Marks developed every item of the R&D menu that can be developed now, with the earlier grades of its line. Left alone: DLC, enemy and unused entries, items that need a blueprint you haven't earned, and lines whose first grade is still locked by the story.
+= Marca como desenvolvido cada item do menu de P&D que já pode ser desenvolvido, com os níveis anteriores da sua linha. Ficam intactos: DLC, entradas inimigas e sem uso, itens que exigem um projeto ainda não obtido e linhas cujo primeiro nível ainda está bloqueado pela história.
+
+Missile
+= Míssil
+
+Placed weapon
+= Arma instalada
+
+Prosthetic arm
+= Braço protético
+
+Quiet
+= Quiet
+
+Research and development
+= Pesquisa e desenvolvimento
+
+Security gadget
+= Dispositivo de segurança
+
+Sniper rifle
+= Rifle de precisão
+
+Suit
+= Traje
+
+Throwing weapon
+= Arma de arremesso
+
+Tool
+= Ferramenta
+
+Walker Gear
+= Walker Gear
+
+{0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
+= {0} de {1} desenvolvidos. Os itens são listados pelo número de desenvolvimento; os nomes dos itens não estão no save.
+
