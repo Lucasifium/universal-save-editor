@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
 PackageIdentifier: Lucasifium.UniversalSaveEditor
-PackageVersion: 0.8.5
+PackageVersion: 0.8.6
 PackageLocale: en-US
 Publisher: Lucasifium
 PublisherUrl: https://github.com/Lucasifium
@@ -17,6 +17,6 @@ Tags:
 - hex-editor
 - backup
 - offline
-ReleaseNotesUrl: https://github.com/Lucasifium/universal-save-editor/releases/tag/v0.8.5
+ReleaseNotesUrl: https://github.com/Lucasifium/universal-save-editor/releases/tag/v0.8.6
 ManifestType: defaultLocale
 ManifestVersion: 1.9.0

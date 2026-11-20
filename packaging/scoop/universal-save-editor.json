@@ -1,16 +1,16 @@
 {
-    "version": "0.8.5",
+    "version": "0.8.6",
     "description": "Free, offline save editor and save manager for PC games, with backups and restore.",
     "homepage": "https://universalsaveeditor.com/",
     "license": "GPL-3.0-or-later",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.5/UniversalSaveEditor-0.8.5-windows-x64.exe#/UniversalSaveEditor.exe",
-            "hash": "fef7e152e805b806236be5edab4a9288d7fa3e55ef4f68ca98d857aff4cb2ade"
+            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.6/UniversalSaveEditor-0.8.6-windows-x64.exe#/UniversalSaveEditor.exe",
+            "hash": "377228a43147d834eebcee9c02d8f7c57613b0224a5054a6bba90dbcf3e41e01"
         },
         "arm64": {
-            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.5/UniversalSaveEditor-0.8.5-windows-arm64.exe#/UniversalSaveEditor.exe",
-            "hash": "4e4a643863040078f4f0ca397797b2e6535c1c4cf052cd2504d9c90e64245b2c"
+            "url": "https://github.com/Lucasifium/universal-save-editor/releases/download/v0.8.6/UniversalSaveEditor-0.8.6-windows-arm64.exe#/UniversalSaveEditor.exe",
+            "hash": "ec4423c2643dfa59a3038b76959bdbac618359119bbba51db1022aa36af7661d"
         }
     },
     "bin": "UniversalSaveEditor.exe",
