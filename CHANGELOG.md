@@ -2,6 +2,16 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.8.6
+
+> Raft player screen, Metal Gear Solid V research and staff upgrades, Onimusha charms
+
+- New game screen: Raft (player file: hotbar, inventory, health, hunger, thirst, Max crafting materials)
+- Metal Gear Solid V: research and development list with a Develop everything available button; Everyone to S++ also lifts the stat cap and sets the other staff stats; local material amounts shown and maxed
+- Onimusha: the Charms list shows every charm with an Add button for missing ones; the unused money field is removed
+- Attack on Titan 2: the unused material row is hidden
+- Saves whose size bytes looked shorter than the file open on their screen, and Find my game's saves details no longer stretch
+
 ## 0.8.5
 
 > Many more game screens, favourites on the start page, and big saves open with a progress bar
