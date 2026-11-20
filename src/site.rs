@@ -360,10 +360,11 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <meta property="og:image:alt" content="Universal Save Editor: free, offline save editor for 550+ games">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{SITE}/social-preview.png">
-<link rel="icon" href="{root}favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="{root}favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="{root}favicon-16.png">
-<link rel="apple-touch-icon" href="{root}apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicon-96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="{root}site.webmanifest">
 <meta name="theme-color" content="#0d111f">
 <script>try{{if(localStorage.getItem("use-theme")==="light")document.documentElement.setAttribute("data-theme","light")}}catch(e){{}}</script>
@@ -865,7 +866,7 @@ fn build_site() {
     std::fs::write(out.join("screenshot-phone.webp"), include_bytes!("../assets/screenshot-phone.webp")).unwrap();
     // Site icons, drawn from the app's own icon.
     std::fs::write(out.join("favicon.ico"), crate::icon::ico(&[16, 32, 48])).unwrap();
-    for (name, size) in [("logo-64.png", 64), ("favicon-16.png", 16), ("favicon-32.png", 32), ("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)] {
+    for (name, size) in [("logo-64.png", 64), ("favicon-16.png", 16), ("favicon-32.png", 32), ("favicon-48.png", 48), ("favicon-96.png", 96), ("apple-touch-icon.png", 180), ("icon-192.png", 192), ("icon-512.png", 512)] {
         std::fs::write(out.join(name), crate::icon::png(size)).unwrap();
     }
     std::fs::write(
