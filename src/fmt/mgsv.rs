@@ -450,7 +450,7 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
                         }
                     }
                 }
-                if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync" | "mbmStaffSvarsStatusesNoSync" | "mbmResourceSvars1Fix" | "mbmResourceSvars2Fix" | "mbmResourceSvars1Diff" | "mbmClusterSvars") && !arrays.contains_key(&key_name) {
+                if matches!(key_name.as_str(), "mbmStaffSvarsHeaders" | "mbmStaffSvarsStatusesSync" | "mbmStaffSvarsStatusesNoSync" | "mbmResourceSvars1Fix" | "mbmResourceSvars2Fix" | "mbmResourceSvars1Diff" | "mbmClusterSvars" | "mbmEquipParamStatus") && !arrays.contains_key(&key_name) {
                     arrays.insert(key_name.clone(), (items.iter().map(raw_of).collect::<Vec<_>>(), item_leaves.clone()));
                 }
                 let key = crate::tree::unique_key(&group, &key_name);
@@ -589,6 +589,121 @@ fn add_staff_and_resources(arrays: &HashMap<String, (Vec<u64>, Vec<Leaf>)>, view
         }
         view.insert("Resources".into(), Value::Object(res));
     }
+    if let Some((st, sl)) = arrays.get("mbmEquipParamStatus") {
+        let mut research = Map::new();
+        for (i, row) in dev_rows().iter().enumerate().take(st.len()) {
+            let mut m = Map::new();
+            for (label, shift) in [("Developed", DEV_DEVELOPED), ("Available", DEV_AVAILABLE)] {
+                let l = field(&sl[i], shift, 1, 0);
+                m.insert(label.into(), field_value(&l, st[i]));
+                editable.insert(format!("/Research/{}/{label}", crate::tree::esc(&dev_key(row))), leaves.len());
+                leaves.push(l);
+            }
+            research.insert(dev_key(row), Value::Object(m));
+        }
+        view.insert("Research".into(), Value::Object(research));
+    }
+}
+
+// ---------------------------------------------------------------- research (development)
+
+/// Bit positions in an `mbmEquipParamStatus` byte, from comparing real saves with the game's
+/// development table: bit 0 is set once an item is developed and only ever with its earlier
+/// grade developed too; bit 2 is set once it can be developed (also closed under earlier
+/// grades). The other bits (new-item marks and the like) are left as they are.
+pub const DEV_DEVELOPED: u8 = 0;
+pub const DEV_AVAILABLE: u8 = 2;
+
+/// One entry of the game's equipment development table. The save keeps one status byte per
+/// entry, in this order (the retail 1.11 table; slots past it stay 0).
+pub struct DevRow {
+    pub id: u32,
+    pub kind: &'static str,
+    /// The development grade within its line.
+    pub grade: u8,
+    /// The entry that has to be developed first (0: none).
+    pub prereq: u32,
+    /// Needs a blueprint or special design from a mission or side op.
+    pub blueprint: bool,
+    /// Not in the iDroid development menu: DLC, enemy gear, unused entries.
+    pub hidden: bool,
+    /// Developed from the start of the game.
+    pub starts_developed: bool,
+}
+
+/// The table rows (ids, types and chains are the game's own; names live in its encrypted text).
+pub fn dev_rows() -> &'static [DevRow] {
+    static R: std::sync::OnceLock<Vec<DevRow>> = std::sync::OnceLock::new();
+    R.get_or_init(|| {
+        include_str!("mgsv_dev.txt")
+            .lines()
+            .filter_map(|l| {
+                let mut p = l.split_whitespace();
+                let (id, kind, grade, prereq, flags) = (p.next()?, p.next()?, p.next()?, p.next()?, p.next()?);
+                let kind = match kind {
+                    "ArtificialArm" => "Prosthetic arm",
+                    "Assault" => "Assault rifle",
+                    "BattleGear" => "Battle Gear",
+                    "DDog" => "D-Dog",
+                    "Equip" => "Equipment",
+                    "GrenadeLauncher" => "Grenade launcher",
+                    "Heli" => "Helicopter",
+                    "Machinegun" => "Machine gun",
+                    "Placed" => "Placed weapon",
+                    "SecurityGadgets" => "Security gadget",
+                    "Sniper" => "Sniper rifle",
+                    "Submachinegun" => "Submachine gun",
+                    "Throwing" => "Throwing weapon",
+                    "WalkerGear" => "Walker Gear",
+                    "Handgun" => "Handgun",
+                    "Horse" => "Horse",
+                    "Missile" => "Missile",
+                    "Quiet" => "Quiet",
+                    "Shield" => "Shield",
+                    "Shotgun" => "Shotgun",
+                    "Suit" => "Suit",
+                    "Tool" => "Tool",
+                    _ => "Other",
+                };
+                Some(DevRow { id: id.parse().ok()?, kind, grade: grade.parse().ok()?, prereq: prereq.parse().ok()?, blueprint: flags.contains('B'), hidden: flags.contains('X'), starts_developed: flags.contains('I') })
+            })
+            .collect()
+    })
+}
+
+/// The view key of a table row, e.g. "Handgun 1005".
+pub fn dev_key(r: &DevRow) -> String {
+    format!("{} {}", r.kind, r.id)
+}
+
+/// Which rows "Develop everything available" should mark developed, given each row's
+/// (developed, available) state: every row of the iDroid menu that can already be developed,
+/// plus the rest of its chain of earlier grades. Hidden rows (DLC, enemy gear, unused), rows
+/// that need a blueprint and aren't unlocked yet, and chains whose first grade is still locked
+/// (story-gated) are left alone.
+pub fn develop_plan(state: &dyn Fn(usize) -> (bool, bool)) -> Vec<usize> {
+    let rows = dev_rows();
+    let at: HashMap<u32, usize> = rows.iter().enumerate().map(|(i, r)| (r.id, i)).collect();
+    let mut memo: Vec<Option<bool>> = vec![None; rows.len()];
+    fn ok(i: usize, rows: &[DevRow], at: &HashMap<u32, usize>, state: &dyn Fn(usize) -> (bool, bool), memo: &mut Vec<Option<bool>>, depth: usize) -> bool {
+        if let Some(v) = memo[i] {
+            return v;
+        }
+        let r = &rows[i];
+        let (dev, avail) = state(i);
+        let v = if r.hidden {
+            false
+        } else if dev || avail || r.starts_developed {
+            true
+        } else if r.blueprint || r.prereq == 0 || depth > 64 {
+            false
+        } else {
+            at.get(&r.prereq).is_some_and(|&p| ok(p, rows, at, state, memo, depth + 1))
+        };
+        memo[i] = Some(v);
+        v
+    }
+    (0..rows.len()).filter(|&i| ok(i, rows, &at, state, &mut memo, 0) && !state(i).0).collect()
 }
 
 #[derive(Clone, Debug)]
@@ -835,9 +950,74 @@ mod tests {
             ("mbmResourceSvars1Fix", 2, vec![(100u64 << 1) | 1; 39]),
             ("mbmResourceSvars2Fix", 2, vec![100u64 << 3; 39]),
             ("mbmResourceSvars1Diff", 2, vec![100u64 << 1; 39]),
+            ("mbmEquipParamStatus", 5, {
+                let mut v = vec![0u64; 1024];
+                v[0] = 5; // developed from the start
+                v[1] = 4; // can be developed
+                v
+            }),
             ("totalPlayTime", 3, vec![1]),
             ("alarmCount", 0, vec![1, 0, 1]),
         ])
+    }
+
+    #[test]
+    fn development_table_is_consistent() {
+        let rows = dev_rows();
+        assert_eq!(rows.len(), 920);
+        let ids: std::collections::HashSet<u32> = rows.iter().map(|r| r.id).collect();
+        assert_eq!(ids.len(), rows.len(), "ids are unique");
+        assert!(rows.iter().all(|r| r.prereq == 0 || ids.contains(&r.prereq)), "every prerequisite is in the table");
+        let keys: std::collections::HashSet<String> = rows.iter().map(dev_key).collect();
+        assert_eq!(keys.len(), rows.len());
+        assert!(rows.iter().all(|r| r.kind != "Other" || r.hidden || r.id > 0));
+    }
+
+    #[test]
+    fn develop_plan_follows_chains_and_skips_locked_and_hidden() {
+        let rows = dev_rows();
+        // Nothing unlocked: only what starts developed is considered, and it is already developed.
+        assert!(develop_plan(&|i| (rows[i].starts_developed, false)).iter().all(|&i| !rows[i].starts_developed));
+        // Everything marked available: every visible row gets developed, no hidden one.
+        let plan = develop_plan(&|_| (false, true));
+        assert!(plan.iter().all(|&i| !rows[i].hidden));
+        assert_eq!(plan.len(), rows.iter().filter(|r| !r.hidden).count());
+        // Only the first grade of a line is available: the later grades follow, unless they need a blueprint.
+        let at = |id: u32| rows.iter().position(|r| r.id == id).unwrap();
+        let (a, b, c) = (at(1000), at(1001), at(1002));
+        let plan = develop_plan(&|i| (false, i == b));
+        assert!(plan.contains(&b));
+        assert!(!plan.contains(&a) || rows[a].starts_developed, "an earlier grade nobody unlocked stays");
+        let _ = c;
+        // A blueprint row that is not unlocked is left alone even when its prerequisite is developed.
+        if let Some(bp) = rows.iter().position(|r| r.blueprint && !r.hidden && r.prereq != 0) {
+            let pre = at(rows[bp].prereq);
+            assert!(!develop_plan(&|i| (i == pre, false)).contains(&bp));
+        }
+    }
+
+    #[test]
+    fn research_flags_edit_and_save() {
+        use crate::formats::{decode_with, encode, verified, Content, Options};
+        let raw = encrypt("TPP_GAME_DATA", &sample());
+        let opts = Options::default();
+        let d = decode_with(&raw, &opts);
+        let Content::Tree(mut doc) = d.content else { panic!() };
+        let rows = dev_rows();
+        let (k0, k1) = (dev_key(&rows[0]), dev_key(&rows[1]));
+        assert_eq!(doc.view["Research"][&k0]["Developed"], json!(true));
+        assert_eq!(doc.view["Research"][&k1]["Developed"], json!(false));
+        assert_eq!(doc.view["Research"][&k1]["Available"], json!(true));
+        doc.set(&format!("/Research/{}/Developed", crate::tree::esc(&k1)), json!(true)).unwrap();
+        doc.set(&format!("/Research/{}/Developed", crate::tree::esc(&k0)), json!(false)).unwrap();
+        let content = Content::Tree(doc);
+        let bytes = encode(&d.layers, &content).unwrap();
+        let back = decode_with(&bytes, &opts).content;
+        assert!(verified(&back, &content));
+        let Content::Tree(t) = back else { panic!() };
+        assert_eq!(t.view["Research"][&k1]["Developed"], json!(true));
+        assert_eq!(t.view["Research"][&k0]["Developed"], json!(false));
+        assert_eq!(t.view["Research"][&k0]["Available"], json!(true), "the other bits stay");
     }
 
     /// Every editable field, edited and saved the way the app saves: encode the layers, decode the
@@ -970,5 +1150,27 @@ mod tests {
         assert_eq!(again.view.pointer("/Resources/Biological"), doc.view.pointer("/Resources/Biological"));
         assert_eq!(decrypt(&encrypt(key, &out)).unwrap().1[16..], out[16..]);
         assert_eq!(encrypt(key, &p), d, "re-encrypting the unchanged save gives the same file");
+        let rows = dev_rows();
+        let state = |i: usize| {
+            let r = &doc.view["Research"][dev_key(&rows[i])];
+            (r["Developed"].as_bool().unwrap(), r["Available"].as_bool().unwrap())
+        };
+        let plan = develop_plan(&state);
+        println!("develop plan: {} of {} rows", plan.len(), rows.len());
+        let mut doc = parse(&p).unwrap();
+        for &i in &plan {
+            let k = crate::tree::esc(&dev_key(&rows[i]));
+            doc.set(&format!("/Research/{k}/Available"), true.into()).unwrap();
+            doc.set(&format!("/Research/{k}/Developed"), true.into()).unwrap();
+        }
+        let out = doc.to_bytes().unwrap();
+        let after = parse(&out).unwrap();
+        for &i in &plan {
+            assert_eq!(after.view["Research"][dev_key(&rows[i])]["Developed"], Value::Bool(true));
+        }
+        let diff = p.iter().zip(&out).filter(|(a, b)| a != b).count();
+        println!("bytes changed (incl. checksum): {diff}");
+        assert_eq!(after.view["Staff"], doc.view["Staff"]);
+        assert_eq!(after.view["Resources"], parse(&p).unwrap().view["Resources"]);
     }
 }

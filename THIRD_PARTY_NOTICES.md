@@ -71,6 +71,7 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [ets-vibes game.sii notes (unit and property names of Euro Truck Simulator 2 saves; facts only)](https://github.com/CarlosEduJs/ets-vibes) | CarlosEduJs | facts only (file layouts and names), credited |
 | [total-war-save-parser (Total War ESF save layout: records, blocks, value types and the compressed campaign block; layout read, new implementation)](https://github.com/IMRZ/total-war-save-parser), after the PackFileManager EsfLib | IMRZ and MrSoul42 | MIT |
 | [tpp-mod (Metal Gear Solid V staff, resource and variable bit layouts, and skill and section names; ported)](https://github.com/alicealys/tpp-mod) | alicealys and contributors | GPL-3.0 |
+| [mgsv-deminified-lua (Metal Gear Solid V equipment development table order and chains; facts only)](https://github.com/TinManTex/mgsv-deminified-lua) | TinManTex | facts only (table order, ids and chains), credited |
 | [Megabonk-Save-Decryptor (Megabonk save key and IV; facts only)](https://github.com/GuardianN06/Megabonk-Save-Decryptor) | GuardianN06 | facts only (key and layout), credited |
 | [Eiyuden-Chronicle-Save-Editor (Eiyuden Chronicle save key and IV; facts only)](https://github.com/TheSparda/Eiyuden-Chronicle-Save-Editor) | TheSparda | facts only (key and layout), credited |
 | [SuikodenSaveDecrypter (Suikoden I & II HD save encryption, ported)](https://github.com/d3xMachina/SuikodenSaveDecrypter) | d3xMachina | MIT |

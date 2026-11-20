@@ -30506,3 +30506,81 @@ DS medal
 
 Honor medal
 = 名誉勲章
+All types
+= すべての種類
+
+Assault rifle
+= アサルトライフル
+
+Available
+= 開発可能
+
+Battle Gear
+= バトルギア
+
+D-Dog
+= ディーガー
+
+Develop everything available
+= 開発可能なものをすべて開発
+
+Developed
+= 開発済み
+
+Developed items appear in the iDroid as ready to use; develop an earlier grade before a later one. Items still being developed keep their timer. Close the game and turn Steam Cloud off before editing.
+= 開発済みのアイテムはiDroidで使用可能として表示されます。上位のグレードの前に下位のグレードを開発してください。開発中のアイテムはタイマーが維持されます。編集前にゲームを終了し、Steamクラウドをオフにしてください。
+
+Grade
+= グレード
+
+Grenade launcher
+= グレネードランチャー
+
+Handgun
+= ハンドガン
+
+Horse
+= ホース
+
+Machine gun
+= マシンガン
+
+Marks developed every item of the R&D menu that can be developed now, with the earlier grades of its line. Left alone: DLC, enemy and unused entries, items that need a blueprint you haven't earned, and lines whose first grade is still locked by the story.
+= 研究開発メニューで現在開発できるアイテムを、その系統の下位グレードも含めてすべて開発済みにします。対象外：DLC・敵用・未使用の項目、未入手の設計図が必要なアイテム、最初のグレードがストーリーでまだロックされている系統。
+
+Missile
+= ミサイル
+
+Placed weapon
+= 設置兵器
+
+Prosthetic arm
+= 義手
+
+Quiet
+= クワイエット
+
+Research and development
+= 研究開発
+
+Security gadget
+= セキュリティ機器
+
+Sniper rifle
+= スナイパーライフル
+
+Suit
+= スーツ
+
+Throwing weapon
+= 投擲武器
+
+Tool
+= ツール
+
+Walker Gear
+= ウォーカーギア
+
+{0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
+= {1}件中{0}件が開発済み。アイテムは開発番号で表示されます（アイテム名はセーブデータに含まれません）。
+
