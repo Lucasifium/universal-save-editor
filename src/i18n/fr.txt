@@ -28371,8 +28371,8 @@ Game screen: the caravan's renown, supplies, morale and counts and a table of ea
 Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
 = Écran de jeu : expérience de compétence, pièces antiques, santé maximale du personnage et quantités de l'inventaire (objets nommés dans la mesure où l'exemple public les montre). JSON simple ; vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
 
-Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
-= Écran de jeu : jour, temps joué, heure du jour, météo et indicateur de la tour radio d'un monde (.rgd). le mode de jeu, la quantité de chaque pile de chaque coffre (avec Max matériaux d'artisanat) et les objets appris et recherchés. BinaryFormatter .NET, lu et écrit sur place ; toutes les autres valeurs du monde s'ouvrent pour modification dans l'Arbre. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. A second screen for the player file (RGD_Users.rgd, in the Player folder): health, hunger and thirst, and the hotbar and inventory by item name in every world, with Max crafting materials. .NET BinaryFormatter, read and written in place; every other value opens for Tree editing. The player screen was checked on a real save; not yet tried in the game
+= Écran de jeu : jour, temps joué, heure du jour, météo et indicateur de la tour radio d'un monde (.rgd). le mode de jeu, la quantité de chaque pile de chaque coffre (avec Max matériaux d'artisanat) et les objets appris et recherchés. BinaryFormatter .NET, lu et écrit sur place ; toutes les autres valeurs du monde s'ouvrent pour modification dans l'Arbre. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu Un second écran pour le fichier du joueur (RGD_Users.rgd, dans le dossier Player) : santé, faim et soif, et barre rapide et inventaire par nom d’objet dans chaque monde, avec « Max crafting materials ». L’écran du joueur a été vérifié sur une vraie sauvegarde.
 
 Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
 = Écran de jeu : points de rang de difficulté, nombre de New Game+ et temps de jeu, chaque objet et monnaie par son code de jeu avec sa quantité, niveau et déblocage de chaque arme, et avantages. Les objets, armes et avantages utilisent les codes du jeu car ses fichiers texte ne sont pas lus. Vérifié sur de vraies sauvegardes et dans le jeu. Fermez d'abord le jeu et désactivez-lui Steam Cloud, sinon Steam risque de ramener l'ancienne sauvegarde
@@ -30513,3 +30513,16 @@ Walker Gear
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {0} sur {1} développés. Les objets sont listés par numéro de développement ; leurs noms ne figurent pas dans la sauvegarde.
 
+
+
+Hotbar
+= Barre rapide
+
+World {0}
+= Monde {0}
+
+RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Player (.NET BinaryFormatter, read and written in place). Health, hunger and thirst, and the hotbar and inventory of the player in every world, by item name, with a Max crafting materials button. Close the game first.
+= RGD_Users.rgd depuis AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\Player (.NET BinaryFormatter, lu et écrit sur place). Santé, faim et soif, ainsi que la barre rapide et l’inventaire du joueur dans chaque monde, par nom d’objet, avec un bouton « Max crafting materials ». Fermez d’abord le jeu.
+
+Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
+= Monte à la taille de pile du jeu, 20, les planches, feuilles de palmier, ferraille, plastique, cordes, clous, pierres, sable, argile, verre, minerais, lingots, boulons, charnières, cartes électroniques, gelée de liane, plumes, terre, laine et cuir que vous portez déjà, dans la barre rapide et l’inventaire de chaque monde. Les outils, la nourriture, les plans, les plantes et tout le reste restent intacts.
