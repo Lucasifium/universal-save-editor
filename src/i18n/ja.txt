@@ -28448,8 +28448,8 @@ Game screen: the caravan's renown, supplies, morale and counts and a table of ea
 Game screen: the character's skill experience, ancient coins, maximum health and the inventory counts (items named as far as the public sample shows them). Plain JSON; checked on a public save, not yet tried in the game
 = ゲーム画面: キャラクターのスキル経験値、古代コイン、最大体力、インベントリの数 (アイテム名は公開サンプルで判明している範囲で表示)。プレーンな JSON です。公開セーブで確認済みですが、ゲームではまだ試していません
 
-Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. .NET BinaryFormatter, read and written in place; every other value of the world opens for Tree editing. Checked on a public save, not yet tried in the game
-= ゲーム画面: ワールド (.rgd) の日数、プレイ時間、時刻、天気、ラジオ塔のフラグ。ゲームモード、各ストレージの全スタックの数量(クラフト素材を最大にするボタン付き)、習得済みと研究済みのアイテム。.NET BinaryFormatter で、その場で読み書きします。ワールドのその他すべての値はツリー編集で開きます。公開セーブで確認済みですが、ゲームではまだ試していません
+Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. A second screen for the player file (RGD_Users.rgd, in the Player folder): health, hunger and thirst, and the hotbar and inventory by item name in every world, with Max crafting materials. .NET BinaryFormatter, read and written in place; every other value opens for Tree editing. The player screen was checked on a real save; not yet tried in the game
+= ゲーム画面: ワールド (.rgd) の日数、プレイ時間、時刻、天気、ラジオ塔のフラグ。ゲームモード、各ストレージの全スタックの数量(クラフト素材を最大にするボタン付き)、習得済みと研究済みのアイテム。.NET BinaryFormatter で、その場で読み書きします。ワールドのその他すべての値はツリー編集で開きます。公開セーブで確認済みですが、ゲームではまだ試していません プレイヤーファイル(Player フォルダの RGD_Users.rgd)用の2つ目の画面で、各ワールドの体力・空腹・喉の渇き、ホットバーとインベントリをアイテム名で表示し、「Max crafting materials」ボタンもあります。プレイヤー画面は実際のセーブで確認済みです。
 
 Game screen: the difficulty rank points, New Game+ count and game time, every item and currency by its game code with its quantity, each weapon's level and unlock, and the perks. Items, weapons and perks use the game's codes because its text files aren't read. Checked on real saves and in the game. Close the game and turn Steam Cloud off for it first, or Steam may bring the old save back
 = ゲーム画面: 難易度ランクポイント、New Game+ の回数、ゲーム時間、すべてのアイテムと通貨 (ゲーム内コード別、数量付き)、各武器のレベルとアンロック、パーク。ゲームのテキストファイルは読み込まないため、アイテム、武器、パークはゲームのコードで表示されます。実際のセーブとゲームで確認済みです。先にゲームを終了し、そのゲームの Steam Cloud をオフにしてください。そうしないと Steam が古いセーブを戻すことがあります
@@ -30584,3 +30584,16 @@ Walker Gear
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {1}件中{0}件が開発済み。アイテムは開発番号で表示されます（アイテム名はセーブデータに含まれません）。
 
+
+
+Hotbar
+= ホットバー
+
+World {0}
+= ワールド {0}
+
+RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Player (.NET BinaryFormatter, read and written in place). Health, hunger and thirst, and the hotbar and inventory of the player in every world, by item name, with a Max crafting materials button. Close the game first.
+= AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\Player の RGD_Users.rgd(.NET BinaryFormatter、その場で読み書き)。各ワールドでのプレイヤーの体力・空腹・喉の渇き、ホットバーとインベントリをアイテム名で表示し、「Max crafting materials」ボタンも付きます。先にゲームを終了してください。
+
+Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
+= 所持している板、ヤシの葉、スクラップ、プラスチック、ロープ、釘、石、砂、粘土、ガラス、鉱石、インゴット、ボルト、ちょうつがい、基板、ツタのゼリー、羽、土、羊毛、革を、各ワールドのホットバーとインベントリでゲームのスタック上限である20にします。道具、食べ物、設計図、植物など他のものはそのままです。
