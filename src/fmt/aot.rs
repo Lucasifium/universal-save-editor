@@ -34,9 +34,10 @@ const LEVEL2: usize = P + 0x22C6BC;
 const EXP2_CAP: u32 = 605_770;
 const MATERIALS2: usize = P + 0x146E98;
 /// Crafting material rows. Rows 53-55, 73-74 and 115 on are never listed: a 193-hour save that
-/// owns every other material still marks them differently, so what they hold is unknown.
+/// owns every other material still marks them differently, so what they hold is unknown. Row 72 is
+/// marked like a material but never appears in the game's Materials list (an unused item).
 const MATERIAL_ROWS2: usize = 115;
-const MATERIAL_SKIP2: [usize; 5] = [53, 54, 55, 73, 74];
+const MATERIAL_SKIP2: [usize; 6] = [53, 54, 55, 72, 73, 74];
 const GIFTS2: usize = P + 0x14B698;
 const GIFT_ROWS2: usize = 50;
 const GIFT_STRIDE2: usize = 0x30;
