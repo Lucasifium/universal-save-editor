@@ -238,10 +238,11 @@ fn research(ui: &mut Ui, cx: &mut GameCtx) {
                             ui.label(row.grade.to_string());
                         });
                         cell(ui, widths[2], &mut |ui| {
-                            let was = cx.get(&format!("{p}/Developed")).and_then(Value::as_bool).unwrap_or(false);
+                            let n = cx.edits.len();
                             cx.editor(ui, &format!("{p}/Developed"), 40.0);
                             // A developed item is also marked available, as the game does.
-                            if !was && cx.get(&format!("{p}/Developed")).and_then(Value::as_bool) == Some(true) {
+                            let dev_path = format!("{p}/Developed");
+                            if cx.edits.len() > n && cx.edits[n..].iter().any(|(q, v)| *q == dev_path && v.as_bool() == Some(true)) {
                                 cx.set(&format!("{p}/Available"), json!(true));
                             }
                         });
