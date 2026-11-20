@@ -379,112 +379,119 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
             });
         });
     });
-    for (ti, t) in s.tables.iter().enumerate() {
-        // Rows of an array are numbered; rows of an object (the nodes of a text save, or the
-        // named records of a binary one) are its keys, which name the row when `name` is empty.
-        let t_path = resolve(cx.root, t.path);
-        let t_path = t_path.as_str();
-        let rows: Vec<(String, String)> = match cx.get(t_path) {
-            Some(Value::Array(a)) => (0..a.len()).map(|i| (i.to_string(), String::new())).collect(),
-            Some(Value::Object(o)) if !o.is_empty() && o.iter().all(|(k, v)| v.is_object() && !k.starts_with('@')) => {
-                o.keys().map(|k| (k.replace('~', "~0").replace('/', "~1"), k.clone())).collect()
-            }
-            _ => Vec::new(),
-        };
-        let n = rows.len();
-        if n == 0 {
-            continue;
-        }
-        panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
-            let q = filter(ui, &format!("t{i}/{ti}"));
-            // A table wider than the window scrolls sideways; a solid bar (only when it overflows) shows that more is there.
-            ui.style_mut().spacing.scroll = egui::style::ScrollStyle::solid();
-            egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
-                egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
-                    ui.label("");
-                    for (h, _) in t.cols {
-                        ui.label(egui::RichText::new(tr_text(h)).strong());
+    // A screen whose lists matter more than a long table shows its lists first.
+    let lists_first = s.kind == Some(crate::fmt::aot::KIND2);
+    for second in [false, true] {
+        if second == lists_first {
+            for (ti, t) in s.tables.iter().enumerate() {
+                // Rows of an array are numbered; rows of an object (the nodes of a text save, or the
+                // named records of a binary one) are its keys, which name the row when `name` is empty.
+                let t_path = resolve(cx.root, t.path);
+                let t_path = t_path.as_str();
+                let rows: Vec<(String, String)> = match cx.get(t_path) {
+                    Some(Value::Array(a)) => (0..a.len()).map(|i| (i.to_string(), String::new())).collect(),
+                    Some(Value::Object(o)) if !o.is_empty() && o.iter().all(|(k, v)| v.is_object() && !k.starts_with('@')) => {
+                        o.keys().map(|k| (k.replace('~', "~0").replace('/', "~1"), k.clone())).collect()
                     }
-                    ui.end_row();
-                    for (r, (key, key_name)) in rows.iter().enumerate() {
-                        let name = if t.name.is_empty() {
-                            key_name.clone()
-                        } else {
-                            t.name.iter().filter_map(|k| cx.text(&format!("{t_path}/{key}{k}"))).collect::<Vec<_>>().join(" ")
-                        };
-                        if !q.is_empty() && !name.to_lowercase().contains(&q) {
-                            continue;
-                        }
-                        if !t.only.is_empty() && !t.only.contains(&name.as_str()) {
-                            continue;
-                        }
-                        let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
-                        if name.is_empty() {
-                            ui.label(format!("#{}", r + 1));
-                        } else {
-                            let short = short_item_name(&name);
-                            let resp = ui.label(short.clone());
-                            if short != name {
-                                resp.on_hover_text(name);
-                            }
-                        }
-                        for (_, k) in t.cols {
-                            let p = format!("{t_path}/{key}{k}");
-                            if cx.get(&p).is_some() {
-                                cx.cell(ui, &p, 64.0);
-                            } else {
-                                ui.label("");
-                            }
-                        }
-                        ui.end_row();
-                    }
-                });
-            });
-        });
-    }
-    if s.name == "Raft" {
-        super::raft::show(ui, cx);
-    }
-    for (li, l) in s.lists.iter().enumerate() {
-        let list = entries(cx, l);
-        if list.is_empty() {
-            continue;
-        }
-        panel(ui, crate::i18n::tr_any(l.title), |ui| {
-            if let Some(m) = &l.max {
-                let tip = format!("{}{}", crate::i18n::tr_any(m.about), if m.estimate { format!(" {}", crate::i18n::tr("The cap is an estimate from community guides.")) } else { String::new() });
-                // With several lists, the label names which one the action is for.
-                let many = s.lists.iter().filter(|x| x.max.is_some()).count() > 1;
-                let label = match (many, m.cap) {
-                    (true, 0) => format!("{}: {}", tr("Max crafting materials"), crate::i18n::tr_any(l.title)),
-                    (false, 0) => tr("Max crafting materials").to_string(),
-                    (true, c) => format!("{}: {} ({})", tr("Max crafting materials"), crate::i18n::tr_any(l.title), c),
-                    (false, c) => format!("{} ({})", tr("Max crafting materials"), c),
+                    _ => Vec::new(),
                 };
-                if super::quick_button(ui, label, tip) {
-                    apply_max(cx, l);
+                let n = rows.len();
+                if n == 0 {
+                    continue;
                 }
+                panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
+                    let q = filter(ui, &format!("t{i}/{ti}"));
+                    // A table wider than the window scrolls sideways; a solid bar (only when it overflows) shows that more is there.
+                    ui.style_mut().spacing.scroll = egui::style::ScrollStyle::solid();
+                    egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt(("simple_table_scroll", i, ti)).show_locked(ui, |ui| {
+                        egui::Grid::new(("simple_table", i, ti)).num_columns(t.cols.len() + 1).spacing([8.0, 4.0]).striped(true).show(ui, |ui| {
+                            ui.label("");
+                            for (h, _) in t.cols {
+                                ui.label(egui::RichText::new(tr_text(h)).strong());
+                            }
+                            ui.end_row();
+                            for (r, (key, key_name)) in rows.iter().enumerate() {
+                                let name = if t.name.is_empty() {
+                                    key_name.clone()
+                                } else {
+                                    t.name.iter().filter_map(|k| cx.text(&format!("{t_path}/{key}{k}"))).collect::<Vec<_>>().join(" ")
+                                };
+                                if !q.is_empty() && !name.to_lowercase().contains(&q) {
+                                    continue;
+                                }
+                                if !t.only.is_empty() && !t.only.contains(&name.as_str()) {
+                                    continue;
+                                }
+                                let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
+                                if name.is_empty() {
+                                    ui.label(format!("#{}", r + 1));
+                                } else {
+                                    let short = short_item_name(&name);
+                                    let resp = ui.label(short.clone());
+                                    if short != name {
+                                        resp.on_hover_text(name);
+                                    }
+                                }
+                                for (_, k) in t.cols {
+                                    let p = format!("{t_path}/{key}{k}");
+                                    if cx.get(&p).is_some() {
+                                        cx.cell(ui, &p, 64.0);
+                                    } else {
+                                        ui.label("");
+                                    }
+                                }
+                                ui.end_row();
+                            }
+                        });
+                    });
+                });
             }
-            let q = filter(ui, &format!("{i}/{li}"));
-            egui::Grid::new(("simple_list", i, li)).num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                for (id, p) in &list {
-                    let name = name_of(l, id);
-                    if !q.is_empty() && !name.to_lowercase().contains(&q) {
-                        continue;
-                    }
-                    cx.label(ui, &name, p);
-                    let n = cx.edits.len();
-                    ui.horizontal(|ui| cx.editor(ui, p, 110.0));
-                    if cx.edits.len() > n {
-                        if let Some((_, v)) = cx.edits.last().cloned() {
-                            cx.edits.pop();
-                            set_count(cx, l, p, v);
+        } else {
+            if s.name == "Raft" {
+                super::raft::show(ui, cx);
+            }
+            for (li, l) in s.lists.iter().enumerate() {
+                let list = entries(cx, l);
+                if list.is_empty() {
+                    continue;
+                }
+                panel(ui, crate::i18n::tr_any(l.title), |ui| {
+                    if let Some(m) = &l.max {
+                        let tip = format!("{}{}", crate::i18n::tr_any(m.about), if m.estimate { format!(" {}", crate::i18n::tr("The cap is an estimate from community guides.")) } else { String::new() });
+                        // With several lists, the label names which one the action is for.
+                        let many = s.lists.iter().filter(|x| x.max.is_some()).count() > 1;
+                        let label = match (many, m.cap) {
+                            (true, 0) => format!("{}: {}", tr("Max crafting materials"), crate::i18n::tr_any(l.title)),
+                            (false, 0) => tr("Max crafting materials").to_string(),
+                            (true, c) => format!("{}: {} ({})", tr("Max crafting materials"), crate::i18n::tr_any(l.title), c),
+                            (false, c) => format!("{} ({})", tr("Max crafting materials"), c),
+                        };
+                        if super::quick_button(ui, label, tip) {
+                            apply_max(cx, l);
                         }
                     }
-                    ui.end_row();
-                }
-            });
-        });
+                    let q = filter(ui, &format!("{i}/{li}"));
+                    egui::Grid::new(("simple_list", i, li)).num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
+                        for (id, p) in &list {
+                            let name = name_of(l, id);
+                            if !q.is_empty() && !name.to_lowercase().contains(&q) {
+                                continue;
+                            }
+                            cx.label(ui, &name, p);
+                            let n = cx.edits.len();
+                            ui.horizontal(|ui| cx.editor(ui, p, 110.0));
+                            if cx.edits.len() > n {
+                                if let Some((_, v)) = cx.edits.last().cloned() {
+                                    cx.edits.pop();
+                                    set_count(cx, l, p, v);
+                                }
+                            }
+                            ui.end_row();
+                        }
+                    });
+                });
+            }
+        }
     }
 }
 

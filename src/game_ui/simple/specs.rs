@@ -12190,7 +12190,7 @@ const AOT2: Spec = Spec {
     tab: "Resources",
     accent: (150, 110, 60),
     kind: Some(crate::fmt::aot::KIND2),
-    markers: &["/Gifts"],
+    markers: &["/Skills"],
     subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.",
     tiles: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")],
     sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }, Section { title: "Player", rows: &[("Level", "/Player/Level"), ("Experience", "/Player/Experience")] }],
