@@ -101,7 +101,7 @@ jobs:
             target/x86_64-apple-darwin/release/UniversalSaveEditor
 
           # Icon: PNGs written by build.rs.
-          PNGS=$(dirname "$(ls target/aarch64-apple-darwin/release/build/universal_save_editor-*/out/icons/1024.png | head -1)")
+          PNGS=$(dirname "$(find target/aarch64-apple-darwin/release/build -path '*/out/icons/1024.png' | head -1)")
           ICONSET=$(mktemp -d)/AppIcon.iconset
           mkdir -p "$ICONSET"
           for s in 16 32 128 256 512; do

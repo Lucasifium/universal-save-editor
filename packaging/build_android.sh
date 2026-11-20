@@ -28,7 +28,7 @@ for pair in arm64-v8a:aarch64-linux-android x86_64:x86_64-linux-android; do
   libs+=("lib/$abi/libuniversal_save_editor.so=$APK/lib-$abi/libuniversal_save_editor.so")
 done
 
-icons=$(dirname "$(ls target/aarch64-linux-android/release/build/universal_save_editor-*/out/icons/192.png | head -1)")
+icons=$(dirname "$(find target/aarch64-linux-android/release/build -path '*/out/icons/192.png' | head -1)")
 python3 -I packaging/package.py icons "$icons" "$APK/res"
 IFS=. read -r MA MI PA <<<"$VERSION"
 CODE=$((MA * 10000 + MI * 100 + PA))
