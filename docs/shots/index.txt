@@ -9,7 +9,7 @@ assassins-creed-revelations 716
 assassins-creed-unity 944
 atom-rpg 566
 atomic-heart 850
-attack-on-titan-2 1647
+attack-on-titan-2 1258
 balatro 793
 baldurs-gate-enhanced-edition-siege-of-dragonspear 1192
 batman-arkham-city 686
@@ -23,7 +23,7 @@ borderlands-the-pre-sequel 1283
 cairn 1375
 car-mechanic-simulator-2018 582
 car-mechanic-simulator-2021 615
-celeste 1311
+celeste 1068
 civilization-vi 733
 clair-obscur-expedition-33 737
 core-keeper 2159
@@ -51,7 +51,7 @@ deep-rock-galactic-survivor 685
 deltarune 1647
 deus-ex 415
 deus-ex-mankind-divided 1265
-diablo-ii 1351
+diablo-ii 1342
 diablo-ii-resurrected 1351
 disco-elysium 1538
 dishonored 492
@@ -76,9 +76,9 @@ fallout-2 1440
 fallout-3 1034
 fallout-4 1440
 fallout-new-vegas 1382
-fallout-shelter 1086
+fallout-shelter 1071
 farming-simulator-19 482
-final-fantasy-ix 801
+final-fantasy-ix 819
 final-fantasy-pixel-remaster 1647
 final-fantasy-vii 1087
 final-fantasy-vii-rebirth 860
@@ -95,7 +95,7 @@ grand-theft-auto-iii 878
 grand-theft-auto-san-andreas 1647
 grand-theft-auto-vice-city 877
 green-hell 1175
-grim-dawn 1647
+grim-dawn 1096
 hades 626
 hades-ii 869
 half-life-2-episode-one-episode-two 1244
@@ -153,12 +153,12 @@ minecraft-dungeons 548
 moonlighter 1646
 mortal-shell 1714
 mortal-shell-ii 1637
-mutant-year-zero-road-to-eden 1183
+mutant-year-zero-road-to-eden 932
 my-summer-car 664
 neverwinter-nights-enhanced-edition 1132
 nier-automata 1090
 noita 534
-octopath-traveler 803
+octopath-traveler 802
 omori 1647
 onimusha-way-of-the-sword 1440
 ori-and-the-blind-forest 1407
@@ -197,7 +197,7 @@ skyrim 1440
 sleeping-dogs-definitive-edition 586
 slime-rancher 602
 snowrunner 1647
-sonic-mania 940
+sonic-mania 962
 sons-of-the-forest 2159
 space-haven 1373
 star-wars-jedi-fallen-order 859
@@ -211,7 +211,7 @@ stellaris 839
 stoneshard 619
 subnautica 639
 subnautica-below-zero 639
-tales-of-symphonia 1647
+tales-of-symphonia 1096
 teardown 737
 terra-invicta 685
 terraria-character 800
@@ -243,11 +243,11 @@ valheim 478
 wandering-sword 595
 warhammer-40-000-rogue-trader 791
 wasteland-2 581
-wasteland-3 1647
+wasteland-3 1252
 watch-dogs-2 499
 wolcen-lords-of-mayhem 798
 world-of-horror 1171
-world-war-z 705
+world-war-z 566
 worldbox-god-simulator 1440
 xcom-2 1253
 xcom-2-war-of-the-chosen 1253
