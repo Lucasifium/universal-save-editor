@@ -31206,3 +31206,243 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = 来自 Documents\Almost Human\Legend of Grimrock 的 savegameNN.sav(GRIM 文件头和 zlib 数据,会自动为你解开并重新封装)。每位队伍成员的生命值和能量、四项属性、未使用的技能点和技能等级。物品、特质和地下城在树状视图中。请先关闭游戏。
 
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= 来自 Documents\EA Games\Dead Space 2 的 ds_slot_NN.deadspace2saved(数字为存档栏位)。你的信用点、能量节点、生命值、静止力和空气,以及物品栏中每个物品按栏位的数量。保存时会重新计算游戏的两个校验和。请先关闭游戏。
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= 来自 Steam\userdata\<account>\8190\remote 的 justcause2saveNN.sav(数字为存档栏位)。你的金钱和混乱点数,以及你携带的武器、护甲和载具零件。每个值都会写入存档中保存其副本的所有位置。请先关闭游戏。
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面:信用点、能量节点、生命值、静止力和空气,以及物品栏中每个物品(弹药、医疗包、静止包、能量节点、图纸)按栏位的数量。保存时会重新计算游戏的两个校验和。已在公开存档上检查,尚未在游戏中试过
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= 游戏界面:金钱、混乱点数以及武器、护甲和载具零件;每个值都会写入存档保存它的两个位置。已在公开存档上检查,尚未在游戏中试过
+
+Air
+= 空气
+
+Stasis
+= 静止
+
+Parts
+= 零件
+
+Power nodes
+= 能量节点
+
+Rico
+= Rico
+
+Chaos points
+= 混乱点数
+
+Armor parts
+= 护甲零件
+
+Vehicle parts
+= 载具零件
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved(NN 为存档栏位)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav(NN 为存档栏位)
+
+# data/games: Middle-earth: Shadow of War
+<user id>_ShadowOfWar.sav from Steam\\userdata\\<account>\\356190\\remote (or %LOCALAPPDATA%\\WB Games\\Shadow of War; the _1 to _5 files are the game's own backups). The game's lifetime statistics: Mirian and skill points earned, levels, quests, gear, kills of every enemy kind, how you kill, and the orcs you branded, dominated and recruited. Your current Mirian, XP, gear and orcs are not mapped yet. The save is decrypted with the user id in its file name and encrypted again with its checksum written. Close the game first and turn Steam Cloud off.
+= Steam\\userdata\\<account>\\356190\\remote 中的 <user id>_ShadowOfWar.sav（或 %LOCALAPPDATA%\\WB Games\\Shadow of War；_1 到 _5 文件是游戏自己的备份）。游戏的累计统计：获得的米利安和技能点、等级、任务、装备、按敌人种类的击杀数、击杀方式，以及你烙印、支配和招募的兽人。当前持有的米利安、经验、装备和兽人尚未对应。存档用文件名中的用户 ID 解密，并在重新计算校验和后再次加密。请先关闭游戏并关闭 Steam 云存档。
+
+Mirian earned
+= 累计获得的米利安
+
+Highest level reached
+= 达到的最高等级
+
+Skills unlocked
+= 已解锁的技能
+
+Quests completed
+= 完成的任务
+
+Gear collected
+= 收集的装备
+
+Equipment upgrades applied
+= 应用的装备升级
+
+Gems forged
+= 锻造的宝石
+
+Level 5 gems forged
+= 锻造的5级宝石
+
+Gem slots unlocked
+= 已解锁的宝石槽
+
+Artifacts discovered
+= 发现的神器
+
+Monuments destroyed
+= 摧毁的纪念碑
+
+Outposts disabled
+= 瓦解的前哨站
+
+Vendettas completed
+= 完成的复仇
+
+Fort attacks
+= 要塞进攻
+
+Fort defenses
+= 要塞防御
+
+War upgrades equipped
+= 装备的战争升级
+
+Total kills
+= 总击杀数
+
+Uruks killed
+= 击杀的乌鲁克
+
+Warriors killed
+= 击杀的战士
+
+Archers killed
+= 击杀的弓箭手
+
+Berserkers killed
+= 击杀的狂战士
+
+Defenders killed
+= 击杀的防御者
+
+Spearmen killed
+= 击杀的矛兵
+
+Captains killed
+= 击杀的队长
+
+Warchiefs killed
+= 击杀的战争首领
+
+Overlords killed
+= 击杀的霸主
+
+Ghuls killed
+= 击杀的食尸鬼
+
+Caragors killed
+= 击杀的卡拉戈
+
+Graugs killed
+= 击杀的格劳格
+
+Olog-hai killed
+= 击杀的奥洛格海
+
+Spiders killed
+= 击杀的蜘蛛
+
+Sword kills
+= 剑击杀
+
+Bow kills
+= 弓击杀
+
+Dagger kills
+= 匕首击杀
+
+Bow headshots
+= 弓爆头
+
+Finishers
+= 终结技
+
+Stealth kills
+= 潜行击杀
+
+Decapitations
+= 斩首
+
+Death from above kills
+= 空袭击杀
+
+Wraith kills
+= 幽灵击杀
+
+Orcs killed by fire
+= 被火焰击杀的兽人
+
+Orcs killed by poison
+= 被毒药击杀的兽人
+
+Orcs killed by curse
+= 被诅咒击杀的兽人
+
+Orcs killed while frozen
+= 冻结时击杀的兽人
+
+Orcs branded
+= 烙印的兽人
+
+Captains branded
+= 烙印的队长
+
+Warchiefs branded
+= 烙印的战争首领
+
+Overlords branded
+= 烙印的霸主
+
+Orcs dominated
+= 支配的兽人
+
+Mounts dominated
+= 支配的坐骑
+
+Kills by your followers
+= 追随者的击杀
+
+Orcs killed by other orcs
+= 被其他兽人击杀的兽人
+
+Machine tribe recruited
+= 招募的机械部族
+
+Marauder tribe recruited
+= 招募的掠夺者部族
+
+Outlaw tribe recruited
+= 招募的亡命者部族
+
+Slaughter tribe recruited
+= 招募的屠杀部族
+
+Sorcerous tribe recruited
+= 招募的巫术部族
+
+Terror tribe recruited
+= 招募的恐怖部族
+
+Warmonger tribe recruited
+= 招募的好战部族
+
+Kills by enemy
+= 按敌人分类的击杀
+
+How you kill
+= 击杀方式
+
+Orcs and tribes
+= 兽人与部族
+
+Game screen: the game's lifetime statistics (Mirian and skill points earned, highest level, quests, gear, kills of every enemy kind, how you kill, orcs branded, dominated and recruited). The save is decrypted with the user id in its file name and encrypted again with its checksum written; your current Mirian, XP, gear and orcs are not mapped yet. Checked on public saves, not yet tried in the game
+= 游戏界面:游戏的累计统计(获得的米里安和技能点、最高等级、任务、装备、各类敌人的击杀数、击杀方式、被烙印、支配和招募的兽人)。存档用文件名中的用户ID解密,并在重新写入校验和后再次加密;你当前的米里安、经验、装备和兽人尚未对应。已在公开存档上检查,尚未在游戏中试过
+
+<user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
+= <用户ID>_ShadowOfWar.sav(_1至_5的文件是游戏自己的备份)

@@ -44,6 +44,8 @@ Universal Save Editor is free. It builds on other people's work, listed here wit
 | [h3sed (Heroes of Might and Magic III save layout, creature ids and names; the shapes of the hero and player records)](https://github.com/suurjaak/h3sed) | Erki Suurjaak | MIT |
 | [OpenOrion2 (Master of Orion II save layout: player, colony, planet and star records; format notes only, no code copied)](https://github.com/openorion2/openorion2) | OpenOrion2 contributors | GPL-3.0 |
 | [ftl-editor and FTL Profile Editor (FTL continue.sav layout up to the crew list; facts only, no code; the fixture save was used for checks only, not included)](https://github.com/enoy19/ftl-editor) | enoy19 and Vhati | GPL-3.0 |
+| [shadow-of-war-save-converter (Shadow of War save header, key construction and AES-256-CBC layer; the statistics were matched by CRC-32 of their names against public saves)](https://github.com/SystematicSkid/shadow-of-war-save-converter) | SystematicSkid | MIT |
+| [shadowofwar-save-tools (Shadow of War save header and checksum rules)](https://github.com/MarcelloCuoghi/shadowofwar-save-tools) | Marcello Cuoghi | MIT |
 | [DDsavetool and pyDDDAsavetool (Dragon's Dogma: Dark Arisen save header and packing; facts only, no code)](https://github.com/RamKromberg/pyDDDAsavetool) | FluffyQuack and RamKromberg | facts only (file layout), credited |
 | [EBF5 Save Tools (Epic Battle Fantasy 5 save layout: which entries hold gold, skill points and each hero's level, experience, AP and limit; facts only, no code)](https://github.com/QJrocks/EBF5-Save-Tools) | QJrocks | facts only (file layout), credited |
 | [SaveOver for Amnesia: The Dark Descent (which values of the XML save hold health, sanity, lamp oil and tinderboxes; facts only, no code)](https://github.com/saveover/AmnesiaDarkDescent) | SaveOver | GPL-3.0 |
@@ -10622,6 +10624,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [GothicSaveEditor (reader of the SAVEDAT.SAV script variables)](https://github.com/FlyCrafting/GothicSaveEditor) | FlyCrafting, AnImperialMan | MIT |
 | [DQB2 (CMNDAT.BIN layout and offsets)](https://github.com/turtle-insect/DQB2) | turtle-insect | GPL-3.0 |
 | [astlibra-save-editor (ASTLIBRA Revision save layout: level, experience, gold and force offsets, and the two CRC-32 blocks)](https://github.com/qazmlpok/astlibra-save-editor) | qazmlpok | MIT; layout facts used, no code copied |
+| [Dead-Space-2-PC-Save-Editor (Dead Space 2 save block tags, item ids and checksum routines, as facts only; the code here is written fresh)](https://github.com/VakhtinAndrey/Dead-Space-2-PC-Save-Editor) | VakhtinAndrey | GPL-2.0 (facts only) |
+| [save-editor-tools (Horizon editors: Just Cause 2 value records and header copies)](https://github.com/unknownv2/save-editor-tools) | unknownv2 | Unlicense |
 
 ## Metal Gear Solid V save variable names
 

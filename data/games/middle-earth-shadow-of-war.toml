@@ -1,0 +1,92 @@
+name = "Middle-earth: Shadow of War"
+tab = "Statistics"
+accent = [185, 150, 70]
+kind = "Shadow of War save"
+markers = ["/Statistics/TotalMirian", "/Statistics/Kills"]
+subtitle = '''<user id>_ShadowOfWar.sav from Steam\userdata\<account>\356190\remote (or %LOCALAPPDATA%\WB Games\Shadow of War; the _1 to _5 files are the game's own backups). The game's lifetime statistics: Mirian and skill points earned, levels, quests, gear, kills of every enemy kind, how you kill, and the orcs you branded, dominated and recruited. Your current Mirian, XP, gear and orcs are not mapped yet. The save is decrypted with the user id in its file name and encrypted again with its checksum written. Close the game first and turn Steam Cloud off.'''
+tiles = [
+    ["Mirian earned", "/Statistics/TotalMirian"],
+    ["Highest level reached", "/Statistics/MaxLevelReached"],
+    ["Skill points earned", "/Statistics/TotalSkillPoints"],
+    ["Total kills", "/Statistics/Kills"],
+]
+
+[[sections]]
+title = "Progress"
+rows = [
+    ["Mirian earned", "/Statistics/TotalMirian"],
+    ["Skill points earned", "/Statistics/TotalSkillPoints"],
+    ["Highest level reached", "/Statistics/MaxLevelReached"],
+    ["Skills unlocked", "/Statistics/PlayerSkillsUnlocked"],
+    ["Quests completed", "/Statistics/Quests"],
+    ["Gear collected", "/Statistics/GearCollected"],
+    ["Equipment upgrades applied", "/Statistics/EquipmentUpgradesApplied"],
+    ["Gems forged", "/Statistics/ForgedGems"],
+    ["Level 5 gems forged", "/Statistics/ForgedGemsLevel5"],
+    ["Gem slots unlocked", "/Statistics/GemSlotsUnlocked"],
+    ["Artifacts discovered", "/Statistics/TotalArtifactsDiscovered"],
+    ["Monuments destroyed", "/Statistics/MonumentsDestroyed"],
+    ["Outposts disabled", "/Statistics/OutpostsDisabled"],
+    ["Vendettas completed", "/Statistics/VendettasCompleted"],
+    ["Fort attacks", "/Statistics/FortAttacks"],
+    ["Fort defenses", "/Statistics/FortDefenses"],
+    ["War upgrades equipped", "/Statistics/WarUpgradesEquipped"],
+]
+
+[[sections]]
+title = "Kills by enemy"
+rows = [
+    ["Total kills", "/Statistics/Kills"],
+    ["Uruks killed", "/Statistics/KilledUruks"],
+    ["Warriors killed", "/Statistics/KilledWarriors"],
+    ["Archers killed", "/Statistics/KilledArchers"],
+    ["Berserkers killed", "/Statistics/KilledBerserkers"],
+    ["Defenders killed", "/Statistics/KilledDefenders"],
+    ["Spearmen killed", "/Statistics/KilledSpearmen"],
+    ["Captains killed", "/Statistics/KilledCaptains"],
+    ["Warchiefs killed", "/Statistics/KilledWarchiefs"],
+    ["Overlords killed", "/Statistics/KilledOverlords"],
+    ["Ghuls killed", "/Statistics/KilledGhuls"],
+    ["Caragors killed", "/Statistics/KilledCaragors"],
+    ["Graugs killed", "/Statistics/KilledGraugs"],
+    ["Olog-hai killed", "/Statistics/KilledOlog"],
+    ["Spiders killed", "/Statistics/KilledSpiders"],
+]
+
+[[sections]]
+title = "How you kill"
+rows = [
+    ["Sword kills", "/Statistics/KillsBySword"],
+    ["Bow kills", "/Statistics/KillsByBow"],
+    ["Dagger kills", "/Statistics/KillsByDagger"],
+    ["Bow headshots", "/Statistics/TotalBowHeadshots"],
+    ["Finishers", "/Statistics/CombatFinishers"],
+    ["Stealth kills", "/Statistics/KillsTypeStealth"],
+    ["Decapitations", "/Statistics/KillsTypeDecapitations"],
+    ["Death from above kills", "/Statistics/KillsTypeDeathFromAbove"],
+    ["Wraith kills", "/Statistics/KillsTypeWraith"],
+    ["Orcs killed by fire", "/Statistics/KilledUruksByFire"],
+    ["Orcs killed by poison", "/Statistics/KilledOrcsByPoison"],
+    ["Orcs killed by curse", "/Statistics/KilledOrcsByCurse"],
+    ["Orcs killed while frozen", "/Statistics/KilledOrcsWhileFrozen"],
+]
+
+[[sections]]
+title = "Orcs and tribes"
+rows = [
+    ["Orcs branded", "/Statistics/Branded"],
+    ["Captains branded", "/Statistics/BrandedCaptains"],
+    ["Warchiefs branded", "/Statistics/BrandedWarchiefs"],
+    ["Overlords branded", "/Statistics/BrandedOverlords"],
+    ["Orcs dominated", "/Statistics/UruksDominated"],
+    ["Mounts dominated", "/Statistics/MountsDominated"],
+    ["Kills by your followers", "/Statistics/FollowerKill"],
+    ["Orcs killed by other orcs", "/Statistics/OrcDeathByOrc"],
+    ["Machine tribe recruited", "/Statistics/TribeMachineRecruited"],
+    ["Marauder tribe recruited", "/Statistics/TribeMarauderRecruited"],
+    ["Outlaw tribe recruited", "/Statistics/TribeOutlawRecruited"],
+    ["Slaughter tribe recruited", "/Statistics/TribeSlaughterRecruited"],
+    ["Sorcerous tribe recruited", "/Statistics/TribeSorcerousRecruited"],
+    ["Terror tribe recruited", "/Statistics/TribeTerrorRecruited"],
+    ["Warmonger tribe recruited", "/Statistics/TribeWarmongerRecruited"],
+]

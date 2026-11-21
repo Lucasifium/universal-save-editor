@@ -1,0 +1,25 @@
+name = "Just Cause 2"
+tab = "Rico"
+accent = [220, 150, 40]
+kind = "Just Cause 2 save"
+markers = ["/Money", "/Chaos points", "/Parts/Weapon parts"]
+subtitle = '''justcause2saveNN.sav from Steam\userdata\<account>\8190\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.'''
+tiles = [
+    ["Money", "/Money"],
+    ["Chaos points", "/Chaos points"],
+]
+
+[[sections]]
+title = "Rico"
+rows = [
+    ["Money", "/Money"],
+    ["Chaos points", "/Chaos points"],
+]
+
+[[sections]]
+title = "Parts"
+rows = [
+    ["Weapon parts", "/Parts/Weapon parts"],
+    ["Armor parts", "/Parts/Armor parts"],
+    ["Vehicle parts", "/Parts/Vehicle parts"],
+]

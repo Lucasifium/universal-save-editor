@@ -98,7 +98,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (42)</summary>
+<summary><strong>D</strong> (43)</summary>
 
 | Game | Screen |
 |---|---|
@@ -112,6 +112,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Dead Rising | *Survivor*: Frank's level, PP, maximum health and skills, with buttons to learn every skill or reach level 50; the save's block checksums are rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2 | *Survivor*: Chuck's level, PP and money; attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; the CRC-32 is rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2: Off the Record | *Survivor*: Frank's level, PP and money (the load screen's copy kept in step); attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; all five CRC-32s are rewritten (checked on public speedrun saves, not yet tried in the game) |
+| Dead Space 2 | *Isaac*: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics), from `ds_slot_NN.deadspace2saved` (values written in place and the game's two checksums made again; checked on public saves, not yet tried in the game) |
 | Death Must Die | *Profile*: gold, runs, wins, current and best streak, time in runs and in the game, selected character. The JSON the game keeps inside the save's strings is opened and written back as strings (checked on a public sample save, not yet tried in the game) |
 | Death Stranding (Director's Cut) | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to an estimate of the most each facility stores at five stars (knot cities, distribution centers and preppers). Likes received. Unpacked (XOR, compression) and packed again with the save's MD5 on save, using the compression library a game on your computer already has. Checked on public saves, not yet tried in the game |
 | Death Stranding 2: On the Beach | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to the most that kind of facility stores at five stars (preppers, labs and observatories, distribution centers, knot cities); likes from NPCs and other porters and likes given; day, time of day and play time. Unpacked (XOR, LZ4) and packed again with the save's MD5 on save; pieces that didn't change keep their bytes. Not yet tried in the game |
@@ -255,7 +256,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>J</strong> (4)</summary>
+<summary><strong>J</strong> (5)</summary>
 
 | Game | Screen |
 |---|---|
@@ -263,6 +264,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Judgment | *Yagami*: money and HP; decrypted with the game's key and its checksum kept right, every other value in the tree (checked on 40 public saves, not yet tried in the game) |
 | Jurassic World Evolution | *Islands*: the money a career keeps for each island, with the file's checksum written again; career, island and play time are shown (checked on a public career save, not yet tried in the game) |
 | Jurassic World Evolution 2 | *Career*: opens as a career file with its career, island and play time shown; a career money table is edited as in the first game when the save has one (checked on a public sandbox save, not yet tried in the game) |
+| Just Cause 2 | *Rico*: money, chaos points, and the weapon, armor and vehicle parts, from `justcause2saveNN.sav` (each value is written in both places the save keeps it; checked on public saves, not yet tried in the game) |
 
 </details>
 
@@ -327,7 +329,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>M</strong> (22)</summary>
+<summary><strong>M</strong> (23)</summary>
 
 | Game | Screen |
 |---|---|
@@ -342,6 +344,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Metal Gear Solid V: The Phantom Pain | GMP (and the FOB wallet), heroism and demon points; every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus) with buttons to promote everyone to S++ and max morale; resource stockpiles with a Max crafting materials button (materials to 1,000,000 and plants to 30,000 online, the game's caps); a research and development list (every weapon, suit, item and support gear entry by development number, with developed and available switches and a Develop everything available button that leaves out DLC, enemy and unused entries, blueprint-gated items and story-locked lines); a button to open every Mother Base section; and the Mother Base and lifetime-statistics counters; the Mother Base and FOB platform grades with a finish-everything button. Every other variable is in the Tree under the game's own variable names; encryption and checksum are redone on save. Ground Zeroes saves (MGSV_GZ_Save_Data_GL_EN) are decrypted for the hex view, with the checksum redone on save. |
 | Metro 2033 / Last Light Redux, Exodus | *Artyom*: military-grade rounds, every ammo type and (Exodus) crafting metal and chemicals in the level saves (`.player`), with a **Max crafting materials** button that fills metal and chemicals to 300 (the Reader and Ranger Hardcore limit; Normal allows more); auto and quick saves are unpacked (LZ4) for Value search. CRC-32 updated |
 | Mewgenics | *House*: house gold and food, adventure coins and food, the current day and the completion percentage, from the SQLite save's properties table (the cats' own packed data is kept as it is; checked on a public save, not yet tried in the game) |
+| Middle-earth: Shadow of War | *Statistics*: the Steam save's encrypted `.sav` is opened with the account id from its file name (or typed as the password) and encrypted again with its checksum written on save; kill and progress counters by their game names, checked against public saves. |
 | Minecraft (`level.dat`) | Health, food and XP; game mode; difficulty (Peaceful to Hard); world settings; inventory and ender chest grids; a **Max crafting materials** button that fills the ingots, raw ores, gems, string, leather and other materials already carried to 64, leaving ender pearls, eyes of ender and other progression items alone |
 | Minecraft Dungeons | *Hero*: the character `.dat` is decrypted (AES, the key as published by MCDSaveEdit) and encrypted again on save; experience, total gear power and the emerald, gold and Eye of Ender counts, with items and enchantments in the Tree. The decryption was checked on a public sample save; not yet tried in the game |
 | Mon Bazou | *Driver*: cash, the player's meters and the hard mode and permadeath flags, from `marguerite.txt` (.NET BinaryFormatter, read and written in place; the vehicle, parts and garden files open for Tree editing; checked on a public save, not yet tried in the game) |

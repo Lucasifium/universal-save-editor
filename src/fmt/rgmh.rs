@@ -14,7 +14,7 @@ use std::io::{Read, Write};
 pub type Blocks = Vec<(usize, usize, usize, usize)>;
 
 pub fn looks(d: &[u8]) -> bool {
-    d.len() > 0x2100 && d.starts_with(b"RGMH")
+    d.len() > 0x2100 && d.starts_with(b"RGMH") && !super::deadspace2::looks(d)
 }
 
 /// Inflates `z`, which must be one zlib stream (and zero padding).

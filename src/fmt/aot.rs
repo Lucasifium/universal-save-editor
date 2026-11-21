@@ -370,6 +370,21 @@ mod tests {
     }
 
     #[test]
+    fn funds_edit_changes_only_the_funds_bytes() {
+        let mut p = blank(false);
+        p[MATERIALS2 + 3 * GIFT_STRIDE2..MATERIALS2 + 3 * GIFT_STRIDE2 + 4].copy_from_slice(&[0x61, 0x03, 0x29, 0x00]);
+        p[MATERIALS2 + 5 * GIFT_STRIDE2 + 2] = 0x0D;
+        pack(&mut p);
+        let (before, _) = unpack(&p).unwrap();
+        let mut doc = parse(&p).unwrap();
+        doc.set("/Resources/Regiment funds", 777.into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        let (after, _) = unpack(&out).unwrap();
+        let changed: Vec<usize> = (P..before.len()).filter(|&i| before[i] != after[i]).collect();
+        assert!(!changed.is_empty() && changed.iter().all(|i| (FUNDS2..FUNDS2 + 4).contains(i)), "{changed:?}");
+    }
+
+    #[test]
     fn rejects_other_data() {
         assert!(!looks(&vec![0u8; SIZE1]));
         let mut d = blank(true);

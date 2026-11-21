@@ -31233,3 +31233,243 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = Documents\Almost Human\Legend of GrimrockのsavegameNN.sav(GRIMヘッダーとzlibデータで、自動で展開され、再び圧縮されます)。各パーティメンバーの体力とエネルギー、4つのステータス、未使用のスキルポイント、スキルレベル。アイテム、特性、ダンジョンはツリーにあります。先にゲームを終了してください。
 
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= Documents\EA Games\Dead Space 2 の ds_slot_NN.deadspace2saved(番号はスロット)。クレジット、パワーノード、体力、ステイシス、空気、およびインベントリ内の各アイテムの数量をスロットごとに編集できます。ゲームの2つのチェックサムは保存時に再計算されます。先にゲームを終了してください。
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= Steam\userdata\<account>\8190\remote の justcause2saveNN.sav(番号はスロット)。所持金とカオスポイント、所持しているウェポン・アーマー・ビークルのパーツ。各値はセーブ内にコピーがある場所すべてに書き込まれます。先にゲームを終了してください。
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面:クレジット、パワーノード、体力、ステイシス、空気、およびインベントリ内の各アイテム(弾薬、メディパック、ステイシスパック、パワーノード、設計図)の数量をスロットごとに編集。ゲームの2つのチェックサムは保存時に再計算されます。公開セーブで確認済み、ゲーム内ではまだ未確認
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= ゲーム画面:所持金、カオスポイント、ウェポン・アーマー・ビークルのパーツ。各値はセーブが保持する2か所の両方に書き込まれます。公開セーブで確認済み、ゲーム内ではまだ未確認
+
+Air
+= 空気
+
+Stasis
+= ステイシス
+
+Parts
+= パーツ
+
+Power nodes
+= パワーノード
+
+Rico
+= Rico
+
+Chaos points
+= カオスポイント
+
+Armor parts
+= アーマーパーツ
+
+Vehicle parts
+= ビークルパーツ
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved(NN はスロット)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav(NN はスロット)
+
+# data/games: Middle-earth: Shadow of War
+<user id>_ShadowOfWar.sav from Steam\\userdata\\<account>\\356190\\remote (or %LOCALAPPDATA%\\WB Games\\Shadow of War; the _1 to _5 files are the game's own backups). The game's lifetime statistics: Mirian and skill points earned, levels, quests, gear, kills of every enemy kind, how you kill, and the orcs you branded, dominated and recruited. Your current Mirian, XP, gear and orcs are not mapped yet. The save is decrypted with the user id in its file name and encrypted again with its checksum written. Close the game first and turn Steam Cloud off.
+= Steam\\userdata\\<account>\\356190\\remote の <user id>_ShadowOfWar.sav（または %LOCALAPPDATA%\\WB Games\\Shadow of War。_1～_5 のファイルはゲーム自身のバックアップ）。ゲーム通算の統計：獲得したミリアンとスキルポイント、レベル、クエスト、装備、敵の種類別の撃破数、倒し方、烙印を押した・支配した・勧誘したオーク。現在のミリアン、経験値、装備、オークはまだ対応していません。セーブはファイル名のユーザーIDで復号され、チェックサムを計算し直して再び暗号化されます。先にゲームを終了し、Steamクラウドをオフにしてください。
+
+Mirian earned
+= 獲得したミリアン
+
+Highest level reached
+= 到達した最高レベル
+
+Skills unlocked
+= 解放したスキル
+
+Quests completed
+= 達成したクエスト
+
+Gear collected
+= 入手した装備
+
+Equipment upgrades applied
+= 適用した装備強化
+
+Gems forged
+= 鍛造した宝石
+
+Level 5 gems forged
+= 鍛造したレベル5の宝石
+
+Gem slots unlocked
+= 解放した宝石スロット
+
+Artifacts discovered
+= 発見したアーティファクト
+
+Monuments destroyed
+= 破壊した記念碑
+
+Outposts disabled
+= 無力化した前哨基地
+
+Vendettas completed
+= 達成した復讐
+
+Fort attacks
+= 要塞への攻撃
+
+Fort defenses
+= 要塞の防衛
+
+War upgrades equipped
+= 装備した戦争強化
+
+Total kills
+= 総撃破数
+
+Uruks killed
+= 倒したウルク
+
+Warriors killed
+= 倒した戦士
+
+Archers killed
+= 倒した弓兵
+
+Berserkers killed
+= 倒したバーサーカー
+
+Defenders killed
+= 倒した守備兵
+
+Spearmen killed
+= 倒した槍兵
+
+Captains killed
+= 倒したキャプテン
+
+Warchiefs killed
+= 倒したウォーチーフ
+
+Overlords killed
+= 倒したオーバーロード
+
+Ghuls killed
+= 倒したグール
+
+Caragors killed
+= 倒したカラゴル
+
+Graugs killed
+= 倒したグラウグ
+
+Olog-hai killed
+= 倒したオログ＝ハイ
+
+Spiders killed
+= 倒した蜘蛛
+
+Sword kills
+= 剣での撃破
+
+Bow kills
+= 弓での撃破
+
+Dagger kills
+= 短剣での撃破
+
+Bow headshots
+= 弓でのヘッドショット
+
+Finishers
+= フィニッシャー
+
+Stealth kills
+= ステルスでの撃破
+
+Decapitations
+= 斬首
+
+Death from above kills
+= 空中からの撃破
+
+Wraith kills
+= 亡霊での撃破
+
+Orcs killed by fire
+= 炎で倒したオーク
+
+Orcs killed by poison
+= 毒で倒したオーク
+
+Orcs killed by curse
+= 呪いで倒したオーク
+
+Orcs killed while frozen
+= 凍結中に倒したオーク
+
+Orcs branded
+= 烙印を押したオーク
+
+Captains branded
+= 烙印を押したキャプテン
+
+Warchiefs branded
+= 烙印を押したウォーチーフ
+
+Overlords branded
+= 烙印を押したオーバーロード
+
+Orcs dominated
+= 支配したオーク
+
+Mounts dominated
+= 支配した騎獣
+
+Kills by your followers
+= 部下による撃破
+
+Orcs killed by other orcs
+= 他のオークに倒されたオーク
+
+Machine tribe recruited
+= 勧誘したマシン族
+
+Marauder tribe recruited
+= 勧誘したマローダー族
+
+Outlaw tribe recruited
+= 勧誘したアウトロー族
+
+Slaughter tribe recruited
+= 勧誘したスローター族
+
+Sorcerous tribe recruited
+= 勧誘したソーサラス族
+
+Terror tribe recruited
+= 勧誘したテラー族
+
+Warmonger tribe recruited
+= 勧誘したウォーモンガー族
+
+Kills by enemy
+= 敵の種類別の撃破数
+
+How you kill
+= 倒し方
+
+Orcs and tribes
+= オークと部族
+
+Game screen: the game's lifetime statistics (Mirian and skill points earned, highest level, quests, gear, kills of every enemy kind, how you kill, orcs branded, dominated and recruited). The save is decrypted with the user id in its file name and encrypted again with its checksum written; your current Mirian, XP, gear and orcs are not mapped yet. Checked on public saves, not yet tried in the game
+= ゲーム画面:ゲームの通算統計(獲得したミリアンとスキルポイント、最高レベル、クエスト、装備、敵の種類ごとの撃破数、倒し方、焼印・支配・勧誘したオーク)。セーブはファイル名のユーザーIDで復号し、チェックサムを書き直して再び暗号化します。現在のミリアン、XP、装備、オークはまだ対応していません。公開セーブで確認済み、ゲーム内では未確認
+
+<user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
+= <ユーザーID>_ShadowOfWar.sav(_1〜_5のファイルはゲーム自身のバックアップ)

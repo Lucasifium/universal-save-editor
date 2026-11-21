@@ -31155,3 +31155,243 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = savegameNN.sav aus Documents\Almost Human\Legend of Grimrock (ein GRIM-Header und zlib-Daten, die für dich entpackt und wieder gepackt werden). Gesundheit und Energie jedes Gruppenmitglieds, die vier Werte, unverteilte Fertigkeitspunkte und Fertigkeitsstufen. Gegenstände, Eigenschaften und das Verlies sind im Baum. Schließe zuerst das Spiel.
 
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= ds_slot_NN.deadspace2saved aus Dokumente\EA Games\Dead Space 2 (die Nummer ist der Slot). Credits, Energieknoten, Gesundheit, Stase und Luft sowie die Menge jedes Gegenstands im Inventar nach Slot. Die zwei Prüfsummen des Spiels werden beim Speichern neu berechnet. Schließe vorher das Spiel.
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= justcause2saveNN.sav aus Steam\userdata\<account>\8190\remote (die Nummer ist der Slot). Dein Geld und deine Chaospunkte sowie die Waffen-, Rüstungs- und Fahrzeugteile, die du trägst. Jeder Wert wird überall dort geschrieben, wo der Spielstand eine Kopie davon hält. Schließe vorher das Spiel.
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Credits, Energieknoten, Gesundheit, Stase und Luft sowie die Menge jedes Gegenstands im Inventar nach Slot (Munition, Medipacks, Stase-Packs, Energieknoten, Baupläne). Die zwei Prüfsummen des Spiels werden beim Speichern neu berechnet. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Geld, Chaospunkte sowie Waffen-, Rüstungs- und Fahrzeugteile; jeder Wert wird an beiden Stellen geschrieben, an denen der Spielstand ihn hält. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Air
+= Luft
+
+Stasis
+= Stase
+
+Parts
+= Teile
+
+Power nodes
+= Energieknoten
+
+Rico
+= Rico
+
+Chaos points
+= Chaospunkte
+
+Armor parts
+= Rüstungsteile
+
+Vehicle parts
+= Fahrzeugteile
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved (NN ist der Slot)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav (NN ist der Slot)
+
+# data/games: Middle-earth: Shadow of War
+<user id>_ShadowOfWar.sav from Steam\\userdata\\<account>\\356190\\remote (or %LOCALAPPDATA%\\WB Games\\Shadow of War; the _1 to _5 files are the game's own backups). The game's lifetime statistics: Mirian and skill points earned, levels, quests, gear, kills of every enemy kind, how you kill, and the orcs you branded, dominated and recruited. Your current Mirian, XP, gear and orcs are not mapped yet. The save is decrypted with the user id in its file name and encrypted again with its checksum written. Close the game first and turn Steam Cloud off.
+= <user id>_ShadowOfWar.sav aus Steam\\userdata\\<account>\\356190\\remote (oder %LOCALAPPDATA%\\WB Games\\Shadow of War; die Dateien _1 bis _5 sind die eigenen Sicherungen des Spiels). Die Lebenszeit-Statistiken des Spiels: verdientes Mirian und Fertigkeitspunkte, Level, Quests, Ausrüstung, Tötungen nach Gegnerart, wie du tötest und die Orks, die du gebrandmarkt, beherrscht und rekrutiert hast. Dein aktuelles Mirian, deine EP, Ausrüstung und Orks sind noch nicht zugeordnet. Der Spielstand wird mit der Benutzerkennung aus dem Dateinamen entschlüsselt und mit neu berechneter Prüfsumme wieder verschlüsselt. Schließe zuerst das Spiel und schalte die Steam-Cloud dafür aus.
+
+Mirian earned
+= Verdientes Mirian
+
+Highest level reached
+= Höchstes erreichtes Level
+
+Skills unlocked
+= Freigeschaltete Fertigkeiten
+
+Quests completed
+= Abgeschlossene Quests
+
+Gear collected
+= Gesammelte Ausrüstung
+
+Equipment upgrades applied
+= Angewendete Ausrüstungsverbesserungen
+
+Gems forged
+= Geschmiedete Edelsteine
+
+Level 5 gems forged
+= Geschmiedete Edelsteine der Stufe 5
+
+Gem slots unlocked
+= Freigeschaltete Edelsteinplätze
+
+Artifacts discovered
+= Entdeckte Artefakte
+
+Monuments destroyed
+= Zerstörte Monumente
+
+Outposts disabled
+= Ausgeschaltete Außenposten
+
+Vendettas completed
+= Abgeschlossene Vendetten
+
+Fort attacks
+= Festungsangriffe
+
+Fort defenses
+= Festungsverteidigungen
+
+War upgrades equipped
+= Ausgerüstete Kriegsverbesserungen
+
+Total kills
+= Tötungen insgesamt
+
+Uruks killed
+= Getötete Uruks
+
+Warriors killed
+= Getötete Krieger
+
+Archers killed
+= Getötete Bogenschützen
+
+Berserkers killed
+= Getötete Berserker
+
+Defenders killed
+= Getötete Verteidiger
+
+Spearmen killed
+= Getötete Speerkämpfer
+
+Captains killed
+= Getötete Hauptmänner
+
+Warchiefs killed
+= Getötete Kriegsherren
+
+Overlords killed
+= Getötete Overlords
+
+Ghuls killed
+= Getötete Ghule
+
+Caragors killed
+= Getötete Caragors
+
+Graugs killed
+= Getötete Graugs
+
+Olog-hai killed
+= Getötete Olog-hai
+
+Spiders killed
+= Getötete Spinnen
+
+Sword kills
+= Tötungen mit dem Schwert
+
+Bow kills
+= Tötungen mit dem Bogen
+
+Dagger kills
+= Tötungen mit dem Dolch
+
+Bow headshots
+= Kopfschüsse mit dem Bogen
+
+Finishers
+= Finisher
+
+Stealth kills
+= Lautlose Tötungen
+
+Decapitations
+= Enthauptungen
+
+Death from above kills
+= Tötungen aus der Luft
+
+Wraith kills
+= Tötungen als Geist
+
+Orcs killed by fire
+= Durch Feuer getötete Orks
+
+Orcs killed by poison
+= Durch Gift getötete Orks
+
+Orcs killed by curse
+= Durch Fluch getötete Orks
+
+Orcs killed while frozen
+= Eingefroren getötete Orks
+
+Orcs branded
+= Gebrandmarkte Orks
+
+Captains branded
+= Gebrandmarkte Hauptmänner
+
+Warchiefs branded
+= Gebrandmarkte Kriegsherren
+
+Overlords branded
+= Gebrandmarkte Overlords
+
+Orcs dominated
+= Beherrschte Orks
+
+Mounts dominated
+= Beherrschte Reittiere
+
+Kills by your followers
+= Tötungen deiner Gefolgsleute
+
+Orcs killed by other orcs
+= Von anderen Orks getötete Orks
+
+Machine tribe recruited
+= Rekrutierte Maschinen-Stammesmitglieder
+
+Marauder tribe recruited
+= Rekrutierte Plünderer-Stammesmitglieder
+
+Outlaw tribe recruited
+= Rekrutierte Gesetzlosen-Stammesmitglieder
+
+Slaughter tribe recruited
+= Rekrutierte Schlächter-Stammesmitglieder
+
+Sorcerous tribe recruited
+= Rekrutierte Zauberer-Stammesmitglieder
+
+Terror tribe recruited
+= Rekrutierte Schrecken-Stammesmitglieder
+
+Warmonger tribe recruited
+= Rekrutierte Kriegstreiber-Stammesmitglieder
+
+Kills by enemy
+= Tötungen nach Gegner
+
+How you kill
+= Wie du tötest
+
+Orcs and tribes
+= Orks und Stämme
+
+Game screen: the game's lifetime statistics (Mirian and skill points earned, highest level, quests, gear, kills of every enemy kind, how you kill, orcs branded, dominated and recruited). The save is decrypted with the user id in its file name and encrypted again with its checksum written; your current Mirian, XP, gear and orcs are not mapped yet. Checked on public saves, not yet tried in the game
+= Spielbildschirm: die Lebensstatistiken des Spiels (verdiente Mirian und Fertigkeitspunkte, höchste Stufe, Quests, Ausrüstung, Besiegte jeder Gegnerart, Tötungsarten, gebrandmarkte, beherrschte und rekrutierte Orks). Der Spielstand wird mit der Nutzer-ID aus dem Dateinamen entschlüsselt und mit neu geschriebener Prüfsumme wieder verschlüsselt; deine aktuellen Mirian, XP, Ausrüstung und Orks sind noch nicht zugeordnet. An öffentlichen Spielständen geprüft, noch nicht im Spiel getestet
+
+<user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
+= <Nutzer-ID>_ShadowOfWar.sav (die Dateien _1 bis _5 sind die eigenen Sicherungen des Spiels)
