@@ -30880,6 +30880,333 @@ Lamp oil
 Tinderboxes
 = 火绒盒
 
+# new game screens
+
+A saved game of Underrail (the save file packs a header and gzip around the character data; both are opened and closed again for you). The character's level, experience, unspent points and attributes. Skills, feats, items and the world are in the Tree. Close the game first.
+= 《Underrail》的存档(存档文件在角色数据外包有文件头和 gzip 压缩;两者会自动为你解开并重新封装)。角色的等级、经验、未使用的点数和属性。技能、专长、物品和世界在树状视图中。请先关闭游戏。
+
+A saved game or autosave (.sav) of OpenTTD; the packing (zlib, xz or zstd) is opened and closed again for you. Each company's money, loan and maximum loan. Vehicles, towns and the map are not edited. Close the game first.
+= 《OpenTTD》的存档或自动存档(.sav);压缩封装(zlib、xz 或 zstd)会自动为你解开并重新封装。各公司的资金、贷款和最大贷款额。车辆、城镇和地图不会被编辑。请先关闭游戏。
+
+Agility (maximum)
+= 敏捷(最大值)
+
+Air magic
+= 风系魔法
+
+Armor Up
+= 护甲强化
+
+Armors
+= 护甲
+
+Assassination
+= 暗杀
+
+Attack Up
+= 攻击强化
+
+Axes
+= 斧
+
+Beastiality
+= 兽性
+
+Bonus health
+= 额外生命值
+
+Bonus mana
+= 额外法力值
+
+Bonus stats
+= 额外属性
+
+Bonus weight
+= 额外负重
+
+Boss: Alexander
+= Boss:亚历山大
+
+Boss: Herodotus
+= Boss:希罗多德
+
+Boss: Khidr
+= Boss:赫兹尔
+
+Boss: Ponce de Leon
+= Boss:庞塞·德莱昂
+
+Boss: last
+= Boss:最近一个
+
+Boss: newest
+= Boss:最新一个
+
+Buildings and classes
+= 建筑与职业
+
+Campaign in slot 1
+= 战役位于存档位 1
+
+Campaign in slot 2
+= 战役位于存档位 2
+
+Campaign in slot 3
+= 战役位于存档位 3
+
+Campaigns
+= 战役
+
+Campaigns started
+= 已开始的战役
+
+Castle locked
+= 城堡已锁定
+
+Child age
+= 子嗣年龄
+
+Class upgrades
+= 职业升级
+
+Close the game first. A skill's level can't go above what the manor allows. If the profile folder holds an AutoSave_RogueLegacyBP.rcdat the game loads that copy: edit it too, or remove it.
+= 请先关闭游戏。技能等级不能超过庄园所允许的上限。如果配置文件夹中有 AutoSave_RogueLegacyBP.rcdat,游戏会加载该副本:请一并编辑它,或将其删除。
+
+Close the game first. A stat is changed in the base value and in the current value together, so what items add stays. Level and experience are shown for reference; the game raises a level when the experience is earned.
+= 请先关闭游戏。属性会同时修改基础值和当前值,因此物品提供的加成会保留。等级和经验仅供参考;经验获得后,游戏会自行提升等级。
+
+Close the game first. If the profile folder holds AutoSave_ copies of these files the game loads those: edit them too, or remove them. Gold shows in the castle (the toll takes it when a run begins).
+= 请先关闭游戏。如果配置文件夹中有这些文件的 AutoSave_ 副本,游戏会加载这些副本:请一并编辑它们,或将其删除。金币显示在城堡中(每次开始探险时会被收取过路费)。
+
+Close the game first. Money is in the game's own currency units (pounds). The save is packed the same way it was before.
+= 请先关闭游戏。金钱以游戏自身的货币单位(英镑)表示。存档会按之前相同的方式重新封装。
+
+Companies
+= 公司
+
+Constitution (maximum)
+= 体质(最大值)
+
+Crit Chance Up
+= 暴击几率强化
+
+Crit Damage Up
+= 暴击伤害强化
+
+Daggers
+= 匕首
+
+Death Defy
+= 死亡抵抗
+
+Dexterity (maximum)
+= 灵巧(最大值)
+
+Documents\OpenTTD\save (autosaves in the autosave folder)
+= Documents\OpenTTD\save(自动存档位于 autosave 文件夹)
+
+Down Strike Up
+= 下击强化
+
+Earth magic
+= 土系魔法
+
+Enchantress
+= 女巫
+
+Enemies beaten
+= 击败的敌人
+
+Equipment Up
+= 装备强化
+
+Female
+= 女性
+
+Fire magic
+= 火系魔法
+
+Game screen: each company's money, loan and maximum loan. The packing (zlib, xz or zstd) is opened and closed again; saves from version 84 on are read, and version 295+ by the field names in the save's own table header. Checked on public saves up to version 207, not yet tried in the game
+= 游戏画面:各公司的资金、贷款和最大贷款额。压缩封装(zlib、xz 或 zstd)会解开并重新封装;支持读取 84 版及以后的存档,295 及以上版本按存档自身表头中的字段名读取。已在最高 207 版的公开存档上检查过,尚未在游戏中试用
+
+Game screen: each party member's health and energy (current and maximum), strength, dexterity, vitality and willpower, unused skill points and every skill's level, with the class, level and experience shown. The GRIM header and zlib data are unpacked and packed again. Checked on public saves, not yet tried in the game
+= 游戏画面:每位队伍成员的生命值和能量(当前值和最大值)、力量、灵巧、体质和意志力、未使用的技能点以及每项技能的等级,并显示职业、等级和经验。GRIM 文件头和 zlib 数据会解开并重新封装。已在公开存档上检查过,尚未在游戏中试用
+
+Game screen: experience, games played and campaigns in the profile, and each save slot's credits, day, hours used, missions played and rewinds left. The Lua text from the game's serializer is edited in place; checked on a public profile, not yet tried in the game
+= 游戏画面:配置文件中的经验、游戏次数和战役,以及每个存档位的点数、天数、已用小时数、已进行的任务数和剩余倒带次数。游戏序列化器生成的 Lua 文本会就地编辑;已在公开配置文件上检查过,尚未在游戏中试用
+
+Game screen: experience, level and the unspent attribute, skill, feat and specialization points of the character in global.dat. The 24-byte header and gzip layer are kept and packed again; the .NET data is edited in place. Checked on public saves, not yet tried in the game
+= 游戏画面:global.dat 中角色的经验、等级,以及未使用的属性点、技能点、专长点和专精点。24 字节的文件头和 gzip 层会保留并重新封装;.NET 数据会就地编辑。已在公开存档上检查过,尚未在游戏中试用
+
+Game screens: the heir's gold, health, mana, class, traits, spells, special item, bonus stats, bosses and hours played (RogueLegacyPlayer.rcdat), and the manor's skill levels (RogueLegacyBP.rcdat), each limited to what the manor allows. Checked on a public save, not yet tried in the game
+= 游戏画面:继承人的金币、生命值、法力值、职业、特质、法术、特殊物品、额外属性、Boss 和游戏时长(RogueLegacyPlayer.rcdat),以及庄园的技能等级(RogueLegacyBP.rcdat),均限制在庄园所允许的范围内。已在公开存档上检查过,尚未在游戏中试用
+
+Gold Gain Up
+= 金币获取强化
+
+Haggle
+= 讨价还价
+
+Hardcore mode
+= 硬核模式
+
+Health Up
+= 生命强化
+
+Heir
+= 继承人
+
+Hours used
+= 已用小时数
+
+Ice magic
+= 冰系魔法
+
+Intelligence (maximum)
+= 智力(最大值)
+
+Invulnerability Time Up
+= 无敌时间强化
+
+Lich health
+= 巫妖生命值
+
+Lich mana
+= 巫妖法力值
+
+Maces
+= 钉头锤
+
+Magic Damage Up
+= 魔法伤害强化
+
+Mana Cost Down
+= 法力消耗降低
+
+Mana Up
+= 法力强化
+
+Missile weapons
+= 远程武器
+
+Missions played
+= 已进行的任务数
+
+Perception (maximum)
+= 感知(最大值)
+
+Potion Up
+= 药水强化
+
+Randomize Children
+= 随机化子嗣
+
+Rewinds left
+= 剩余倒带次数
+
+RogueLegacyBP.rcdat of a profile (also the AutoSave_ copy). The level of every manor skill, up to what the manor allows. The blueprint and rune states of each equipment piece are in the Tree. Close the game first.
+= 配置文件的 RogueLegacyBP.rcdat(也包括 AutoSave_ 副本)。每项庄园技能的等级,不超过庄园所允许的上限。每件装备的蓝图和符文状态在树状视图中。请先关闭游戏。
+
+RogueLegacyPlayer.rcdat of a profile (also the AutoSave_ copy, which the game loads first). The heir's gold, health, mana, class, traits, spells and special item, the permanent stat bonuses, progress and the hours played. The manor's skills are in RogueLegacyBP.rcdat. Close the game first.
+= 配置文件的 RogueLegacyPlayer.rcdat(也包括 AutoSave_ 副本,游戏会优先加载它)。继承人的金币、生命值、法力值、职业、特质、法术和特殊物品、永久属性加成、进度以及游戏时长。庄园的技能在 RogueLegacyBP.rcdat 中。请先关闭游戏。
+
+RogueLegacyPlayer.rcdat, RogueLegacyBP.rcdat (and the AutoSave_ copies)
+= RogueLegacyPlayer.rcdat、RogueLegacyBP.rcdat(以及 AutoSave_ 副本)
+
+Smithy
+= 铁匠铺
+
+Special item
+= 特殊物品
+
+Spellcraft
+= 法术工艺
+
+Staves
+= 法杖
+
+Story wins
+= 剧情通关
+
+Story wins with experienced rules
+= 使用老手规则的剧情通关
+
+Strength (maximum)
+= 力量(最大值)
+
+Swords
+= 剑
+
+Throwing weapons
+= 投掷武器
+
+Times the castle was beaten
+= 击败城堡的次数
+
+Trait 1
+= 特质 1
+
+Trait 2
+= 特质 2
+
+Tutorial complete
+= 教程已完成
+
+Unarmed combat
+= 徒手格斗
+
+Unlock Lich
+= 解锁巫妖
+
+Unlock Miner
+= 解锁矿工
+
+Unlock Shinobi
+= 解锁忍者
+
+Unlock Spellthief
+= 解锁法术窃贼
+
+Unspent feat points
+= 未使用的专长点
+
+Unused skill points
+= 未使用的技能点
+
+Upgrade Barbarian
+= 升级野蛮人
+
+Upgrade Knave
+= 升级无赖
+
+Upgrade Knight
+= 升级骑士
+
+Upgrade Lich
+= 升级巫妖
+
+Upgrade Mage
+= 升级法师
+
+Upgrade Miner
+= 升级矿工
+
+Upgrade Shinobi
+= 升级忍者
+
+Upgrade Spellthief
+= 升级法术窃贼
+
+Will (maximum)
+= 意志(最大值)
+
+savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's serializer). Your experience and totals, and what the campaign in each save slot holds: credits, the day, the hours used and the rewinds left. Agents, items and programs are in the Tree. Close the game first.
+= savegame.lua,《Invisible, Inc.》的配置文件(游戏序列化器生成的纯 Lua 文本)。你的经验和总计数据,以及每个存档位中的战役所含内容:点数、天数、已用小时数和剩余倒带次数。特工、物品和程序在树状视图中。请先关闭游戏。
+
+savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
+= 来自 Documents\Almost Human\Legend of Grimrock 的 savegameNN.sav(GRIM 文件头和 zlib 数据,会自动为你解开并重新封装)。每位队伍成员的生命值和能量、四项属性、未使用的技能点和技能等级。物品、特质和地下城在树状视图中。请先关闭游戏。
+
+
 # data/games: Dead Space 2, Just Cause 2
 
 ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.

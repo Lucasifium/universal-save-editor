@@ -30907,6 +30907,333 @@ Lamp oil
 Tinderboxes
 = 火口箱
 
+# new game screens
+
+A saved game of Underrail (the save file packs a header and gzip around the character data; both are opened and closed again for you). The character's level, experience, unspent points and attributes. Skills, feats, items and the world are in the Tree. Close the game first.
+= Underrailのセーブデータです(セーブファイルはキャラクターデータの前後にヘッダーとgzipが付いています。どちらも自動で展開され、再び圧縮されます)。キャラクターのレベル、経験値、未使用ポイント、能力値。スキル、特技、アイテム、ワールドはツリーにあります。先にゲームを終了してください。
+
+A saved game or autosave (.sav) of OpenTTD; the packing (zlib, xz or zstd) is opened and closed again for you. Each company's money, loan and maximum loan. Vehicles, towns and the map are not edited. Close the game first.
+= OpenTTDのセーブデータまたはオートセーブ(.sav)です。圧縮(zlib、xz、zstd)は自動で展開され、再び圧縮されます。各会社の資金、借入金、最大借入額。車両、町、マップは編集しません。先にゲームを終了してください。
+
+Agility (maximum)
+= 敏捷(最大)
+
+Air magic
+= 風魔法
+
+Armor Up
+= アーマーアップ
+
+Armors
+= 防具
+
+Assassination
+= 暗殺
+
+Attack Up
+= 攻撃アップ
+
+Axes
+= 斧
+
+Beastiality
+= 獣使い
+
+Bonus health
+= ボーナス体力
+
+Bonus mana
+= ボーナスマナ
+
+Bonus stats
+= ボーナスステータス
+
+Bonus weight
+= ボーナス重量
+
+Boss: Alexander
+= ボス: アレクサンダー
+
+Boss: Herodotus
+= ボス: ヘロドトス
+
+Boss: Khidr
+= ボス: ヒドル
+
+Boss: Ponce de Leon
+= ボス: ポンセ・デ・レオン
+
+Boss: last
+= ボス: 最後
+
+Boss: newest
+= ボス: 最新
+
+Buildings and classes
+= 建物とクラス
+
+Campaign in slot 1
+= スロット1のキャンペーン
+
+Campaign in slot 2
+= スロット2のキャンペーン
+
+Campaign in slot 3
+= スロット3のキャンペーン
+
+Campaigns
+= キャンペーン
+
+Campaigns started
+= 開始したキャンペーン
+
+Castle locked
+= 城をロック
+
+Child age
+= 子供の年齢
+
+Class upgrades
+= クラスのアップグレード
+
+Close the game first. A skill's level can't go above what the manor allows. If the profile folder holds an AutoSave_RogueLegacyBP.rcdat the game loads that copy: edit it too, or remove it.
+= 先にゲームを終了してください。スキルのレベルは屋敷が許可する値を超えられません。プロフィールフォルダーにAutoSave_RogueLegacyBP.rcdatがある場合、ゲームはそちらのコピーを読み込みます。そちらも編集するか、削除してください。
+
+Close the game first. A stat is changed in the base value and in the current value together, so what items add stays. Level and experience are shown for reference; the game raises a level when the experience is earned.
+= 先にゲームを終了してください。ステータスは基本値と現在値の両方で同時に変更されるため、アイテムによる加算分はそのまま残ります。レベルと経験値は参考として表示されます。レベルは経験値を獲得したときにゲームが上げます。
+
+Close the game first. If the profile folder holds AutoSave_ copies of these files the game loads those: edit them too, or remove them. Gold shows in the castle (the toll takes it when a run begins).
+= 先にゲームを終了してください。プロフィールフォルダーにこれらのファイルのAutoSave_コピーがある場合、ゲームはそちらを読み込みます。そちらも編集するか、削除してください。ゴールドは城に表示されます(挑戦を始めるときに通行料として徴収されます)。
+
+Close the game first. Money is in the game's own currency units (pounds). The save is packed the same way it was before.
+= 先にゲームを終了してください。お金はゲーム内の通貨単位(ポンド)です。セーブデータは以前と同じ方法で圧縮されます。
+
+Companies
+= 会社
+
+Constitution (maximum)
+= 体力(最大)
+
+Crit Chance Up
+= クリティカル率アップ
+
+Crit Damage Up
+= クリティカルダメージアップ
+
+Daggers
+= 短剣
+
+Death Defy
+= 死の回避
+
+Dexterity (maximum)
+= 器用(最大)
+
+Documents\OpenTTD\save (autosaves in the autosave folder)
+= Documents\OpenTTD\save (オートセーブはautosaveフォルダー)
+
+Down Strike Up
+= ダウンストライクアップ
+
+Earth magic
+= 地魔法
+
+Enchantress
+= エンチャントレス
+
+Enemies beaten
+= 倒した敵
+
+Equipment Up
+= 装備アップ
+
+Female
+= 女性
+
+Fire magic
+= 火魔法
+
+Game screen: each company's money, loan and maximum loan. The packing (zlib, xz or zstd) is opened and closed again; saves from version 84 on are read, and version 295+ by the field names in the save's own table header. Checked on public saves up to version 207, not yet tried in the game
+= ゲーム画面: 各会社の資金、借入金、最大借入額。圧縮(zlib、xz、zstd)は展開され、再び圧縮されます。バージョン84以降のセーブデータに対応し、バージョン295以降はセーブデータ自身のテーブルヘッダーのフィールド名で読み取ります。バージョン207までの公開セーブデータで確認済みで、ゲームでの動作は未確認です
+
+Game screen: each party member's health and energy (current and maximum), strength, dexterity, vitality and willpower, unused skill points and every skill's level, with the class, level and experience shown. The GRIM header and zlib data are unpacked and packed again. Checked on public saves, not yet tried in the game
+= ゲーム画面: 各パーティメンバーの体力とエネルギー(現在値と最大値)、筋力、器用さ、生命力、意志力、未使用のスキルポイント、すべてのスキルのレベル。クラス、レベル、経験値は表示のみです。GRIMヘッダーとzlibデータは展開され、再び圧縮されます。公開セーブデータで確認済みで、ゲームでの動作は未確認です
+
+Game screen: experience, games played and campaigns in the profile, and each save slot's credits, day, hours used, missions played and rewinds left. The Lua text from the game's serializer is edited in place; checked on a public profile, not yet tried in the game
+= ゲーム画面: プロフィールの経験値、プレイ回数、キャンペーン数、および各セーブスロットのクレジット、日数、使用時間、実施したミッション数、残りの巻き戻し回数。ゲームのシリアライザーが出力するLuaテキストをその場で編集します。公開プロフィールで確認済みで、ゲームでの動作は未確認です
+
+Game screen: experience, level and the unspent attribute, skill, feat and specialization points of the character in global.dat. The 24-byte header and gzip layer are kept and packed again; the .NET data is edited in place. Checked on public saves, not yet tried in the game
+= ゲーム画面: global.datにあるキャラクターの経験値、レベル、未使用の能力値ポイント、スキルポイント、特技ポイント、専門化ポイント。24バイトのヘッダーとgzip層は維持され、再び圧縮されます。.NETデータはその場で編集します。公開セーブデータで確認済みで、ゲームでの動作は未確認です
+
+Game screens: the heir's gold, health, mana, class, traits, spells, special item, bonus stats, bosses and hours played (RogueLegacyPlayer.rcdat), and the manor's skill levels (RogueLegacyBP.rcdat), each limited to what the manor allows. Checked on a public save, not yet tried in the game
+= ゲーム画面: 後継者のゴールド、体力、マナ、クラス、特性、呪文、特別アイテム、ボーナスステータス、ボス、プレイ時間(RogueLegacyPlayer.rcdat)、および屋敷のスキルレベル(RogueLegacyBP.rcdat)。いずれも屋敷が許可する範囲に制限されます。公開セーブデータで確認済みで、ゲームでの動作は未確認です
+
+Gold Gain Up
+= ゴールド獲得アップ
+
+Haggle
+= 値切り
+
+Hardcore mode
+= ハードコアモード
+
+Health Up
+= 体力アップ
+
+Heir
+= 後継者
+
+Hours used
+= 使用時間
+
+Ice magic
+= 氷魔法
+
+Intelligence (maximum)
+= 知力(最大)
+
+Invulnerability Time Up
+= 無敵時間アップ
+
+Lich health
+= リッチの体力
+
+Lich mana
+= リッチのマナ
+
+Maces
+= メイス
+
+Magic Damage Up
+= 魔法ダメージアップ
+
+Mana Cost Down
+= マナコストダウン
+
+Mana Up
+= マナアップ
+
+Missile weapons
+= 飛び道具
+
+Missions played
+= 実施したミッション
+
+Perception (maximum)
+= 知覚(最大)
+
+Potion Up
+= ポーションアップ
+
+Randomize Children
+= 子供をランダム化
+
+Rewinds left
+= 残りの巻き戻し
+
+RogueLegacyBP.rcdat of a profile (also the AutoSave_ copy). The level of every manor skill, up to what the manor allows. The blueprint and rune states of each equipment piece are in the Tree. Close the game first.
+= プロフィールのRogueLegacyBP.rcdat(AutoSave_コピーも対象)。屋敷の全スキルのレベルを、屋敷が許可する値まで変更します。各装備品の設計図とルーンの状態はツリーにあります。先にゲームを終了してください。
+
+RogueLegacyPlayer.rcdat of a profile (also the AutoSave_ copy, which the game loads first). The heir's gold, health, mana, class, traits, spells and special item, the permanent stat bonuses, progress and the hours played. The manor's skills are in RogueLegacyBP.rcdat. Close the game first.
+= プロフィールのRogueLegacyPlayer.rcdat(AutoSave_コピーも対象で、ゲームはそちらを先に読み込みます)。後継者のゴールド、体力、マナ、クラス、特性、呪文、特別アイテム、永続的なステータスボーナス、進行状況、プレイ時間。屋敷のスキルはRogueLegacyBP.rcdatにあります。先にゲームを終了してください。
+
+RogueLegacyPlayer.rcdat, RogueLegacyBP.rcdat (and the AutoSave_ copies)
+= RogueLegacyPlayer.rcdat、RogueLegacyBP.rcdat(およびAutoSave_コピー)
+
+Smithy
+= 鍛冶屋
+
+Special item
+= 特別アイテム
+
+Spellcraft
+= スペルクラフト
+
+Staves
+= 杖
+
+Story wins
+= ストーリークリア
+
+Story wins with experienced rules
+= 経験者ルールでのストーリークリア
+
+Strength (maximum)
+= 筋力(最大)
+
+Swords
+= 剣
+
+Throwing weapons
+= 投擲武器
+
+Times the castle was beaten
+= 城を攻略した回数
+
+Trait 1
+= 特性1
+
+Trait 2
+= 特性2
+
+Tutorial complete
+= チュートリアル完了
+
+Unarmed combat
+= 素手格闘
+
+Unlock Lich
+= リッチを解放
+
+Unlock Miner
+= 鉱夫を解放
+
+Unlock Shinobi
+= 忍者を解放
+
+Unlock Spellthief
+= スペルシーフを解放
+
+Unspent feat points
+= 未使用の特技ポイント
+
+Unused skill points
+= 未使用のスキルポイント
+
+Upgrade Barbarian
+= バーバリアンを強化
+
+Upgrade Knave
+= ナイブを強化
+
+Upgrade Knight
+= ナイトを強化
+
+Upgrade Lich
+= リッチを強化
+
+Upgrade Mage
+= メイジを強化
+
+Upgrade Miner
+= 鉱夫を強化
+
+Upgrade Shinobi
+= 忍者を強化
+
+Upgrade Spellthief
+= スペルシーフを強化
+
+Will (maximum)
+= 意志(最大)
+
+savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's serializer). Your experience and totals, and what the campaign in each save slot holds: credits, the day, the hours used and the rewinds left. Agents, items and programs are in the Tree. Close the game first.
+= savegame.lua、Invisible, Inc.のプロフィール(ゲームのシリアライザーが出力するプレーンなLuaテキスト)。経験値と累計、および各セーブスロットのキャンペーンの内容: クレジット、日数、使用時間、残りの巻き戻し回数。エージェント、アイテム、プログラムはツリーにあります。先にゲームを終了してください。
+
+savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
+= Documents\Almost Human\Legend of GrimrockのsavegameNN.sav(GRIMヘッダーとzlibデータで、自動で展開され、再び圧縮されます)。各パーティメンバーの体力とエネルギー、4つのステータス、未使用のスキルポイント、スキルレベル。アイテム、特性、ダンジョンはツリーにあります。先にゲームを終了してください。
+
+
 # data/games: Dead Space 2, Just Cause 2
 
 ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.

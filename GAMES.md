@@ -244,13 +244,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>I</strong> (3)</summary>
+<summary><strong>I</strong> (4)</summary>
 
 | Game | Screen |
 |---|---|
 | Icewind Dale: Enhanced Edition | Party gold and reputation; each party member's experience, hit points, levels, abilities, alignment and item stacks or charges (`BALDUR.gam`, the Baldur's Gate: EE layout); every global variable by name (quest stages, who has joined). No Icewind Dale save has been tried yet |
 | Inscryption | *Cabin*: act 1 currency and lives, act 2 gold and packs opened, play time, in `SaveFile.gwsave` (checked on a public save, not yet tried in the game) |
 | Into the Breach | Which squads are unlocked and the totals the game keeps (games played, enemies killed, islands secured, pods, total score). The Lua profile is edited in place; checked on a public profile, not yet tried in the game |
+| Invisible, Inc. | *Agency*: experience, games played, campaigns and story wins in the profile `savegame.lua`, and each save slot's credits, day, hours used, missions played and rewinds left; the Lua text is edited in place (checked on a public profile, not yet tried in the game) |
 
 </details>
 
@@ -288,11 +289,12 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>L</strong> (31)</summary>
+<summary><strong>L</strong> (32)</summary>
 
 | Game | Screen |
 |---|---|
 | Last Epoch | *Character*: level, experience, deaths, respecs, class id and the hardcore and masochist flags of an offline character (the `EPOCH` header is kept); items, passives and the monolith are in the Tree. checked on a public save, not yet tried in the game |
+| Legend of Grimrock | *Party*: each member's health and energy (current and maximum), strength, dexterity, vitality and willpower, unused skill points and every skill's level, with the class, level and experience shown; the `GRIM` header and zlib data are unpacked and packed again (checked on public saves, not yet tried in the game) |
 | Legends of Kingdom Rush | *Heroes*: each hero's experience and unlocked flag, and the gems, stars, food, loot, fame and guild experience of a run in progress (checked on a public save, not yet tried in the game) |
 | LEGO Batman 2: DC Super Heroes | *Studs*: the stud wallet (the save has no checksum). Checked on public saves, not yet tried in the game |
 | LEGO Batman 3: Beyond Gotham | *Studs*: the stud wallet (the game keeps it in several places in the save; all of them are written). Checked on public saves, not yet tried in the game |
@@ -373,7 +375,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>O</strong> (12)</summary>
+<summary><strong>O</strong> (13)</summary>
 
 | Game | Screen |
 |---|---|
@@ -384,6 +386,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | One Piece: Pirate Warriors 4 | *Resources*: Beli, and the quantity of every coin you own (by coin id). The encrypted slot is opened and its object checksums kept right (checked on a public save, not yet tried in the game) |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, health and Oni energy; items by name (on hand and in storage) and every charm of the game (charm level, worn, and **Add** for the ones you don't have yet), with **Add material** to give a slot an upgrade material it doesn't have yet, and a **Max crafting materials** button that fills the upgrade materials on hand in the slot you're viewing (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 999, adding any that are missing, and leaving Power Stones, Oni Stones, Oni Cloth and key items alone; an **Appearances** panel that unlocks the base-game sword looks, outfits and haori coats for every slot (looks that come with paid editions are left alone); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
 | Onimusha: Way of the Sword | Each save slot (place, play time, difficulty, objective); red souls, health and Oni energy; items by name (on hand and in storage) and every charm of the game (charm level, worn, and **Add** for the ones you don't have yet), with **Add material** to give a slot an upgrade material it doesn't have yet, and a **Max crafting materials** button that fills the upgrade materials on hand (cloths, leather, whetstones, iron, Tamahagane, Malicite, Byakue's Talisman, Dohatsu-ten's Horn) to 999, adding any that are missing, and leaving Power Stones, Oni Stones, Oni Cloth and key items alone; an **Appearances** panel that unlocks the base-game sword looks, outfits and haori coats for every slot (looks that come with paid editions are left alone); equipment experience. Decrypts Capcom's RE Engine encryption with your Steam account, found automatically |
+| OpenTTD | *Companies*: each company's money, loan and maximum loan; the zlib, xz or zstd packing of the `.sav` is opened and closed again (checked on public saves up to savegame version 207, not yet tried in the game) |
 | OpenXcom (X-COM: UFO Defense) | *Base*: funds, months and days passed, difficulty, scientists and engineers, every soldier's rank, missions, kills and stats, and the stores of the first three bases, from an OpenXcom or OpenXcom Extended `.sav` (the data part of the file is rewritten on save; checked on a public save, not yet tried in the game) |
 | Ori and the Blind Forest | *Ori*: level, experience, ability points, life and energy cells, keystones, mapstones and deaths, and every skill and ability-tree upgrade to tick on or off, in Definitive Edition and original saves (`saveFile0.sav`…); the load menu's copy of life and energy is kept in step (checked on a public save, not yet tried in the game) |
 | Outer Wilds | *Time loop*: loop counters, marshmallows eaten, the launch codes and the Eye of the Universe warp in `data.owsave` (checked on a real save, not yet tried in the game) |
@@ -426,7 +429,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>R</strong> (18)</summary>
+<summary><strong>R</strong> (19)</summary>
 
 | Game | Screen |
 |---|---|
@@ -443,6 +446,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Road 96 | *Road*: money, energy and karma (and their values before the current stop), from the plain JSON `context.sav` (checked on a public save, not yet tried in the game) |
 | Road Redemption | *Rider*: the permanent upgrade ranks (health, damage, armor, nitro, critical hits, XP and money gain, store prices, ammo, durability, jump jets), kills, wins and the XP carried over, from the plain XML `N_N.save` (checked on a public save, not yet tried in the game) |
 | Roboquest | *Robot*: wrenches (and wrenches spent), the selected difficulty and class, the saved run's player level and the lifetime statistics (enemies destroyed, bosses taken down, damage dealt), from `RQProfile.sav` (checked on a public save, not yet tried in the game) |
+| Rogue Legacy | *Heir*: gold, health, mana, class, traits, spells, special item, bonus stats, bosses, progress and hours played from `RogueLegacyPlayer.rcdat`; *Manor*: the level of every manor skill, limited to what the manor allows, from `RogueLegacyBP.rcdat` (checked on a public save, not yet tried in the game) |
 | RollerCoaster Tycoon | *Park*: cash, bank loan, maximum loan and the entrance fee from a saved park (`.SV4`, including Added Attractions and Loopy Landscapes); the file's run-length packing is opened and closed for you (checked on public parks, not yet tried in the game) |
 | RollerCoaster Tycoon 2 | *Park*: cash, bank loan, maximum loan and the entrance fee from a saved park (`.SV6`); the park's chunk is unpacked and packed again with the file's sum written right, and the game's scrambled cash is handled for you (checked on public parks, not yet tried in the game) |
 | RPG Maker MV / MZ | *Party*: gold, steps and play time; each character's name, level, EXP, HP / MP / TP, stat bonuses and learned skills (by id); the party's items, weapons and armor by database id (change a count, remove one, add one) |
@@ -552,11 +556,12 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>U</strong> (3)</summary>
+<summary><strong>U</strong> (4)</summary>
 
 | Game | Screen |
 |---|---|
 | ULTRAKILL | *V1*: points (P) and every weapon variant and arm, owned or not, in `generalprogress.bepis`; each level file's ranks and secrets open too (checked on public saves, not yet tried in the game) |
+| Underrail | *Character*: experience, level and the unspent attribute, skill, feat and specialization points from `global.dat`; the header and gzip layer are kept and packed again (checked on public saves, not yet tried in the game) |
 | Undertale | Name, LV, HP, attack, defence, EXP, gold, kills; the item, phone and equipment slots by name; the route record (kills per area, Genocide and Pacifist flags, boss outcomes, spared and fled counts, shop spending); room and play time |
 | Undertale Yellow | *Clover*: LV, EXP, gold, HP and the other stats, equipment names, the eight item slots and play time from the save file (checked on public saves, not yet tried in the game) |
 

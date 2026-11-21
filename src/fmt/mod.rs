@@ -161,6 +161,7 @@ pub mod ini;
 pub mod antimatter;
 pub mod nested;
 pub mod lua;
+pub mod moai;
 pub mod luabins;
 pub mod essentials;
 pub mod marshal;
@@ -306,6 +307,10 @@ pub mod sonic_mania;
 pub mod metro;
 pub mod bioshock;
 pub mod rgmh;
+pub mod grimrock;
+pub mod ottd;
+pub mod underrail;
+pub mod rl1;
 pub mod cairn;
 pub mod rgg;
 pub mod yakuza0;
@@ -726,6 +731,16 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if sv4::looks(d) {
         if let Ok(t) = sv4::parse(d) {
+            return Some(t);
+        }
+    }
+    if d.starts_with(b"OTTN") && ottd::looks(d) {
+        if let Ok(t) = ottd::parse(d) {
+            return Some(t);
+        }
+    }
+    if grimrock::looks(d) {
+        if let Ok(t) = grimrock::parse(d) {
             return Some(t);
         }
     }
@@ -1592,6 +1607,11 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     }
     if ksp::looks(text) {
         if let Ok(doc) = ksp::parse(text) {
+            return Some(doc);
+        }
+    }
+    if moai::looks(t) {
+        if let Ok(doc) = moai::parse(text) {
             return Some(doc);
         }
     }

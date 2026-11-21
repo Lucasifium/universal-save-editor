@@ -1,0 +1,51 @@
+name = "Invisible, Inc."
+tab = "Agency"
+accent = [235, 120, 40]
+kind = "MOAI Lua save"
+markers = ["/xp", "/num_games", "/saveSlots"]
+subtitle = '''savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's serializer). Your experience and totals, and what the campaign in each save slot holds: credits, the day, the hours used and the rewinds left. Agents, items and programs are in the Tree. Close the game first.'''
+tiles = [
+    ["Experience", "/xp"],
+    ["Games played", "/num_games"],
+    ["Campaigns", "/num_campaigns"],
+]
+
+[[sections]]
+title = "Profile"
+rows = [
+    ["Experience", "/xp"],
+    ["Games played", "/num_games"],
+    ["Campaigns started", "/num_campaigns"],
+    ["Story wins", "/storyWins"],
+    ["Story wins with experienced rules", "/storyExperiencedWins"],
+]
+
+[[sections]]
+title = "Campaign in slot 1"
+rows = [
+    ["Credits", "/saveSlots/1/agency/cash"],
+    ["Day", "/saveSlots/1/currentDay"],
+    ["Hours used", "/saveSlots/1/hours"],
+    ["Missions played", "/saveSlots/1/missionTotal"],
+    ["Rewinds left", "/saveSlots/1/difficultyOptions/rewindsLeft"],
+]
+
+[[sections]]
+title = "Campaign in slot 2"
+rows = [
+    ["Credits", "/saveSlots/2/agency/cash"],
+    ["Day", "/saveSlots/2/currentDay"],
+    ["Hours used", "/saveSlots/2/hours"],
+    ["Missions played", "/saveSlots/2/missionTotal"],
+    ["Rewinds left", "/saveSlots/2/difficultyOptions/rewindsLeft"],
+]
+
+[[sections]]
+title = "Campaign in slot 3"
+rows = [
+    ["Credits", "/saveSlots/3/agency/cash"],
+    ["Day", "/saveSlots/3/currentDay"],
+    ["Hours used", "/saveSlots/3/hours"],
+    ["Missions played", "/saveSlots/3/missionTotal"],
+    ["Rewinds left", "/saveSlots/3/difficultyOptions/rewindsLeft"],
+]

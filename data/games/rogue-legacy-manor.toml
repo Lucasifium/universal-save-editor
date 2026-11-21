@@ -1,0 +1,58 @@
+name = "Rogue Legacy (manor)"
+tab = "Manor"
+accent = [120, 150, 200]
+kind = "Rogue Legacy manor"
+markers = ["/Manor/Health Up", "/Blueprints"]
+subtitle = '''RogueLegacyBP.rcdat of a profile (also the AutoSave_ copy). The level of every manor skill, up to what the manor allows. The blueprint and rune states of each equipment piece are in the Tree. Close the game first.'''
+tiles = [
+    ["Health Up", "/Manor/Health Up"],
+    ["Attack Up", "/Manor/Attack Up"],
+    ["Mana Up", "/Manor/Mana Up"],
+]
+
+[[sections]]
+title = "Skills"
+rows = [
+    ["Health Up", "/Manor/Health Up"],
+    ["Invulnerability Time Up", "/Manor/Invulnerability Time Up"],
+    ["Death Defy", "/Manor/Death Defy"],
+    ["Attack Up", "/Manor/Attack Up"],
+    ["Down Strike Up", "/Manor/Down Strike Up"],
+    ["Crit Chance Up", "/Manor/Crit Chance Up"],
+    ["Crit Damage Up", "/Manor/Crit Damage Up"],
+    ["Magic Damage Up", "/Manor/Magic Damage Up"],
+    ["Mana Up", "/Manor/Mana Up"],
+    ["Mana Cost Down", "/Manor/Mana Cost Down"],
+    ["Equipment Up", "/Manor/Equipment Up"],
+    ["Armor Up", "/Manor/Armor Up"],
+    ["Gold Gain Up", "/Manor/Gold Gain Up"],
+    ["Haggle", "/Manor/Haggle"],
+    ["Potion Up", "/Manor/Potion Up"],
+]
+
+[[sections]]
+title = "Buildings and classes"
+rows = [
+    ["Smithy", "/Manor/Smithy"],
+    ["Enchantress", "/Manor/Enchantress"],
+    ["Architect", "/Manor/Architect"],
+    ["Randomize Children", "/Manor/Randomize Children"],
+    ["Unlock Lich", "/Manor/Unlock Lich"],
+    ["Unlock Miner", "/Manor/Unlock Miner"],
+    ["Unlock Spellthief", "/Manor/Unlock Spellthief"],
+    ["Unlock Shinobi", "/Manor/Unlock Shinobi"],
+]
+
+[[sections]]
+title = "Class upgrades"
+rows = [
+    ["Upgrade Knight", "/Manor/Upgrade Knight"],
+    ["Upgrade Mage", "/Manor/Upgrade Mage"],
+    ["Upgrade Knave", "/Manor/Upgrade Knave"],
+    ["Upgrade Miner", "/Manor/Upgrade Miner"],
+    ["Upgrade Barbarian", "/Manor/Upgrade Barbarian"],
+    ["Upgrade Lich", "/Manor/Upgrade Lich"],
+    ["Upgrade Shinobi", "/Manor/Upgrade Shinobi"],
+    ["Upgrade Spellthief", "/Manor/Upgrade Spellthief"],
+    ["Beastiality", "/Manor/Beastiality"],
+]

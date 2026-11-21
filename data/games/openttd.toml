@@ -1,0 +1,16 @@
+name = "OpenTTD"
+tab = "Companies"
+accent = [60, 140, 190]
+kind = "OpenTTD save"
+markers = ["/Companies/0/money"]
+subtitle = '''A saved game or autosave (.sav) of OpenTTD; the packing (zlib, xz or zstd) is opened and closed again for you. Each company's money, loan and maximum loan. Vehicles, towns and the map are not edited. Close the game first.'''
+
+[[tables]]
+title = "Companies"
+path = "/Companies"
+name = ["/name"]
+cols = [
+    ["Money", "/money"],
+    ["Loan", "/current_loan"],
+    ["Maximum loan", "/max_loan"],
+]
