@@ -144,8 +144,8 @@ pub fn resolve(root: &Value, p: &str) -> String {
                 Some(i) => i.to_string(),
                 None => return "/\u{0}no such entry".to_string(),
             },
-            // `=name`: the entry whose `key` is that name (database tables of key/data rows).
-            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| e.get("key").or_else(|| e.get("Key")).and_then(Value::as_str) == Some(&seg[1..])) {
+            // `=name`: the entry whose `key` (or XML `key` / `identifier` attribute) is that name (database tables of key/data rows).
+            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| ["key", "Key", "@key", "@identifier"].iter().any(|k| e.get(*k).and_then(Value::as_str) == Some(&seg[1..]))) {
                 Some(i) => i.to_string(),
                 None => return "/\u{0}no such entry".to_string(),
             },
@@ -414,7 +414,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                 let name = if t.name.is_empty() {
                                     key_name.clone()
                                 } else {
-                                    t.name.iter().filter_map(|k| cx.text(&format!("{t_path}/{key}{k}"))).collect::<Vec<_>>().join(" ")
+                                    t.name.iter().filter_map(|k| cx.text(&resolve(cx.root, &format!("{t_path}/{key}{k}")))).collect::<Vec<_>>().join(" ")
                                 };
                                 if !q.is_empty() && !name.to_lowercase().contains(&q) {
                                     continue;
@@ -433,7 +433,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                     }
                                 }
                                 for (_, k) in t.cols {
-                                    let p = format!("{t_path}/{key}{k}");
+                                    let p = resolve(cx.root, &format!("{t_path}/{key}{k}"));
                                     if cx.get(&p).is_some() {
                                         cx.cell(ui, &p, 64.0);
                                     } else {

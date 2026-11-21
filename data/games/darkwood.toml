@@ -1,0 +1,89 @@
+name = "Darkwood"
+tab = "Survivor"
+accent = [150, 110, 70]
+markers = ["/pS/health", "/pS/experience", "/iS/invItems"]
+subtitle = '''sav.dat from AppData\LocalLow\Acid Wizard Studio\Darkwood\prof1 (one prof folder per profile; the _bak copies and the other .dat files are not needed). Your level, experience, health, stamina and karma, the day and workbench level, and the items in your backpack and hotbar. Close the game first.'''
+tiles = [
+    ["Level", "/pS/currentLevel"],
+    ["Experience", "/pS/experience"],
+    ["Karma", "/flaS/karmaPoints"],
+    ["Day", "/cnS/day"],
+]
+
+[[sections]]
+title = "Survivor"
+rows = [
+    ["Level", "/pS/currentLevel"],
+    ["Experience", "/pS/experience"],
+    ["Health", "/pS/health"],
+    ["Stamina", "/pS/stamina"],
+    ["Lives", "/pS/lifes"],
+]
+
+[[sections]]
+title = "World"
+rows = [
+    ["Karma", "/flaS/karmaPoints"],
+    ["Day", "/cnS/day"],
+    ["Workbench level", "/cnS/workbenchLevel"],
+]
+
+[[lists]]
+title = "Backpack"
+path = "/iS/invItems"
+shape = "array"
+id_key = "type"
+qty_keys = ["amount"]
+names = [
+    ["ammo_clip_smallCal", "Small-caliber clip"],
+    ["ammo_clip_mediumCal", "Medium-caliber clip"],
+    ["ammo_single_shotgun", "Shotgun shells"],
+    ["ammo_single_mediumCal", "Medium-caliber rounds"],
+    ["armor_light", "Light armor"],
+    ["axe", "Axe"],
+    ["battery9v", "9V battery"],
+    ["bandages", "Bandages"],
+    ["bandages_alcohol", "Bandages with alcohol"],
+    ["bottle", "Bottle"],
+    ["chicken_egg_red", "Red egg"],
+    ["flare", "Flare"],
+    ["flashlight", "Flashlight"],
+    ["flashlight_02", "Flashlight (improved)"],
+    ["gasoline", "Gasoline"],
+    ["junk", "Junk"],
+    ["lantern", "Lantern"],
+    ["lockpick", "Lockpick"],
+    ["molotov", "Molotov cocktail"],
+    ["nail", "Nails"],
+    ["rag", "Rag"],
+    ["shovel", "Shovel"],
+    ["sickle", "Sickle"],
+    ["stick", "Stick"],
+    ["torch", "Torch"],
+    ["watch", "Watch"],
+    ["wood", "Wood"],
+    ["weapon_assault_01_burst", "Assault rifle (burst)"],
+    ["weapon_flamethrower_military", "Military flamethrower"],
+    ["weapon_shotgun_03_singleShot", "Single-shot shotgun"],
+    ["weapon_shotgun_04_fullAuto_ZePSUTY", "Full-auto shotgun"],
+]
+
+[[lists]]
+title = "Hotbar"
+path = "/hS/invItems"
+shape = "array"
+id_key = "type"
+qty_keys = ["amount"]
+names = [
+    ["axe", "Axe"],
+    ["armor_light", "Light armor"],
+    ["bandages_alcohol", "Bandages with alcohol"],
+    ["chicken_egg_red", "Red egg"],
+    ["lantern", "Lantern"],
+    ["shovel", "Shovel"],
+    ["sickle", "Sickle"],
+    ["stick", "Stick"],
+    ["weapon_assault_01_burst", "Assault rifle (burst)"],
+    ["weapon_shotgun_03_singleShot", "Single-shot shotgun"],
+    ["weapon_shotgun_04_fullAuto_ZePSUTY", "Full-auto shotgun"],
+]

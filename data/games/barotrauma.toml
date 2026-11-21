@@ -1,0 +1,41 @@
+name = "Barotrauma"
+tab = "Campaign"
+accent = [60, 150, 170]
+kind = "XML"
+markers = ["/Gamesession/MultiPlayerCampaign/Wallet/@balance", "/Gamesession/@submarine"]
+subtitle = '''<name>.save from Documents\Barotrauma\Saves\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.'''
+tiles = [
+    ["Money", "/Gamesession/MultiPlayerCampaign/Wallet/@balance"],
+    ["Levels passed", "/Gamesession/MultiPlayerCampaign/stats/@totalpassedlevels"],
+]
+
+[[sections]]
+title = "Campaign"
+rows = [
+    ["Money", "/Gamesession/MultiPlayerCampaign/Wallet/@balance"],
+    ["Levels passed", "/Gamesession/MultiPlayerCampaign/stats/@totalpassedlevels"],
+]
+
+[[sections]]
+title = "Reputation (-100 to 100)"
+rows = [
+    ["Coalition", "/Gamesession/MultiPlayerCampaign/Metadata/Data/=reputation.faction.coalition/@value"],
+    ["Separatists", "/Gamesession/MultiPlayerCampaign/Metadata/Data/=reputation.faction.separatists/@value"],
+    ["Husk cult", "/Gamesession/MultiPlayerCampaign/Metadata/Data/=reputation.faction.huskcult/@value"],
+    ["Clowns", "/Gamesession/MultiPlayerCampaign/Metadata/Data/=reputation.faction.clowns/@value"],
+]
+
+[[tables]]
+title = "Crew"
+path = "/Gamesession/MultiPlayerCampaign/bots/Character"
+name = ["/@name"]
+cols = [
+    ["Experience points", "/@experiencepoints"],
+    ["Talent points", "/@additionaltalentpoints"],
+    ["Salary", "/@salary"],
+    ["Electrical", "/job/skill/=electrical/@level"],
+    ["Mechanical", "/job/skill/=mechanical/@level"],
+    ["Weapons", "/job/skill/=weapons/@level"],
+    ["Medical", "/job/skill/=medical/@level"],
+    ["Helm", "/job/skill/=helm/@level"],
+]

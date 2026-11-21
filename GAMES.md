@@ -49,12 +49,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>B</strong> (15)</summary>
+<summary><strong>B</strong> (16)</summary>
 
 | Game | Screen |
 |---|---|
 | Balatro | Money, ante, hands and discards; this round; jokers and consumables; poker hand levels |
 | Baldur's Gate 3 | Gold and the stack size of every stacked item each companion carries (potions, arrows, scrolls, camp supplies), read from the save's packed entity store, plus the party summary (origin, class, level, experience) and *Story flags*: every named global story flag by area and companion (Emerald Grove, camp, Nautiloid, each companion and so on), ticked on or off, with a search box and filters for set, cleared, changed and risky flags. Flags that are riskier to change (someone living or dying, party membership, romance, story progress, the tadpole story, scenes in progress, testing switches) are marked with the reason; the story script's own list of set flags is kept in step when the save is written, and a backup is offered before editing. *Add items*: copies of any kind of item in the party's bags can be put into a chosen character's bag (new entities in the entity store with their inventory and owner records, and the matching item records; stacked items, worn gear, containers, keys and story items left out). Checked on about a hundred public saves; not yet tried in the game |
+| Barotrauma | *Campaign*: money, levels passed and reputation with each faction; *Crew*: each hired crew member's experience, talent points, salary and skills, from the campaign's `.save` (the gzip bundle is opened and packed again with the submarine kept as it was; checked on public saves, not yet tried in the game) |
 | Batman: Arkham City | *Progress*: difficulty, experience, player level and the upgrades bought for Batman and Catwoman; the LZO-packed save is unpacked and packed again (saves of a brand-new game have no experience yet; checked on public saves, not yet tried in the game) |
 | BeamNG.drive | *Career*: career money and BeamXP from `career/playerAttributes.json` of a save slot; the other career values (branch levels, vehicles) open by name in the Tree. Written from the game's own Lua source, not yet checked on a real save |
 | BioShock Infinite | *Booker*: Silver Eagles (up to 99,999), salts, lockpicks and the Health, Shield and Salts infusion levels (0 to 10; a kind never picked has no entry yet); unpacked and packed again with the save's MD5. Not yet tried in the game |
@@ -96,13 +97,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (41)</summary>
+<summary><strong>D</strong> (42)</summary>
 
 | Game | Screen |
 |---|---|
 | Dark Souls: Prepare to Die Edition | *Character*: name, soul level, souls, humanity and the eight attributes of each character slot, with HP and stamina shown; the item list of this edition is not read yet (the checksums are rewritten). checked on a public save (the character stats read as plausible values and a changed save keeps its checksums), not yet tried in the game |
 | Darkest Dungeon | *Hamlet*: the estate (gold, busts, portraits, deeds, crests, blueprints, shards), how many of each trinket and estate item it holds, and the roster (each hero's resolve XP, stress, HP, weapon and armour rank, skill upgrade levels), changed in place. Open persist.estate.json or persist.roster.json |
 | Darksiders Genesis | *Horsemen*: souls, coins, keys, health potions, Strife's and War's powers, play time, and each horseman's wrath and health and wrath shards, from the plain Unreal save `SaveSlot_N.sav` (checked on a public save, not yet tried in the game) |
+| Darkwood | *Survivor*: level, experience, health, stamina and lives; karma, the day and workbench level; every item in the backpack and hotbar by name and amount, from `sav.dat` (plain JSON, read and written in place; checked on public saves, not yet tried in the game) |
 | Dave the Diver | *Dave*: gold, Bei, chef flames, research and trust points, and every sushi ingredient's stock, with a **Max crafting materials** button that fills the ingredients you have to 999; the save's encryption is removed and put back for you (checked on public saves, not yet tried in the game) |
 | Dead Island | *Survivor*: money, level, maximum health and health, from `save_N.sav` (the gzip wrapper is removed and put back and every other byte kept; checked on a public Definitive Edition save, not yet tried in the game) |
 | Dead Island: Riptide | *Survivor*: the same four values from `save_N.sav`; the layout matched a Dead Island sample, no Riptide save has been checked yet |

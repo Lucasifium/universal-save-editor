@@ -30608,3 +30608,53 @@ Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, 
 
 Mage
 = Magier
+
+# data/games: Darkwood, Barotrauma
+
+sav.dat from AppData\\LocalLow\\Acid Wizard Studio\\Darkwood\\prof1 (one prof folder per profile; the _bak copies and the other .dat files are not needed). Your level, experience, health, stamina and karma, the day and workbench level, and the items in your backpack and hotbar. Close the game first.
+= sav.dat aus AppData\LocalLow\Acid Wizard Studio\Darkwood\prof1 (ein prof-Ordner pro Profil; die _bak-Kopien und die anderen .dat-Dateien werden nicht gebraucht). Stufe, Erfahrung, Gesundheit, Ausdauer und Karma, der Tag und die Werkbankstufe sowie die Gegenstände in Rucksack und Schnellleiste. Schließe vorher das Spiel.
+
+Workbench level
+= Werkbankstufe
+
+<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
+= <name>.save aus Dokumente\Barotrauma\Saves\Multiplayer (auch Einzelspieler-Kampagnen liegen dort). Geld der Kampagne, bestandene Level, Ruf bei jeder Fraktion sowie Erfahrung, Gehalt, Talentpunkte und Fertigkeiten deiner angeheuerten Crew. Die Datei enthält auch das U-Boot; es bleibt unverändert. Deine eigene Spielfigur steht in der <name>_CharacterData.xml daneben. Schließe vorher das Spiel.
+
+Levels passed
+= Bestandene Level
+
+Reputation (-100 to 100)
+= Ruf (-100 bis 100)
+
+Coalition
+= Koalition
+
+Separatists
+= Separatisten
+
+Husk cult
+= Husk-Kult
+
+Clowns
+= Clowns
+
+Experience points
+= Erfahrungspunkte
+
+Electrical
+= Elektrik
+
+Helm
+= Steuerung
+
+sav.dat (one prof folder per profile; the _bak copies are backups)
+= sav.dat (ein prof-Ordner pro Profil; die _bak-Kopien sind Sicherungen)
+
+<name>.save (<name>_CharacterData.xml beside it holds your own character)
+= <name>.save (die <name>_CharacterData.xml daneben enthält deine eigene Spielfigur)
+
+Game screen: level, experience, health, stamina and lives, karma, the day and workbench level, and every item in the backpack and hotbar by name and amount. Plain JSON, read and written in place. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Stufe, Erfahrung, Gesundheit, Ausdauer und Leben, Karma, der Tag und die Werkbankstufe sowie jeder Gegenstand in Rucksack und Schnellleiste mit Name und Anzahl. Reines JSON, an Ort und Stelle gelesen und geschrieben. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Game screen: the campaign's money, levels passed, reputation with each faction, and the hired crew's experience, talent points, salary and skills. The .save file (a gzip bundle of the submarine and the game session) is opened and packed again with the submarine kept as it was. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Geld der Kampagne, bestandene Level, Ruf bei jeder Fraktion sowie Erfahrung, Talentpunkte, Gehalt und Fertigkeiten der angeheuerten Crew. Die .save-Datei (ein gzip-Bündel aus U-Boot und Spielsitzung) wird geöffnet und wieder gepackt, das U-Boot bleibt dabei unverändert. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert

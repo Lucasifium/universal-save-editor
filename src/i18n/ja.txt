@@ -30686,3 +30686,53 @@ Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, 
 
 Mage
 = メイジ
+
+# data/games: Darkwood, Barotrauma
+
+sav.dat from AppData\\LocalLow\\Acid Wizard Studio\\Darkwood\\prof1 (one prof folder per profile; the _bak copies and the other .dat files are not needed). Your level, experience, health, stamina and karma, the day and workbench level, and the items in your backpack and hotbar. Close the game first.
+= AppData\LocalLow\Acid Wizard Studio\Darkwood\prof1 の sav.dat（プロフィールごとに prof フォルダが1つあります。_bak のコピーとほかの .dat ファイルは不要です）。レベル、経験値、体力、スタミナ、カルマ、日数と作業台のレベル、バックパックとホットバーのアイテムを編集できます。先にゲームを閉じてください。
+
+Workbench level
+= 作業台のレベル
+
+<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
+= Documents\Barotrauma\Saves\Multiplayer の <name>.save（シングルプレイのキャンペーンもここにあります）。キャンペーンの所持金、クリアしたレベル数、各勢力との評判、雇った乗組員の経験値・給料・タレントポイント・スキルを編集できます。ファイルには潜水艦も含まれますが、そのまま保持されます。自分のキャラクターは隣の <name>_CharacterData.xml にあります。先にゲームを閉じてください。
+
+Levels passed
+= クリアしたレベル
+
+Reputation (-100 to 100)
+= 評判（-100〜100）
+
+Coalition
+= 連合
+
+Separatists
+= 分離主義者
+
+Husk cult
+= ハスク教団
+
+Clowns
+= 道化師
+
+Experience points
+= 経験値
+
+Electrical
+= 電気
+
+Helm
+= 操舵
+
+sav.dat (one prof folder per profile; the _bak copies are backups)
+= sav.dat（プロフィールごとに prof フォルダが1つ。_bak のコピーはバックアップです）
+
+<name>.save (<name>_CharacterData.xml beside it holds your own character)
+= <name>.save（隣の <name>_CharacterData.xml に自分のキャラクターがあります）
+
+Game screen: level, experience, health, stamina and lives, karma, the day and workbench level, and every item in the backpack and hotbar by name and amount. Plain JSON, read and written in place. Checked on public saves, not yet tried in the game
+= ゲーム画面：レベル、経験値、体力、スタミナ、残機、カルマ、日数と作業台のレベル、バックパックとホットバーのすべてのアイテム（名前と数量）。素のJSONをその場で読み書きします。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+Game screen: the campaign's money, levels passed, reputation with each faction, and the hired crew's experience, talent points, salary and skills. The .save file (a gzip bundle of the submarine and the game session) is opened and packed again with the submarine kept as it was. Checked on public saves, not yet tried in the game
+= ゲーム画面：キャンペーンの所持金、クリアしたレベル数、各勢力との評判、雇った乗組員の経験値、タレントポイント、給料、スキル。.save ファイル（潜水艦とゲームセッションをまとめた gzip）を開き、潜水艦をそのままにして再び梱包します。公開セーブで確認済みで、ゲーム内ではまだ試していません

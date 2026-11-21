@@ -30659,3 +30659,53 @@ Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, 
 
 Mage
 = 法师
+
+# data/games: Darkwood, Barotrauma
+
+sav.dat from AppData\\LocalLow\\Acid Wizard Studio\\Darkwood\\prof1 (one prof folder per profile; the _bak copies and the other .dat files are not needed). Your level, experience, health, stamina and karma, the day and workbench level, and the items in your backpack and hotbar. Close the game first.
+= AppData\LocalLow\Acid Wizard Studio\Darkwood\prof1 中的 sav.dat（每个档案一个 prof 文件夹；_bak 副本和其他 .dat 文件不需要）。可编辑等级、经验、生命、体力和业力，天数和工作台等级，以及背包和快捷栏中的物品。请先关闭游戏。
+
+Workbench level
+= 工作台等级
+
+<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
+= Documents\Barotrauma\Saves\Multiplayer 中的 <name>.save（单人战役也保存在这里）。可编辑战役的资金、已通过的关卡数、与各阵营的声望，以及你雇用的船员的经验、薪水、天赋点和技能。文件中也包含潜艇，会原样保留。你自己的角色在旁边的 <name>_CharacterData.xml 中。请先关闭游戏。
+
+Levels passed
+= 已通过关卡
+
+Reputation (-100 to 100)
+= 声望（-100 到 100）
+
+Coalition
+= 联盟
+
+Separatists
+= 分离主义者
+
+Husk cult
+= Husk 教团
+
+Clowns
+= 小丑
+
+Experience points
+= 经验值
+
+Electrical
+= 电气
+
+Helm
+= 舵手
+
+sav.dat (one prof folder per profile; the _bak copies are backups)
+= sav.dat（每个档案一个 prof 文件夹；_bak 副本是备份）
+
+<name>.save (<name>_CharacterData.xml beside it holds your own character)
+= <name>.save（旁边的 <name>_CharacterData.xml 保存你自己的角色）
+
+Game screen: level, experience, health, stamina and lives, karma, the day and workbench level, and every item in the backpack and hotbar by name and amount. Plain JSON, read and written in place. Checked on public saves, not yet tried in the game
+= 游戏界面：等级、经验、生命、体力和生命数、业力、天数和工作台等级，以及背包和快捷栏中的每件物品（名称和数量）。纯 JSON，原地读写。已用公开存档检查，尚未在游戏中试过
+
+Game screen: the campaign's money, levels passed, reputation with each faction, and the hired crew's experience, talent points, salary and skills. The .save file (a gzip bundle of the submarine and the game session) is opened and packed again with the submarine kept as it was. Checked on public saves, not yet tried in the game
+= 游戏界面：战役资金、已通过的关卡数、与各阵营的声望，以及所雇船员的经验、天赋点、薪水和技能。.save 文件（包含潜艇和游戏会话的 gzip 包）会被打开并重新打包，潜艇保持原样。已用公开存档检查，尚未在游戏中试过
