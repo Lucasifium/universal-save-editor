@@ -30668,8 +30668,8 @@ sav.dat from AppData\\LocalLow\\Acid Wizard Studio\\Darkwood\\prof1 (one prof fo
 Workbench level
 = 工作台等级
 
-<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
-= Documents\Barotrauma\Saves\Multiplayer 中的 <name>.save（单人战役也保存在这里）。可编辑战役的资金、已通过的关卡数、与各阵营的声望，以及你雇用的船员的经验、薪水、天赋点和技能。文件中也包含潜艇，会原样保留。你自己的角色在旁边的 <name>_CharacterData.xml 中。请先关闭游戏。
+<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer. The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
+= Documents\Barotrauma\Saves\Multiplayer 中的 <name>.save。可编辑战役的资金、已通过的关卡数、与各阵营的声望，以及你雇用的船员的经验、薪水、天赋点和技能。文件中也包含潜艇，会原样保留。你自己的角色在旁边的 <name>_CharacterData.xml 中。请先关闭游戏。
 
 Levels passed
 = 已通过关卡

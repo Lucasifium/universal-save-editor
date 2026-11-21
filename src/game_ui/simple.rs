@@ -162,6 +162,15 @@ pub fn resolve(root: &Value, p: &str) -> String {
     out
 }
 
+/// A table row's pointer; an empty key is the table's own element (a single row).
+fn cell_path(t_path: &str, key: &str, k: &str) -> String {
+    if key.is_empty() {
+        format!("{t_path}{k}")
+    } else {
+        format!("{t_path}/{key}{k}")
+    }
+}
+
 fn qty_path(base: &str, i: usize, key: &str) -> String {
     // A key that starts with "/" is a pointer inside the entry (an item record nested in the entry).
     if key.starts_with('/') {
@@ -393,6 +402,8 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                     Some(Value::Object(o)) if !o.is_empty() && o.iter().all(|(k, v)| v.is_object() && !k.starts_with('@')) => {
                         o.keys().map(|k| (k.replace('~', "~0").replace('/', "~1"), k.clone())).collect()
                     }
+                    // A lone XML element (one hired crew member) is a single row.
+                    Some(Value::Object(o)) if o.keys().any(|k| k.starts_with('@')) => vec![(String::new(), String::new())],
                     _ => Vec::new(),
                 };
                 let n = rows.len();
@@ -414,7 +425,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                 let name = if t.name.is_empty() {
                                     key_name.clone()
                                 } else {
-                                    t.name.iter().filter_map(|k| cx.text(&resolve(cx.root, &format!("{t_path}/{key}{k}")))).collect::<Vec<_>>().join(" ")
+                                    t.name.iter().filter_map(|k| cx.text(&resolve(cx.root, &cell_path(t_path, key, k)))).collect::<Vec<_>>().join(" ")
                                 };
                                 if !q.is_empty() && !name.to_lowercase().contains(&q) {
                                     continue;
@@ -433,7 +444,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                     }
                                 }
                                 for (_, k) in t.cols {
-                                    let p = resolve(cx.root, &format!("{t_path}/{key}{k}"));
+                                    let p = resolve(cx.root, &cell_path(t_path, key, k));
                                     if cx.get(&p).is_some() {
                                         cx.cell(ui, &p, 64.0);
                                     } else {

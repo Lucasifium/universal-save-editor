@@ -3,7 +3,7 @@ tab = "Campaign"
 accent = [60, 150, 170]
 kind = "XML"
 markers = ["/Gamesession/MultiPlayerCampaign/Wallet/@balance", "/Gamesession/@submarine"]
-subtitle = '''<name>.save from Documents\Barotrauma\Saves\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.'''
+subtitle = '''<name>.save from Documents\Barotrauma\Saves\Multiplayer. The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.'''
 tiles = [
     ["Money", "/Gamesession/MultiPlayerCampaign/Wallet/@balance"],
     ["Levels passed", "/Gamesession/MultiPlayerCampaign/stats/@totalpassedlevels"],

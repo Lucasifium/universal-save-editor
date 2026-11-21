@@ -30695,8 +30695,8 @@ sav.dat from AppData\\LocalLow\\Acid Wizard Studio\\Darkwood\\prof1 (one prof fo
 Workbench level
 = 作業台のレベル
 
-<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
-= Documents\Barotrauma\Saves\Multiplayer の <name>.save（シングルプレイのキャンペーンもここにあります）。キャンペーンの所持金、クリアしたレベル数、各勢力との評判、雇った乗組員の経験値・給料・タレントポイント・スキルを編集できます。ファイルには潜水艦も含まれますが、そのまま保持されます。自分のキャラクターは隣の <name>_CharacterData.xml にあります。先にゲームを閉じてください。
+<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer. The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
+= Documents\Barotrauma\Saves\Multiplayer の <name>.save。キャンペーンの所持金、クリアしたレベル数、各勢力との評判、雇った乗組員の経験値・給料・タレントポイント・スキルを編集できます。ファイルには潜水艦も含まれますが、そのまま保持されます。自分のキャラクターは隣の <name>_CharacterData.xml にあります。先にゲームを閉じてください。
 
 Levels passed
 = クリアしたレベル

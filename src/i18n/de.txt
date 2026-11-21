@@ -30617,8 +30617,8 @@ sav.dat from AppData\\LocalLow\\Acid Wizard Studio\\Darkwood\\prof1 (one prof fo
 Workbench level
 = Werkbankstufe
 
-<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer (single-player campaigns are kept there too). The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
-= <name>.save aus Dokumente\Barotrauma\Saves\Multiplayer (auch Einzelspieler-Kampagnen liegen dort). Geld der Kampagne, bestandene Level, Ruf bei jeder Fraktion sowie Erfahrung, Gehalt, Talentpunkte und Fertigkeiten deiner angeheuerten Crew. Die Datei enthält auch das U-Boot; es bleibt unverändert. Deine eigene Spielfigur steht in der <name>_CharacterData.xml daneben. Schließe vorher das Spiel.
+<name>.save from Documents\\Barotrauma\\Saves\\Multiplayer. The campaign's money, levels passed, reputation with each faction, and your hired crew's experience, salary, talent points and skills. The file holds the submarine as well; it is kept as it is. Your own character is in the <name>_CharacterData.xml beside it. Close the game first.
+= <name>.save aus Dokumente\Barotrauma\Saves\Multiplayer. Geld der Kampagne, bestandene Level, Ruf bei jeder Fraktion sowie Erfahrung, Gehalt, Talentpunkte und Fertigkeiten deiner angeheuerten Crew. Die Datei enthält auch das U-Boot; es bleibt unverändert. Deine eigene Spielfigur steht in der <name>_CharacterData.xml daneben. Schließe vorher das Spiel.
 
 Levels passed
 = Bestandene Level
