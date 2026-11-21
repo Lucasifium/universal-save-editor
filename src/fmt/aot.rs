@@ -214,8 +214,9 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         Ok(b.finish(KIND1, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.")))
     } else {
-        // Current funds sit beside the total acquired (equal in a new game); wings never exceed 999.
-        if w32(&p, FUNDS2) <= w32(&p, FUNDS2 + 4) {
+        // Current funds sit beside the total acquired; both stay within the game's cap. Funds edited
+        // above the recorded total must still read back, so the two are not compared.
+        if w32(&p, FUNDS2) <= 99_999_999 && w32(&p, FUNDS2 + 4) <= 99_999_999 {
             b.ranged(&["Resources", "Regiment funds"], FUNDS2, Kind::U32, 0, 99_999_999);
         }
         if w32(&p, WINGS2) <= 999 {
@@ -329,6 +330,9 @@ mod tests {
         doc.set("/Crafting materials/Material 04", 999.into()).unwrap();
         assert!(doc.set("/Crafting materials/Material 04", 1000.into()).is_err());
         doc.set("/Resources/Regiment funds", 5000.into()).unwrap();
+        doc.set("/Resources/Regiment funds", 12_345.into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert_eq!(parse(&out).unwrap().view.pointer("/Resources/Regiment funds").unwrap(), 12_345);
         doc.set("/Resources/Wings of Freedom", 999.into()).unwrap();
         assert!(doc.set("/Resources/Wings of Freedom", 1000.into()).is_err());
         assert!(doc.view.pointer("/Friendship/Levi").is_none());
