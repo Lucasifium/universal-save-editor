@@ -31395,3 +31395,83 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <Nutzer-ID>_ShadowOfWar.sav (die Dateien _1 bis _5 sind die eigenen Sicherungen des Spiels)
+
+# Yu-Gi-Oh! Legacy of the Duelist
+
+Battle damage
+= Kampfschaden
+
+Cards earned
+= Erhaltene Karten
+
+Chains
+= Ketten
+
+Decks created
+= Erstellte Decks
+
+Direct damage
+= Direkter Schaden
+
+Duel points
+= Duellpunkte
+
+Duelist
+= Duellant
+
+Effect damage
+= Effektschaden
+
+Fusion Summons
+= Fusionsbeschwörungen
+
+Game screen: duel points and the game's statistics (games, wins, summons, damage, cards earned). The save's CRC-32 signature is written again; cards, decks and unlocks are not edited. Checked on a public save, not yet tried in the game
+= Spielbildschirm: Duellpunkte und die Spielstatistiken (Spiele, Siege, Beschwörungen, Schaden, erhaltene Karten). Die CRC-32-Signatur des Spielstands wird neu geschrieben; Karten, Decks und Freischaltungen werden nicht bearbeitet. An einem öffentlichen Spielstand geprüft, noch nicht im Spiel getestet
+
+Games and wins
+= Spiele und Siege
+
+Games: campaign
+= Spiele: Kampagne
+
+Games: challenge
+= Spiele: Herausforderung
+
+Games: multiplayer
+= Spiele: Mehrspieler
+
+Normal Summons
+= Normalbeschwörungen
+
+Pendulum Summons
+= Pendelbeschwörungen
+
+Reflected damage
+= Reflektierter Schaden
+
+Ritual Summons
+= Ritualbeschwörungen
+
+Summons and damage
+= Beschwörungen und Schaden
+
+Synchro Summons
+= Synchrobeschwörungen
+
+Tribute Summons
+= Tributbeschwörungen
+
+Wins: campaign
+= Siege: Kampagne
+
+Wins: challenge
+= Siege: Herausforderung
+
+Wins: multiplayer
+= Siege: Mehrspieler
+
+Xyz Summons
+= Xyz-Beschwörungen
+
+savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
+= savegame.dat von Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Deine Duellpunkte und die Spielstatistiken; die CRC-32-Signatur des Spielstands wird beim Speichern neu geschrieben. Karten, Decks und Freischaltungen werden nicht bearbeitet. Schließe zuerst das Spiel.

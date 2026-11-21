@@ -311,6 +311,7 @@ pub mod grimrock;
 pub mod ottd;
 pub mod underrail;
 pub mod rl1;
+pub mod lotd;
 pub mod cairn;
 pub mod rgg;
 pub mod yakuza0;
@@ -371,6 +372,11 @@ use crate::tree::TreeDoc;
 
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
+    if lotd::looks(d) {
+        if let Ok(t) = lotd::parse(d) {
+            return Some(t);
+        }
+    }
     if justcause2::looks(d) {
         if let Ok(t) = justcause2::parse(d) {
             return Some(t);

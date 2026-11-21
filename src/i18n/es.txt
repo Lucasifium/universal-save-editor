@@ -31388,3 +31388,83 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <id de usuario>_ShadowOfWar.sav (los archivos _1 a _5 son las copias de seguridad del propio juego)
+
+# Yu-Gi-Oh! Legacy of the Duelist
+
+Battle damage
+= Daño de batalla
+
+Cards earned
+= Cartas obtenidas
+
+Chains
+= Cadenas
+
+Decks created
+= Mazos creados
+
+Direct damage
+= Daño directo
+
+Duel points
+= Puntos de duelo
+
+Duelist
+= Duelista
+
+Effect damage
+= Daño por efecto
+
+Fusion Summons
+= Invocaciones por Fusión
+
+Game screen: duel points and the game's statistics (games, wins, summons, damage, cards earned). The save's CRC-32 signature is written again; cards, decks and unlocks are not edited. Checked on a public save, not yet tried in the game
+= Pantalla de juego: puntos de duelo y las estadísticas del juego (partidas, victorias, invocaciones, daño, cartas obtenidas). La firma CRC-32 de la partida guardada se vuelve a escribir; no se editan cartas, mazos ni desbloqueos. Comprobado con una partida pública, aún no probado en el juego
+
+Games and wins
+= Partidas y victorias
+
+Games: campaign
+= Partidas: campaña
+
+Games: challenge
+= Partidas: desafío
+
+Games: multiplayer
+= Partidas: multijugador
+
+Normal Summons
+= Invocaciones Normales
+
+Pendulum Summons
+= Invocaciones de Péndulo
+
+Reflected damage
+= Daño reflejado
+
+Ritual Summons
+= Invocaciones Ritual
+
+Summons and damage
+= Invocaciones y daño
+
+Synchro Summons
+= Invocaciones Sincro
+
+Tribute Summons
+= Invocaciones por Tributo
+
+Wins: campaign
+= Victorias: campaña
+
+Wins: challenge
+= Victorias: desafío
+
+Wins: multiplayer
+= Victorias: multijugador
+
+Xyz Summons
+= Invocaciones Xyz
+
+savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
+= savegame.dat de Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Tus puntos de duelo y las estadísticas del juego; la firma CRC-32 de la partida guardada se vuelve a escribir al guardar. No se editan cartas, mazos ni desbloqueos. Cierra el juego primero.

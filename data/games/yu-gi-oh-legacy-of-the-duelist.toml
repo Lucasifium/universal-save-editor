@@ -1,0 +1,48 @@
+name = "Yu-Gi-Oh! Legacy of the Duelist"
+tab = "Duelist"
+accent = [150, 90, 200]
+kind = "Yu-Gi-Oh! Legacy of the Duelist save"
+markers = ["/Duelist/Duel points"]
+subtitle = '''savegame.dat of Legacy of the Duelist (Steam\userdata\<account>\601510\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.'''
+tiles = [
+    ["Duel points", "/Duelist/Duel points"],
+    ["Wins: campaign", "/Statistics/Wins: campaign"],
+    ["Cards earned", "/Statistics/Cards earned"],
+]
+
+[[sections]]
+title = "Duelist"
+rows = [
+    ["Duel points", "/Duelist/Duel points"],
+]
+
+[[sections]]
+title = "Games and wins"
+rows = [
+    ["Games: campaign", "/Statistics/Games: campaign"],
+    ["Wins: campaign", "/Statistics/Wins: campaign"],
+    ["Games: challenge", "/Statistics/Games: challenge"],
+    ["Wins: challenge", "/Statistics/Wins: challenge"],
+    ["Games: multiplayer", "/Statistics/Games: multiplayer"],
+    ["Wins: multiplayer", "/Statistics/Wins: multiplayer"],
+]
+
+[[sections]]
+title = "Summons and damage"
+rows = [
+    ["Normal Summons", "/Statistics/Normal Summons"],
+    ["Tribute Summons", "/Statistics/Tribute Summons"],
+    ["Ritual Summons", "/Statistics/Ritual Summons"],
+    ["Fusion Summons", "/Statistics/Fusion Summons"],
+    ["Xyz Summons", "/Statistics/Xyz Summons"],
+    ["Synchro Summons", "/Statistics/Synchro Summons"],
+    ["Pendulum Summons", "/Statistics/Pendulum Summons"],
+    ["Damage dealt", "/Statistics/Damage dealt"],
+    ["Battle damage", "/Statistics/Battle damage"],
+    ["Direct damage", "/Statistics/Direct damage"],
+    ["Effect damage", "/Statistics/Effect damage"],
+    ["Reflected damage", "/Statistics/Reflected damage"],
+    ["Chains", "/Statistics/Chains"],
+    ["Decks created", "/Statistics/Decks created"],
+    ["Cards earned", "/Statistics/Cards earned"],
+]
