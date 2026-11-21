@@ -30801,3 +30801,23 @@ The .meow save or backup of Epic Battle Fantasy 5 (base64 text holding JSON; it 
 
 context.sav from AppData\\LocalLow\\DigixArt\\Road 96\\Saves (plain JSON). Your money, energy and karma on the road. Energy and karma are kept by the game as fractions between 0 and 1. Close the game first.
 = context.sav de AppData\\LocalLow\\DigixArt\\Road 96\\Saves (JSON simple). Tu dinero, tu energía y tu karma en la carretera. El juego guarda la energía y el karma como fracciones entre 0 y 1. Cierra el juego primero.
+
+# data/games: Amnesia: The Dark Descent
+
+AutoSave_*.sav and the manual saves from Documents\\Amnesia\\Main\\<profile> (plain XML text). Health, sanity, lamp oil and tinderboxes. Health, sanity and lamp oil run from 0 to 100. Close the game first.
+= AutoSave_*.sav y las partidas manuales de Documents\\Amnesia\\Main\\<perfil> (texto XML simple). Salud, cordura, aceite de la lámpara y cajas de yesca. La salud, la cordura y el aceite de la lámpara van de 0 a 100. Cierra el juego primero.
+
+AutoSave_<map>_<date>.sav and your manual saves
+= AutoSave_<mapa>_<fecha>.sav y tus partidas manuales
+
+Daniel
+= Daniel
+
+Game screen: health, sanity, lamp oil and tinderboxes from the plain XML saves. Checked on a public save, not yet tried in the game
+= Pantalla del juego: salud, cordura, aceite de la lámpara y cajas de yesca de las partidas en XML simple. Comprobado en una partida pública, aún sin probar en el juego
+
+Lamp oil
+= Aceite de la lámpara
+
+Tinderboxes
+= Cajas de yesca

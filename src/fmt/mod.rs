@@ -1584,6 +1584,9 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
     if t.starts_with("<?xml") && t.get(..400).is_some_and(|h| h.contains("type=\"sSave::saveDataAllDA\"")) {
         return xml::parse_named(text, "Dragon's Dogma: Dark Arisen save").ok();
     }
+    if t.starts_with("<SaveGame>") && t.get(..300).is_some_and(|h| h.contains("type=\"cLuxSaveGame_SaveData\"")) {
+        return xml::parse_named(text, "Amnesia save").ok();
+    }
     if t.starts_with('<') {
         if t.contains("<plist") {
             if let Ok(doc) = plistf::parse(text.as_bytes()) {

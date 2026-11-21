@@ -312,9 +312,9 @@ impl Builder {
 }
 
 impl Builder {
-    /// The "named" dialect (Dragon's Dogma): every element has a `name` attribute that becomes its
-    /// key, `<class>` is an object, `<array>` a list, and any other element with a `value`
-    /// attribute is a number or text whose value is edited in place.
+    /// The "named" dialect (Dragon's Dogma, Amnesia): every element has a `name` attribute that
+    /// becomes its key, `<class>` is an object, `<array>` a list, and any other element with a
+    /// `value` (or `val`) attribute is a number or text whose value is edited in place.
     fn view_named(&mut self, e: &Elem, ptr: &str) -> Value {
         let attr = |k: &str| e.attrs.iter().find(|a| a.0 == k);
         if e.name == "array" {
@@ -322,7 +322,7 @@ impl Builder {
             return Value::Array(items);
         }
         if e.children.is_empty() && e.name != "class" {
-            if let Some((_, vs, ve, q, val)) = attr("value") {
+            if let Some((_, vs, ve, q, val)) = attr("value").or_else(|| attr("val")) {
                 return match val {
                     Some(t) => self.leaf(ptr, Leaf::Attr { start: *vs, end: *ve, quote: *q, orig: t.clone() }, text_to_value(t), true),
                     None => Value::String(String::new()),
@@ -331,7 +331,7 @@ impl Builder {
         }
         let mut map = Map::new();
         for (i, c) in e.children.iter().enumerate() {
-            let mut key = c.attrs.iter().find(|a| a.0 == "name").and_then(|a| a.4.clone()).unwrap_or_else(|| format!("{}{i}", c.name));
+            let mut key = c.attrs.iter().find(|a| a.0 == "name").and_then(|a| a.4.clone()).filter(|k| !k.is_empty()).unwrap_or_else(|| format!("{}{i}", c.name));
             while map.contains_key(&key) {
                 key.push('\'');
             }
@@ -519,6 +519,17 @@ mod tests {
         doc.set("/root/mPlayerDataBase/mGold", Value::from(6)).unwrap();
         let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
         assert!(out.contains("value=\"5\"") && out.contains("value=\"6\""), "{out}");
+    }
+
+    #[test]
+    fn named_dialect_reads_val_attributes() {
+        let xml = "<SaveGame>\r\n    <class type=\"cLuxSaveGame_SaveData\" name=\"\">\r\n        <class type=\"cLuxPlayer_SaveData\" name=\"mPlayer\">\r\n            <var type=\"3\" name=\"mfHealth\" val=\"100.000000\" />\r\n            <var type=\"2\" name=\"mlTinderboxes\" val=\"56\" />\r\n        </class>\r\n    </class>\r\n</SaveGame>\r\n";
+        let mut doc = parse_named(xml, "Amnesia save").unwrap();
+        assert_eq!(doc.view.pointer("/SaveGame/class0/mPlayer/mlTinderboxes").unwrap(), 56);
+        assert_eq!(doc.to_bytes().unwrap(), xml.as_bytes());
+        doc.set("/SaveGame/class0/mPlayer/mlTinderboxes", Value::from(99)).unwrap().expect("pointer exists");
+        let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
+        assert!(out.contains("name=\"mlTinderboxes\" val=\"99\"") && out.contains("val=\"100.000000\""), "{out}");
     }
 
     #[test]
