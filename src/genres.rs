@@ -332,6 +332,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Prey (2017)", "action"),
     ("Prison Architect", "simulation"),
     ("Project Warlock", "shooter"),
+    ("Project Zomboid", "survival"),
     ("Quasimorph", "roguelike"),
     ("R.E.P.O.", "shooter"),
     ("Raft", "survival"),

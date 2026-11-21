@@ -1,0 +1,84 @@
+name = "Project Zomboid"
+tab = "Survivors"
+accent = [170, 60, 50]
+kind = "Project Zomboid players.db"
+markers = ["/About/Characters"]
+subtitle = '''players.db from Zomboid\Saves\<mode>\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.'''
+
+[[tables]]
+title = "Characters"
+path = "/Characters"
+name = []
+cols = [
+    ["Hours survived", "/Hours survived"],
+    ["Zombie kills", "/Zombie kills"],
+    ["Survivor kills", "/Survivor kills"],
+    ["Weight (kg)", "/Weight (kg)"],
+    ["Dead", "/Dead"],
+]
+
+[[tables]]
+title = "Needs (0 is best, 1 is worst; morale, sanity and endurance the other way round)"
+path = "/Needs"
+name = []
+cols = [
+    ["Hunger", "/Hunger"],
+    ["Thirst", "/Thirst"],
+    ["Fatigue", "/Fatigue"],
+    ["Endurance", "/Endurance"],
+    ["Stress", "/Stress"],
+    ["Morale", "/Morale"],
+    ["Sanity", "/Sanity"],
+    ["Boredom", "/Boredom"],
+    ["Unhappiness", "/Unhappiness"],
+]
+
+[[tables]]
+title = "Condition"
+path = "/Condition"
+name = []
+cols = [
+    ["Pain", "/Pain"],
+    ["Panic", "/Panic"],
+    ["Sickness", "/Sickness"],
+    ["Food sickness", "/Food sickness"],
+    ["Poison", "/Poison"],
+    ["Intoxication", "/Intoxication"],
+    ["Wetness", "/Wetness"],
+    ["Temperature", "/Temperature"],
+    ["Zombie infection", "/Zombie infection"],
+    ["Zombie fever", "/Zombie fever"],
+]
+
+[[tables]]
+title = "Body health (100 is unhurt)"
+path = "/Body health"
+name = []
+cols = [
+    ["Head", "/Head"],
+    ["Neck", "/Neck"],
+    ["Upper torso", "/Upper torso"],
+    ["Lower torso", "/Lower torso"],
+    ["Groin", "/Groin"],
+    ["Left upper arm", "/Left upper arm"],
+    ["Right upper arm", "/Right upper arm"],
+    ["Left forearm", "/Left forearm"],
+    ["Right forearm", "/Right forearm"],
+    ["Left hand", "/Left hand"],
+    ["Right hand", "/Right hand"],
+    ["Left upper leg", "/Left upper leg"],
+    ["Right upper leg", "/Right upper leg"],
+    ["Left lower leg", "/Left lower leg"],
+    ["Right lower leg", "/Right lower leg"],
+    ["Left foot", "/Left foot"],
+    ["Right foot", "/Right foot"],
+]
+
+[[tables]]
+title = "Skills (the game needs 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 experience for levels 1 to 10; Strength and Fitness need more)"
+path = "/Skills"
+name = []
+cols = [
+    ["Level", "/Level"],
+    ["XP", "/XP"],
+]

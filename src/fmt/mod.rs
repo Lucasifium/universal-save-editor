@@ -354,6 +354,8 @@ pub mod vampire;
 pub mod valheim;
 pub mod wasteland3;
 pub mod xml;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod zomboid;
 pub mod yaml;
 pub mod bl4;
 
@@ -566,6 +568,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     if d.starts_with(b"SQLite format 3\0") {
         #[cfg(not(target_arch = "wasm32"))]
         {
+            if zomboid::looks(d) {
+                if let Ok(t) = zomboid::parse(d) {
+                    return Some(t);
+                }
+            }
             if gdt::looks(d) {
                 if let Ok(t) = gdt::parse(d) {
                     return Some(t);

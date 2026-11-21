@@ -386,7 +386,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>P</strong> (24)</summary>
+<summary><strong>P</strong> (25)</summary>
 
 | Game | Screen |
 |---|---|
@@ -414,6 +414,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Pragmata | *Progress*: the difficulty rank points, New Game+ count and game time; every item and currency by the game's own code with its quantity, each weapon's level and unlock, and the perks (the save is decrypted with your Steam account; checked on real saves, not yet tried in the game) |
 | Prison Architect | *Prison*: the bank balance, play time and the main prison settings, changed in place in the large text save (checked on public saves, not yet tried in the game) |
 | Project Warlock | *Warlock*: score, lives, level, health, mana, the four stats, points to spend and every weapon's ammunition (checked on a public save, not yet tried in the game) |
+| Project Zomboid | *Survivors*: every character's hours survived, kills, weight and death flag, hunger, thirst, tiredness and the other needs, pain, sickness and infection, the health of each body part, and every skill's level and experience, from `players.db` (Build 42; checked on a public save, not yet tried in the game) |
 
 </details>
 

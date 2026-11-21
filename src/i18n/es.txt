@@ -30601,3 +30601,103 @@ Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, 
 
 Mage
 = Mago
+
+Body health (100 is unhurt)
+= Salud del cuerpo (100 es ileso)
+
+Boredom
+= Aburrimiento
+
+Food sickness
+= Intoxicación alimentaria
+
+Game screen: every character's hours survived, kills, weight and whether they are dead, hunger, thirst, tiredness and the other needs, pain, sickness and infection, the health of each body part, and every skill's level and experience, from players.db (Build 42). Checked on a public save, not yet tried in the game
+= Pantalla de juego: horas sobrevividas, bajas, peso y si está muerto cada personaje, hambre, sed, cansancio y las demás necesidades, dolor, enfermedad e infección, la salud de cada parte del cuerpo y el nivel y la experiencia de cada habilidad, desde players.db (Build 42). Comprobado con una partida pública, aún no probado en el juego
+
+Groin
+= Ingle
+
+Hours survived
+= Horas sobrevividas
+
+Intoxication
+= Embriaguez
+
+Left foot
+= Pie izquierdo
+
+Left forearm
+= Antebrazo izquierdo
+
+Left lower leg
+= Pantorrilla izquierda
+
+Left upper arm
+= Brazo izquierdo
+
+Left upper leg
+= Muslo izquierdo
+
+Lower torso
+= Torso inferior
+
+Neck
+= Cuello
+
+Needs (0 is best, 1 is worst; morale, sanity and endurance the other way round)
+= Necesidades (0 es lo mejor, 1 lo peor; al revés en moral, cordura y aguante)
+
+Pain
+= Dolor
+
+Panic
+= Pánico
+
+Right foot
+= Pie derecho
+
+Right forearm
+= Antebrazo derecho
+
+Right lower leg
+= Pantorrilla derecha
+
+Right upper arm
+= Brazo derecho
+
+Right upper leg
+= Muslo derecho
+
+Sickness
+= Enfermedad
+
+Skills (the game needs 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 experience for levels 1 to 10; Strength and Fitness need more)
+= Habilidades (el juego necesita 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 de experiencia para los niveles 1 a 10; Fuerza y Forma física necesitan más)
+
+Survivor kills
+= Supervivientes eliminados
+
+Unhappiness
+= Infelicidad
+
+Upper torso
+= Torso superior
+
+Weight (kg)
+= Peso (kg)
+
+Wetness
+= Humedad
+
+Zombie fever
+= Fiebre zombi
+
+Zombie infection
+= Infección zombi
+
+Zombie kills
+= Zombis eliminados
+
+players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
+= players.db de Zomboid\Saves\<modo>\<nombre de la partida> (la carpeta de la partida). Horas sobrevividas, bajas, peso y estado de muerte de cada personaje, sus necesidades y estados, la salud de cada parte del cuerpo y el nivel y la experiencia de cada habilidad. Cierra el juego antes. Para devolver a la vida a un personaje muerto, desmarca «Muerto» y sube la salud de las partes del cuerpo.
+
