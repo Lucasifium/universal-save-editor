@@ -73,20 +73,21 @@ fn entries(d: &[u8]) -> Option<Vec<Ent>> {
     (p == d.len() && !v.is_empty()).then_some(v)
 }
 
-fn unzlib(b: &[u8]) -> Option<Vec<u8>> {
+/// Unpacks one zlib piece of at most `limit` bytes (a larger one is refused, so a corrupt file cannot use all memory).
+fn unzlib(b: &[u8], limit: usize) -> Option<Vec<u8>> {
     let mut out = Vec::new();
-    ZlibDecoder::new(b).read_to_end(&mut out).ok()?;
-    Some(out)
+    ZlibDecoder::new(b).take(limit as u64 + 1).read_to_end(&mut out).ok()?;
+    (out.len() <= limit).then_some(out)
 }
 
 fn inflate(d: &[u8], e: &Ent) -> Option<Vec<u8>> {
     let first = u32le(d, e.at + 264)? as usize;
     let mut q = e.at + 268;
-    let mut out = unzlib(d.get(q..q + first)?)?;
+    let mut out = unzlib(d.get(q..q + first)?, CHUNK.min(e.size))?;
     q += first;
     while out.len() < e.size {
         let n = u32le(d, q)? as usize;
-        out.extend(unzlib(d.get(q + 4..q + 4 + n)?)?);
+        out.extend(unzlib(d.get(q + 4..q + 4 + n)?, CHUNK.min(e.size - out.len()))?);
         q += 4 + n;
     }
     (out.len() == e.size && q == e.end).then_some(out)
