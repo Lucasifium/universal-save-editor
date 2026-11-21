@@ -30751,3 +30751,53 @@ Zombie kills
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = players.db de Zomboid\Saves\<modo>\<nombre de la partida> (la carpeta de la partida). Horas sobrevividas, bajas, peso y estado de muerte de cada personaje, sus necesidades y estados, la salud de cada parte del cuerpo y el nivel y la experiencia de cada habilidad. Cierra el juego antes. Para devolver a la vida a un personaje muerto, desmarca «Muerto» y sube la salud de las partes del cuerpo.
 
+
+# data/games: Epic Battle Fantasy 5, Road 96
+
+*.meow (the game's saves and EBF5backup.meow)
+= *.meow (las partidas y EBF5backup.meow)
+
+AP
+= AP
+
+Energy before this stop
+= Energía antes de esta parada
+
+Game screen: gold, skill points and summon power, and each hero's level, experience, AP and limit; the base64 packing of the .meow save is opened and written again. Checked on a public save, not yet tried in the game
+= Pantalla del juego: oro, puntos de habilidad y poder de invocación, y el nivel, la experiencia, los AP y el límite de cada héroe; el empaquetado base64 de la partida .meow se abre y se vuelve a escribir. Comprobado en una partida pública, aún sin probar en el juego
+
+Game screen: money, energy and karma (and their values before the current stop), from the plain JSON context.sav. Checked on a public save, not yet tried in the game
+= Pantalla del juego: dinero, energía y karma (y sus valores antes de la parada actual), del context.sav en JSON simple. Comprobado en una partida pública, aún sin probar en el juego
+
+Highest skill points
+= Máximo de puntos de habilidad
+
+Lance
+= Lance
+
+Limit
+= Límite
+
+Matt
+= Matt
+
+Money before this stop
+= Dinero antes de esta parada
+
+Natz
+= Natz
+
+NoLegs
+= NoLegs
+
+Road
+= Carretera
+
+Summon power
+= Poder de invocación
+
+The .meow save or backup of Epic Battle Fantasy 5 (base64 text holding JSON; it is unpacked and packed again for you). Gold, skill points, summon power, and each hero's level, experience, AP and limit. Item counts, equipment and summons are in the Tree. Close the game first.
+= La partida .meow o copia de seguridad de Epic Battle Fantasy 5 (texto base64 con JSON; se desempaqueta y se vuelve a empaquetar por ti). Oro, puntos de habilidad, poder de invocación y el nivel, la experiencia, los AP y el límite de cada héroe. Las cantidades de objetos, el equipo y las invocaciones están en el Árbol. Cierra el juego primero.
+
+context.sav from AppData\\LocalLow\\DigixArt\\Road 96\\Saves (plain JSON). Your money, energy and karma on the road. Energy and karma are kept by the game as fractions between 0 and 1. Close the game first.
+= context.sav de AppData\\LocalLow\\DigixArt\\Road 96\\Saves (JSON simple). Tu dinero, tu energía y tu karma en la carretera. El juego guarda la energía y el karma como fracciones entre 0 y 1. Cierra el juego primero.

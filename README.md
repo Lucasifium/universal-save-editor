@@ -78,7 +78,7 @@ There is also a browser version on the project website. There is no ready-made A
 
 ## Supported games
 
-550+ (569) games, with a screen of their own for the most popular ones and a value editor for the rest. See the full list with what each screen edits in **[GAMES.md](GAMES.md)**, or find your game on the [website](https://universalsaveeditor.com/#games), which has a page for each one.
+550+ (574) games, with a screen of their own for the most popular ones and a value editor for the rest. See the full list with what each screen edits in **[GAMES.md](GAMES.md)**, or find your game on the [website](https://universalsaveeditor.com/#games), which has a page for each one.
 
 ## Paradox ironman and binary saves
 

@@ -1,0 +1,20 @@
+name = "Road 96"
+tab = "Road"
+accent = [235, 130, 70]
+markers = ["/_currentMoney", "/_currentEnergy", "/_currentKarma"]
+subtitle = '''context.sav from AppData\LocalLow\DigixArt\Road 96\Saves (plain JSON). Your money, energy and karma on the road. Energy and karma are kept by the game as fractions between 0 and 1. Close the game first.'''
+tiles = [
+    ["Money", "/_currentMoney"],
+    ["Energy", "/_currentEnergy"],
+    ["Karma", "/_currentKarma"],
+]
+
+[[sections]]
+title = "Road"
+rows = [
+    ["Money", "/_currentMoney"],
+    ["Money before this stop", "/_previousMoney"],
+    ["Energy", "/_currentEnergy"],
+    ["Energy before this stop", "/_previousEnergy"],
+    ["Karma", "/_currentKarma"],
+]

@@ -30809,3 +30809,53 @@ Zombie kills
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = Zomboid\Saves\<模式>\<存档名> 中的 players.db(存档所在文件夹)。每个角色的存活小时数、击杀数、体重和死亡标记,他们的需求与状态,各身体部位的健康,以及每项技能的等级和经验。请先关闭游戏。要让死亡的角色复活,取消勾选“已死亡”并提高各部位的健康。
 
+
+# data/games: Epic Battle Fantasy 5, Road 96
+
+*.meow (the game's saves and EBF5backup.meow)
+= *.meow（游戏存档和 EBF5backup.meow）
+
+AP
+= AP
+
+Energy before this stop
+= 本次停靠前的能量
+
+Game screen: gold, skill points and summon power, and each hero's level, experience, AP and limit; the base64 packing of the .meow save is opened and written again. Checked on a public save, not yet tried in the game
+= 游戏界面：金币、技能点和召唤力，以及每位英雄的等级、经验、AP 和极限；.meow 存档的 base64 封装会被打开并重新写回。已在公开存档上检查，尚未在游戏中试过
+
+Game screen: money, energy and karma (and their values before the current stop), from the plain JSON context.sav. Checked on a public save, not yet tried in the game
+= 游戏界面：金钱、能量和业力（以及本次停靠前的数值），来自纯 JSON 的 context.sav。已在公开存档上检查，尚未在游戏中试过
+
+Highest skill points
+= 技能点上限
+
+Lance
+= Lance
+
+Limit
+= 极限
+
+Matt
+= Matt
+
+Money before this stop
+= 本次停靠前的金钱
+
+Natz
+= Natz
+
+NoLegs
+= NoLegs
+
+Road
+= 公路
+
+Summon power
+= 召唤力
+
+The .meow save or backup of Epic Battle Fantasy 5 (base64 text holding JSON; it is unpacked and packed again for you). Gold, skill points, summon power, and each hero's level, experience, AP and limit. Item counts, equipment and summons are in the Tree. Close the game first.
+= Epic Battle Fantasy 5 的 .meow 存档或备份（包含 JSON 的 base64 文本；会为你解包并重新打包）。金币、技能点、召唤力，以及每位英雄的等级、经验、AP 和极限。物品数量、装备和召唤在树状视图中。请先关闭游戏。
+
+context.sav from AppData\\LocalLow\\DigixArt\\Road 96\\Saves (plain JSON). Your money, energy and karma on the road. Energy and karma are kept by the game as fractions between 0 and 1. Close the game first.
+= AppData\\LocalLow\\DigixArt\\Road 96\\Saves 中的 context.sav（纯 JSON）。你在路上的金钱、能量和业力。游戏把能量和业力保存为 0 到 1 之间的小数。请先关闭游戏。

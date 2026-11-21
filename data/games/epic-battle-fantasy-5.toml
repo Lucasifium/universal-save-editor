@@ -1,0 +1,64 @@
+name = "Epic Battle Fantasy 5"
+tab = "Party"
+accent = [225, 90, 120]
+markers = ["/misc/2", "/playerData/0/0", "/playerData/4/0"]
+subtitle = '''The .meow save or backup of Epic Battle Fantasy 5 (base64 text holding JSON; it is unpacked and packed again for you). Gold, skill points, summon power, and each hero's level, experience, AP and limit. Item counts, equipment and summons are in the Tree. Close the game first.'''
+tiles = [
+    ["Gold", "/misc/2"],
+    ["Skill points", "/misc/0"],
+    ["Summon power", "/misc/3"],
+]
+
+[[sections]]
+title = "Party"
+rows = [
+    ["Gold", "/misc/2"],
+    ["Skill points", "/misc/0"],
+    ["Highest skill points", "/misc/1"],
+    ["Summon power", "/misc/3"],
+]
+
+[[sections]]
+title = "Matt"
+rows = [
+    ["Level", "/playerData/0/0"],
+    ["Experience", "/playerData/0/5"],
+    ["AP", "/playerData/0/6"],
+    ["Limit", "/playerData/0/2"],
+]
+
+[[sections]]
+title = "Natz"
+rows = [
+    ["Level", "/playerData/1/0"],
+    ["Experience", "/playerData/1/5"],
+    ["AP", "/playerData/1/6"],
+    ["Limit", "/playerData/1/2"],
+]
+
+[[sections]]
+title = "Lance"
+rows = [
+    ["Level", "/playerData/2/0"],
+    ["Experience", "/playerData/2/5"],
+    ["AP", "/playerData/2/6"],
+    ["Limit", "/playerData/2/2"],
+]
+
+[[sections]]
+title = "Anna"
+rows = [
+    ["Level", "/playerData/3/0"],
+    ["Experience", "/playerData/3/5"],
+    ["AP", "/playerData/3/6"],
+    ["Limit", "/playerData/3/2"],
+]
+
+[[sections]]
+title = "NoLegs"
+rows = [
+    ["Level", "/playerData/4/0"],
+    ["Experience", "/playerData/4/5"],
+    ["AP", "/playerData/4/6"],
+    ["Limit", "/playerData/4/2"],
+]
