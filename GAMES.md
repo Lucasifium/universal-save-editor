@@ -145,13 +145,14 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>E</strong> (10)</summary>
+<summary><strong>E</strong> (11)</summary>
 
 | Game | Screen |
 |---|---|
 | Elden Ring, Dark Souls III / II / I | Name, class and level; currency; attribute bars (level follows); HP / FP / Stamina meters; runes or souls to the next level (Elden Ring, Dark Souls III and I); inventory grids (with a search box across every list) for items, key items, storage, weapons (level and affinity / infusion), armor and talismans / rings; a *Max upgrade materials* button (Elden Ring: every Smithing Stone, Somber Smithing Stone and Glovewort to 999; Dark Souls: every titanite to 99); Elden Ring also has a **Max crafting materials** button that fills the cookbook materials you carry or store (meat, bones, flowers, mushrooms, butterflies, stones…) to 999, leaving key items alone |
 | ENDER LILIES: Quietus of the Knights | *Lily*: level, blight (experience), prayer level and prayers left, Stagnant Blight, Furious Blight and Ancient Souls with a **Max crafting materials** button that fills both blights to 999 (the most players report; Ancient Souls are left alone), and every spirit's level (checked on public saves, not yet tried in the game) |
 | Enter the Gungeon | *Gungeoneers*: each Gungeoneer's Hegemony credits, runs, deaths, enemies killed, money collected, play time, keys, blanks and floors cleared; the save's repeating-key XOR is handled. checked on a public save, not yet tried in the game |
+| Epic Battle Fantasy 5 | *Party*: gold, skill points and summon power, and each hero's level, experience, AP and limit; the base64 packing of the `.meow` save is opened and written again (checked on a public save, not yet tried in the game) |
 | Escape from Duckov | Money, experience and the day. Easy Save 3 data (the game's own quirk of writing a value without its key is read); checked on a public save, not yet tried in the game |
 | Etherlords | *Wizards*: each player's elemental resources and remaining mana and the campaign's points and day (checked on a public save, not yet tried in the game) |
 | Euro Truck Simulator 2 | *Driver*: money, loan limit, experience, the five skills and ADR classes; every vehicle's fuel, odometer and wear, with buttons to max skills, fill every tank and repair everything. Packed saves are unpacked and packed again with their checksum. |
@@ -419,7 +420,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>R</strong> (17)</summary>
+<summary><strong>R</strong> (18)</summary>
 
 | Game | Screen |
 |---|---|
@@ -433,6 +434,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Resident Evil Requiem (and RE Engine games with the same layout) | *Slot*: health of the player and other characters, inventory counts (with the ammo or contents they hold), save count |
 | RimWorld | *Colony*: every colonist's skills (level and passion, modded passions included) and every silver stack, plus steel, plasteel, components, gold, uranium, wood, cloth, medicine, chemfuel and the other stockpiled resources stack by stack, edited in place even in 100+ MB saves |
 | Risk of Rain 2 | *Survivor*: Lunar coins, coins collected, runs played and play time of a profile `.xml`; unlocks, discovered items and the logbook are in the Tree. checked on a public profile, not yet tried in the game |
+| Road 96 | *Road*: money, energy and karma (and their values before the current stop), from the plain JSON `context.sav` (checked on a public save, not yet tried in the game) |
 | Road Redemption | *Rider*: the permanent upgrade ranks (health, damage, armor, nitro, critical hits, XP and money gain, store prices, ammo, durability, jump jets), kills, wins and the XP carried over, from the plain XML `N_N.save` (checked on a public save, not yet tried in the game) |
 | Roboquest | *Robot*: wrenches (and wrenches spent), the selected difficulty and class, the saved run's player level and the lifetime statistics (enemies destroyed, bosses taken down, damage dealt), from `RQProfile.sav` (checked on a public save, not yet tried in the game) |
 | RollerCoaster Tycoon | *Park*: cash, bank loan, maximum loan and the entrance fee from a saved park (`.SV4`, including Added Attractions and Loopy Landscapes); the file's run-length packing is opened and closed for you (checked on public parks, not yet tried in the game) |

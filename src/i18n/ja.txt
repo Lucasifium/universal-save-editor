@@ -30786,3 +30786,53 @@ Zombie kills
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = Zomboid\Saves\<モード>\<セーブ名> にある players.db(そのセーブのフォルダ)。各キャラクターの生存時間、撃破数、体重、死亡の有無、欲求と状態、体の各部位の体力、各スキルのレベルと経験値。先にゲームを終了してください。死亡したキャラクターを戻すには「死亡」のチェックを外し、各部位の体力を上げます。
 
+
+# data/games: Epic Battle Fantasy 5, Road 96
+
+*.meow (the game's saves and EBF5backup.meow)
+= *.meow (ゲームのセーブと EBF5backup.meow)
+
+AP
+= AP
+
+Energy before this stop
+= この停車前のエネルギー
+
+Game screen: gold, skill points and summon power, and each hero's level, experience, AP and limit; the base64 packing of the .meow save is opened and written again. Checked on a public save, not yet tried in the game
+= ゲーム画面：ゴールド、スキルポイント、召喚力と、各ヒーローのレベル、経験値、AP、リミット。.meow セーブの base64 包装は開いて書き戻されます。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+Game screen: money, energy and karma (and their values before the current stop), from the plain JSON context.sav. Checked on a public save, not yet tried in the game
+= ゲーム画面：プレーンな JSON の context.sav から、所持金、エネルギー、カルマ（と現在の停車前の値）。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+Highest skill points
+= スキルポイントの上限
+
+Lance
+= Lance
+
+Limit
+= リミット
+
+Matt
+= Matt
+
+Money before this stop
+= この停車前の所持金
+
+Natz
+= Natz
+
+NoLegs
+= NoLegs
+
+Road
+= 道路
+
+Summon power
+= 召喚力
+
+The .meow save or backup of Epic Battle Fantasy 5 (base64 text holding JSON; it is unpacked and packed again for you). Gold, skill points, summon power, and each hero's level, experience, AP and limit. Item counts, equipment and summons are in the Tree. Close the game first.
+= Epic Battle Fantasy 5 の .meow セーブまたはバックアップ（JSON を含む base64 テキスト。自動で展開し、再び包装します）。ゴールド、スキルポイント、召喚力と、各ヒーローのレベル、経験値、AP、リミット。アイテム数、装備、召喚はツリーにあります。先にゲームを閉じてください。
+
+context.sav from AppData\\LocalLow\\DigixArt\\Road 96\\Saves (plain JSON). Your money, energy and karma on the road. Energy and karma are kept by the game as fractions between 0 and 1. Close the game first.
+= AppData\\LocalLow\\DigixArt\\Road 96\\Saves の context.sav（プレーンな JSON）。旅の途中の所持金、エネルギー、カルマ。エネルギーとカルマは 0 から 1 の小数としてゲームに保存されます。先にゲームを閉じてください。
