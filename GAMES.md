@@ -98,7 +98,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (42)</summary>
+<summary><strong>D</strong> (43)</summary>
 
 | Game | Screen |
 |---|---|
@@ -112,6 +112,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Dead Rising | *Survivor*: Frank's level, PP, maximum health and skills, with buttons to learn every skill or reach level 50; the save's block checksums are rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2 | *Survivor*: Chuck's level, PP and money; attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; the CRC-32 is rewritten (checked on public speedrun saves, not yet tried in the game) |
 | Dead Rising 2: Off the Record | *Survivor*: Frank's level, PP and money (the load screen's copy kept in step); attack, speed, health, item slots and throwing as bars up to the game's maximum, with a button to max them; all five CRC-32s are rewritten (checked on public speedrun saves, not yet tried in the game) |
+| Dead Space 2 | *Isaac*: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics), from `ds_slot_NN.deadspace2saved` (values written in place and the game's two checksums made again; checked on public saves, not yet tried in the game) |
 | Death Must Die | *Profile*: gold, runs, wins, current and best streak, time in runs and in the game, selected character. The JSON the game keeps inside the save's strings is opened and written back as strings (checked on a public sample save, not yet tried in the game) |
 | Death Stranding (Director's Cut) | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to an estimate of the most each facility stores at five stars (knot cities, distribution centers and preppers). Likes received. Unpacked (XOR, compression) and packed again with the save's MD5 on save, using the compression library a game on your computer already has. Checked on public saves, not yet tried in the game |
 | Death Stranding 2: On the Beach | *Facilities*: the material stocks (chiral crystals, resins, metals, ceramics, chemicals, special alloys) at every facility you've found, with its connection level, and a **Max crafting materials** button that fills them to the most that kind of facility stores at five stars (preppers, labs and observatories, distribution centers, knot cities); likes from NPCs and other porters and likes given; day, time of day and play time. Unpacked (XOR, LZ4) and packed again with the save's MD5 on save; pieces that didn't change keep their bytes. Not yet tried in the game |
@@ -254,7 +255,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>J</strong> (4)</summary>
+<summary><strong>J</strong> (5)</summary>
 
 | Game | Screen |
 |---|---|
@@ -262,6 +263,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Judgment | *Yagami*: money and HP; decrypted with the game's key and its checksum kept right, every other value in the tree (checked on 40 public saves, not yet tried in the game) |
 | Jurassic World Evolution | *Islands*: the money a career keeps for each island, with the file's checksum written again; career, island and play time are shown (checked on a public career save, not yet tried in the game) |
 | Jurassic World Evolution 2 | *Career*: opens as a career file with its career, island and play time shown; a career money table is edited as in the first game when the save has one (checked on a public sandbox save, not yet tried in the game) |
+| Just Cause 2 | *Rico*: money, chaos points, and the weapon, armor and vehicle parts, from `justcause2saveNN.sav` (each value is written in both places the save keeps it; checked on public saves, not yet tried in the game) |
 
 </details>
 

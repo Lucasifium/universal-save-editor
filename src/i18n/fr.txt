@@ -30835,3 +30835,47 @@ Lamp oil
 
 Tinderboxes
 = Boîtes d'allumettes
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= ds_slot_NN.deadspace2saved de Documents\EA Games\Dead Space 2 (le numéro est l'emplacement). Vos crédits, nœuds d'énergie, santé, stase et air, et la quantité de chaque objet de l'inventaire par emplacement. Les deux sommes de contrôle du jeu sont recalculées à l'enregistrement. Fermez d'abord le jeu.
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= justcause2saveNN.sav de Steam\userdata\<account>\8190\remote (le numéro est l'emplacement). Votre argent et vos points de chaos, ainsi que les pièces d'arme, d'armure et de véhicule que vous portez. Chaque valeur est écrite partout où la sauvegarde en garde une copie. Fermez d'abord le jeu.
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= Écran du jeu : crédits, nœuds d'énergie, santé, stase et air, et la quantité de chaque objet de l'inventaire par emplacement (munitions, kits de soin, packs de stase, nœuds d'énergie, schémas). Les deux sommes de contrôle du jeu sont recalculées à l'enregistrement. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= Écran du jeu : argent, points de chaos et pièces d'arme, d'armure et de véhicule ; chaque valeur est écrite aux deux endroits où la sauvegarde la garde. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+Air
+= Air
+
+Stasis
+= Stase
+
+Parts
+= Pièces
+
+Power nodes
+= Nœuds d'énergie
+
+Rico
+= Rico
+
+Chaos points
+= Points de chaos
+
+Armor parts
+= Pièces d'armure
+
+Vehicle parts
+= Pièces de véhicule
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved (NN est l'emplacement)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav (NN est l'emplacement)

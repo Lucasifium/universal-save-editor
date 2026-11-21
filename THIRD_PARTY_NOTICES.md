@@ -10619,6 +10619,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 | [GothicSaveEditor (reader of the SAVEDAT.SAV script variables)](https://github.com/FlyCrafting/GothicSaveEditor) | FlyCrafting, AnImperialMan | MIT |
 | [DQB2 (CMNDAT.BIN layout and offsets)](https://github.com/turtle-insect/DQB2) | turtle-insect | GPL-3.0 |
 | [astlibra-save-editor (ASTLIBRA Revision save layout: level, experience, gold and force offsets, and the two CRC-32 blocks)](https://github.com/qazmlpok/astlibra-save-editor) | qazmlpok | MIT; layout facts used, no code copied |
+| [Dead-Space-2-PC-Save-Editor (Dead Space 2 save block tags, item ids and checksum routines, as facts only; the code here is written fresh)](https://github.com/VakhtinAndrey/Dead-Space-2-PC-Save-Editor) | VakhtinAndrey | GPL-2.0 (facts only) |
+| [save-editor-tools (Horizon editors: Just Cause 2 value records and header copies)](https://github.com/unknownv2/save-editor-tools) | unknownv2 | Unlicense |
 
 ## Metal Gear Solid V save variable names
 

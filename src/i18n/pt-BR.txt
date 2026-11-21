@@ -30795,3 +30795,47 @@ Lamp oil
 
 Tinderboxes
 = Caixas de fósforos
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= ds_slot_NN.deadspace2saved de Documentos\EA Games\Dead Space 2 (o número é o slot). Seus créditos, nós de energia, saúde, estase e ar, e a quantidade de cada item do inventário por slot. As duas somas de verificação do jogo são refeitas ao salvar. Feche o jogo antes.
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= justcause2saveNN.sav de Steam\userdata\<account>\8190\remote (o número é o slot). Seu dinheiro e pontos de caos, e as peças de arma, armadura e veículo que você carrega. Cada valor é gravado em todos os lugares onde o save guarda uma cópia. Feche o jogo antes.
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= Tela do jogo: créditos, nós de energia, saúde, estase e ar, e a quantidade de cada item do inventário por slot (munição, kits médicos, pacotes de estase, nós de energia, esquemas). As duas somas de verificação do jogo são refeitas ao salvar. Verificado em saves públicos, ainda não testado no jogo
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= Tela do jogo: dinheiro, pontos de caos e peças de arma, armadura e veículo; cada valor é gravado nos dois lugares onde o save o guarda. Verificado em saves públicos, ainda não testado no jogo
+
+Air
+= Ar
+
+Stasis
+= Estase
+
+Parts
+= Peças
+
+Power nodes
+= Nós de energia
+
+Rico
+= Rico
+
+Chaos points
+= Pontos de caos
+
+Armor parts
+= Peças de armadura
+
+Vehicle parts
+= Peças de veículo
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved (NN é o slot)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav (NN é o slot)

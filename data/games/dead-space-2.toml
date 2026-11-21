@@ -1,0 +1,25 @@
+name = "Dead Space 2"
+tab = "Isaac"
+accent = [170, 60, 50]
+kind = "Dead Space 2 save"
+markers = ["/Player/Credits", "/Player/Power nodes"]
+subtitle = '''ds_slot_NN.deadspace2saved from Documents\EA Games\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.'''
+tiles = [
+    ["Credits", "/Player/Credits"],
+    ["Power nodes", "/Player/Power nodes"],
+]
+
+[[sections]]
+title = "Isaac"
+rows = [
+    ["Credits", "/Player/Credits"],
+    ["Power nodes", "/Player/Power nodes"],
+    ["Health", "/Player/Health"],
+    ["Stasis", "/Player/Stasis"],
+    ["Air", "/Player/Air"],
+]
+
+[[lists]]
+title = "Inventory"
+path = "/Inventory"
+shape = "map"

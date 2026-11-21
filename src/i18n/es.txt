@@ -30821,3 +30821,47 @@ Lamp oil
 
 Tinderboxes
 = Cajas de yesca
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= ds_slot_NN.deadspace2saved de Documentos\EA Games\Dead Space 2 (el número es la ranura). Tus créditos, nodos de energía, salud, estasis y aire, y la cantidad de cada objeto del inventario por ranura. Las dos sumas de comprobación del juego se recalculan al guardar. Cierra el juego antes.
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= justcause2saveNN.sav de Steam\userdata\<account>\8190\remote (el número es la ranura). Tu dinero y puntos de caos, y las piezas de arma, armadura y vehículo que llevas. Cada valor se escribe donde el guardado conserva una copia. Cierra el juego antes.
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= Pantalla del juego: créditos, nodos de energía, salud, estasis y aire, y la cantidad de cada objeto del inventario por ranura (munición, botiquines, paquetes de estasis, nodos de energía, esquemas). Las dos sumas de comprobación del juego se recalculan al guardar. Comprobado con guardados públicos, aún no probado en el juego
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= Pantalla del juego: dinero, puntos de caos y piezas de arma, armadura y vehículo; cada valor se escribe en los dos lugares donde el guardado lo conserva. Comprobado con guardados públicos, aún no probado en el juego
+
+Air
+= Aire
+
+Stasis
+= Estasis
+
+Parts
+= Piezas
+
+Power nodes
+= Nodos de energía
+
+Rico
+= Rico
+
+Chaos points
+= Puntos de caos
+
+Armor parts
+= Piezas de armadura
+
+Vehicle parts
+= Piezas de vehículo
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved (NN es la ranura)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav (NN es la ranura)

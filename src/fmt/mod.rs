@@ -319,6 +319,8 @@ pub mod pvz;
 pub mod gta3;
 pub mod gtasa;
 pub mod arkhamcity;
+pub mod deadspace2;
+pub mod justcause2;
 pub mod tov;
 pub mod sa2chao;
 pub mod jedi;
@@ -363,6 +365,16 @@ use crate::tree::TreeDoc;
 
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
+    if justcause2::looks(d) {
+        if let Ok(t) = justcause2::parse(d) {
+            return Some(t);
+        }
+    }
+    if deadspace2::looks(d) {
+        if let Ok(t) = deadspace2::parse(d) {
+            return Some(t);
+        }
+    }
     if kh2::looks(d) {
         if let Ok(t) = kh2::parse(d) {
             return Some(t);

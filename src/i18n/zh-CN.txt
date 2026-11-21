@@ -30879,3 +30879,47 @@ Lamp oil
 
 Tinderboxes
 = 火绒盒
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= 来自 Documents\EA Games\Dead Space 2 的 ds_slot_NN.deadspace2saved(数字为存档栏位)。你的信用点、能量节点、生命值、静止力和空气,以及物品栏中每个物品按栏位的数量。保存时会重新计算游戏的两个校验和。请先关闭游戏。
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= 来自 Steam\userdata\<account>\8190\remote 的 justcause2saveNN.sav(数字为存档栏位)。你的金钱和混乱点数,以及你携带的武器、护甲和载具零件。每个值都会写入存档中保存其副本的所有位置。请先关闭游戏。
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= 游戏界面:信用点、能量节点、生命值、静止力和空气,以及物品栏中每个物品(弹药、医疗包、静止包、能量节点、图纸)按栏位的数量。保存时会重新计算游戏的两个校验和。已在公开存档上检查,尚未在游戏中试过
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= 游戏界面:金钱、混乱点数以及武器、护甲和载具零件;每个值都会写入存档保存它的两个位置。已在公开存档上检查,尚未在游戏中试过
+
+Air
+= 空气
+
+Stasis
+= 静止
+
+Parts
+= 零件
+
+Power nodes
+= 能量节点
+
+Rico
+= Rico
+
+Chaos points
+= 混乱点数
+
+Armor parts
+= 护甲零件
+
+Vehicle parts
+= 载具零件
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved(NN 为存档栏位)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav(NN 为存档栏位)

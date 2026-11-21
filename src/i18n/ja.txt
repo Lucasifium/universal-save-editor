@@ -30906,3 +30906,47 @@ Lamp oil
 
 Tinderboxes
 = 火口箱
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= Documents\EA Games\Dead Space 2 の ds_slot_NN.deadspace2saved(番号はスロット)。クレジット、パワーノード、体力、ステイシス、空気、およびインベントリ内の各アイテムの数量をスロットごとに編集できます。ゲームの2つのチェックサムは保存時に再計算されます。先にゲームを終了してください。
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= Steam\userdata\<account>\8190\remote の justcause2saveNN.sav(番号はスロット)。所持金とカオスポイント、所持しているウェポン・アーマー・ビークルのパーツ。各値はセーブ内にコピーがある場所すべてに書き込まれます。先にゲームを終了してください。
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= ゲーム画面:クレジット、パワーノード、体力、ステイシス、空気、およびインベントリ内の各アイテム(弾薬、メディパック、ステイシスパック、パワーノード、設計図)の数量をスロットごとに編集。ゲームの2つのチェックサムは保存時に再計算されます。公開セーブで確認済み、ゲーム内ではまだ未確認
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= ゲーム画面:所持金、カオスポイント、ウェポン・アーマー・ビークルのパーツ。各値はセーブが保持する2か所の両方に書き込まれます。公開セーブで確認済み、ゲーム内ではまだ未確認
+
+Air
+= 空気
+
+Stasis
+= ステイシス
+
+Parts
+= パーツ
+
+Power nodes
+= パワーノード
+
+Rico
+= Rico
+
+Chaos points
+= カオスポイント
+
+Armor parts
+= アーマーパーツ
+
+Vehicle parts
+= ビークルパーツ
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved(NN はスロット)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav(NN はスロット)

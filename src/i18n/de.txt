@@ -30828,3 +30828,47 @@ Lamp oil
 
 Tinderboxes
 = Zunderdosen
+
+# data/games: Dead Space 2, Just Cause 2
+
+ds_slot_NN.deadspace2saved from Documents\\EA Games\\Dead Space 2 (the number is the slot). Your credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot. The game's two checksums are made again when you save. Close the game first.
+= ds_slot_NN.deadspace2saved aus Dokumente\EA Games\Dead Space 2 (die Nummer ist der Slot). Credits, Energieknoten, Gesundheit, Stase und Luft sowie die Menge jedes Gegenstands im Inventar nach Slot. Die zwei Prüfsummen des Spiels werden beim Speichern neu berechnet. Schließe vorher das Spiel.
+
+justcause2saveNN.sav from Steam\\userdata\\<account>\\8190\\remote (the number is the slot). Your money and chaos points, and the weapon, armor and vehicle parts you carry. Each value is written wherever the save keeps a copy of it. Close the game first.
+= justcause2saveNN.sav aus Steam\userdata\<account>\8190\remote (die Nummer ist der Slot). Dein Geld und deine Chaospunkte sowie die Waffen-, Rüstungs- und Fahrzeugteile, die du trägst. Jeder Wert wird überall dort geschrieben, wo der Spielstand eine Kopie davon hält. Schließe vorher das Spiel.
+
+Game screen: credits, power nodes, health, stasis and air, and the quantity of every item in the inventory by slot (ammo, med packs, stasis packs, power nodes, schematics). The game's two checksums are made again on save. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Credits, Energieknoten, Gesundheit, Stase und Luft sowie die Menge jedes Gegenstands im Inventar nach Slot (Munition, Medipacks, Stase-Packs, Energieknoten, Baupläne). Die zwei Prüfsummen des Spiels werden beim Speichern neu berechnet. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Game screen: money, chaos points, and the weapon, armor and vehicle parts; each value is written in both places the save keeps it. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Geld, Chaospunkte sowie Waffen-, Rüstungs- und Fahrzeugteile; jeder Wert wird an beiden Stellen geschrieben, an denen der Spielstand ihn hält. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Air
+= Luft
+
+Stasis
+= Stase
+
+Parts
+= Teile
+
+Power nodes
+= Energieknoten
+
+Rico
+= Rico
+
+Chaos points
+= Chaospunkte
+
+Armor parts
+= Rüstungsteile
+
+Vehicle parts
+= Fahrzeugteile
+
+ds_slot_NN.deadspace2saved (NN is the slot)
+= ds_slot_NN.deadspace2saved (NN ist der Slot)
+
+justcause2saveNN.sav (NN is the slot)
+= justcause2saveNN.sav (NN ist der Slot)
