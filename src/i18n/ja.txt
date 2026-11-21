@@ -31146,3 +31146,77 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <ユーザーID>_ShadowOfWar.sav(_1〜_5のファイルはゲーム自身のバックアップ)
+
+# data/games: Vampire: The Masquerade - Bloodlines
+
+Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.
+= ゲームフォルダ内の SAVE フォルダにある Vampire-NNN.sav（番号はスロット）。所持金、使える経験値、人間性、そしてすべての属性・能力・ディシプリンを編集します。保存時にセーブのマップファイルが再び圧縮されます。覚えていないディシプリンは -1 です。先にゲームを閉じてください。
+
+Game screen: money, experience to spend, humanity, and every attribute, ability and discipline (base and current copies written together); the save's map file is packed again. Checked on 35 public saves, not yet tried in the game
+= ゲーム画面：所持金、使える経験値、人間性、そしてすべての属性・能力・ディシプリン（基本値と現在値を一緒に書き込み）。セーブのマップファイルは再び圧縮されます。公開セーブ35件で確認済み、ゲーム内ではまだ試していません
+
+Vampire-NNN.sav (NNN is the slot)
+= Vampire-NNN.sav（NNN はスロット）
+
+Academics
+= 学識
+
+Animalism
+= アニマリズム
+
+Appearance
+= 容姿
+
+Auspex
+= オースペックス
+
+Blood healing
+= 血の治癒
+
+Brawl
+= 格闘
+
+Celerity
+= セレリティ
+
+Computers
+= コンピュータ
+
+Corpus vampirus
+= コルプス・ヴァンピルス
+
+Dementation
+= ディメンテーション
+
+Disciplines
+= ディシプリン
+
+Dominate
+= ドミネイト
+
+Finance
+= 財務
+
+Firearms
+= 銃器
+
+Fortitude
+= フォーティテュード
+
+Kindred
+= カインドレッド
+
+Manipulation
+= 操作
+
+Obfuscate
+= オブフスケート
+
+Potence
+= ポテンス
+
+Presence
+= プレゼンス
+
+Protean
+= プロテアン

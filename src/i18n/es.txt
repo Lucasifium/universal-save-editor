@@ -31061,3 +31061,77 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <id de usuario>_ShadowOfWar.sav (los archivos _1 a _5 son las copias de seguridad del propio juego)
+
+# data/games: Vampire: The Masquerade - Bloodlines
+
+Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.
+= Vampire-NNN.sav de la carpeta SAVE dentro de la carpeta del juego (el número es la ranura). Tu dinero, la experiencia por gastar y la humanidad, y cada atributo, habilidad y disciplina. El archivo de mapa de la partida se vuelve a empaquetar al guardar. Las disciplinas que no has aprendido valen -1. Cierra antes el juego.
+
+Game screen: money, experience to spend, humanity, and every attribute, ability and discipline (base and current copies written together); the save's map file is packed again. Checked on 35 public saves, not yet tried in the game
+= Pantalla de juego: dinero, experiencia por gastar, humanidad y cada atributo, habilidad y disciplina (el valor base y el actual se escriben juntos); el archivo de mapa de la partida se vuelve a empaquetar. Comprobado con 35 partidas públicas, aún sin probar en el juego
+
+Vampire-NNN.sav (NNN is the slot)
+= Vampire-NNN.sav (NNN es la ranura)
+
+Academics
+= Academia
+
+Animalism
+= Animalismo
+
+Appearance
+= Apariencia
+
+Auspex
+= Auspex
+
+Blood healing
+= Curación de sangre
+
+Brawl
+= Pelea
+
+Celerity
+= Celeridad
+
+Computers
+= Informática
+
+Corpus vampirus
+= Corpus vampirus
+
+Dementation
+= Demencia
+
+Disciplines
+= Disciplinas
+
+Dominate
+= Dominación
+
+Finance
+= Finanzas
+
+Firearms
+= Armas de fuego
+
+Fortitude
+= Fortaleza
+
+Kindred
+= Vástago
+
+Manipulation
+= Manipulación
+
+Obfuscate
+= Ofuscación
+
+Potence
+= Potencia
+
+Presence
+= Presencia
+
+Protean
+= Protean

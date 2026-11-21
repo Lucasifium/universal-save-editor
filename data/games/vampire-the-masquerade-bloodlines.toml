@@ -1,0 +1,64 @@
+name = "Vampire: The Masquerade - Bloodlines"
+tab = "Kindred"
+accent = [160, 30, 50]
+kind = "Vampire: Bloodlines save"
+markers = ["/Character/Money", "/Attributes/Strength"]
+subtitle = '''Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.'''
+tiles = [
+    ["Money", "/Character/Money"],
+    ["Experience to spend", "/Character/Experience to spend"],
+    ["Humanity", "/Character/Humanity"],
+]
+
+[[sections]]
+title = "Kindred"
+rows = [
+    ["Money", "/Character/Money"],
+    ["Experience to spend", "/Character/Experience to spend"],
+    ["Humanity", "/Character/Humanity"],
+]
+
+[[sections]]
+title = "Attributes"
+rows = [
+    ["Strength", "/Attributes/Strength"],
+    ["Dexterity", "/Attributes/Dexterity"],
+    ["Stamina", "/Attributes/Stamina"],
+    ["Charisma", "/Attributes/Charisma"],
+    ["Manipulation", "/Attributes/Manipulation"],
+    ["Appearance", "/Attributes/Appearance"],
+    ["Perception", "/Attributes/Perception"],
+    ["Intelligence", "/Attributes/Intelligence"],
+    ["Wits", "/Attributes/Wits"],
+]
+
+[[sections]]
+title = "Abilities"
+rows = [
+    ["Academics", "/Abilities/Academics"],
+    ["Brawl", "/Abilities/Brawl"],
+    ["Computers", "/Abilities/Computers"],
+    ["Dodge", "/Abilities/Dodge"],
+    ["Finance", "/Abilities/Finance"],
+    ["Firearms", "/Abilities/Firearms"],
+    ["Melee", "/Abilities/Melee"],
+    ["Security", "/Abilities/Security"],
+]
+
+[[sections]]
+title = "Disciplines"
+rows = [
+    ["Animalism", "/Disciplines/Animalism"],
+    ["Auspex", "/Disciplines/Auspex"],
+    ["Blood healing", "/Disciplines/Blood healing"],
+    ["Celerity", "/Disciplines/Celerity"],
+    ["Corpus vampirus", "/Disciplines/Corpus vampirus"],
+    ["Dementation", "/Disciplines/Dementation"],
+    ["Dominate", "/Disciplines/Dominate"],
+    ["Fortitude", "/Disciplines/Fortitude"],
+    ["Obfuscate", "/Disciplines/Obfuscate"],
+    ["Potence", "/Disciplines/Potence"],
+    ["Presence", "/Disciplines/Presence"],
+    ["Protean", "/Disciplines/Protean"],
+    ["Thaumaturgy", "/Disciplines/Thaumaturgy"],
+]

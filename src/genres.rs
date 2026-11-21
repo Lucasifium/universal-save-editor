@@ -455,6 +455,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Undertale Yellow", "rpg"),
     ("Valheim (characters)", "survival"),
     ("Vampire Survivors", "roguelike"),
+    ("Vampire: The Masquerade - Bloodlines", "rpg"),
     ("Victoria 3", "strategy"),
     ("Vikings: Wolves of Midgard", "rpg"),
     ("Wandering Sword", "rpg"),

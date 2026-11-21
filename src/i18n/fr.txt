@@ -31075,3 +31075,77 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <identifiant utilisateur>_ShadowOfWar.sav (les fichiers _1 à _5 sont les sauvegardes du jeu lui-même)
+
+# data/games: Vampire: The Masquerade - Bloodlines
+
+Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.
+= Vampire-NNN.sav du dossier SAVE dans le dossier du jeu (le numéro est l'emplacement). Votre argent, l'expérience à dépenser et l'humanité, ainsi que chaque attribut, aptitude et discipline. Le fichier de carte de la sauvegarde est de nouveau empaqueté à l'enregistrement. Les disciplines non apprises valent -1. Fermez d'abord le jeu.
+
+Game screen: money, experience to spend, humanity, and every attribute, ability and discipline (base and current copies written together); the save's map file is packed again. Checked on 35 public saves, not yet tried in the game
+= Écran de jeu : argent, expérience à dépenser, humanité, et chaque attribut, aptitude et discipline (valeur de base et valeur actuelle écrites ensemble) ; le fichier de carte de la sauvegarde est de nouveau empaqueté. Vérifié sur 35 sauvegardes publiques, pas encore essayé dans le jeu
+
+Vampire-NNN.sav (NNN is the slot)
+= Vampire-NNN.sav (NNN est l'emplacement)
+
+Academics
+= Érudition
+
+Animalism
+= Animalisme
+
+Appearance
+= Apparence
+
+Auspex
+= Auspex
+
+Blood healing
+= Guérison par le sang
+
+Brawl
+= Bagarre
+
+Celerity
+= Célérité
+
+Computers
+= Informatique
+
+Corpus vampirus
+= Corpus vampirus
+
+Dementation
+= Démence
+
+Disciplines
+= Disciplines
+
+Dominate
+= Domination
+
+Finance
+= Finance
+
+Firearms
+= Armes à feu
+
+Fortitude
+= Vigueur
+
+Kindred
+= Vampire
+
+Manipulation
+= Manipulation
+
+Obfuscate
+= Occultation
+
+Potence
+= Puissance
+
+Presence
+= Présence
+
+Protean
+= Protéisme

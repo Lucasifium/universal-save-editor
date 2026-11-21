@@ -31068,3 +31068,77 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <Nutzer-ID>_ShadowOfWar.sav (die Dateien _1 bis _5 sind die eigenen Sicherungen des Spiels)
+
+# data/games: Vampire: The Masquerade - Bloodlines
+
+Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.
+= Vampire-NNN.sav aus dem Ordner SAVE im Spielordner (die Nummer ist der Slot). Dein Geld, die Erfahrung zum Ausgeben und die Menschlichkeit sowie jedes Attribut, jede Fähigkeit und jede Disziplin. Die Kartendatei des Spielstands wird beim Speichern neu gepackt. Nicht gelernte Disziplinen stehen auf -1. Schließe zuerst das Spiel.
+
+Game screen: money, experience to spend, humanity, and every attribute, ability and discipline (base and current copies written together); the save's map file is packed again. Checked on 35 public saves, not yet tried in the game
+= Spielbildschirm: Geld, Erfahrung zum Ausgeben, Menschlichkeit sowie jedes Attribut, jede Fähigkeit und jede Disziplin (Basis- und aktueller Wert zusammen geschrieben); die Kartendatei des Spielstands wird neu gepackt. An 35 öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Vampire-NNN.sav (NNN is the slot)
+= Vampire-NNN.sav (NNN ist der Slot)
+
+Academics
+= Gelehrsamkeit
+
+Animalism
+= Animalismus
+
+Appearance
+= Aussehen
+
+Auspex
+= Auspex
+
+Blood healing
+= Blutheilung
+
+Brawl
+= Raufen
+
+Celerity
+= Geschwindigkeit
+
+Computers
+= Computer
+
+Corpus vampirus
+= Corpus Vampirus
+
+Dementation
+= Wahnsinn
+
+Disciplines
+= Disziplinen
+
+Dominate
+= Beherrschung
+
+Finance
+= Finanzen
+
+Firearms
+= Schusswaffen
+
+Fortitude
+= Seelenstärke
+
+Kindred
+= Vampir
+
+Manipulation
+= Manipulation
+
+Obfuscate
+= Verschleierung
+
+Potence
+= Potenz
+
+Presence
+= Präsenz
+
+Protean
+= Gestaltwandel

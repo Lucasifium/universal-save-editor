@@ -31119,3 +31119,77 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <用户ID>_ShadowOfWar.sav(_1至_5的文件是游戏自己的备份)
+
+# data/games: Vampire: The Masquerade - Bloodlines
+
+Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.
+= 游戏文件夹中 SAVE 文件夹里的 Vampire-NNN.sav（数字是存档位）。编辑你的金钱、可用经验和人性，以及每项属性、能力和异能。保存时会重新打包存档的地图文件。未学会的异能为 -1。请先关闭游戏。
+
+Game screen: money, experience to spend, humanity, and every attribute, ability and discipline (base and current copies written together); the save's map file is packed again. Checked on 35 public saves, not yet tried in the game
+= 游戏界面：金钱、可用经验、人性，以及每项属性、能力和异能（基础值与当前值一起写入）；存档的地图文件会重新打包。已在 35 个公开存档上检查，尚未在游戏中试过
+
+Vampire-NNN.sav (NNN is the slot)
+= Vampire-NNN.sav（NNN 是存档位）
+
+Academics
+= 学术
+
+Animalism
+= 野兽异能
+
+Appearance
+= 外貌
+
+Auspex
+= 感知
+
+Blood healing
+= 血液疗愈
+
+Brawl
+= 搏斗
+
+Celerity
+= 迅捷
+
+Computers
+= 电脑
+
+Corpus vampirus
+= 吸血鬼躯体
+
+Dementation
+= 疯狂
+
+Disciplines
+= 异能
+
+Dominate
+= 支配
+
+Finance
+= 财务
+
+Firearms
+= 枪械
+
+Fortitude
+= 坚韧
+
+Kindred
+= 吸血鬼
+
+Manipulation
+= 操纵
+
+Obfuscate
+= 隐匿
+
+Potence
+= 强力
+
+Presence
+= 威慑
+
+Protean
+= 变形

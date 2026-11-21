@@ -563,12 +563,13 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>V</strong> (3)</summary>
+<summary><strong>V</strong> (4)</summary>
 
 | Game | Screen |
 |---|---|
 | Valheim (characters, profile versions 33 to 37) | Health, stamina, skills, item stacks (gold is Coins), quality and durability; the SHA-512 is written again. A **Max crafting materials** button fills the wood, stone, ores, metals, hides and other plain materials you carry to their stack size, leaving boss drops, summoning items and key fragments alone. Newer characters open read-only. Not yet tried in the game |
 | Vampire Survivors | Coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game |
+| Vampire: The Masquerade - Bloodlines | *Kindred*: money, experience to spend, humanity, and every attribute, ability and discipline, from `Vampire-NNN.sav` (base and current copies written together; the save's map file is packed again; checked on 35 public saves, not yet tried in the game) |
 | Vikings: Wolves of Midgard | *Clan*: gold, iron, steel, blood, jotunjarn, the ores and bloodstone, secrets found and finished runs, from the plain JSON `game_….sav` (checked on a public save, not yet tried in the game) |
 
 </details>

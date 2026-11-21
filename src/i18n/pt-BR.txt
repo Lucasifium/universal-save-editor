@@ -31035,3 +31035,77 @@ Game screen: the game's lifetime statistics (Mirian and skill points earned, hig
 
 <user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
 = <ID de usuário>_ShadowOfWar.sav (os arquivos _1 a _5 são os backups do próprio jogo)
+
+# data/games: Vampire: The Masquerade - Bloodlines
+
+Vampire-NNN.sav from the SAVE folder in the game's folder (the number is the slot). Your money, experience to spend and humanity, and every attribute, ability and discipline. The save's map file is packed again when you save. Disciplines you haven't learned are -1. Close the game first.
+= Vampire-NNN.sav da pasta SAVE dentro da pasta do jogo (o número é o espaço). Seu dinheiro, a experiência a gastar e a humanidade, e cada atributo, habilidade e disciplina. O arquivo de mapa do jogo salvo é empacotado de novo ao salvar. Disciplinas que você não aprendeu valem -1. Feche o jogo antes.
+
+Game screen: money, experience to spend, humanity, and every attribute, ability and discipline (base and current copies written together); the save's map file is packed again. Checked on 35 public saves, not yet tried in the game
+= Tela do jogo: dinheiro, experiência a gastar, humanidade e cada atributo, habilidade e disciplina (o valor base e o atual são gravados juntos); o arquivo de mapa do jogo salvo é empacotado de novo. Verificado em 35 jogos salvos públicos, ainda não testado no jogo
+
+Vampire-NNN.sav (NNN is the slot)
+= Vampire-NNN.sav (NNN é o espaço)
+
+Academics
+= Acadêmicos
+
+Animalism
+= Animalismo
+
+Appearance
+= Aparência
+
+Auspex
+= Auspex
+
+Blood healing
+= Cura de sangue
+
+Brawl
+= Briga
+
+Celerity
+= Celeridade
+
+Computers
+= Computadores
+
+Corpus vampirus
+= Corpus vampirus
+
+Dementation
+= Dementação
+
+Disciplines
+= Disciplinas
+
+Dominate
+= Dominação
+
+Finance
+= Finanças
+
+Firearms
+= Armas de fogo
+
+Fortitude
+= Fortitude
+
+Kindred
+= Vampiro
+
+Manipulation
+= Manipulação
+
+Obfuscate
+= Ofuscação
+
+Potence
+= Potência
+
+Presence
+= Presença
+
+Protean
+= Protean
