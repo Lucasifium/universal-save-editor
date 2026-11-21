@@ -95,6 +95,12 @@ pub enum Layer {
     Sv6(fmt::sv6::Packed),
     /// RollerCoaster Tycoon (1) saved game: the whole file is run-length packed, with 4 bytes after it.
     Sv4(fmt::sv4::Packed),
+    /// Legend of Grimrock `savegameNN.sav`: `GRIM`, a version, the size and a zlib stream of chunks.
+    Grimrock(fmt::grimrock::Packed),
+    /// OpenTTD `.sav`: a compression tag (zlib, xz or zstd) and a version, shown as an unpacked `OTTN` file.
+    Ottd(fmt::ottd::Packed),
+    /// Underrail `global.dat`: a 24-byte header kept as it is, then gzip around a .NET message.
+    Underrail(fmt::underrail::Packed),
     /// Star Wars Jedi: Fallen Order: the zlib-packed actor records behind the GVAS header.
     JediFo(fmt::jedi::Packed),
     Xz,
@@ -410,6 +416,9 @@ impl Layer {
             Layer::Ac8(_) => "Ace Combat 8 packed data (checksum written again)".into(),
             Layer::Sv6(_) => "RollerCoaster Tycoon 2 chunks (run-length packed, file sum written again)".into(),
             Layer::Sv4(_) => "RollerCoaster Tycoon run-length packing".into(),
+            Layer::Grimrock(_) => "Legend of Grimrock save (GRIM header, zlib)".into(),
+            Layer::Ottd(_) => "OpenTTD save compression".into(),
+            Layer::Underrail(_) => "Underrail save (header and gzip)".into(),
             Layer::JediFo(_) => "Jedi: Fallen Order actor records (zlib)".into(),
             Layer::Xz => "xz".into(),
             Layer::Mgsv { .. } => "Metal Gear Solid V save encryption".into(),
@@ -963,6 +972,9 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Ac8(p) => fmt::ac8::close(p, &data)?,
         Layer::Sv6(p) => fmt::sv6::close(p, &data)?,
         Layer::Sv4(p) => fmt::sv4::close(p, &data)?,
+        Layer::Grimrock(p) => fmt::grimrock::close(p, &data)?,
+        Layer::Ottd(p) => fmt::ottd::close(p, &data)?,
+        Layer::Underrail(p) => fmt::underrail::close(p, &data)?,
         Layer::JediFo(p) => fmt::jedi::close(p, &data)?,
         Layer::Prey { header } => fmt::prey::close(header, &data)?,
         Layer::SizedZlib => {
@@ -1421,6 +1433,21 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     if ctx.opts.ext.eq_ignore_ascii_case("sv4") && fmt::sv4::maybe(data) {
         if let Some((p, inner)) = fmt::sv4::open(data) {
             return Some((Layer::Sv4(p), inner));
+        }
+    }
+    if fmt::underrail::maybe(data) {
+        if let Some((p, inner)) = fmt::underrail::open(data) {
+            return Some((Layer::Underrail(p), inner));
+        }
+    }
+    if fmt::ottd::maybe(data) {
+        if let Some((p, inner)) = fmt::ottd::open(data) {
+            return Some((Layer::Ottd(p), inner));
+        }
+    }
+    if fmt::grimrock::maybe(data) {
+        if let Some((p, inner)) = fmt::grimrock::open(data) {
+            return Some((Layer::Grimrock(p), inner));
         }
     }
     if data.starts_with(b"GVAS") {
@@ -3085,6 +3112,12 @@ fn classify(data: Vec<u8>, opts: &Options, json: Option<Option<Value>>) -> Conte
     }
     if let Some(doc) = fmt::parse_aurora(&data, opts.path.as_deref()) {
         return Content::Tree(Box::new(doc));
+    }
+    // Rogue Legacy's files have no header: the extension says where to look.
+    if opts.ext == "rcdat" {
+        if let Ok(doc) = fmt::rl1::parse_manor(&data).or_else(|_| fmt::rl1::parse_player(&data)) {
+            return Content::Tree(Box::new(doc));
+        }
     }
     if let Some(doc) = fmt::parse_binary(&data) {
         return Content::Tree(Box::new(doc));

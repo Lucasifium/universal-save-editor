@@ -1,0 +1,39 @@
+name = "Underrail"
+tab = "Character"
+accent = [200, 150, 60]
+kind = ".NET BinaryFormatter (TG)"
+markers = ["/TG:PC/C1:N", "/TG:PC/PC1:E"]
+subtitle = '''A saved game of Underrail (the save file packs a header and gzip around the character data; both are opened and closed again for you). The character's level, experience, unspent points and attributes. Skills, feats, items and the world are in the Tree. Close the game first.'''
+tiles = [
+    ["Level", "/TG:PC/C1:L"],
+    ["Experience", "/TG:PC/PC1:E"],
+]
+
+[[sections]]
+title = "Character"
+rows = [
+    ["Level", "/TG:PC/C1:L"],
+    ["Experience", "/TG:PC/PC1:E"],
+    ["Unspent attribute points", "/TG:PC/PC1:BAPC"],
+    ["Unspent skill points", "/TG:PC/PC1:SPC"],
+    ["Unspent feat points", "/TG:PC/PC1:FC"],
+]
+
+[[sections]]
+title = "Attributes"
+rows = [
+    ["Strength", "/TG:PC/C1:BA/BA3:BA:0/S4:V"],
+    ["Strength (maximum)", "/TG:PC/C1:BA/BA3:BA:0/S4:MV"],
+    ["Dexterity", "/TG:PC/C1:BA/BA3:BA:1/S4:V"],
+    ["Dexterity (maximum)", "/TG:PC/C1:BA/BA3:BA:1/S4:MV"],
+    ["Agility", "/TG:PC/C1:BA/BA3:BA:2/S4:V"],
+    ["Agility (maximum)", "/TG:PC/C1:BA/BA3:BA:2/S4:MV"],
+    ["Constitution", "/TG:PC/C1:BA/BA3:BA:3/S4:V"],
+    ["Constitution (maximum)", "/TG:PC/C1:BA/BA3:BA:3/S4:MV"],
+    ["Perception", "/TG:PC/C1:BA/BA3:BA:4/S4:V"],
+    ["Perception (maximum)", "/TG:PC/C1:BA/BA3:BA:4/S4:MV"],
+    ["Will", "/TG:PC/C1:BA/BA3:BA:5/S4:V"],
+    ["Will (maximum)", "/TG:PC/C1:BA/BA3:BA:5/S4:MV"],
+    ["Intelligence", "/TG:PC/C1:BA/BA3:BA:6/S4:V"],
+    ["Intelligence (maximum)", "/TG:PC/C1:BA/BA3:BA:6/S4:MV"],
+]

@@ -1,0 +1,49 @@
+name = "Legend of Grimrock"
+tab = "Party"
+accent = [150, 120, 80]
+kind = "Legend of Grimrock save"
+markers = ["/Party/0/Strength"]
+subtitle = '''savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.'''
+
+[[tables]]
+title = "Party"
+path = "/Party"
+name = ["/Name"]
+cols = [
+    ["Class", "/Class"],
+    ["Level", "/Level"],
+    ["Experience", "/Experience"],
+    ["Health", "/Health"],
+    ["Maximum health", "/Maximum health"],
+    ["Energy", "/Energy"],
+    ["Maximum energy", "/Maximum energy"],
+    ["Strength", "/Strength"],
+    ["Dexterity", "/Dexterity"],
+    ["Vitality", "/Vitality"],
+    ["Willpower", "/Willpower"],
+    ["Unused skill points", "/Unused skill points"],
+]
+
+[[tables]]
+title = "Skills"
+path = "/Party"
+name = ["/Name"]
+cols = [
+    ["Athletics", "/Skills/athletics"],
+    ["Armors", "/Skills/armors"],
+    ["Axes", "/Skills/axes"],
+    ["Maces", "/Skills/maces"],
+    ["Swords", "/Skills/swords"],
+    ["Unarmed combat", "/Skills/unarmed_combat"],
+    ["Daggers", "/Skills/daggers"],
+    ["Missile weapons", "/Skills/missile_weapons"],
+    ["Throwing weapons", "/Skills/throwing_weapons"],
+    ["Dodge", "/Skills/dodge"],
+    ["Assassination", "/Skills/assassination"],
+    ["Staves", "/Skills/staves"],
+    ["Spellcraft", "/Skills/spellcraft"],
+    ["Fire magic", "/Skills/fire_magic"],
+    ["Air magic", "/Skills/air_magic"],
+    ["Earth magic", "/Skills/earth_magic"],
+    ["Ice magic", "/Skills/ice_magic"],
+]

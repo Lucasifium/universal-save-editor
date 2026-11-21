@@ -30795,3 +30795,330 @@ Lamp oil
 
 Tinderboxes
 = Caixas de fósforos
+
+# new game screens
+
+A saved game of Underrail (the save file packs a header and gzip around the character data; both are opened and closed again for you). The character's level, experience, unspent points and attributes. Skills, feats, items and the world are in the Tree. Close the game first.
+= Um jogo salvo de Underrail (o arquivo de save empacota um cabeçalho e gzip em volta dos dados do personagem; ambos são abertos e fechados de novo para você). O nível, a experiência, os pontos não gastos e os atributos do personagem. Perícias, talentos, itens e o mundo estão na Árvore. Feche o jogo primeiro.
+
+A saved game or autosave (.sav) of OpenTTD; the packing (zlib, xz or zstd) is opened and closed again for you. Each company's money, loan and maximum loan. Vehicles, towns and the map are not edited. Close the game first.
+= Um jogo salvo ou autosave (.sav) do OpenTTD; o empacotamento (zlib, xz ou zstd) é aberto e fechado de novo para você. O dinheiro, o empréstimo e o empréstimo máximo de cada empresa. Veículos, cidades e o mapa não são editados. Feche o jogo primeiro.
+
+Agility (maximum)
+= Agilidade (máximo)
+
+Air magic
+= Magia do ar
+
+Armor Up
+= Armadura Up
+
+Armors
+= Armaduras
+
+Assassination
+= Assassinato
+
+Attack Up
+= Ataque Up
+
+Axes
+= Machados
+
+Beastiality
+= Bestialidade
+
+Bonus health
+= Vida bônus
+
+Bonus mana
+= Mana bônus
+
+Bonus stats
+= Atributos bônus
+
+Bonus weight
+= Peso bônus
+
+Boss: Alexander
+= Chefe: Alexandre
+
+Boss: Herodotus
+= Chefe: Heródoto
+
+Boss: Khidr
+= Chefe: Khidr
+
+Boss: Ponce de Leon
+= Chefe: Ponce de León
+
+Boss: last
+= Chefe: último
+
+Boss: newest
+= Chefe: mais recente
+
+Buildings and classes
+= Construções e classes
+
+Campaign in slot 1
+= Campanha no slot 1
+
+Campaign in slot 2
+= Campanha no slot 2
+
+Campaign in slot 3
+= Campanha no slot 3
+
+Campaigns
+= Campanhas
+
+Campaigns started
+= Campanhas iniciadas
+
+Castle locked
+= Castelo trancado
+
+Child age
+= Idade do filho
+
+Class upgrades
+= Melhorias de classe
+
+Close the game first. A skill's level can't go above what the manor allows. If the profile folder holds an AutoSave_RogueLegacyBP.rcdat the game loads that copy: edit it too, or remove it.
+= Feche o jogo primeiro. O nível de uma habilidade não pode passar do que a mansão permite. Se a pasta do perfil tiver um AutoSave_RogueLegacyBP.rcdat, o jogo carrega essa cópia: edite-a também ou remova-a.
+
+Close the game first. A stat is changed in the base value and in the current value together, so what items add stays. Level and experience are shown for reference; the game raises a level when the experience is earned.
+= Feche o jogo primeiro. Um atributo é alterado no valor base e no valor atual ao mesmo tempo, então o que os itens somam permanece. Nível e experiência são mostrados apenas para referência; o jogo aumenta o nível quando a experiência é ganha.
+
+Close the game first. If the profile folder holds AutoSave_ copies of these files the game loads those: edit them too, or remove them. Gold shows in the castle (the toll takes it when a run begins).
+= Feche o jogo primeiro. Se a pasta do perfil tiver cópias AutoSave_ destes arquivos, o jogo carrega essas: edite-as também ou remova-as. O ouro aparece no castelo (o pedágio o leva quando uma jornada começa).
+
+Close the game first. Money is in the game's own currency units (pounds). The save is packed the same way it was before.
+= Feche o jogo primeiro. O dinheiro está nas unidades monetárias do próprio jogo (libras). O save é empacotado da mesma forma que antes.
+
+Companies
+= Empresas
+
+Constitution (maximum)
+= Constituição (máximo)
+
+Crit Chance Up
+= Chance de crítico Up
+
+Crit Damage Up
+= Dano crítico Up
+
+Daggers
+= Adagas
+
+Death Defy
+= Desafiar a Morte
+
+Dexterity (maximum)
+= Destreza (máximo)
+
+Documents\OpenTTD\save (autosaves in the autosave folder)
+= Documents\OpenTTD\save (autosaves na pasta autosave)
+
+Down Strike Up
+= Golpe descendente Up
+
+Earth magic
+= Magia da terra
+
+Enchantress
+= Feiticeira
+
+Enemies beaten
+= Inimigos derrotados
+
+Equipment Up
+= Equipamento Up
+
+Female
+= Feminino
+
+Fire magic
+= Magia do fogo
+
+Game screen: each company's money, loan and maximum loan. The packing (zlib, xz or zstd) is opened and closed again; saves from version 84 on are read, and version 295+ by the field names in the save's own table header. Checked on public saves up to version 207, not yet tried in the game
+= Tela do jogo: o dinheiro, o empréstimo e o empréstimo máximo de cada empresa. O empacotamento (zlib, xz ou zstd) é aberto e fechado de novo; saves da versão 84 em diante são lidos, e da versão 295+ pelos nomes dos campos no cabeçalho de tabela do próprio save. Testado em saves públicos até a versão 207, ainda não testado no jogo
+
+Game screen: each party member's health and energy (current and maximum), strength, dexterity, vitality and willpower, unused skill points and every skill's level, with the class, level and experience shown. The GRIM header and zlib data are unpacked and packed again. Checked on public saves, not yet tried in the game
+= Tela do jogo: a vida e a energia (atual e máxima), força, destreza, vitalidade e vontade de cada membro do grupo, pontos de perícia não usados e o nível de cada perícia, com a classe, o nível e a experiência mostrados. O cabeçalho GRIM e os dados zlib são desempacotados e empacotados de novo. Testado em saves públicos, ainda não testado no jogo
+
+Game screen: experience, games played and campaigns in the profile, and each save slot's credits, day, hours used, missions played and rewinds left. The Lua text from the game's serializer is edited in place; checked on a public profile, not yet tried in the game
+= Tela do jogo: experiência, partidas jogadas e campanhas no perfil, e os créditos, o dia, as horas usadas, as missões jogadas e os retrocessos restantes de cada slot de save. O texto Lua do serializador do jogo é editado diretamente; testado em um perfil público, ainda não testado no jogo
+
+Game screen: experience, level and the unspent attribute, skill, feat and specialization points of the character in global.dat. The 24-byte header and gzip layer are kept and packed again; the .NET data is edited in place. Checked on public saves, not yet tried in the game
+= Tela do jogo: experiência, nível e os pontos de atributo, perícia, talento e especialização não gastos do personagem em global.dat. O cabeçalho de 24 bytes e a camada gzip são mantidos e empacotados de novo; os dados .NET são editados diretamente. Testado em saves públicos, ainda não testado no jogo
+
+Game screens: the heir's gold, health, mana, class, traits, spells, special item, bonus stats, bosses and hours played (RogueLegacyPlayer.rcdat), and the manor's skill levels (RogueLegacyBP.rcdat), each limited to what the manor allows. Checked on a public save, not yet tried in the game
+= Telas do jogo: o ouro, a vida, a mana, a classe, as características, os feitiços, o item especial, os atributos bônus, os chefes e as horas jogadas do herdeiro (RogueLegacyPlayer.rcdat), e os níveis de habilidade da mansão (RogueLegacyBP.rcdat), cada um limitado ao que a mansão permite. Testado em um save público, ainda não testado no jogo
+
+Gold Gain Up
+= Ganho de ouro Up
+
+Haggle
+= Pechinchar
+
+Hardcore mode
+= Modo hardcore
+
+Health Up
+= Vida Up
+
+Heir
+= Herdeiro
+
+Hours used
+= Horas usadas
+
+Ice magic
+= Magia do gelo
+
+Intelligence (maximum)
+= Inteligência (máximo)
+
+Invulnerability Time Up
+= Tempo de invulnerabilidade Up
+
+Lich health
+= Vida do Lich
+
+Lich mana
+= Mana do Lich
+
+Maces
+= Maças
+
+Magic Damage Up
+= Dano mágico Up
+
+Mana Cost Down
+= Custo de mana Down
+
+Mana Up
+= Mana Up
+
+Missile weapons
+= Armas de projétil
+
+Missions played
+= Missões jogadas
+
+Perception (maximum)
+= Percepção (máximo)
+
+Potion Up
+= Poção Up
+
+Randomize Children
+= Aleatorizar filhos
+
+Rewinds left
+= Retrocessos restantes
+
+RogueLegacyBP.rcdat of a profile (also the AutoSave_ copy). The level of every manor skill, up to what the manor allows. The blueprint and rune states of each equipment piece are in the Tree. Close the game first.
+= RogueLegacyBP.rcdat de um perfil (também a cópia AutoSave_). O nível de cada habilidade da mansão, até o que a mansão permite. Os estados de projeto e de runa de cada peça de equipamento estão na Árvore. Feche o jogo primeiro.
+
+RogueLegacyPlayer.rcdat of a profile (also the AutoSave_ copy, which the game loads first). The heir's gold, health, mana, class, traits, spells and special item, the permanent stat bonuses, progress and the hours played. The manor's skills are in RogueLegacyBP.rcdat. Close the game first.
+= RogueLegacyPlayer.rcdat de um perfil (também a cópia AutoSave_, que o jogo carrega primeiro). O ouro, a vida, a mana, a classe, as características, os feitiços e o item especial do herdeiro, os bônus permanentes de atributos, o progresso e as horas jogadas. As habilidades da mansão estão em RogueLegacyBP.rcdat. Feche o jogo primeiro.
+
+RogueLegacyPlayer.rcdat, RogueLegacyBP.rcdat (and the AutoSave_ copies)
+= RogueLegacyPlayer.rcdat, RogueLegacyBP.rcdat (e as cópias AutoSave_)
+
+Smithy
+= Ferraria
+
+Special item
+= Item especial
+
+Spellcraft
+= Feitiçaria
+
+Staves
+= Cajados
+
+Story wins
+= Vitórias na história
+
+Story wins with experienced rules
+= Vitórias na história com regras experientes
+
+Strength (maximum)
+= Força (máximo)
+
+Swords
+= Espadas
+
+Throwing weapons
+= Armas de arremesso
+
+Times the castle was beaten
+= Vezes que o castelo foi vencido
+
+Trait 1
+= Característica 1
+
+Trait 2
+= Característica 2
+
+Tutorial complete
+= Tutorial concluído
+
+Unarmed combat
+= Combate desarmado
+
+Unlock Lich
+= Desbloquear Lich
+
+Unlock Miner
+= Desbloquear Mineiro
+
+Unlock Shinobi
+= Desbloquear Shinobi
+
+Unlock Spellthief
+= Desbloquear Ladrão de Feitiços
+
+Unspent feat points
+= Pontos de talento não gastos
+
+Unused skill points
+= Pontos de perícia não usados
+
+Upgrade Barbarian
+= Melhorar Bárbaro
+
+Upgrade Knave
+= Melhorar Velhaco
+
+Upgrade Knight
+= Melhorar Cavaleiro
+
+Upgrade Lich
+= Melhorar Lich
+
+Upgrade Mage
+= Melhorar Mago
+
+Upgrade Miner
+= Melhorar Mineiro
+
+Upgrade Shinobi
+= Melhorar Shinobi
+
+Upgrade Spellthief
+= Melhorar Ladrão de Feitiços
+
+Will (maximum)
+= Vontade (máximo)
+
+savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's serializer). Your experience and totals, and what the campaign in each save slot holds: credits, the day, the hours used and the rewinds left. Agents, items and programs are in the Tree. Close the game first.
+= savegame.lua, o perfil de Invisible, Inc. (texto Lua simples do serializador do jogo). Sua experiência e totais, e o que a campanha de cada slot de save contém: créditos, o dia, as horas usadas e os retrocessos restantes. Agentes, itens e programas estão na Árvore. Feche o jogo primeiro.
+
+savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
+= savegameNN.sav de Documents\Almost Human\Legend of Grimrock (um cabeçalho GRIM e dados zlib, desempacotados e empacotados de novo para você). A vida e a energia de cada membro do grupo, os quatro atributos, pontos de perícia não usados e níveis de perícia. Itens, características e a masmorra estão na Árvore. Feche o jogo primeiro.
+

@@ -1,0 +1,71 @@
+name = "Rogue Legacy"
+tab = "Heir"
+accent = [200, 160, 70]
+kind = "Rogue Legacy character"
+markers = ["/Character/Gold", "/Progress/Hours played"]
+subtitle = '''RogueLegacyPlayer.rcdat of a profile (also the AutoSave_ copy, which the game loads first). The heir's gold, health, mana, class, traits, spells and special item, the permanent stat bonuses, progress and the hours played. The manor's skills are in RogueLegacyBP.rcdat. Close the game first.'''
+tiles = [
+    ["Gold", "/Character/Gold"],
+    ["Hours played", "/Progress/Hours played"],
+    ["Times died", "/Progress/Times died"],
+]
+
+[[sections]]
+title = "Heir"
+rows = [
+    ["Gold", "/Character/Gold"],
+    ["Health", "/Character/Health"],
+    ["Mana", "/Character/Mana"],
+    ["Age", "/Character/Age"],
+    ["Child age", "/Character/Child age"],
+    ["Class", "/Character/Class"],
+    ["Special item", "/Character/Special item"],
+    ["Trait 1", "/Character/Trait 1"],
+    ["Trait 2", "/Character/Trait 2"],
+]
+
+[[sections]]
+title = "Spells"
+rows = [
+    ["Spell 1", "/Spells/Spell 1"],
+    ["Spell 2", "/Spells/Spell 2"],
+    ["Spell 3", "/Spells/Spell 3"],
+]
+
+[[sections]]
+title = "Bonus stats"
+rows = [
+    ["Bonus health", "/Character/Bonus health"],
+    ["Bonus strength", "/Character/Bonus strength"],
+    ["Bonus mana", "/Character/Bonus mana"],
+    ["Bonus defense", "/Character/Bonus defense"],
+    ["Bonus weight", "/Character/Bonus weight"],
+    ["Bonus magic", "/Character/Bonus magic"],
+    ["Lich health", "/Character/Lich health"],
+    ["Lich mana", "/Character/Lich mana"],
+]
+
+[[sections]]
+title = "Progress"
+rows = [
+    ["Times died", "/Progress/Times died"],
+    ["Times the castle was beaten", "/Progress/Times the castle was beaten"],
+    ["Enemies beaten", "/Progress/Enemies beaten"],
+    ["Hours played", "/Progress/Hours played"],
+    ["Dead", "/Progress/Dead"],
+    ["Hardcore mode", "/Progress/Hardcore mode"],
+    ["Female", "/Progress/Female"],
+    ["Castle locked", "/Progress/Castle locked"],
+    ["Tutorial complete", "/Progress/Tutorial complete"],
+]
+
+[[sections]]
+title = "Bosses"
+rows = [
+    ["Boss: newest", "/Progress/Boss: newest"],
+    ["Boss: Khidr", "/Progress/Boss: Khidr"],
+    ["Boss: Alexander", "/Progress/Boss: Alexander"],
+    ["Boss: Ponce de Leon", "/Progress/Boss: Ponce de Leon"],
+    ["Boss: Herodotus", "/Progress/Boss: Herodotus"],
+    ["Boss: last", "/Progress/Boss: last"],
+]
