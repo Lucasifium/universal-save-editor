@@ -30836,3 +30836,23 @@ The .meow save or backup of Epic Battle Fantasy 5 (base64 text holding JSON; it 
 
 context.sav from AppData\\LocalLow\\DigixArt\\Road 96\\Saves (plain JSON). Your money, energy and karma on the road. Energy and karma are kept by the game as fractions between 0 and 1. Close the game first.
 = AppData\\LocalLow\\DigixArt\\Road 96\\Saves の context.sav（プレーンな JSON）。旅の途中の所持金、エネルギー、カルマ。エネルギーとカルマは 0 から 1 の小数としてゲームに保存されます。先にゲームを閉じてください。
+
+# data/games: Amnesia: The Dark Descent
+
+AutoSave_*.sav and the manual saves from Documents\\Amnesia\\Main\\<profile> (plain XML text). Health, sanity, lamp oil and tinderboxes. Health, sanity and lamp oil run from 0 to 100. Close the game first.
+= Documents\\Amnesia\\Main\\<プロフィール> の AutoSave_*.sav と手動セーブ（プレーンな XML テキスト）。体力、正気度、ランタンの油、火口箱。体力、正気度、ランタンの油は 0 から 100 です。先にゲームを閉じてください。
+
+AutoSave_<map>_<date>.sav and your manual saves
+= AutoSave_<マップ>_<日付>.sav と手動セーブ
+
+Daniel
+= Daniel
+
+Game screen: health, sanity, lamp oil and tinderboxes from the plain XML saves. Checked on a public save, not yet tried in the game
+= ゲーム画面：プレーンな XML セーブから、体力、正気度、ランタンの油、火口箱。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+Lamp oil
+= ランタンの油
+
+Tinderboxes
+= 火口箱

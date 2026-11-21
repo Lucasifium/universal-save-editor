@@ -1,0 +1,21 @@
+name = "Amnesia: The Dark Descent"
+tab = "Daniel"
+accent = [150, 60, 50]
+kind = "Amnesia save"
+markers = ["/SaveGame/class0/mPlayer/mfHealth", "/SaveGame/class0/mPlayer/mfSanity", "/SaveGame/class0/mPlayer/mlTinderboxes"]
+subtitle = '''AutoSave_*.sav and the manual saves from Documents\Amnesia\Main\<profile> (plain XML text). Health, sanity, lamp oil and tinderboxes. Health, sanity and lamp oil run from 0 to 100. Close the game first.'''
+tiles = [
+    ["Health", "/SaveGame/class0/mPlayer/mfHealth"],
+    ["Sanity", "/SaveGame/class0/mPlayer/mfSanity"],
+    ["Lamp oil", "/SaveGame/class0/mPlayer/mfLampOil"],
+    ["Tinderboxes", "/SaveGame/class0/mPlayer/mlTinderboxes"],
+]
+
+[[sections]]
+title = "Daniel"
+rows = [
+    ["Health", "/SaveGame/class0/mPlayer/mfHealth"],
+    ["Sanity", "/SaveGame/class0/mPlayer/mfSanity"],
+    ["Lamp oil", "/SaveGame/class0/mPlayer/mfLampOil"],
+    ["Tinderboxes", "/SaveGame/class0/mPlayer/mlTinderboxes"],
+]

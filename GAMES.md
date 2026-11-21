@@ -9,7 +9,7 @@ The games below open on a screen of their own (the first tab: *Character*, *Trai
 undo and checksums as everywhere else, and the *Values* and *Tree* tabs still show everything.
 
 <details>
-<summary><strong>A</strong> (32)</summary>
+<summary><strong>A</strong> (33)</summary>
 
 | Game | Screen |
 |---|---|
@@ -17,6 +17,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Aliens: Fireteam Elite | *Marine*: account level and experience, rank, difficulty, and the level and experience of every class and weapon, from `char.sav` (the game writes every byte one lower; that is undone and redone; checked on a public save, not yet tried in the game) |
 | Alpha Protocol | *Agent*: money, level, experience, skill points, skill ranks, ammunition and gadget counts from a checkpoint `.sav` (checked on a public save, not yet tried in the game) |
 | American Truck Simulator | The same screen as Euro Truck Simulator 2: money, loan limit, experience, skills, and each vehicle's fuel, odometer and wear. |
+| Amnesia: The Dark Descent | *Daniel*: health, sanity, lamp oil and tinderboxes from the plain XML saves (checked on a public save, not yet tried in the game) |
 | Anno 1800 | *Company*: your coins (the load screen's total is changed with them) and the rest of your company's storage by GUID; the `.a7s` archive and its 100+ MB game data are unpacked and packed again for you (checked on a public save, not yet tried in the game) |
 | Antimatter Dimensions | *Dimensions*: antimatter, infinity points, eternity points, reality machines, the counters behind them, replicanti, dilation and perk points; opens the exported save text from Options > Saving (checked on public sample saves, not yet tried in the game) |
 | Assassin's Creed Brotherhood | *Inventory*: the player's money and gadget and ammunition counts, with other characters' and older copies listed apart; the save's packed blocks are opened and written again with their checksums (checked on public saves, not yet tried in the game) |
