@@ -313,7 +313,7 @@ const SKILLS: &[(usize, &str)] = &[
     (26, "Gunsmith: shotgun"), (27, "Gunsmith: grenade launcher"), (28, "Gunsmith: sniper rifle"), (29, "Gunsmith: machine gun"), (30, "Gunsmith: missile"), (31, "Master gunsmith"),
     (32, "Tranquilizer engineer"), (33, "Suppressor engineer"), (34, "Homing missile engineer"), (35, "Zoologist"), (36, "Sleeping gas engineer"), (37, "Electric engineer"),
     (38, "Electromagnetic net engineer"), (39, "Waterproof engineer"), (40, "Radar engineer"), (41, "Metamaterial engineer"), (42, "Drug engineer"), (43, "Mechanical engineer"),
-    (44, "Mechatronics engineer"), (45, "Cybernetics engineer"), (46, "Rocket control engineer"), (47, "Electric spinning engineer"), (48, "Material engineer"), (49, "Haulage engineer"),
+    (44, "Mechatronics engineer"), (45, "Cybernetics engineer"), (46, "Rocket control engineer"), (47, "Electric spinning engineer"), (48, "Materials engineer"), (49, "Haulage engineer"),
     (50, "Remote control engineer"), (51, "Monitor engineer"), (52, "Active protect engineer"), (53, "Attitude control engineer"), (54, "Bipedalism weapon development"),
     (55, "Russian translator"), (56, "Afrikaans translator"), (57, "Kikongo translator"), (58, "Pashto translator"), (59, "Surgeon"), (60, "Physician"), (61, "Counselor"),
     (62, "Parasite researcher"), (63, "Troublemaker: violence"), (64, "Troublemaker: intemperance"), (65, "Troublemaker: harassment"), (66, "Moodmaker"), (67, "Tactics instructor"),
@@ -855,6 +855,19 @@ impl Backend for MgsvBackend {
 
 #[cfg(test)]
 mod tests {
+    /// Every skill id has one name, and the specialist names match the game's wording.
+    #[test]
+    fn skill_table_is_unique_and_names_materials_engineer() {
+        let mut ids = std::collections::HashSet::new();
+        let mut names = std::collections::HashSet::new();
+        for (id, name) in SKILLS {
+            assert!(ids.insert(*id), "duplicate skill id {id}");
+            assert!(names.insert(*name), "duplicate skill name {name}");
+        }
+        assert_eq!(SKILLS.iter().find(|(i, _)| *i == 48).map(|(_, n)| *n), Some("Materials engineer"));
+        assert!(names_of(3).iter().any(|n| n == "Materials engineer"));
+    }
+
     use super::*;
     use serde_json::json;
 

@@ -199,18 +199,30 @@ pub fn choice_editor(ui: &mut Ui, id_src: &str, current: &str, list: &[String], 
     let mut out = None;
     let id = ui.make_persistent_id(("choice", id_src));
     let fid = id.with("filter");
-    egui::ComboBox::from_id_salt(id).selected_text(current).width(width.min(260.0)).height(340.0).show_ui(ui, |ui| {
-        let mut filter = ui.data(|d| d.get_temp::<String>(fid)).unwrap_or_default();
+    egui::ComboBox::from_id_salt(id).selected_text(current).width(width.min(260.0)).height(CHOICE_POPUP_HEIGHT).show_ui(ui, |ui| {
+        let before = ui.data(|d| d.get_temp::<String>(fid)).unwrap_or_default();
+        let mut filter = before.clone();
         let r = ui.add(TextEdit::singleline(&mut filter).hint_text(tr("Type to filter…")).desired_width(f32::INFINITY));
         if ui.memory(|m| m.focused().is_none()) {
             r.request_focus();
         }
         let f = filter.trim().to_lowercase();
         let shown: Vec<&String> = list.iter().filter(|n| f.is_empty() || n.to_lowercase().contains(&f)).collect();
-        long_list(ui, id.with("rows"), shown.len(), |ui, i| {
-            let name = shown[i];
-            if ui.selectable_label(name == current, name).clicked() && name != current {
-                out = Some(Value::String(name.clone()));
+        // The rows get a fixed-height box of their own (the filter box stays outside it), so the
+        // list keeps one readable size however few rows match, and goes back to the top when the
+        // filter changes instead of keeping an offset that no longer fits the shorter list.
+        let row_h = ui.spacing().interact_size.y + ui.spacing().item_spacing.y;
+        let box_h = (list.len() as f32 * row_h).min(CHOICE_LIST_HEIGHT);
+        let mut area = egui::ScrollArea::vertical().id_salt(id.with("rows")).auto_shrink([false, false]).min_scrolled_height(box_h).max_height(box_h);
+        if filter != before {
+            area = area.vertical_scroll_offset(0.0);
+        }
+        area.show_rows(ui, ui.spacing().interact_size.y, shown.len(), |ui, range| {
+            for i in range {
+                let name = shown[i];
+                if ui.selectable_label(name == current, name).clicked() && name != current {
+                    out = Some(Value::String(name.clone()));
+                }
             }
         });
         if out.is_some() {
@@ -220,6 +232,10 @@ pub fn choice_editor(ui: &mut Ui, id_src: &str, current: &str, list: &[String], 
     });
     out
 }
+
+/// Height of a choice drop-down's list, and of the pop-up that holds it plus the filter box.
+const CHOICE_LIST_HEIGHT: f32 = 300.0;
+const CHOICE_POPUP_HEIGHT: f32 = 380.0;
 
 /// Past this many rows a drop-down list only lays out the rows in view.
 const LONG_LIST: usize = 200;
@@ -814,6 +830,49 @@ fn list_box<R>(this: egui::ScrollArea, ui: &mut Ui, key: impl std::hash::Hash, b
             ui.ctx().request_repaint();
         }
         out
+    }
+}
+
+#[cfg(test)]
+mod choice_editor_tests {
+    use super::*;
+
+    /// Height of the tallest foreground pop-up after drawing a frame with the drop-down open and
+    /// `filter` typed into it.
+    fn popup_height(ctx: &egui::Context, list: &[String], filter: &str) -> f32 {
+        let input = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(600.0, 800.0))), ..Default::default() };
+        let _ = ctx.run(input, |ctx| {
+            egui::CentralPanel::default().show(ctx, |ui| {
+                let id = ui.make_persistent_id(("choice", "t"));
+                ui.data_mut(|d| d.insert_temp(id.with("filter"), filter.to_string()));
+                let button = ui.make_persistent_id(egui::Id::new(id));
+                ui.memory_mut(|m| m.open_popup(button.with("popup")));
+                let _ = choice_editor(ui, "t", "Item 1", list, 200.0);
+            });
+        });
+        ctx.memory(|m| m.layer_ids().filter(|l| l.order == egui::Order::Foreground).filter_map(|l| m.area_rect(l.id)).map(|r| r.height()).fold(0.0, f32::max))
+    }
+
+    /// The pop-up of a long drop-down keeps one size while the filter narrows the list, instead of
+    /// shrinking to a tiny clipped box.
+    #[test]
+    fn choice_popup_keeps_one_size_while_filtering() {
+        let list: Vec<String> = (0..90).map(|i| if i == 5 { "Tranquilizer engineer".to_string() } else { format!("Item {i}") }).collect();
+        let ctx = egui::Context::default();
+        let mut sizes = Vec::new();
+        for filter in ["", "", "", "engineer", "engineer", "engineer", "zzz", "zzz", "zzz", "", "", ""] {
+            sizes.push(popup_height(&ctx, &list, filter));
+        }
+        let first = sizes[2];
+        assert!(first > 200.0, "pop-up too short: {sizes:?}");
+        for (i, h) in sizes.iter().enumerate().skip(2) {
+            assert!((h - first).abs() < 1.0, "pop-up changed size at frame {i}: {sizes:?}");
+        }
+    }
+
+    #[test]
+    fn choice_list_fits_inside_its_popup() {
+        assert!(CHOICE_LIST_HEIGHT + 60.0 <= CHOICE_POPUP_HEIGHT);
     }
 }
 
