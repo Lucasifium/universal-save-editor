@@ -31547,3 +31547,83 @@ Presence
 
 Protean
 = プロテアン
+
+# Yu-Gi-Oh! Legacy of the Duelist
+
+Battle damage
+= 戦闘ダメージ
+
+Cards earned
+= 獲得カード
+
+Chains
+= チェーン
+
+Decks created
+= 作成デッキ
+
+Direct damage
+= 直接ダメージ
+
+Duel points
+= デュエルポイント
+
+Duelist
+= デュエリスト
+
+Effect damage
+= 効果ダメージ
+
+Fusion Summons
+= 融合召喚
+
+Game screen: duel points and the game's statistics (games, wins, summons, damage, cards earned). The save's CRC-32 signature is written again; cards, decks and unlocks are not edited. Checked on a public save, not yet tried in the game
+= ゲーム画面:デュエルポイントとゲームの統計(対戦数、勝利数、召喚、ダメージ、獲得カード)。セーブデータのCRC-32署名は書き直されます。カード、デッキ、アンロックは編集されません。公開セーブデータで確認済み、ゲーム内では未検証です
+
+Games and wins
+= 対戦数と勝利数
+
+Games: campaign
+= 対戦数:キャンペーン
+
+Games: challenge
+= 対戦数:チャレンジ
+
+Games: multiplayer
+= 対戦数:マルチプレイ
+
+Normal Summons
+= 通常召喚
+
+Pendulum Summons
+= ペンデュラム召喚
+
+Reflected damage
+= 反射ダメージ
+
+Ritual Summons
+= 儀式召喚
+
+Summons and damage
+= 召喚とダメージ
+
+Synchro Summons
+= シンクロ召喚
+
+Tribute Summons
+= 生け贄召喚
+
+Wins: campaign
+= 勝利数:キャンペーン
+
+Wins: challenge
+= 勝利数:チャレンジ
+
+Wins: multiplayer
+= 勝利数:マルチプレイ
+
+Xyz Summons
+= エクシーズ召喚
+
+savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
+= Legacy of the Duelistのsavegame.dat(Steam\\userdata\\<account>\\601510\\remote)。デュエルポイントとゲームの統計を編集します。保存時にセーブデータのCRC-32署名は書き直されます。カード、デッキ、アンロックは編集されません。先にゲームを終了してください。

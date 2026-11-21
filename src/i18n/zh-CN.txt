@@ -31520,3 +31520,83 @@ Presence
 
 Protean
 = 变形
+
+# Yu-Gi-Oh! Legacy of the Duelist
+
+Battle damage
+= 战斗伤害
+
+Cards earned
+= 获得卡片
+
+Chains
+= 连锁
+
+Decks created
+= 创建卡组
+
+Direct damage
+= 直接伤害
+
+Duel points
+= 决斗点数
+
+Duelist
+= 决斗者
+
+Effect damage
+= 效果伤害
+
+Fusion Summons
+= 融合召唤
+
+Game screen: duel points and the game's statistics (games, wins, summons, damage, cards earned). The save's CRC-32 signature is written again; cards, decks and unlocks are not edited. Checked on a public save, not yet tried in the game
+= 游戏画面:决斗点数和游戏统计(对局、胜场、召唤、伤害、获得卡片)。存档的CRC-32签名会被重新写入;卡片、卡组和解锁内容不会被编辑。已在公开存档上检查,尚未在游戏中试过
+
+Games and wins
+= 对局与胜场
+
+Games: campaign
+= 对局:剧情
+
+Games: challenge
+= 对局:挑战
+
+Games: multiplayer
+= 对局:多人
+
+Normal Summons
+= 通常召唤
+
+Pendulum Summons
+= 灵摆召唤
+
+Reflected damage
+= 反射伤害
+
+Ritual Summons
+= 仪式召唤
+
+Summons and damage
+= 召唤与伤害
+
+Synchro Summons
+= 同调召唤
+
+Tribute Summons
+= 解放召唤
+
+Wins: campaign
+= 胜场:剧情
+
+Wins: challenge
+= 胜场:挑战
+
+Wins: multiplayer
+= 胜场:多人
+
+Xyz Summons
+= 超量召唤
+
+savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
+= Legacy of the Duelist的savegame.dat(Steam\\userdata\\<account>\\601510\\remote)。可编辑决斗点数和游戏统计;保存时会重新写入存档的CRC-32签名。卡片、卡组和解锁内容不会被编辑。请先关闭游戏。

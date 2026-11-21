@@ -502,4 +502,5 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Youtubers Life", "simulation"),
     ("Ys VIII: Lacrimosa of DANA", "rpg"),
     ("Ys: The Oath in Felghana", "rpg"),
+    ("Yu-Gi-Oh! Legacy of the Duelist", "strategy"),
 ];

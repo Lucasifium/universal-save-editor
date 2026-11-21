@@ -311,6 +311,7 @@ pub mod grimrock;
 pub mod ottd;
 pub mod underrail;
 pub mod rl1;
+pub mod lotd;
 pub mod cairn;
 pub mod rgg;
 pub mod yakuza0;
@@ -374,6 +375,11 @@ use crate::tree::TreeDoc;
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     if bloodlines::looks(d) {
         if let Ok(t) = bloodlines::parse(d) {
+            return Some(t);
+        }
+    }
+    if lotd::looks(d) {
+        if let Ok(t) = lotd::parse(d) {
             return Some(t);
         }
     }

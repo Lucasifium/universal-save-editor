@@ -31436,3 +31436,83 @@ Presence
 
 Protean
 = Protean
+
+# Yu-Gi-Oh! Legacy of the Duelist
+
+Battle damage
+= Dano de batalha
+
+Cards earned
+= Cartas obtidas
+
+Chains
+= Correntes
+
+Decks created
+= Decks criados
+
+Direct damage
+= Dano direto
+
+Duel points
+= Pontos de Duelo
+
+Duelist
+= Duelista
+
+Effect damage
+= Dano de efeito
+
+Fusion Summons
+= Invocações-Fusão
+
+Game screen: duel points and the game's statistics (games, wins, summons, damage, cards earned). The save's CRC-32 signature is written again; cards, decks and unlocks are not edited. Checked on a public save, not yet tried in the game
+= Tela de jogo: Pontos de Duelo e as estatísticas do jogo (partidas, vitórias, invocações, dano, cartas obtidas). A assinatura CRC-32 do save é gravada novamente; cartas, decks e desbloqueios não são editados. Verificado em um save público, ainda não testado no jogo
+
+Games and wins
+= Partidas e vitórias
+
+Games: campaign
+= Partidas: campanha
+
+Games: challenge
+= Partidas: desafio
+
+Games: multiplayer
+= Partidas: multijogador
+
+Normal Summons
+= Invocações-Normais
+
+Pendulum Summons
+= Invocações-Pêndulo
+
+Reflected damage
+= Dano refletido
+
+Ritual Summons
+= Invocações-Ritual
+
+Summons and damage
+= Invocações e dano
+
+Synchro Summons
+= Invocações-Sincro
+
+Tribute Summons
+= Invocações por Tributo
+
+Wins: campaign
+= Vitórias: campanha
+
+Wins: challenge
+= Vitórias: desafio
+
+Wins: multiplayer
+= Vitórias: multijogador
+
+Xyz Summons
+= Invocações-Xyz
+
+savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
+= savegame.dat de Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Seus Pontos de Duelo e as estatísticas do jogo; a assinatura CRC-32 do save é gravada novamente ao salvar. Cartas, decks e desbloqueios não são editados. Feche o jogo primeiro.

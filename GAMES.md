@@ -621,7 +621,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>Y</strong> (11)</summary>
+<summary><strong>Y</strong> (12)</summary>
 
 | Game | Screen |
 |---|---|
@@ -636,6 +636,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Youtubers Life | *Youtuber*: money, house, work hours, your channel (subscribers, views, status) and every youtuber's needs, skills, levels and experience from the SQLite save (checked on a public save, not yet tried in the game) |
 | Ys VIII: Lacrimosa of DANA | *Party*: play time, Adol's and Laxia's weapon, armour and accessories (by item id) and every item you hold with its count, up to 999. Both checksums are kept right (checked on public saves, not yet tried in the game) |
 | Ys: The Oath in Felghana | *Adol*: level, maximum HP, experience, gold and the difficulty (all six levels, written everywhere the game stores it); the cipher over the save and its two checksums are handled for you (checked on a public save, not yet tried in the game) |
+| Yu-Gi-Oh! Legacy of the Duelist | *Duelist*: duel points and the statistics (games, wins, summons, damage, cards earned); the signature is kept right (checked on a public save, not yet tried in the game) |
 
 </details>
 
