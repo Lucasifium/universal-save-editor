@@ -311,16 +311,55 @@ impl Builder {
     }
 }
 
+impl Builder {
+    /// The "named" dialect (Dragon's Dogma): every element has a `name` attribute that becomes its
+    /// key, `<class>` is an object, `<array>` a list, and any other element with a `value`
+    /// attribute is a number or text whose value is edited in place.
+    fn view_named(&mut self, e: &Elem, ptr: &str) -> Value {
+        let attr = |k: &str| e.attrs.iter().find(|a| a.0 == k);
+        if e.name == "array" {
+            let items: Vec<Value> = e.children.iter().enumerate().map(|(i, c)| self.view_named(c, &format!("{ptr}/{i}"))).collect();
+            return Value::Array(items);
+        }
+        if e.children.is_empty() && e.name != "class" {
+            if let Some((_, vs, ve, q, val)) = attr("value") {
+                return match val {
+                    Some(t) => self.leaf(ptr, Leaf::Attr { start: *vs, end: *ve, quote: *q, orig: t.clone() }, text_to_value(t), true),
+                    None => Value::String(String::new()),
+                };
+            }
+        }
+        let mut map = Map::new();
+        for (i, c) in e.children.iter().enumerate() {
+            let mut key = c.attrs.iter().find(|a| a.0 == "name").and_then(|a| a.4.clone()).unwrap_or_else(|| format!("{}{i}", c.name));
+            while map.contains_key(&key) {
+                key.push('\'');
+            }
+            let p = child(ptr, &key);
+            let v = self.view_named(c, &p);
+            map.insert(key, v);
+        }
+        Value::Object(map)
+    }
+}
+
 #[derive(Clone, Debug)]
 struct XmlBackend {
     raw: Vec<u8>,
     leaves: Vec<Leaf>,
+    /// A value that is also written where its twin lives (Dragon's Dogma keeps the player's data
+    /// twice): leaf → twin leaf.
+    twins: HashMap<usize, usize>,
 }
 
 impl Backend for XmlBackend {
     fn write(&self, _view: &Value, changes: &[(usize, Value)]) -> Result<Vec<u8>, String> {
         let mut p = Patches::default();
-        for (id, v) in changes {
+        let twinned: Vec<(usize, &Value)> = changes
+            .iter()
+            .filter_map(|(id, v)| self.twins.get(id).filter(|t| !changes.iter().any(|(c, _)| c == *t)).map(|t| (*t, v)))
+            .collect();
+        for (id, v) in changes.iter().map(|(i, v)| (i, v)).chain(twinned.iter().map(|(i, v)| (i, *v))) {
             match &self.leaves[*id] {
                 Leaf::Text { start, end, cdata, orig } => {
                     let t = value_to_text(orig, v);
@@ -368,8 +407,24 @@ pub fn parse_with(text: &str, raw: &[u8], lists: &'static [&'static str]) -> Res
     let ptr = child("", &root.name);
     let v = b.view(&root, &ptr);
     map.insert(root.name.clone(), v);
-    let backend = XmlBackend { raw: raw.to_vec(), leaves: b.leaves };
+    let backend = XmlBackend { raw: raw.to_vec(), leaves: b.leaves, twins: HashMap::new() };
     Ok(TreeDoc::new(Value::Object(map), b.editable, "XML", Box::new(backend)))
+}
+
+/// Dragon's Dogma: Dark Arisen XML (see `view_named`). The save holds the player's data twice,
+/// under `mPlayerDataManual` and `mPlayerDataBase`; a value edited in one is written to both.
+pub fn parse_named(text: &str, kind: &str) -> Result<TreeDoc, String> {
+    let root = parse_root(text)?;
+    let mut b = Builder { leaves: vec![], editable: HashMap::new(), lists: &[] };
+    let name = root.attrs.iter().find(|a| a.0 == "name").and_then(|a| a.4.clone()).unwrap_or_else(|| root.name.clone());
+    let ptr = child("", &name);
+    let v = b.view_named(&root, &ptr);
+    let mut map = Map::new();
+    map.insert(name.clone(), v);
+    let (a, z) = (format!("{ptr}/mPlayerDataManual/"), format!("{ptr}/mPlayerDataBase/"));
+    let twins: HashMap<usize, usize> = b.editable.iter().filter_map(|(p, id)| p.strip_prefix(&a).and_then(|rest| b.editable.get(&format!("{z}{rest}"))).map(|t| (*id, *t))).collect();
+    let backend = XmlBackend { raw: text.as_bytes().to_vec(), leaves: b.leaves, twins };
+    Ok(TreeDoc::new(Value::Object(map), b.editable, kind, Box::new(backend)))
 }
 
 #[cfg(test)]
@@ -424,6 +479,46 @@ mod tests {
         assert_eq!(out, expected);
         let again = parse(&out).unwrap();
         assert_eq!(again.view.pointer("/SaveGame/player/name").unwrap(), "Ann <3");
+    }
+
+    #[test]
+    fn named_dialect_writes_both_copies() {
+        let xml = r#"<?xml version="1.0" encoding="utf-8"?>
+<class name="root" type="sSave::saveDataAllDA">
+<class name="mPlayerDataManual" type="a">
+<s32 name="mGold" value="100"/>
+<array name="mJobLevel" type="u8" count="2">
+<u8 value="1"/>
+<u8 value="2"/>
+</array>
+</class>
+<class name="mPlayerDataBase" type="a">
+<s32 name="mGold" value="50"/>
+<array name="mJobLevel" type="u8" count="2">
+<u8 value="1"/>
+<u8 value="2"/>
+</array>
+</class>
+<u32 name="mOther" value="7"/>
+</class>
+"#;
+        let mut doc = parse_named(xml, "Test save").unwrap();
+        assert_eq!(doc.view.pointer("/root/mPlayerDataManual/mGold").unwrap(), 100);
+        assert_eq!(doc.view.pointer("/root/mPlayerDataBase/mJobLevel/1").unwrap(), 2);
+        assert_eq!(doc.to_bytes().unwrap(), xml.as_bytes());
+        doc.set("/root/mPlayerDataManual/mGold", Value::from(999)).unwrap().expect("pointer exists");
+        doc.set("/root/mPlayerDataManual/mJobLevel/1", Value::from(9)).unwrap().expect("pointer exists");
+        doc.set("/root/mOther", Value::from(8)).unwrap().expect("pointer exists");
+        let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(out.matches("value=\"999\"").count(), 2, "{out}");
+        assert_eq!(out.matches("value=\"9\"").count(), 2, "{out}");
+        assert!(out.contains("name=\"mOther\" value=\"8\""));
+        // Editing both copies in one go writes each once.
+        let mut doc = parse_named(xml, "Test save").unwrap();
+        doc.set("/root/mPlayerDataManual/mGold", Value::from(5)).unwrap();
+        doc.set("/root/mPlayerDataBase/mGold", Value::from(6)).unwrap();
+        let out = String::from_utf8(doc.to_bytes().unwrap()).unwrap();
+        assert!(out.contains("value=\"5\"") && out.contains("value=\"6\""), "{out}");
     }
 
     #[test]

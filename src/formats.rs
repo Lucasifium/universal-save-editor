@@ -85,6 +85,8 @@ pub enum Layer {
     SaveZlib,
     /// Stellar Blade's EVAS v1: an 8-byte prefix, the GVAS save, then a CRC-32 of the save.
     Evas,
+    /// Dragon's Dogma: Dark Arisen: a 32-byte header and one zlib stream of XML in a 512 KB file.
+    Ddda,
     /// Prey (2017): RC4 over zlib chunks and an MD5'd XMLCPB header.
     Prey { header: Arc<Vec<u8>> },
     /// Ace Combat 8: the packed property lists inside the save, with their checksum.
@@ -398,6 +400,7 @@ impl Layer {
             Layer::Lz4 => "LZ4".into(),
             Layer::Snappy => "Snappy".into(),
             Layer::Evas => "EVAS envelope (CRC-32 written again)".into(),
+            Layer::Ddda => "Dragon's Dogma: Dark Arisen packing (header and checksum written again)".into(),
             Layer::Header { label, .. } => (*label).into(),
             Layer::Ptde => "Dark Souls: Prepare to Die Edition slot".into(),
             Layer::ClickerHeroes => "Clicker Heroes save (base64, deflate)".into(),
@@ -985,6 +988,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
             out.extend_from_slice(&h.sum().to_le_bytes());
             out
         }
+        Layer::Ddda => fmt::ddda::pack(&data)?,
         Layer::Snappy => compress(snap::write::FrameEncoder::new(Vec::new()), &data)?.into_inner().map_err(|e| e.to_string())?,
         Layer::Mgsv { key } => fmt::mgsv::encrypt(key, &data),
         Layer::Scsc => {
@@ -1464,6 +1468,12 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
             if flate2::read::ZlibDecoder::new(&data[12..]).read_to_end(&mut out).is_ok() && out.len() == raw && out.starts_with(b"GVAS") {
                 return Some((Layer::SaveZlib, out));
             }
+        }
+    }
+    // Dragon's Dogma: Dark Arisen: only a 512 KB file whose header, sizes and checksum all agree.
+    if data.len() == fmt::ddda::FILE_SIZE && data.starts_with(&[21, 0, 0, 0]) {
+        if let Some(xml) = fmt::ddda::open(data) {
+            return Some((Layer::Ddda, xml));
         }
     }
     // EVAS v1 (Stellar Blade): only when the stored CRC-32 matches.

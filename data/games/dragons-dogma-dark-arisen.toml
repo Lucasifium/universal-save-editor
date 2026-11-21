@@ -1,0 +1,73 @@
+name = "Dragon's Dogma: Dark Arisen"
+tab = "Arisen"
+accent = [190, 120, 60]
+kind = "Dragon's Dogma: Dark Arisen save"
+markers = [
+    "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mGold",
+    "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel",
+]
+subtitle = '''DDDA.sav from Steam\userdata\<account>\367500\remote (a 512 KB file that holds the whole save as XML). Gold, Rift Crystals, level, experience, health and stamina, and every vocation's rank and experience. The game keeps the Arisen's data twice in the save; both copies are written. Close the game and turn cloud saves off first.'''
+tiles = [
+    ["Gold", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mGold"],
+    ["Rift Crystals", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/OnlinePoint"],
+    ["Level", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mLevel"],
+]
+
+[[sections]]
+title = "Arisen"
+rows = [
+    ["Gold", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mGold"],
+    ["Rift Crystals", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/OnlinePoint"],
+    ["Level", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mLevel"],
+    ["Experience", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mExp"],
+    ["Experience for the next level", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mNextExp"],
+    ["Current vocation (number)", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJob"],
+]
+
+[[sections]]
+title = "Health and stamina"
+rows = [
+    ["Health", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mHp"],
+    ["Maximum health", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mHpMax"],
+    ["Stamina", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mStamina"],
+    ["Base stamina", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mStaminaBase"],
+]
+
+[[sections]]
+title = "Base stats"
+rows = [
+    ["Strength", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mBasicAttack"],
+    ["Defense", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mBasicDefend"],
+    ["Magick", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mBasicMgcAttack"],
+    ["Magick defense", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mBasicMgcDefend"],
+]
+
+[[sections]]
+title = "Vocation rank"
+rows = [
+    ["Fighter", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/0"],
+    ["Strider", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/1"],
+    ["Mage", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/2"],
+    ["Mystic Knight", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/3"],
+    ["Assassin", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/4"],
+    ["Magick Archer", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/5"],
+    ["Warrior", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/6"],
+    ["Ranger", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/7"],
+    ["Sorcerer", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/8"],
+    ["Mystic Spearhand", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobLevel/9"],
+]
+
+[[sections]]
+title = "Vocation experience"
+rows = [
+    ["Fighter", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/0"],
+    ["Strider", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/1"],
+    ["Mage", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/2"],
+    ["Mystic Knight", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/3"],
+    ["Assassin", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/4"],
+    ["Magick Archer", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/5"],
+    ["Warrior", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/6"],
+    ["Ranger", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/7"],
+    ["Sorcerer", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/8"],
+    ["Mystic Spearhand", "/dd_savedata1018/mPlayerDataManual/mPlCmcEditAndParam/mPl/mParam/mJobExp/9"],
+]

@@ -30519,3 +30519,92 @@ RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Pla
 
 Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
 = Setzt die Bretter, Palmblätter, den Schrott, Plastik, Seile, Nägel, Steine, Sand, Ton, Glas, Erze, Barren, Bolzen, Scharniere, Platinen, Pflanzenschleim, Federn, Erde, Wolle und das Leder, die du bei dir trägst, in Schnellleiste und Inventar jeder Welt auf die Stapelgröße des Spiels von 20. Werkzeuge, Essen, Baupläne, Pflanzen und alles andere bleiben unberührt.
+
+# data/games: Dragon's Dogma: Dark Arisen, FTL: Faster Than Light
+
+Arisen
+= Erwachter
+
+Rift Crystals
+= Rift-Kristalle
+
+Experience for the next level
+= Erfahrung bis zur nächsten Stufe
+
+Current vocation (number)
+= Aktuelle Berufung (Nummer)
+
+Health and stamina
+= Gesundheit und Ausdauer
+
+Base stamina
+= Basisausdauer
+
+Magick
+= Magie
+
+Magick defense
+= Magieabwehr
+
+Vocation rank
+= Berufungsrang
+
+Fighter
+= Kämpfer
+
+Strider
+= Schurke
+
+Mystic Knight
+= Mystischer Ritter
+
+Assassin
+= Assassine
+
+Magick Archer
+= Magischer Bogenschütze
+
+Sorcerer
+= Zauberer
+
+Mystic Spearhand
+= Mystischer Speerkämpfer
+
+Vocation experience
+= Berufungserfahrung
+
+Drone parts
+= Drohnenteile
+
+Hull
+= Rumpf
+
+Sector
+= Sektor
+
+Ships defeated
+= Besiegte Schiffe
+
+Beacons explored
+= Erkundete Leuchtfeuer
+
+Scrap collected
+= Gesammelter Schrott
+
+Crew hired
+= Angeheuerte Besatzung
+
+DDDA.sav from Steam\\userdata\\<account>\\367500\\remote (a 512 KB file that holds the whole save as XML). Gold, Rift Crystals, level, experience, health and stamina, and every vocation's rank and experience. The game keeps the Arisen's data twice in the save; both copies are written. Close the game and turn cloud saves off first.
+= DDDA.sav aus Steam\userdata\<Konto>\367500\remote (eine 512-KB-Datei, die den ganzen Spielstand als XML enthält). Gold, Rift-Kristalle, Stufe, Erfahrung, Gesundheit und Ausdauer sowie Rang und Erfahrung jeder Berufung. Das Spiel speichert die Daten des Erwachten doppelt; beide Kopien werden geschrieben. Schließe das Spiel und schalte die Cloud-Speicherung vorher aus.
+
+continue.sav from Documents\\My Games\\FasterThanLight (the run in progress). Scrap, fuel, missiles, drone parts and hull of your ship, the run's difficulty, sector and counters, and each crew member's health and records. Close the game first.
+= continue.sav aus Dokumente\My Games\FasterThanLight (der laufende Durchgang). Schrott, Treibstoff, Raketen, Drohnenteile und Rumpf deines Schiffs, Schwierigkeit, Sektor und Zähler des Durchgangs sowie Gesundheit und Werte jedes Besatzungsmitglieds. Schließe vorher das Spiel.
+
+Game screen: gold, Rift Crystals, level, experience, health, stamina and base stats, and every vocation's rank and experience. The save's packing (header, size and checksum) is opened and written again, and the Arisen's data, which the save keeps twice, is written to both copies. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Gold, Rift-Kristalle, Stufe, Erfahrung, Gesundheit, Ausdauer und Basiswerte sowie Rang und Erfahrung jeder Berufung. Die Verpackung des Spielstands (Kopfzeile, Größe und Prüfsumme) wird geöffnet und neu geschrieben, und die Daten des Erwachten, die der Spielstand doppelt enthält, werden in beide Kopien geschrieben. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert
+
+Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, sector and counters, and each crew member's health and records, from continue.sav (file format 11, the current version). Checked on a public save, not yet tried in the game
+= Spielbildschirm: Schrott, Treibstoff, Raketen, Drohnenteile und Rumpf, Schwierigkeit, Sektor und Zähler des Durchgangs sowie Gesundheit und Werte jedes Besatzungsmitglieds, aus continue.sav (Dateiformat 11, die aktuelle Version). An einem öffentlichen Spielstand geprüft, noch nicht im Spiel ausprobiert
+
+Mage
+= Magier

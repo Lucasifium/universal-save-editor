@@ -30526,3 +30526,92 @@ RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Pla
 
 Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
 = Monte à la taille de pile du jeu, 20, les planches, feuilles de palmier, ferraille, plastique, cordes, clous, pierres, sable, argile, verre, minerais, lingots, boulons, charnières, cartes électroniques, gelée de liane, plumes, terre, laine et cuir que vous portez déjà, dans la barre rapide et l’inventaire de chaque monde. Les outils, la nourriture, les plans, les plantes et tout le reste restent intacts.
+
+# data/games: Dragon's Dogma: Dark Arisen, FTL: Faster Than Light
+
+Arisen
+= L'Arisen
+
+Rift Crystals
+= Cristaux de faille
+
+Experience for the next level
+= Expérience pour le niveau suivant
+
+Current vocation (number)
+= Vocation actuelle (numéro)
+
+Health and stamina
+= Santé et endurance
+
+Base stamina
+= Endurance de base
+
+Magick
+= Magie
+
+Magick defense
+= Défense magique
+
+Vocation rank
+= Rang de vocation
+
+Fighter
+= Guerrier
+
+Strider
+= Voleur
+
+Mystic Knight
+= Chevalier mystique
+
+Assassin
+= Assassin
+
+Magick Archer
+= Archer magique
+
+Sorcerer
+= Sorcier
+
+Mystic Spearhand
+= Lancier mystique
+
+Vocation experience
+= Expérience de vocation
+
+Drone parts
+= Pièces de drone
+
+Hull
+= Coque
+
+Sector
+= Secteur
+
+Ships defeated
+= Vaisseaux vaincus
+
+Beacons explored
+= Balises explorées
+
+Scrap collected
+= Ferraille récoltée
+
+Crew hired
+= Équipiers recrutés
+
+DDDA.sav from Steam\\userdata\\<account>\\367500\\remote (a 512 KB file that holds the whole save as XML). Gold, Rift Crystals, level, experience, health and stamina, and every vocation's rank and experience. The game keeps the Arisen's data twice in the save; both copies are written. Close the game and turn cloud saves off first.
+= DDDA.sav depuis Steam\userdata\<compte>\367500\remote (un fichier de 512 Ko qui contient toute la sauvegarde en XML). Or, cristaux de faille, niveau, expérience, santé et endurance, ainsi que le rang et l'expérience de chaque vocation. Le jeu garde deux fois les données de l'Arisen ; les deux copies sont écrites. Ferme le jeu et désactive d'abord la sauvegarde dans le cloud.
+
+continue.sav from Documents\\My Games\\FasterThanLight (the run in progress). Scrap, fuel, missiles, drone parts and hull of your ship, the run's difficulty, sector and counters, and each crew member's health and records. Close the game first.
+= continue.sav depuis Documents\My Games\FasterThanLight (la partie en cours). Ferraille, carburant, missiles, pièces de drone et coque de ton vaisseau, difficulté, secteur et compteurs de la partie, ainsi que la santé et les statistiques de chaque équipier. Ferme d'abord le jeu.
+
+Game screen: gold, Rift Crystals, level, experience, health, stamina and base stats, and every vocation's rank and experience. The save's packing (header, size and checksum) is opened and written again, and the Arisen's data, which the save keeps twice, is written to both copies. Checked on public saves, not yet tried in the game
+= Écran de jeu : or, cristaux de faille, niveau, expérience, santé, endurance et statistiques de base, ainsi que le rang et l'expérience de chaque vocation. L'emballage de la sauvegarde (en-tête, taille et somme de contrôle) est ouvert puis réécrit, et les données de l'Arisen, que la sauvegarde garde en double, sont écrites dans les deux copies. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, sector and counters, and each crew member's health and records, from continue.sav (file format 11, the current version). Checked on a public save, not yet tried in the game
+= Écran de jeu : ferraille, carburant, missiles, pièces de drone et coque, difficulté, secteur et compteurs de la partie, ainsi que la santé et les statistiques de chaque équipier, depuis continue.sav (format de fichier 11, la version actuelle). Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
+
+Mage
+= Mage

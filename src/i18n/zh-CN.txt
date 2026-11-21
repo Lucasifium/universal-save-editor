@@ -30570,3 +30570,92 @@ RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Pla
 
 Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
 = 把你身上已有的木板、棕榈叶、废料、塑料、绳子、钉子、石头、沙子、黏土、玻璃、矿石、锭、螺栓、铰链、电路板、藤蔓黏液、羽毛、泥土、羊毛和皮革,在每个世界的快捷栏和背包中提升到游戏的堆叠上限 20。工具、食物、蓝图、植物和其他物品保持不变。
+
+# data/games: Dragon's Dogma: Dark Arisen, FTL: Faster Than Light
+
+Arisen
+= 觉醒者
+
+Rift Crystals
+= 裂隙水晶
+
+Experience for the next level
+= 升级所需经验
+
+Current vocation (number)
+= 当前职业(编号)
+
+Health and stamina
+= 生命与耐力
+
+Base stamina
+= 基础耐力
+
+Magick
+= 魔力
+
+Magick defense
+= 魔法防御
+
+Vocation rank
+= 职业等级
+
+Fighter
+= 战士
+
+Strider
+= 斥候
+
+Mystic Knight
+= 魔导士骑士
+
+Assassin
+= 刺客
+
+Magick Archer
+= 魔弓手
+
+Sorcerer
+= 魔术师
+
+Mystic Spearhand
+= 魔枪手
+
+Vocation experience
+= 职业经验
+
+Drone parts
+= 无人机零件
+
+Hull
+= 船体
+
+Sector
+= 星区
+
+Ships defeated
+= 击败的飞船
+
+Beacons explored
+= 已探索的信标
+
+Scrap collected
+= 收集的废料
+
+Crew hired
+= 招募的船员
+
+DDDA.sav from Steam\\userdata\\<account>\\367500\\remote (a 512 KB file that holds the whole save as XML). Gold, Rift Crystals, level, experience, health and stamina, and every vocation's rank and experience. The game keeps the Arisen's data twice in the save; both copies are written. Close the game and turn cloud saves off first.
+= Steam\userdata\<账号>\367500\remote 中的 DDDA.sav(一个 512 KB 的文件,以 XML 形式保存整个存档)。金币、裂隙水晶、等级、经验、生命与耐力,以及每个职业的等级与经验。游戏在存档中把觉醒者的数据保存了两份,两份都会写入。请先关闭游戏并关闭云存档。
+
+continue.sav from Documents\\My Games\\FasterThanLight (the run in progress). Scrap, fuel, missiles, drone parts and hull of your ship, the run's difficulty, sector and counters, and each crew member's health and records. Close the game first.
+= 文档\My Games\FasterThanLight 中的 continue.sav(进行中的一局)。你飞船的废料、燃料、导弹、无人机零件和船体,本局的难度、星区和计数,以及每名船员的生命与记录。请先关闭游戏。
+
+Game screen: gold, Rift Crystals, level, experience, health, stamina and base stats, and every vocation's rank and experience. The save's packing (header, size and checksum) is opened and written again, and the Arisen's data, which the save keeps twice, is written to both copies. Checked on public saves, not yet tried in the game
+= 游戏界面:金币、裂隙水晶、等级、经验、生命、耐力和基础属性,以及每个职业的等级与经验。存档的封装(文件头、大小和校验和)会被打开并重新写入,存档中保存两份的觉醒者数据会写入两份。已在公开存档上检查,尚未在游戏中试过
+
+Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, sector and counters, and each crew member's health and records, from continue.sav (file format 11, the current version). Checked on a public save, not yet tried in the game
+= 游戏界面:废料、燃料、导弹、无人机零件和船体,本局的难度、星区和计数,以及每名船员的生命与记录,来自 continue.sav(文件格式 11,当前版本)。已在一个公开存档上检查,尚未在游戏中试过
+
+Mage
+= 法师

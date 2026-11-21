@@ -117,6 +117,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Dragon Quest Builders 2", "survival"),
     ("Dragon Quest XI S: Echoes of an Elusive Age", "rpg"),
     ("Dragon's Dogma 2", "rpg"),
+    ("Dragon's Dogma: Dark Arisen", "rpg"),
     ("Drakensang: River of Time", "rpg"),
     ("Drakensang: The Dark Eye", "rpg"),
     ("DREDGE", "survival"),

@@ -96,7 +96,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>D</strong> (40)</summary>
+<summary><strong>D</strong> (41)</summary>
 
 | Game | Screen |
 |---|---|
@@ -132,6 +132,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Dragon Age: Origins, Awakening | Party money; the Warden's and followers' level, experience, attributes and unspent points, approval, and backpack stack sizes. Tried on saves from one playthrough; Awakening saves not yet tried |
 | Dragon Quest Builders 2 | *Builder*: level, experience, hit points, attack and defence; *Mini medals*; *Equipment*; *Pockets* and *Bag*: item ids and quantities, from `CMNDAT.BIN` (the zlib data is opened and re-sealed; island files not opened; checked on a public save, not yet tried in the game) |
 | Dragon Quest XI S: Echoes of an Elusive Age | *Party*: each member's level, HP, MP, attack, defence, agility, deftness, charm, magical might and mending, max HP and MP and experience; *Item bags*: the count of every item in every bag, up to the item's own maximum. The AES-encrypted save is opened and its CRC is kept right (checked on a public save, not yet tried in the game) |
+| Dragon's Dogma: Dark Arisen | *Arisen*: gold, Rift Crystals, level, experience, health, stamina and base stats, and every vocation's rank and experience. The save's packing (header, size and checksum) is opened and written again, and the Arisen's data, which the save keeps twice, is written to both copies (checked on public saves, not yet tried in the game) |
 | Drakensang: River of Time | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | Drakensang: The Dark Eye | *Heroes*: each hero's level, adventure points (earned and to spend), life, endurance, astral energy, the eight attributes and every talent, with the party slot to tell your party from the cutscene copies (the SQLite `savegame.dsa` is edited in place; checked on a public save, not yet tried in the game) |
 | DREDGE | *Angler*: funds, hull tier, sanity and the catch counts (rod, nets, crabs, aberrations, relics), from `dredge-save0.bin` (.NET BinaryFormatter, read and written in place; checked on a public save, not yet tried in the game) |
@@ -162,7 +163,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>F</strong> (18)</summary>
+<summary><strong>F</strong> (19)</summary>
 
 | Game | Screen |
 |---|---|
@@ -184,6 +185,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Final Fantasy XVI (PC) | *Clive*: gil and Ability Points, level and max HP (shown); every consumable and material you have picked up, with a **Max crafting materials** button (99, 999 or 9999 per material, as the game's Items menu shows them). The slot picture's save is unpacked with a dictionary read from your own installed copy of the game and packed again with its CRC-32 rewritten. Tried in the game |
 | Food Truck Simulator | *Truck*: money, prestige and the truck's fuel (checked on a public save, not yet tried in the game) |
 | For The King | *Party*: each hero's gold, level, XP, health and focus, and the party's life pool; the save's gzip and UTF-16 wrapping is handled for you (checked on a public save, not yet tried in the game) |
+| FTL: Faster Than Light | *Run*: scrap, fuel, missiles, drone parts and hull, the run's difficulty, sector and counters, and each crew member's health and records, from `continue.sav` (file format 11, the current version; checked on a public save, not yet tried in the game) |
 
 </details>
 

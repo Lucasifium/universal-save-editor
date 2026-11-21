@@ -30486,3 +30486,92 @@ RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Pla
 
 Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
 = Eleva para o tamanho de pilha do jogo, 20, as tábuas, folhas de palmeira, sucata, plástico, cordas, pregos, pedras, areia, argila, vidro, minérios, barras, parafusos, dobradiças, placas de circuito, gosma de vinha, penas, terra, lã e couro que você já carrega, na barra de atalhos e no inventário de cada mundo. Ferramentas, comida, plantas, projetos e todo o resto ficam como estão.
+
+# data/games: Dragon's Dogma: Dark Arisen, FTL: Faster Than Light
+
+Arisen
+= Arisen
+
+Rift Crystals
+= Cristais de Fenda
+
+Experience for the next level
+= Experiência para o próximo nível
+
+Current vocation (number)
+= Vocação atual (número)
+
+Health and stamina
+= Saúde e vigor
+
+Base stamina
+= Vigor base
+
+Magick
+= Magia
+
+Magick defense
+= Defesa mágica
+
+Vocation rank
+= Nível de vocação
+
+Fighter
+= Lutador
+
+Strider
+= Andarilho
+
+Mystic Knight
+= Cavaleiro Místico
+
+Assassin
+= Assassino
+
+Magick Archer
+= Arqueiro Mágico
+
+Sorcerer
+= Feiticeiro
+
+Mystic Spearhand
+= Lanceiro Místico
+
+Vocation experience
+= Experiência da vocação
+
+Drone parts
+= Peças de drone
+
+Hull
+= Casco
+
+Sector
+= Setor
+
+Ships defeated
+= Naves derrotadas
+
+Beacons explored
+= Faróis explorados
+
+Scrap collected
+= Sucata coletada
+
+Crew hired
+= Tripulantes contratados
+
+DDDA.sav from Steam\\userdata\\<account>\\367500\\remote (a 512 KB file that holds the whole save as XML). Gold, Rift Crystals, level, experience, health and stamina, and every vocation's rank and experience. The game keeps the Arisen's data twice in the save; both copies are written. Close the game and turn cloud saves off first.
+= DDDA.sav de Steam\userdata\<conta>\367500\remote (um arquivo de 512 KB que guarda o jogo salvo inteiro em XML). Ouro, Cristais de Fenda, nível, experiência, saúde e vigor, e o nível e a experiência de cada vocação. O jogo guarda os dados do Arisen duas vezes; as duas cópias são gravadas. Feche o jogo e desative antes o salvamento na nuvem.
+
+continue.sav from Documents\\My Games\\FasterThanLight (the run in progress). Scrap, fuel, missiles, drone parts and hull of your ship, the run's difficulty, sector and counters, and each crew member's health and records. Close the game first.
+= continue.sav de Documentos\My Games\FasterThanLight (a partida em andamento). Sucata, combustível, mísseis, peças de drone e casco da sua nave, a dificuldade, o setor e os contadores da partida, e a saúde e os registros de cada tripulante. Feche o jogo antes.
+
+Game screen: gold, Rift Crystals, level, experience, health, stamina and base stats, and every vocation's rank and experience. The save's packing (header, size and checksum) is opened and written again, and the Arisen's data, which the save keeps twice, is written to both copies. Checked on public saves, not yet tried in the game
+= Tela do jogo: ouro, Cristais de Fenda, nível, experiência, saúde, vigor e atributos base, e o nível e a experiência de cada vocação. O empacotamento do salvamento (cabeçalho, tamanho e soma de verificação) é aberto e gravado de novo, e os dados do Arisen, que o salvamento guarda duas vezes, são gravados nas duas cópias. Verificado em salvamentos públicos, ainda não testado no jogo
+
+Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, sector and counters, and each crew member's health and records, from continue.sav (file format 11, the current version). Checked on a public save, not yet tried in the game
+= Tela do jogo: sucata, combustível, mísseis, peças de drone e casco, a dificuldade, o setor e os contadores da partida, e a saúde e os registros de cada tripulante, a partir de continue.sav (formato de arquivo 11, a versão atual). Verificado em um salvamento público, ainda não testado no jogo
+
+Mage
+= Mago

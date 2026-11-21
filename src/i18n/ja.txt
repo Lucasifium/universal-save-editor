@@ -30597,3 +30597,92 @@ RGD_Users.rgd from AppData\\LocalLow\\Redbeet Interactive\\Raft\\User\\<id>\\Pla
 
 Raises the planks, palm leaves, scrap, plastic, rope, nails, stone, sand, clay, glass, ores, ingots, bolts, hinges, circuit boards, vine goo, feathers, dirt, wool and leather you already carry, in every world's hotbar and inventory, to the game's stack size of 20. Tools, food, blueprints, plants and everything else are left alone.
 = 所持している板、ヤシの葉、スクラップ、プラスチック、ロープ、釘、石、砂、粘土、ガラス、鉱石、インゴット、ボルト、ちょうつがい、基板、ツタのゼリー、羽、土、羊毛、革を、各ワールドのホットバーとインベントリでゲームのスタック上限である20にします。道具、食べ物、設計図、植物など他のものはそのままです。
+
+# data/games: Dragon's Dogma: Dark Arisen, FTL: Faster Than Light
+
+Arisen
+= 覚者
+
+Rift Crystals
+= リフトクリスタル
+
+Experience for the next level
+= 次のレベルまでの経験値
+
+Current vocation (number)
+= 現在のジョブ(番号)
+
+Health and stamina
+= 体力とスタミナ
+
+Base stamina
+= 基本スタミナ
+
+Magick
+= 魔力
+
+Magick defense
+= 魔法防御力
+
+Vocation rank
+= ジョブランク
+
+Fighter
+= ファイター
+
+Strider
+= ストライダー
+
+Mystic Knight
+= ミスティックナイト
+
+Assassin
+= アサシン
+
+Magick Archer
+= マジックアーチャー
+
+Sorcerer
+= ソーサラー
+
+Mystic Spearhand
+= ミスティックスピアハンド
+
+Vocation experience
+= ジョブ経験値
+
+Drone parts
+= ドローン部品
+
+Hull
+= 船体
+
+Sector
+= セクター
+
+Ships defeated
+= 撃破した船
+
+Beacons explored
+= 探索したビーコン
+
+Scrap collected
+= 集めたスクラップ
+
+Crew hired
+= 雇った乗員
+
+DDDA.sav from Steam\\userdata\\<account>\\367500\\remote (a 512 KB file that holds the whole save as XML). Gold, Rift Crystals, level, experience, health and stamina, and every vocation's rank and experience. The game keeps the Arisen's data twice in the save; both copies are written. Close the game and turn cloud saves off first.
+= Steam\userdata\<アカウント>\367500\remote の DDDA.sav(セーブ全体を XML として収めた 512 KB のファイル)。所持金、リフトクリスタル、レベル、経験値、体力とスタミナ、各ジョブのランクと経験値。ゲームは覚者のデータをセーブ内に二重に持つため、両方のコピーを書き込みます。先にゲームを終了し、クラウドセーブをオフにしてください。
+
+continue.sav from Documents\\My Games\\FasterThanLight (the run in progress). Scrap, fuel, missiles, drone parts and hull of your ship, the run's difficulty, sector and counters, and each crew member's health and records. Close the game first.
+= ドキュメント\My Games\FasterThanLight の continue.sav(進行中のラン)。船のスクラップ、燃料、ミサイル、ドローン部品、船体、ランの難易度、セクター、カウンター、各乗員の体力と記録。先にゲームを終了してください。
+
+Game screen: gold, Rift Crystals, level, experience, health, stamina and base stats, and every vocation's rank and experience. The save's packing (header, size and checksum) is opened and written again, and the Arisen's data, which the save keeps twice, is written to both copies. Checked on public saves, not yet tried in the game
+= ゲーム画面:所持金、リフトクリスタル、レベル、経験値、体力、スタミナ、基本能力、各ジョブのランクと経験値。セーブの梱包(ヘッダー、サイズ、チェックサム)を開いて書き直し、セーブ内に二重にある覚者のデータは両方のコピーに書き込みます。公開セーブで確認済み、ゲーム内ではまだ試していません
+
+Game screen: scrap, fuel, missiles, drone parts and hull, the run's difficulty, sector and counters, and each crew member's health and records, from continue.sav (file format 11, the current version). Checked on a public save, not yet tried in the game
+= ゲーム画面:スクラップ、燃料、ミサイル、ドローン部品、船体、ランの難易度、セクター、カウンター、各乗員の体力と記録(continue.sav、ファイル形式 11、現行バージョン)。公開セーブで確認済み、ゲーム内ではまだ試していません
+
+Mage
+= メイジ

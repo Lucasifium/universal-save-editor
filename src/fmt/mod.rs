@@ -72,6 +72,8 @@ pub mod cookieclicker;
 pub mod hotlinemiami;
 pub mod looseson;
 pub mod shifted;
+pub mod ddda;
+pub mod ftl;
 pub mod hld;
 pub mod payday2;
 pub mod wwz;
@@ -1026,6 +1028,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
             return Some(t);
         }
     }
+    if ftl::looks(d) {
+        if let Ok(t) = ftl::parse(d) {
+            return Some(t);
+        }
+    }
     if xenoverse1::looks(d) {
         if let Ok(t) = xenoverse1::parse(d) {
             return Some(t);
@@ -1566,6 +1573,9 @@ pub fn parse_text(text: &str, ext: &str) -> Option<TreeDoc> {
         if let Ok(doc) = wasteland2::parse(text) {
             return Some(doc);
         }
+    }
+    if t.starts_with("<?xml") && t.get(..400).is_some_and(|h| h.contains("type=\"sSave::saveDataAllDA\"")) {
+        return xml::parse_named(text, "Dragon's Dogma: Dark Arisen save").ok();
     }
     if t.starts_with('<') {
         if t.contains("<plist") {

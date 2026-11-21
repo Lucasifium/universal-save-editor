@@ -1,0 +1,34 @@
+name = "FTL: Faster Than Light"
+tab = "Run"
+accent = [60, 150, 200]
+kind = "FTL saved game"
+markers = ["/Ship/Scrap", "/Run/Sector"]
+subtitle = '''continue.sav from Documents\My Games\FasterThanLight (the run in progress). Scrap, fuel, missiles, drone parts and hull of your ship, the run's difficulty, sector and counters, and each crew member's health and records. Close the game first.'''
+tiles = [
+    ["Scrap", "/Ship/Scrap"],
+    ["Fuel", "/Ship/Fuel"],
+    ["Missiles", "/Ship/Missiles"],
+    ["Drone parts", "/Ship/Drone parts"],
+    ["Hull", "/Ship/Hull"],
+]
+
+[[sections]]
+title = "Ship"
+rows = [
+    ["Scrap", "/Ship/Scrap"],
+    ["Fuel", "/Ship/Fuel"],
+    ["Missiles", "/Ship/Missiles"],
+    ["Drone parts", "/Ship/Drone parts"],
+    ["Hull", "/Ship/Hull"],
+]
+
+[[sections]]
+title = "Run"
+rows = [
+    ["Difficulty", "/Run/Difficulty"],
+    ["Sector", "/Run/Sector"],
+    ["Ships defeated", "/Run/Ships defeated"],
+    ["Beacons explored", "/Run/Beacons explored"],
+    ["Scrap collected", "/Run/Scrap collected"],
+    ["Crew hired", "/Run/Crew hired"],
+]
