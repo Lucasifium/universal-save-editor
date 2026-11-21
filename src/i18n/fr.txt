@@ -30879,3 +30879,199 @@ ds_slot_NN.deadspace2saved (NN is the slot)
 
 justcause2saveNN.sav (NN is the slot)
 = justcause2saveNN.sav (NN est l'emplacement)
+
+# data/games: Middle-earth: Shadow of War
+<user id>_ShadowOfWar.sav from Steam\\userdata\\<account>\\356190\\remote (or %LOCALAPPDATA%\\WB Games\\Shadow of War; the _1 to _5 files are the game's own backups). The game's lifetime statistics: Mirian and skill points earned, levels, quests, gear, kills of every enemy kind, how you kill, and the orcs you branded, dominated and recruited. Your current Mirian, XP, gear and orcs are not mapped yet. The save is decrypted with the user id in its file name and encrypted again with its checksum written. Close the game first and turn Steam Cloud off.
+= <user id>_ShadowOfWar.sav dans Steam\\userdata\\<account>\\356190\\remote (ou %LOCALAPPDATA%\\WB Games\\Shadow of War ; les fichiers _1 à _5 sont les sauvegardes du jeu lui-même). Les statistiques de toute la partie : Mirian et points de compétence gagnés, niveaux, quêtes, équipement, victimes par type d'ennemi, votre façon de tuer, et les orques marqués, dominés et recrutés. Votre Mirian actuel, l'XP, l'équipement et les orques ne sont pas encore repérés. La sauvegarde est déchiffrée avec l'identifiant utilisateur du nom du fichier, puis rechiffrée avec sa somme de contrôle recalculée. Fermez d'abord le jeu et désactivez le cloud Steam.
+
+Mirian earned
+= Mirian gagnés
+
+Highest level reached
+= Niveau le plus élevé atteint
+
+Skills unlocked
+= Compétences débloquées
+
+Quests completed
+= Quêtes terminées
+
+Gear collected
+= Équipement récupéré
+
+Equipment upgrades applied
+= Améliorations d'équipement appliquées
+
+Gems forged
+= Gemmes forgées
+
+Level 5 gems forged
+= Gemmes de niveau 5 forgées
+
+Gem slots unlocked
+= Emplacements de gemme débloqués
+
+Artifacts discovered
+= Artefacts découverts
+
+Monuments destroyed
+= Monuments détruits
+
+Outposts disabled
+= Avant-postes neutralisés
+
+Vendettas completed
+= Vendettas terminées
+
+Fort attacks
+= Attaques de forteresses
+
+Fort defenses
+= Défenses de forteresses
+
+War upgrades equipped
+= Améliorations de guerre équipées
+
+Total kills
+= Victimes au total
+
+Uruks killed
+= Uruks tués
+
+Warriors killed
+= Guerriers tués
+
+Archers killed
+= Archers tués
+
+Berserkers killed
+= Berserkers tués
+
+Defenders killed
+= Défenseurs tués
+
+Spearmen killed
+= Lanciers tués
+
+Captains killed
+= Capitaines tués
+
+Warchiefs killed
+= Chefs de guerre tués
+
+Overlords killed
+= Seigneurs tués
+
+Ghuls killed
+= Goules tués
+
+Caragors killed
+= Caragors tués
+
+Graugs killed
+= Graugs tués
+
+Olog-hai killed
+= Olog-hai tués
+
+Spiders killed
+= Araignées tuées
+
+Sword kills
+= Victimes à l'épée
+
+Bow kills
+= Victimes à l'arc
+
+Dagger kills
+= Victimes à la dague
+
+Bow headshots
+= Tirs à la tête à l'arc
+
+Finishers
+= Exécutions
+
+Stealth kills
+= Victimes furtives
+
+Decapitations
+= Décapitations
+
+Death from above kills
+= Victimes depuis les airs
+
+Wraith kills
+= Victimes en spectre
+
+Orcs killed by fire
+= Orques tués par le feu
+
+Orcs killed by poison
+= Orques tués par le poison
+
+Orcs killed by curse
+= Orques tués par la malédiction
+
+Orcs killed while frozen
+= Orques tués gelés
+
+Orcs branded
+= Orques marqués
+
+Captains branded
+= Capitaines marqués
+
+Warchiefs branded
+= Chefs de guerre marqués
+
+Overlords branded
+= Seigneurs marqués
+
+Orcs dominated
+= Orques dominés
+
+Mounts dominated
+= Montures dominées
+
+Kills by your followers
+= Victimes de tes partisans
+
+Orcs killed by other orcs
+= Orques tués par d'autres orques
+
+Machine tribe recruited
+= Recrues de la tribu Machine
+
+Marauder tribe recruited
+= Recrues de la tribu Maraudeur
+
+Outlaw tribe recruited
+= Recrues de la tribu Hors-la-loi
+
+Slaughter tribe recruited
+= Recrues de la tribu Carnage
+
+Sorcerous tribe recruited
+= Recrues de la tribu Sorcière
+
+Terror tribe recruited
+= Recrues de la tribu Terreur
+
+Warmonger tribe recruited
+= Recrues de la tribu Belliciste
+
+Kills by enemy
+= Victimes par ennemi
+
+How you kill
+= Comment tu tues
+
+Orcs and tribes
+= Orques et tribus
+
+Game screen: the game's lifetime statistics (Mirian and skill points earned, highest level, quests, gear, kills of every enemy kind, how you kill, orcs branded, dominated and recruited). The save is decrypted with the user id in its file name and encrypted again with its checksum written; your current Mirian, XP, gear and orcs are not mapped yet. Checked on public saves, not yet tried in the game
+= Écran du jeu : les statistiques cumulées du jeu (Mirian et points de compétence gagnés, niveau maximal, quêtes, équipement, victimes de chaque type d'ennemi, façons de tuer, orques marqués, dominés et recrutés). La sauvegarde est déchiffrée avec l'identifiant utilisateur du nom du fichier puis rechiffrée avec sa somme de contrôle réécrite ; vos Mirian, XP, équipement et orques actuels ne sont pas encore associés. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+<user id>_ShadowOfWar.sav (the _1 to _5 files are the game's own backups)
+= <identifiant utilisateur>_ShadowOfWar.sav (les fichiers _1 à _5 sont les sauvegardes du jeu lui-même)

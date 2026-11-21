@@ -291,6 +291,7 @@ pub mod aot;
 pub mod dw7xl;
 pub mod wo3u;
 pub mod sw5;
+pub mod sow;
 pub mod stars;
 pub mod wo1;
 pub mod sw2;
@@ -1049,6 +1050,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if ftl::looks(d) {
         if let Ok(t) = ftl::parse(d) {
+            return Some(t);
+        }
+    }
+    if sow::looks(d) {
+        if let Ok(t) = sow::parse(d) {
             return Some(t);
         }
     }

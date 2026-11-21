@@ -283,6 +283,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Metro Exodus", "shooter"),
     ("Metro: Last Light Redux", "shooter"),
     ("Mewgenics", "roguelike"),
+    ("Middle-earth: Shadow of War", "action"),
     ("Minecraft (Java Edition)", "survival"),
     ("Minecraft Dungeons", "survival"),
     ("Mon Bazou", "simulation"),

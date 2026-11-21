@@ -327,7 +327,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>M</strong> (22)</summary>
+<summary><strong>M</strong> (23)</summary>
 
 | Game | Screen |
 |---|---|
@@ -342,6 +342,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Metal Gear Solid V: The Phantom Pain | GMP (and the FOB wallet), heroism and demon points; every Mother Base staff member (rank, skill, section, morale, proficiency, stat bonus) with buttons to promote everyone to S++ and max morale; resource stockpiles with a Max crafting materials button (materials to 1,000,000 and plants to 30,000 online, the game's caps); a research and development list (every weapon, suit, item and support gear entry by development number, with developed and available switches and a Develop everything available button that leaves out DLC, enemy and unused entries, blueprint-gated items and story-locked lines); a button to open every Mother Base section; and the Mother Base and lifetime-statistics counters; the Mother Base and FOB platform grades with a finish-everything button. Every other variable is in the Tree under the game's own variable names; encryption and checksum are redone on save. Ground Zeroes saves (MGSV_GZ_Save_Data_GL_EN) are decrypted for the hex view, with the checksum redone on save. |
 | Metro 2033 / Last Light Redux, Exodus | *Artyom*: military-grade rounds, every ammo type and (Exodus) crafting metal and chemicals in the level saves (`.player`), with a **Max crafting materials** button that fills metal and chemicals to 300 (the Reader and Ranger Hardcore limit; Normal allows more); auto and quick saves are unpacked (LZ4) for Value search. CRC-32 updated |
 | Mewgenics | *House*: house gold and food, adventure coins and food, the current day and the completion percentage, from the SQLite save's properties table (the cats' own packed data is kept as it is; checked on a public save, not yet tried in the game) |
+| Middle-earth: Shadow of War | *Statistics*: the Steam save's encrypted `.sav` is opened with the account id from its file name (or typed as the password) and encrypted again with its checksum written on save; kill and progress counters by their game names, checked against public saves. |
 | Minecraft (`level.dat`) | Health, food and XP; game mode; difficulty (Peaceful to Hard); world settings; inventory and ender chest grids; a **Max crafting materials** button that fills the ingots, raw ores, gems, string, leather and other materials already carried to 64, leaving ender pearls, eyes of ender and other progression items alone |
 | Minecraft Dungeons | *Hero*: the character `.dat` is decrypted (AES, the key as published by MCDSaveEdit) and encrypted again on save; experience, total gear power and the emerald, gold and Eye of Ender counts, with items and enchantments in the Tree. The decryption was checked on a public sample save; not yet tried in the game |
 | Mon Bazou | *Driver*: cash, the player's meters and the hard mode and permadeath flags, from `marguerite.txt` (.NET BinaryFormatter, read and written in place; the vehicle, parts and garden files open for Tree editing; checked on a public save, not yet tried in the game) |

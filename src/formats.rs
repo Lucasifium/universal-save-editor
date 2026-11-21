@@ -264,6 +264,8 @@ pub enum Layer {
     Bl4 { user: Vec<u8> },
     /// Samurai Warriors 5: AES-128-CBC keyed by the Steam account number, the IV seed kept.
     Sw5 { account: u32, seed: u32 },
+    /// Middle-earth: Shadow of War: AES-256-CBC keyed by the user id, the CRC-32 of the plain data in the header.
+    Sow { user: u32 },
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
     /// from (for its block keys), the curve and the Steam ID.
     Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
@@ -491,6 +493,7 @@ impl Layer {
             Layer::Lime { .. } => "Resident Evil 4 save encryption".into(),
             Layer::Bl4 { .. } => "Borderlands 4 save encryption".into(),
             Layer::Sw5 { .. } => "Samurai Warriors 5 save encryption".into(),
+            Layer::Sow { .. } => "Shadow of War save encryption (checksum written again)".into(),
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
@@ -1174,6 +1177,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Lime { original, user } => fmt::lime::encrypt(&data, original, *user)?,
         Layer::Bl4 { user } => fmt::bl4::encrypt(&data, user)?,
         Layer::Sw5 { account, seed } => fmt::sw5::encrypt(&data, *account, *seed)?,
+        Layer::Sow { user } => fmt::sow::encrypt(&data, *user),
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
@@ -1756,6 +1760,14 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     }
     if fmt::lime::looks(data) {
         return peel_lime(data, ctx);
+    }
+    if fmt::sow::maybe(data) {
+        let users = fmt::sow::users(ctx.opts.path.as_deref(), ctx.opts.password.as_deref());
+        if let Some((user, plain)) = fmt::sow::find(data, &users) {
+            ctx.hint = Some("Shadow of War save: decrypted with the user id in its file name and encrypted again on save, with its checksum written again. Close the game first and turn Steam Cloud off for it.".into());
+            return Some((Layer::Sow { user }, plain));
+        }
+        ctx.hint = Some("This looks like a Shadow of War save, but no user id opens it. Keep the file's own name (<8 hex digits>_ShadowOfWar.sav) or enter its user id in Tools \u{203A} Decrypt with password (0 opens a GOG save).".into());
     }
     if data.len() == fmt::sw5::SIZE {
         let mut ids: Vec<u32> = vec![];
