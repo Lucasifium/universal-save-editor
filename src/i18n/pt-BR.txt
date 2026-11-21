@@ -30625,3 +30625,103 @@ Game screen: level, experience, health, stamina and lives, karma, the day and wo
 
 Game screen: the campaign's money, levels passed, reputation with each faction, and the hired crew's experience, talent points, salary and skills. The .save file (a gzip bundle of the submarine and the game session) is opened and packed again with the submarine kept as it was. Checked on public saves, not yet tried in the game
 = Tela do jogo: o dinheiro da campanha, os níveis concluídos, a reputação com cada facção e a experiência, os pontos de talento, o salário e as habilidades da tripulação contratada. O arquivo .save (um pacote gzip com o submarino e a sessão de jogo) é aberto e empacotado de novo, mantendo o submarino como estava. Verificado em saves públicos, ainda não testado no jogo
+
+Body health (100 is unhurt)
+= Saúde do corpo (100 é ileso)
+
+Boredom
+= Tédio
+
+Food sickness
+= Intoxicação alimentar
+
+Game screen: every character's hours survived, kills, weight and whether they are dead, hunger, thirst, tiredness and the other needs, pain, sickness and infection, the health of each body part, and every skill's level and experience, from players.db (Build 42). Checked on a public save, not yet tried in the game
+= Tela do jogo: horas sobrevividas, abates, peso e se está morto de cada personagem, fome, sede, cansaço e as outras necessidades, dor, doença e infecção, a saúde de cada parte do corpo e o nível e a experiência de cada habilidade, a partir de players.db (Build 42). Verificado em um salvamento público, ainda não testado no jogo
+
+Groin
+= Virilha
+
+Hours survived
+= Horas sobrevividas
+
+Intoxication
+= Embriaguez
+
+Left foot
+= Pé esquerdo
+
+Left forearm
+= Antebraço esquerdo
+
+Left lower leg
+= Panturrilha esquerda
+
+Left upper arm
+= Braço esquerdo
+
+Left upper leg
+= Coxa esquerda
+
+Lower torso
+= Tronco inferior
+
+Neck
+= Pescoço
+
+Needs (0 is best, 1 is worst; morale, sanity and endurance the other way round)
+= Necessidades (0 é o melhor, 1 o pior; o contrário em moral, sanidade e vigor)
+
+Pain
+= Dor
+
+Panic
+= Pânico
+
+Right foot
+= Pé direito
+
+Right forearm
+= Antebraço direito
+
+Right lower leg
+= Panturrilha direita
+
+Right upper arm
+= Braço direito
+
+Right upper leg
+= Coxa direita
+
+Sickness
+= Doença
+
+Skills (the game needs 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 experience for levels 1 to 10; Strength and Fitness need more)
+= Habilidades (o jogo precisa de 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 de experiência para os níveis 1 a 10; Força e Condicionamento precisam de mais)
+
+Survivor kills
+= Sobreviventes mortos
+
+Unhappiness
+= Infelicidade
+
+Upper torso
+= Tronco superior
+
+Weight (kg)
+= Peso (kg)
+
+Wetness
+= Umidade
+
+Zombie fever
+= Febre zumbi
+
+Zombie infection
+= Infecção zumbi
+
+Zombie kills
+= Zumbis mortos
+
+players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
+= players.db de Zomboid\Saves\<modo>\<nome do salvamento> (a pasta do salvamento). Horas sobrevividas, abates, peso e se está morto de cada personagem, suas necessidades e condições, a saúde de cada parte do corpo e o nível e a experiência de cada habilidade. Feche o jogo antes. Para trazer de volta um personagem morto, desmarque «Morto» e aumente a saúde das partes do corpo.
+

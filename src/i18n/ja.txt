@@ -30736,3 +30736,103 @@ Game screen: level, experience, health, stamina and lives, karma, the day and wo
 
 Game screen: the campaign's money, levels passed, reputation with each faction, and the hired crew's experience, talent points, salary and skills. The .save file (a gzip bundle of the submarine and the game session) is opened and packed again with the submarine kept as it was. Checked on public saves, not yet tried in the game
 = ゲーム画面：キャンペーンの所持金、クリアしたレベル数、各勢力との評判、雇った乗組員の経験値、タレントポイント、給料、スキル。.save ファイル（潜水艦とゲームセッションをまとめた gzip）を開き、潜水艦をそのままにして再び梱包します。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+Body health (100 is unhurt)
+= 体の各部位の体力(100が無傷)
+
+Boredom
+= 退屈
+
+Food sickness
+= 食あたり
+
+Game screen: every character's hours survived, kills, weight and whether they are dead, hunger, thirst, tiredness and the other needs, pain, sickness and infection, the health of each body part, and every skill's level and experience, from players.db (Build 42). Checked on a public save, not yet tried in the game
+= ゲーム画面:各キャラクターの生存時間、撃破数、体重、死亡の有無、空腹・喉の渇き・疲労などの欲求、痛み・病気・感染、体の各部位の体力、各スキルのレベルと経験値(players.db、Build 42)。公開セーブで確認済み、ゲーム内ではまだ未確認
+
+Groin
+= 股間
+
+Hours survived
+= 生存時間
+
+Intoxication
+= 酩酊
+
+Left foot
+= 左足
+
+Left forearm
+= 左前腕
+
+Left lower leg
+= 左すね
+
+Left upper arm
+= 左上腕
+
+Left upper leg
+= 左太もも
+
+Lower torso
+= 下腹部
+
+Neck
+= 首
+
+Needs (0 is best, 1 is worst; morale, sanity and endurance the other way round)
+= 欲求(0が最良、1が最悪。士気・正気・持久力は逆)
+
+Pain
+= 痛み
+
+Panic
+= パニック
+
+Right foot
+= 右足
+
+Right forearm
+= 右前腕
+
+Right lower leg
+= 右すね
+
+Right upper arm
+= 右上腕
+
+Right upper leg
+= 右太もも
+
+Sickness
+= 病気
+
+Skills (the game needs 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 experience for levels 1 to 10; Strength and Fitness need more)
+= スキル(レベル1〜10には経験値75、225、525、1275、2775、5775、10275、16275、23775、32775が必要。筋力とフィットネスはさらに必要)
+
+Survivor kills
+= 生存者の撃破数
+
+Unhappiness
+= 不幸
+
+Upper torso
+= 上胸部
+
+Weight (kg)
+= 体重(kg)
+
+Wetness
+= 濡れ
+
+Zombie fever
+= ゾンビ熱
+
+Zombie infection
+= ゾンビ感染
+
+Zombie kills
+= ゾンビ撃破数
+
+players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
+= Zomboid\Saves\<モード>\<セーブ名> にある players.db(そのセーブのフォルダ)。各キャラクターの生存時間、撃破数、体重、死亡の有無、欲求と状態、体の各部位の体力、各スキルのレベルと経験値。先にゲームを終了してください。死亡したキャラクターを戻すには「死亡」のチェックを外し、各部位の体力を上げます。
+

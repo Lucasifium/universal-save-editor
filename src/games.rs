@@ -17,6 +17,8 @@ pub enum Base {
     Documents,
     /// %USERPROFILE%\Saved Games.
     SavedGames,
+    /// The user's own folder (%USERPROFILE%), for games that keep saves right inside it.
+    UserProfile,
     /// Steam\userdata\<account>\<app id>\ for this app id.
     SteamUser(&'static str),
     /// A game's install folder in any Steam library.
@@ -559,6 +561,7 @@ pub const GAMES: &[GameInfo] = &[
     game!("Prey (2017)", "Unpacked for Value search: the RC4 encryption and zlib chunks are removed and put back, with the save's MD5 written again (no save of this game has been tried yet)", r"%USERPROFILE%\Saved Games\Arkane Studios\Prey\SaveGames (Prey_MS for the Microsoft Store version)", r"Campaign<n>\<slot>\save.CSF (the player), <level>.level (each area)", [(SavedGames, r"Arkane Studios\Prey\SaveGames"), (SavedGames, r"Arkane Studios\Prey_MS\SaveGames")], ["save.CSF"], 3),
     game!("Prison Architect", "Game screen: the bank balance, play time and the main prison settings, changed in place in the (often very large) text save. Checked on public saves, not yet tried in the game", r"%LOCALAPPDATA%\Introversion\Prison Architect\saves", "<name>.prison", [(LocalAppData, r"Introversion\Prison Architect\saves")], ["*.prison"], 1),
     game!("Project Warlock", "Game screen: score, lives, level, health, mana, the four stats, points to spend and every weapon's ammunition. Checked on a public save, not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\Buckshot Software\Project Warlock\Steam\<id>", r"gamesave", [(LocalLow, r"Buckshot Software\Project Warlock")], ["gamesave"], 3),
+    game!("Project Zomboid", "Game screen: every character's hours survived, kills, weight and whether they are dead, hunger, thirst, tiredness and the other needs, pain, sickness and infection, the health of each body part, and every skill's level and experience, from players.db (Build 42). Checked on a public save, not yet tried in the game", r"%USERPROFILE%\Zomboid\Saves\<mode>\<save name>", "players.db", [(UserProfile, r"Zomboid\Saves")], ["players.db"], 2),
     game!("Quasimorph", "Opens as JSON (with its byte-order mark kept): the session in each slot, every value by name. Most numbers are stored as text (\"4355\"), so keep them in quotes", r"%USERPROFILE%\AppData\LocalLow\Magnum Scriptum LTD\Quasimorph", r"slot_0_session.dat … slot_2_session.dat", [(LocalLow, r"Magnum Scriptum LTD\Quasimorph")], ["slot_*_session.dat"], 1),
     game!("R.E.P.O.", "Game screen: level, money, lives, the charging station and total haul; each player's health and upgrades; the items in the truck and bought in total. Decrypted and encrypted again on save. Checked on a public save, not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\semiwork\Repo\saves\<save>", r"<save>.es3", [(LocalLow, r"semiwork\Repo\saves")], ["*.es3"], 2),
     game!("Raft", "Game screen: the day, time played, time of day, weather and the radio tower flag of a world (.rgd), the game mode, the amount of every stack in every storage box (with Max crafting materials) and the learned and researched items. A second screen for the player file (RGD_Users.rgd, in the Player folder): health, hunger and thirst, and the hotbar and inventory by item name in every world, with Max crafting materials. .NET BinaryFormatter, read and written in place; every other value opens for Tree editing. The player screen was checked on a real save; not yet tried in the game", r"%USERPROFILE%\AppData\LocalLow\Redbeet Interactive\Raft\User\<id>\World\<world>", r"<world>.rgd", [(LocalLow, r"Redbeet Interactive\Raft\User\*\World\*"), (LocalLow, r"Redbeet Interactive\Raft\User\*\Player")], ["*.rgd"], 1),
@@ -1075,6 +1078,7 @@ fn wine_bases(base: Base) -> Vec<PathBuf> {
         LocalLow => pick(&["AppData/LocalLow"]),
         Documents => pick(&["Documents", "My Documents"]),
         SavedGames => pick(&["Saved Games"]),
+        UserProfile => users.to_vec(),
         ProgramFilesX86 => users
             .iter()
             .filter_map(|u| u.parent()?.parent().map(|c| c.join("Program Files (x86)")))
@@ -1122,6 +1126,7 @@ fn native_bases(base: Base) -> Vec<PathBuf> {
         }
         Documents => documents_all(),
         SavedGames => saved_games_all(),
+        UserProfile => home.into_iter().collect(),
         SteamUser(app) => crate::platform::steam_userdata_dirs()
             .into_iter()
             .flat_map(|u| std::fs::read_dir(u).into_iter().flatten().flatten().map(|e| e.path().join(app)))

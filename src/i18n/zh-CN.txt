@@ -30709,3 +30709,103 @@ Game screen: level, experience, health, stamina and lives, karma, the day and wo
 
 Game screen: the campaign's money, levels passed, reputation with each faction, and the hired crew's experience, talent points, salary and skills. The .save file (a gzip bundle of the submarine and the game session) is opened and packed again with the submarine kept as it was. Checked on public saves, not yet tried in the game
 = 游戏界面：战役资金、已通过的关卡数、与各阵营的声望，以及所雇船员的经验、天赋点、薪水和技能。.save 文件（包含潜艇和游戏会话的 gzip 包）会被打开并重新打包，潜艇保持原样。已用公开存档检查，尚未在游戏中试过
+
+Body health (100 is unhurt)
+= 身体各部位健康(100为未受伤)
+
+Boredom
+= 无聊
+
+Food sickness
+= 食物中毒
+
+Game screen: every character's hours survived, kills, weight and whether they are dead, hunger, thirst, tiredness and the other needs, pain, sickness and infection, the health of each body part, and every skill's level and experience, from players.db (Build 42). Checked on a public save, not yet tried in the game
+= 游戏界面:每个角色的存活小时数、击杀数、体重和是否死亡,饥饿、口渴、疲劳等需求,疼痛、疾病和感染,各身体部位的健康,以及每项技能的等级和经验(来自 players.db,Build 42)。已在公开存档上检查,尚未在游戏中试过
+
+Groin
+= 腹股沟
+
+Hours survived
+= 存活小时数
+
+Intoxication
+= 醉酒
+
+Left foot
+= 左脚
+
+Left forearm
+= 左前臂
+
+Left lower leg
+= 左小腿
+
+Left upper arm
+= 左上臂
+
+Left upper leg
+= 左大腿
+
+Lower torso
+= 下躯干
+
+Neck
+= 颈部
+
+Needs (0 is best, 1 is worst; morale, sanity and endurance the other way round)
+= 需求(0最佳,1最差;士气、理智和耐力相反)
+
+Pain
+= 疼痛
+
+Panic
+= 恐慌
+
+Right foot
+= 右脚
+
+Right forearm
+= 右前臂
+
+Right lower leg
+= 右小腿
+
+Right upper arm
+= 右上臂
+
+Right upper leg
+= 右大腿
+
+Sickness
+= 疾病
+
+Skills (the game needs 75, 225, 525, 1275, 2775, 5775, 10275, 16275, 23775, 32775 experience for levels 1 to 10; Strength and Fitness need more)
+= 技能(1到10级分别需要75、225、525、1275、2775、5775、10275、16275、23775、32775经验;力量和体能需要更多)
+
+Survivor kills
+= 击杀幸存者
+
+Unhappiness
+= 不快
+
+Upper torso
+= 上躯干
+
+Weight (kg)
+= 体重(千克)
+
+Wetness
+= 潮湿
+
+Zombie fever
+= 丧尸热
+
+Zombie infection
+= 丧尸感染
+
+Zombie kills
+= 击杀丧尸
+
+players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
+= Zomboid\Saves\<模式>\<存档名> 中的 players.db(存档所在文件夹)。每个角色的存活小时数、击杀数、体重和死亡标记,他们的需求与状态,各身体部位的健康,以及每项技能的等级和经验。请先关闭游戏。要让死亡的角色复活,取消勾选“已死亡”并提高各部位的健康。
+

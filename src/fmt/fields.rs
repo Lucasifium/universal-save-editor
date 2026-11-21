@@ -315,6 +315,9 @@ impl Backend for FieldsBackend {
         }
         if let Some((outer, put)) = &self.wrap {
             out = put(outer, &out);
+            if out.is_empty() {
+                return Err("The edited save could not be put back into its file".into());
+            }
         }
         Ok(out)
     }
