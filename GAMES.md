@@ -568,7 +568,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>V</strong> (4)</summary>
+<summary><strong>V</strong> (5)</summary>
 
 | Game | Screen |
 |---|---|
@@ -576,6 +576,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Vampire Survivors | Coins, power-up ranks and what's unlocked; the checksum is worked out again on save. Not yet tried in the game |
 | Vampire: The Masquerade - Bloodlines | *Kindred*: money, experience to spend, humanity, and every attribute, ability and discipline, from `Vampire-NNN.sav` (base and current copies written together; the save's map file is packed again; checked on 35 public saves, not yet tried in the game) |
 | Vikings: Wolves of Midgard | *Clan*: gold, iron, steel, blood, jotunjarn, the ores and bloodstone, secrets found and finished runs, from the plain JSON `game_….sav` (checked on a public save, not yet tried in the game) |
+| Voices of the Void | *Base*: points, food, sleep, suit battery, the moon phase and the level of each base upgrade you have bought, from `s_<name>.sav`; *Statistics*: the lifetime totals in `data.sav` (points earned and spent, signals found and processed, servers repaired, distance, play time…). Plain Unreal GVAS (checked on public saves, not yet tried in the game) |
 
 </details>
 

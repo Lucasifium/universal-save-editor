@@ -31516,3 +31516,106 @@ Xyz Summons
 
 savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
 = savegame.dat de Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Seus Pontos de Duelo e as estatísticas do jogo; a assinatura CRC-32 do save é gravada novamente ao salvar. Cartas, decks e desbloqueios não são editados. Feche o jogo primeiro.
+
+# src/game_ui/simple/specs_more.rs (Voices of the Void)
+s_<name>.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Your points, food, sleep and suit battery, the moon phase and the levels of the base upgrades you have bought (an upgrade shows once it has a level). Lifetime statistics are in data.sav in the same folder. Close the game first.
+= s_<name>.sav em %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Seus pontos, comida, sono e bateria do traje, a fase da lua e os níveis das melhorias da base que você comprou (uma melhoria aparece quando tem nível). As estatísticas gerais ficam em data.sav na mesma pasta. Feche o jogo antes.
+
+Suit battery
+= Bateria do traje
+
+ATV fuel
+= Combustível do quadriciclo
+
+Moon phase
+= Fase da lua
+
+Task parts completed
+= Partes de tarefas concluídas
+
+Download speed
+= Velocidade de download
+
+Download filter size
+= Tamanho do filtro de download
+
+Detection quality
+= Qualidade de detecção
+
+Server stability
+= Estabilidade dos servidores
+
+Processing level
+= Nível de processamento
+
+Processing speed
+= Velocidade de processamento
+
+Coordinate ping size
+= Tamanho do ping de coordenadas
+
+Coordinate ping speed
+= Velocidade do ping de coordenadas
+
+Coordinate sensor speed
+= Velocidade do sensor de coordenadas
+
+Coordinate sensor size
+= Tamanho do sensor de coordenadas
+
+Coordinate cooldown
+= Recarga das coordenadas
+
+Scanner
+= Scanner
+
+Scanner frequency
+= Frequência do scanner
+
+Find chance
+= Chance de achado
+
+data.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: the lifetime statistics shared by every save. Points, food and upgrades are in the s_<name>.sav of each save. Close the game first.
+= data.sav em %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: as estatísticas gerais compartilhadas por todos os saves. Pontos, comida e melhorias ficam no s_<name>.sav de cada save. Feche o jogo antes.
+
+Total points
+= Pontos totais
+
+Signals found
+= Sinais encontrados
+
+Points spent
+= Pontos gastos
+
+Signals processed
+= Sinais processados
+
+Servers repaired
+= Servidores consertados
+
+Food eaten
+= Comida consumida
+
+Objects broken
+= Objetos quebrados
+
+Dreams
+= Sonhos
+
+Distance walked
+= Distância percorrida a pé
+
+Sleep time (seconds)
+= Tempo de sono (segundos)
+
+Toilet uses
+= Usos do vaso sanitário
+
+Saves made
+= Saves feitos
+
+Game screen: points, food, sleep, suit battery, the moon phase and the base upgrade levels of each save, and the lifetime statistics in data.sav. Checked on public saves, not yet tried in the game
+= Tela do jogo: pontos, comida, sono, bateria do traje, a fase da lua e os níveis das melhorias da base de cada save, e as estatísticas gerais em data.sav. Verificado em saves públicos, ainda não testado no jogo
+
+s_<name>.sav (one per save) and data.sav (statistics)
+= s_<name>.sav (um por save) e data.sav (estatísticas)

@@ -31600,3 +31600,106 @@ Xyz Summons
 
 savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
 = Legacy of the Duelist的savegame.dat(Steam\\userdata\\<account>\\601510\\remote)。可编辑决斗点数和游戏统计;保存时会重新写入存档的CRC-32签名。卡片、卡组和解锁内容不会被编辑。请先关闭游戏。
+
+# src/game_ui/simple/specs_more.rs (Voices of the Void)
+s_<name>.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Your points, food, sleep and suit battery, the moon phase and the levels of the base upgrades you have bought (an upgrade shows once it has a level). Lifetime statistics are in data.sav in the same folder. Close the game first.
+= %LOCALAPPDATA%\\VotV\\Saved\\SaveGames 中的 s_<name>.sav。你的点数、食物、睡眠和防护服电量、月相，以及已购买的基地升级等级（升级有等级后才会显示）。累计统计在同一文件夹的 data.sav 中。请先关闭游戏。
+
+Suit battery
+= 防护服电量
+
+ATV fuel
+= 全地形车燃料
+
+Moon phase
+= 月相
+
+Task parts completed
+= 已完成的任务部分
+
+Download speed
+= 下载速度
+
+Download filter size
+= 下载滤波器大小
+
+Detection quality
+= 探测质量
+
+Server stability
+= 服务器稳定性
+
+Processing level
+= 处理等级
+
+Processing speed
+= 处理速度
+
+Coordinate ping size
+= 坐标探测范围
+
+Coordinate ping speed
+= 坐标探测速度
+
+Coordinate sensor speed
+= 坐标传感器速度
+
+Coordinate sensor size
+= 坐标传感器范围
+
+Coordinate cooldown
+= 坐标冷却
+
+Scanner
+= 扫描仪
+
+Scanner frequency
+= 扫描仪频率
+
+Find chance
+= 发现几率
+
+data.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: the lifetime statistics shared by every save. Points, food and upgrades are in the s_<name>.sav of each save. Close the game first.
+= %LOCALAPPDATA%\\VotV\\Saved\\SaveGames 中的 data.sav：所有存档共用的累计统计。点数、食物和升级在每个存档的 s_<name>.sav 中。请先关闭游戏。
+
+Total points
+= 总点数
+
+Signals found
+= 发现的信号
+
+Points spent
+= 花费的点数
+
+Signals processed
+= 处理的信号
+
+Servers repaired
+= 修复的服务器
+
+Food eaten
+= 吃掉的食物
+
+Objects broken
+= 损坏的物品
+
+Dreams
+= 梦境
+
+Distance walked
+= 步行距离
+
+Sleep time (seconds)
+= 睡眠时间（秒）
+
+Toilet uses
+= 上厕所次数
+
+Saves made
+= 存档次数
+
+Game screen: points, food, sleep, suit battery, the moon phase and the base upgrade levels of each save, and the lifetime statistics in data.sav. Checked on public saves, not yet tried in the game
+= 游戏界面：每个存档的点数、食物、睡眠、防护服电量、月相和基地升级等级，以及 data.sav 中的累计统计。已用公开存档检查，尚未在游戏中试过
+
+s_<name>.sav (one per save) and data.sav (statistics)
+= s_<name>.sav（每个存档一个）和 data.sav（统计）

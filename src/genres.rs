@@ -463,6 +463,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Vampire: The Masquerade - Bloodlines", "rpg"),
     ("Victoria 3", "strategy"),
     ("Vikings: Wolves of Midgard", "rpg"),
+    ("Voices of the Void", "simulation"),
     ("Wandering Sword", "rpg"),
     ("Warhammer 40,000: Mechanicus", "strategy"),
     ("Warhammer 40,000: Rogue Trader", "rpg"),

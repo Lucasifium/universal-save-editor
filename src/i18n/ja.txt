@@ -31627,3 +31627,106 @@ Xyz Summons
 
 savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
 = Legacy of the Duelistのsavegame.dat(Steam\\userdata\\<account>\\601510\\remote)。デュエルポイントとゲームの統計を編集します。保存時にセーブデータのCRC-32署名は書き直されます。カード、デッキ、アンロックは編集されません。先にゲームを終了してください。
+
+# src/game_ui/simple/specs_more.rs (Voices of the Void)
+s_<name>.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Your points, food, sleep and suit battery, the moon phase and the levels of the base upgrades you have bought (an upgrade shows once it has a level). Lifetime statistics are in data.sav in the same folder. Close the game first.
+= %LOCALAPPDATA%\\VotV\\Saved\\SaveGames の s_<name>.sav。ポイント、食料、睡眠、スーツのバッテリー、月相、購入した基地アップグレードのレベル（レベルが付くと表示されます）。通算の統計は同じフォルダーの data.sav にあります。先にゲームを閉じてください。
+
+Suit battery
+= スーツのバッテリー
+
+ATV fuel
+= ATVの燃料
+
+Moon phase
+= 月相
+
+Task parts completed
+= 完了したタスクの部分
+
+Download speed
+= ダウンロード速度
+
+Download filter size
+= ダウンロードフィルターのサイズ
+
+Detection quality
+= 検出品質
+
+Server stability
+= サーバーの安定性
+
+Processing level
+= 処理レベル
+
+Processing speed
+= 処理速度
+
+Coordinate ping size
+= 座標pingのサイズ
+
+Coordinate ping speed
+= 座標pingの速度
+
+Coordinate sensor speed
+= 座標センサーの速度
+
+Coordinate sensor size
+= 座標センサーのサイズ
+
+Coordinate cooldown
+= 座標のクールダウン
+
+Scanner
+= スキャナー
+
+Scanner frequency
+= スキャナーの周波数
+
+Find chance
+= 発見率
+
+data.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: the lifetime statistics shared by every save. Points, food and upgrades are in the s_<name>.sav of each save. Close the game first.
+= %LOCALAPPDATA%\\VotV\\Saved\\SaveGames の data.sav：すべてのセーブで共有される通算の統計。ポイント、食料、アップグレードは各セーブの s_<name>.sav にあります。先にゲームを閉じてください。
+
+Total points
+= 累計ポイント
+
+Signals found
+= 発見した信号
+
+Points spent
+= 使ったポイント
+
+Signals processed
+= 処理した信号
+
+Servers repaired
+= 修理したサーバー
+
+Food eaten
+= 食べた食料
+
+Objects broken
+= 壊した物
+
+Dreams
+= 夢
+
+Distance walked
+= 歩いた距離
+
+Sleep time (seconds)
+= 睡眠時間（秒）
+
+Toilet uses
+= トイレの使用回数
+
+Saves made
+= セーブ回数
+
+Game screen: points, food, sleep, suit battery, the moon phase and the base upgrade levels of each save, and the lifetime statistics in data.sav. Checked on public saves, not yet tried in the game
+= ゲーム画面：各セーブのポイント、食料、睡眠、スーツのバッテリー、月相、基地アップグレードのレベルと、data.sav の通算統計。公開セーブで確認済みで、ゲーム内ではまだ試していません
+
+s_<name>.sav (one per save) and data.sav (statistics)
+= s_<name>.sav（セーブごとに1つ）と data.sav（統計）
