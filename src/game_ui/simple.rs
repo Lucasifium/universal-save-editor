@@ -145,7 +145,7 @@ pub fn resolve(root: &Value, p: &str) -> String {
                 None => return "/\u{0}no such entry".to_string(),
             },
             // `=name`: the entry whose `key` (or XML `key` / `identifier` attribute) is that name (database tables of key/data rows).
-            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| ["key", "Key", "@key", "@identifier"].iter().any(|k| e.get(*k).and_then(Value::as_str) == Some(&seg[1..]))) {
+            (None, Some(Value::Array(a))) if seg.starts_with('=') => match a.iter().position(|e| ["key", "Key", "@key", "@identifier", "@xsi:type"].iter().any(|k| e.get(*k).and_then(Value::as_str) == Some(&seg[1..]))) {
                 Some(i) => i.to_string(),
                 None => return "/\u{0}no such entry".to_string(),
             },

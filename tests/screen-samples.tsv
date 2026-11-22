@@ -324,6 +324,7 @@ Sons of the Forest: game clock	sample	public fixture from the ZTest repository
 Sons of the Forest: inventory	sample	public fixture from the ZTest repository
 Sons of the Forest: player	sample	public fixture from the ZTest repository
 Sons of the Forest: weather	none	no public save found
+Space Engineers	sample	public worlds from an LGPL-3.0 test-fixture repository (Sandbox.sbc of modern worlds)
 Space Haven	none	no public save found
 Star Wars Jedi: Fallen Order / Survivor	sample	public practice/speedrun save pack
 Starbound	sample	public fixture from the starboundSaves repository
@@ -444,4 +445,5 @@ Dead Space 2	sample	public saves from a save-sharing site (several slots)
 Just Cause 2	sample	public saves from a save-sharing site (three slots)
 Vampire: The Masquerade - Bloodlines	sample	public saves from a save-sharing site (35 slots)
 Yu-Gi-Oh! Legacy of the Duelist	sample	public save from a save-sharing site
+Voices of the Void	sample	public saves from save-sharing repositories (game 0.9.0 and 0.5.2)
 The Witcher 2: Assassins of Kings	none	no public save found

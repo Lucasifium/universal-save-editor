@@ -4,7 +4,7 @@
 use super::{Section, Spec, Table};
 use crate::i18n::tx;
 
-pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA, KING_ARTHUR];
+pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA, KING_ARTHUR, VOTV, VOTV_STATS, SPACE_ENGINEERS];
 
 // ------------------------------------------------------------------ House Flipper
 
@@ -482,6 +482,127 @@ const KING_ARTHUR: Spec = Spec {
         name: &["/HeroType"],
         only: &[],
         cols: &[(tx("Level"), "/Level"), (tx("Experience"), "/xp"), (tx("Skill points"), "/extraskillpoints"), (tx("Enemies killed"), "/EnemiesKilled")],
+        names: &[],
+    }],
+};
+
+// ------------------------------------------------------------------ Voices of the Void
+
+// Struct members keep the editor's GUID suffix in their names. Unreal leaves members at their
+// default out of the save, so an upgrade only shows once it has been bought at least once.
+const VOTV: Spec = Spec {
+    name: "Voices of the Void",
+    tab: "Base",
+    accent: (110, 170, 120),
+    kind: Some("Unreal Engine save (saveSlot_C)"),
+    markers: &["/Points", "/food", "/sleep", "/Version"],
+    subtitle: tx("s_<name>.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Your points, food, sleep and suit battery, the moon phase and the levels of the base upgrades you have bought (an upgrade shows once it has a level). Lifetime statistics are in data.sav in the same folder. Close the game first."),
+    tiles: &[(tx("Points"), "/Points"), (tx("Food"), "/food"), (tx("Sleep"), "/sleep"), (tx("Suit battery"), "/battery")],
+    sections: &[
+        Section {
+            title: tx("Base"),
+            rows: &[
+                (tx("Points"), "/Points"), (tx("Food"), "/food"), (tx("Sleep"), "/sleep"), (tx("Suit battery"), "/battery"),
+                (tx("ATV fuel"), "/carFuel"), (tx("Moon phase"), "/moonPhase"), (tx("Task parts completed"), "/totalCompletedTaskParts"),
+                (tx("Play time (seconds)"), "/totalTime"),
+            ],
+        },
+        Section {
+            title: tx("Upgrades"),
+            rows: &[
+                (tx("Download speed"), "/upgrades/upg_downloadSpd_3_BA98109842B6F6B10305FAAF5A3BBBF4"),
+                (tx("Download filter size"), "/upgrades/upg_downloadFiltSz_12_4219D6DB44F558ABA055C7B749BDBCAD"),
+                (tx("Detection quality"), "/upgrades/upg_detecQual_54_0111E1654106C524D03278820389DDB3"),
+                (tx("Server stability"), "/upgrades/upg_serverStability_13_4A619D224CE31D9B70EF93977E4491CB"),
+                (tx("Processing level"), "/upgrades/upg_processLvl_14_FA6136B44E749353CEF771AB0493F1A8"),
+                (tx("Processing speed"), "/upgrades/upg_processSpd_15_71FB42F64E4B845C653191A399690DB0"),
+                (tx("Coordinate ping size"), "/upgrades/upg_coordPingSz_16_A557469147F2A7F09452AFBD87AE4D20"),
+                (tx("Coordinate ping speed"), "/upgrades/upg_coordPingSpd_17_1F24EADD4D27B653A932A48987669FCB"),
+                (tx("Coordinate sensor speed"), "/upgrades/upg_coordSensorSpd_18_16B378034FDC97CB0628CBABB7674074"),
+                (tx("Coordinate sensor size"), "/upgrades/upg_coordSensorSz_19_FBB3C8E541C23756B2F8A294D600F145"),
+                (tx("Coordinate cooldown"), "/upgrades/upg_coordCooldown_77_DFB1A6684A3BDDFEF94C6689D37CD2E8"),
+                (tx("Coordinate cooldown"), "/upgrades/upg_coordCooldiwn_22_DFB1A6684A3BDDFEF94C6689D37CD2E8"),
+                (tx("Scanner"), "/upgrades/upg_scanner_25_672849B8449E51A274C37DA92AD8B544"),
+                (tx("Scanner frequency"), "/upgrades/upg_scannerFr_28_D57F12F148F3BE477D20A4A1494A8D62"),
+                (tx("Find chance"), "/upgrades/upg_findchance_31_C736B88D4FD6D4FD2D2156AA0CB1CBEE"),
+            ],
+        },
+    ],
+    lists: &[],
+    tables: &[],
+};
+
+const VOTV_STATS: Spec = Spec {
+    name: "Voices of the Void",
+    tab: "Statistics",
+    accent: (110, 170, 120),
+    kind: Some("Unreal Engine save (save_main_C)"),
+    markers: &["/Stats/total_points_42_5882D7C84CDB852804872490B83B3C93", "/Stats/days_total_4_B21A445D449FFAFF37B54F9F5FB9FFE5"],
+    subtitle: tx("data.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: the lifetime statistics shared by every save. Points, food and upgrades are in the s_<name>.sav of each save. Close the game first."),
+    tiles: &[(tx("Total points"), "/Stats/total_points_42_5882D7C84CDB852804872490B83B3C93"), (tx("Days"), "/Stats/days_total_4_B21A445D449FFAFF37B54F9F5FB9FFE5"), (tx("Signals found"), "/Stats/signals_found_10_0DFA5A30426EDB4E3F862399E9F958F5")],
+    sections: &[Section {
+        title: tx("Statistics"),
+        rows: &[
+            (tx("Total points"), "/Stats/total_points_42_5882D7C84CDB852804872490B83B3C93"),
+            (tx("Points spent"), "/Stats/points_spent_43_4BF053D14B7B6F7D2F323DA89706DDB2"),
+            (tx("Days"), "/Stats/days_total_4_B21A445D449FFAFF37B54F9F5FB9FFE5"),
+            (tx("Signals found"), "/Stats/signals_found_10_0DFA5A30426EDB4E3F862399E9F958F5"),
+            (tx("Signals processed"), "/Stats/signals_processed_12_764011164B8ADB4D458508BC56AC5375"),
+            (tx("Servers repaired"), "/Stats/servers_repaired_34_28F75AE041E24190D1A8AB94DCC07B1F"),
+            (tx("Items bought"), "/Stats/items_bought_20_877F027545E2131991DD88A9AD8D57D6"),
+            (tx("Food eaten"), "/Stats/food_eaten_2_973D5EE644193E65158B8E8064634AD0"),
+            (tx("Objects broken"), "/Stats/object_broken_6_4526E3A34A85DC9367D9CB93D1D16C29"),
+            (tx("Dreams"), "/Stats/total_dreams_21_5ADCDE2745B5522C08C638B2392B1A70"),
+            (tx("Jumps"), "/Stats/total_jumps_32_EC1614C4404D1A44A5C1DC90FE898AC7"),
+            (tx("Falls"), "/Stats/falls_8_DEDAC713420EE692AD3972A5B2F796C9"),
+            (tx("Steps"), "/Stats/steps_55_2F7814254C4ABE42E4E2289590DE837A"),
+            (tx("Distance walked"), "/Stats/distance_walked_27_AD13F1214475206F19351498F8830654"),
+            (tx("Distance driven"), "/Stats/distance_driven_29_DF7486D44DB3A084B60EAE8E5FBA3BC1"),
+            (tx("Sleep time (seconds)"), "/Stats/sleep_time_37_C3396F5C463A5828D8B906A515F1CF60"),
+            (tx("Toilet uses"), "/Stats/toilet_uses_52_71C895C442F987D72A1963B662F19CEE"),
+            (tx("Saves made"), "/Stats/save_count_50_E739BC874ADE780098290D940E92D2A1"),
+            (tx("Play time (seconds)"), "/Stats/total_playtime_15_956306CC41B536E4B1C44EBBE3E1C740"),
+        ],
+    }],
+    lists: &[],
+    tables: &[],
+};
+
+// ------------------------------------------------------------------ Space Engineers
+
+// Sandbox.sbc is the world file: the session settings and, inside the banking component, the
+// credits of every identity (players and the NPC factions). The component's position in the
+// file changes between worlds, so it is found by its type.
+const SPACE_ENGINEERS: Spec = Spec {
+    name: "Space Engineers",
+    tab: "World",
+    accent: (90, 150, 220),
+    kind: Some("XML"),
+    markers: &["/MyObjectBuilder_Checkpoint/Settings/GameMode", "/MyObjectBuilder_Checkpoint/Settings/InventorySizeMultiplier", "/MyObjectBuilder_Checkpoint/SessionComponents/MyObjectBuilder_SessionComponent/=MyObjectBuilder_BankingSystem/Accounts/MyObjectBuilder_AccountEntry"],
+    subtitle: tx("Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first."),
+    tiles: &[(tx("Inventory size multiplier"), "/MyObjectBuilder_Checkpoint/Settings/InventorySizeMultiplier"), (tx("Assembler speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/AssemblerSpeedMultiplier"), (tx("Refinery speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/RefinerySpeedMultiplier")],
+    sections: &[Section {
+        title: tx("World rules"),
+        rows: &[
+                (tx("Inventory size multiplier"), "/MyObjectBuilder_Checkpoint/Settings/InventorySizeMultiplier"),
+                (tx("Block inventory size multiplier"), "/MyObjectBuilder_Checkpoint/Settings/BlocksInventorySizeMultiplier"),
+                (tx("Assembler speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/AssemblerSpeedMultiplier"),
+                (tx("Assembler efficiency multiplier"), "/MyObjectBuilder_Checkpoint/Settings/AssemblerEfficiencyMultiplier"),
+                (tx("Refinery speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/RefinerySpeedMultiplier"),
+                (tx("Welder speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/WelderSpeedMultiplier"),
+                (tx("Grinder speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/GrinderSpeedMultiplier"),
+                (tx("Hacking speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/HackSpeedMultiplier"),
+                (tx("Environment damage multiplier"), "/MyObjectBuilder_Checkpoint/Settings/EnvironmentDamageMultiplier"),
+                (tx("Maximum players"), "/MyObjectBuilder_Checkpoint/Settings/MaxPlayers"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: tx("Credits"),
+        path: "/MyObjectBuilder_Checkpoint/SessionComponents/MyObjectBuilder_SessionComponent/=MyObjectBuilder_BankingSystem/Accounts/MyObjectBuilder_AccountEntry",
+        name: &["/OwnerIdentifier"],
+        cols: &[(tx("Credits"), "/Account/Balance")],
+        only: &[],
         names: &[],
     }],
 };

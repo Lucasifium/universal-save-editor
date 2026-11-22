@@ -31550,6 +31550,109 @@ Xyz Summons
 savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
 = savegame.dat von Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Deine Duellpunkte und die Spielstatistiken; die CRC-32-Signatur des Spielstands wird beim Speichern neu geschrieben. Karten, Decks und Freischaltungen werden nicht bearbeitet. Schließe zuerst das Spiel.
 
+# src/game_ui/simple/specs_more.rs (Voices of the Void)
+s_<name>.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Your points, food, sleep and suit battery, the moon phase and the levels of the base upgrades you have bought (an upgrade shows once it has a level). Lifetime statistics are in data.sav in the same folder. Close the game first.
+= s_<name>.sav aus %LOCALAPPDATA%\\VotV\\Saved\\SaveGames. Deine Punkte, Nahrung, Schlaf und Anzugbatterie, die Mondphase und die Stufen der gekauften Basis-Upgrades (ein Upgrade erscheint, sobald es eine Stufe hat). Die Gesamtstatistik steht in data.sav im selben Ordner. Schließe vorher das Spiel.
+
+Suit battery
+= Anzugbatterie
+
+ATV fuel
+= Quad-Treibstoff
+
+Moon phase
+= Mondphase
+
+Task parts completed
+= Erledigte Aufgabenteile
+
+Download speed
+= Downloadgeschwindigkeit
+
+Download filter size
+= Größe des Downloadfilters
+
+Detection quality
+= Erkennungsqualität
+
+Server stability
+= Serverstabilität
+
+Processing level
+= Verarbeitungsstufe
+
+Processing speed
+= Verarbeitungsgeschwindigkeit
+
+Coordinate ping size
+= Größe des Koordinaten-Pings
+
+Coordinate ping speed
+= Geschwindigkeit des Koordinaten-Pings
+
+Coordinate sensor speed
+= Geschwindigkeit des Koordinatensensors
+
+Coordinate sensor size
+= Größe des Koordinatensensors
+
+Coordinate cooldown
+= Abklingzeit der Koordinaten
+
+Scanner
+= Scanner
+
+Scanner frequency
+= Scannerfrequenz
+
+Find chance
+= Fundchance
+
+data.sav from %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: the lifetime statistics shared by every save. Points, food and upgrades are in the s_<name>.sav of each save. Close the game first.
+= data.sav aus %LOCALAPPDATA%\\VotV\\Saved\\SaveGames: die Gesamtstatistik, die alle Spielstände teilen. Punkte, Nahrung und Upgrades stehen in der s_<name>.sav jedes Spielstands. Schließe vorher das Spiel.
+
+Total points
+= Punkte insgesamt
+
+Signals found
+= Gefundene Signale
+
+Points spent
+= Ausgegebene Punkte
+
+Signals processed
+= Verarbeitete Signale
+
+Servers repaired
+= Reparierte Server
+
+Food eaten
+= Gegessene Nahrung
+
+Objects broken
+= Zerbrochene Gegenstände
+
+Dreams
+= Träume
+
+Distance walked
+= Zu Fuß zurückgelegte Strecke
+
+Sleep time (seconds)
+= Schlafzeit (Sekunden)
+
+Toilet uses
+= Toilettenbesuche
+
+Saves made
+= Erstellte Spielstände
+
+Game screen: points, food, sleep, suit battery, the moon phase and the base upgrade levels of each save, and the lifetime statistics in data.sav. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Punkte, Nahrung, Schlaf, Anzugbatterie, die Mondphase und die Stufen der Basis-Upgrades jedes Spielstands sowie die Gesamtstatistik in data.sav. Mit öffentlichen Spielständen geprüft, im Spiel noch nicht ausprobiert
+
+s_<name>.sav (one per save) and data.sav (statistics)
+= s_<name>.sav (eine pro Spielstand) und data.sav (Statistik)
+
 # src/game_ui/simple.rs (Attack on Titan 2 skills)
 Equip all skills
 = Alle Fähigkeiten ausrüsten
@@ -31559,6 +31662,49 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = Alle Fähigkeiten sind bereits ausgerüstet.
+
+# src/game_ui/simple/specs_more.rs (Space Engineers)
+Inventory size multiplier
+= Inventargrößen-Multiplikator
+
+Block inventory size multiplier
+= Blockinventar-Multiplikator
+
+Assembler speed multiplier
+= Assembler-Geschwindigkeit
+
+Assembler efficiency multiplier
+= Assembler-Effizienz
+
+Refinery speed multiplier
+= Raffinerie-Geschwindigkeit
+
+Welder speed multiplier
+= Schweißgeschwindigkeit
+
+Grinder speed multiplier
+= Schleifgeschwindigkeit
+
+Hacking speed multiplier
+= Hacking-Geschwindigkeit
+
+Environment damage multiplier
+= Umgebungsschaden
+
+Maximum players
+= Maximale Spielerzahl
+
+World rules
+= Weltregeln
+
+Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first.
+= Sandbox.sbc aus einem Welt-Ordner von %APPDATA%\\SpaceEngineers\\Saves\\<id>. Die Regeln der Welt (Multiplikatoren für Inventar, Assembler, Raffinerie, Schweißen und Schleifen) und die Credits jeder Identität; Schiffe, Blöcke und Inventare stehen im Baum und in SANDBOX_0_0_0_.sbs. Schließe zuerst das Spiel.
+
+Game screen: the world's rules (inventory, assembler, refinery, welder, grinder and hacking multipliers, damage, player limit) and the credits of every identity in Sandbox.sbc. Checked on public worlds, not yet tried in the game
+= Spielbildschirm: die Regeln der Welt (Multiplikatoren für Inventar, Assembler, Raffinerie, Schweißen, Schleifen und Hacking, Schaden, Spielerlimit) und die Credits jeder Identität in Sandbox.sbc. Mit öffentlichen Welten geprüft, im Spiel noch nicht ausprobiert
+
+Sandbox.sbc (with SANDBOX_0_0_0_.sbs beside it)
+= Sandbox.sbc (mit SANDBOX_0_0_0_.sbs daneben)
 
 # The Witcher 2, DOOM Eternal
 Decrypted with your Steam account and encrypted again on save; profile.bin opens for Value search and game.details as text (its checksum isn't worked out, so leave it alone). The level saves (game_duration.dat) are packed again inside and aren't opened further
