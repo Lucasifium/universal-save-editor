@@ -31629,3 +31629,46 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = Todas as habilidades já estão equipadas.
+
+# src/game_ui/simple/specs_more.rs (Space Engineers)
+Inventory size multiplier
+= Multiplicador do tamanho do inventário
+
+Block inventory size multiplier
+= Multiplicador do inventário dos blocos
+
+Assembler speed multiplier
+= Velocidade do montador
+
+Assembler efficiency multiplier
+= Eficiência do montador
+
+Refinery speed multiplier
+= Velocidade da refinaria
+
+Welder speed multiplier
+= Velocidade de solda
+
+Grinder speed multiplier
+= Velocidade de desmonte
+
+Hacking speed multiplier
+= Velocidade de invasão
+
+Environment damage multiplier
+= Dano do ambiente
+
+Maximum players
+= Máximo de jogadores
+
+World rules
+= Regras do mundo
+
+Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first.
+= Sandbox.sbc de uma pasta de mundo de %APPDATA%\\SpaceEngineers\\Saves\\<id>. As regras do mundo (multiplicadores de inventário, montador, refinaria, solda e desmonte) e os créditos de cada identidade; naves, blocos e inventários estão na Árvore e em SANDBOX_0_0_0_.sbs. Feche o jogo antes.
+
+Game screen: the world's rules (inventory, assembler, refinery, welder, grinder and hacking multipliers, damage, player limit) and the credits of every identity in Sandbox.sbc. Checked on public worlds, not yet tried in the game
+= Tela do jogo: as regras do mundo (multiplicadores de inventário, montador, refinaria, solda, desmonte e invasão, dano, limite de jogadores) e os créditos de cada identidade em Sandbox.sbc. Verificado em mundos públicos, ainda não testado no jogo
+
+Sandbox.sbc (with SANDBOX_0_0_0_.sbs beside it)
+= Sandbox.sbc (com SANDBOX_0_0_0_.sbs ao lado)

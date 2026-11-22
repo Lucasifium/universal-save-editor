@@ -387,6 +387,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Sonic Adventure 2", "action"),
     ("Sonic Mania", "action"),
     ("Sons of the Forest", "survival"),
+    ("Space Engineers", "simulation"),
     ("Space Haven", "simulation"),
     ("Star Wars Jedi: Fallen Order", "soulslike"),
     ("Star Wars Jedi: Survivor", "soulslike"),

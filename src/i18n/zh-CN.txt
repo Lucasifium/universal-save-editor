@@ -31713,3 +31713,46 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = 所有技能都已装备。
+
+# src/game_ui/simple/specs_more.rs (Space Engineers)
+Inventory size multiplier
+= 库存容量倍率
+
+Block inventory size multiplier
+= 方块库存倍率
+
+Assembler speed multiplier
+= 装配机速度
+
+Assembler efficiency multiplier
+= 装配机效率
+
+Refinery speed multiplier
+= 精炼厂速度
+
+Welder speed multiplier
+= 焊接速度
+
+Grinder speed multiplier
+= 切割速度
+
+Hacking speed multiplier
+= 黑入速度
+
+Environment damage multiplier
+= 环境伤害
+
+Maximum players
+= 最大玩家数
+
+World rules
+= 世界规则
+
+Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first.
+= %APPDATA%\\SpaceEngineers\\Saves\\<id> 世界文件夹中的 Sandbox.sbc。世界规则(库存、装配机、精炼厂、焊接和切割倍率)以及每个身份的信用点;飞船、方块和库存在树视图和 SANDBOX_0_0_0_.sbs 中。请先关闭游戏。
+
+Game screen: the world's rules (inventory, assembler, refinery, welder, grinder and hacking multipliers, damage, player limit) and the credits of every identity in Sandbox.sbc. Checked on public worlds, not yet tried in the game
+= 游戏界面:Sandbox.sbc 中的世界规则(库存、装配机、精炼厂、焊接、切割和黑入倍率,伤害,玩家上限)以及每个身份的信用点。已用公开世界检查,尚未在游戏中试过
+
+Sandbox.sbc (with SANDBOX_0_0_0_.sbs beside it)
+= Sandbox.sbc(旁边是 SANDBOX_0_0_0_.sbs)

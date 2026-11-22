@@ -31740,3 +31740,46 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = すべてのスキルは装備済みです。
+
+# src/game_ui/simple/specs_more.rs (Space Engineers)
+Inventory size multiplier
+= インベントリ容量の倍率
+
+Block inventory size multiplier
+= ブロックのインベントリ倍率
+
+Assembler speed multiplier
+= アセンブラーの速度
+
+Assembler efficiency multiplier
+= アセンブラーの効率
+
+Refinery speed multiplier
+= 精製所の速度
+
+Welder speed multiplier
+= 溶接の速度
+
+Grinder speed multiplier
+= グラインダーの速度
+
+Hacking speed multiplier
+= ハッキングの速度
+
+Environment damage multiplier
+= 環境ダメージ
+
+Maximum players
+= 最大プレイヤー数
+
+World rules
+= ワールドのルール
+
+Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first.
+= %APPDATA%\\SpaceEngineers\\Saves\\<id> のワールドフォルダ内の Sandbox.sbc。ワールドのルール(インベントリ、アセンブラー、精製所、溶接、グラインダーの倍率)と各アイデンティティのクレジット。船、ブロック、インベントリはツリーと SANDBOX_0_0_0_.sbs にあります。先にゲームを閉じてください。
+
+Game screen: the world's rules (inventory, assembler, refinery, welder, grinder and hacking multipliers, damage, player limit) and the credits of every identity in Sandbox.sbc. Checked on public worlds, not yet tried in the game
+= ゲーム画面:Sandbox.sbc のワールドのルール(インベントリ、アセンブラー、精製所、溶接、グラインダー、ハッキングの倍率、ダメージ、プレイヤー上限)と各アイデンティティのクレジット。公開ワールドで確認済み、ゲーム内ではまだ未確認
+
+Sandbox.sbc (with SANDBOX_0_0_0_.sbs beside it)
+= Sandbox.sbc(隣に SANDBOX_0_0_0_.sbs)

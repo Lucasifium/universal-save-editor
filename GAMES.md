@@ -456,7 +456,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>S</strong> (39)</summary>
+<summary><strong>S</strong> (40)</summary>
 
 | Game | Screen |
 |---|---|
@@ -482,6 +482,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Sonic Adventure 2 | *Chao* (the garden file `SONIC2B__ALF`): the level and the points of the seven stats of every Chao; the garden's checksum is rewritten (the main save with rings and emblems is not edited yet; checked on a public save, not yet tried in the game) |
 | Sonic Mania | *Slots*: all eight Mania Mode and three Encore Mode slots (state, character, zone, lives, score, Chaos Emeralds, continues, next special stage), changed in place (checked on public saves, not yet tried in the game) |
 | Sons of the Forest | *Game* (GameStateSaveData.json): the day and time. *Weather* (WeatherSystemSaveData.json): the season. *Player* (PlayerStateSaveData.json): health, stamina, hydration, rest, strength and its level. *Inventory* (PlayerInventorySaveData.json): the items carried, by name, with a **Max crafting materials** button that fills logs, sticks, rocks, bones, cloth, circuit boards, wire, duct tape, rope, feathers, leaves, small rocks, tech mesh, Solafite ore and printer resin to the game's own carrying limit for each, leaving weapons, ammo, food, blueprints and story items alone. The JSON the game keeps inside the file's strings is opened and written back as strings (checked on public sample saves, not yet tried in the game) |
+| Space Engineers | *World*: the world's rules from `Sandbox.sbc` (inventory, assembler, refinery, welder, grinder and hacking multipliers, environment damage, player limit) and a table of the credits of every identity. Ships, blocks and inventories are in the Tree and in `SANDBOX_0_0_0_.sbs`. The XML is edited in place (checked on public worlds, not yet tried in the game) |
 | Space Haven | *Fleet*: credits, the day and time, the difficulty options, and a table of each ship's crew with health, food, rest, comfort, mood, the four attributes and every skill level. The save's XML is edited in place, so everything you don't change stays as it was. Resources in storage are not covered (checked on a real save, not yet tried in the game) |
 | Star Wars Jedi: Fallen Order | *Cal Kestis*: unspent and total skill points, XP toward the next point, stims carried and capacity, health and Force upgrades and fragments, secrets and map sections, deaths and revives. The zlib-packed actor records are opened and packed again on save (checked on a public save, not yet tried in the game) |
 | Star Wars Jedi: Survivor | *Cal Kestis* (the same screen as Fallen Order): unspent and total skill points, XP toward the next point, stims, health and Force upgrades, secrets and map sections, deaths and revives. The zlib-packed actor records are opened and packed again on save (checked on public saves, not yet tried in the game) |

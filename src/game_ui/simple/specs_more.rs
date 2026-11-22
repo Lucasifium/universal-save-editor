@@ -4,7 +4,7 @@
 use super::{Section, Spec, Table};
 use crate::i18n::tx;
 
-pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA, KING_ARTHUR, VOTV, VOTV_STATS];
+pub static MORE: &[Spec] = &[STRANDED_DEEP, LOKR, BANNER_SAGA3, PROJECT_WARLOCK, HORIZON_CHASE, DOORKICKERS, DOORKICKERS_DOCTRINE, DOORKICKERS_UNLOCKED, SATELLITE_REIGN, TOOTH_AND_TAIL, CHEF, XREBIRTH, ETHERLORDS, NECROMUNDA, FOOD_TRUCK, WORKSHOP_SIM, PATHWAY, GLADIATOR_GUILD, CAT_GOES_FISHING, THYMESIA, KING_ARTHUR, VOTV, VOTV_STATS, SPACE_ENGINEERS];
 
 // ------------------------------------------------------------------ House Flipper
 
@@ -566,4 +566,43 @@ const VOTV_STATS: Spec = Spec {
     }],
     lists: &[],
     tables: &[],
+};
+
+// ------------------------------------------------------------------ Space Engineers
+
+// Sandbox.sbc is the world file: the session settings and, inside the banking component, the
+// credits of every identity (players and the NPC factions). The component's position in the
+// file changes between worlds, so it is found by its type.
+const SPACE_ENGINEERS: Spec = Spec {
+    name: "Space Engineers",
+    tab: "World",
+    accent: (90, 150, 220),
+    kind: Some("XML"),
+    markers: &["/MyObjectBuilder_Checkpoint/Settings/GameMode", "/MyObjectBuilder_Checkpoint/Settings/InventorySizeMultiplier", "/MyObjectBuilder_Checkpoint/SessionComponents/MyObjectBuilder_SessionComponent/=MyObjectBuilder_BankingSystem/Accounts/MyObjectBuilder_AccountEntry"],
+    subtitle: tx("Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first."),
+    tiles: &[(tx("Inventory size multiplier"), "/MyObjectBuilder_Checkpoint/Settings/InventorySizeMultiplier"), (tx("Assembler speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/AssemblerSpeedMultiplier"), (tx("Refinery speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/RefinerySpeedMultiplier")],
+    sections: &[Section {
+        title: tx("World rules"),
+        rows: &[
+                (tx("Inventory size multiplier"), "/MyObjectBuilder_Checkpoint/Settings/InventorySizeMultiplier"),
+                (tx("Block inventory size multiplier"), "/MyObjectBuilder_Checkpoint/Settings/BlocksInventorySizeMultiplier"),
+                (tx("Assembler speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/AssemblerSpeedMultiplier"),
+                (tx("Assembler efficiency multiplier"), "/MyObjectBuilder_Checkpoint/Settings/AssemblerEfficiencyMultiplier"),
+                (tx("Refinery speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/RefinerySpeedMultiplier"),
+                (tx("Welder speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/WelderSpeedMultiplier"),
+                (tx("Grinder speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/GrinderSpeedMultiplier"),
+                (tx("Hacking speed multiplier"), "/MyObjectBuilder_Checkpoint/Settings/HackSpeedMultiplier"),
+                (tx("Environment damage multiplier"), "/MyObjectBuilder_Checkpoint/Settings/EnvironmentDamageMultiplier"),
+                (tx("Maximum players"), "/MyObjectBuilder_Checkpoint/Settings/MaxPlayers"),
+        ],
+    }],
+    lists: &[],
+    tables: &[Table {
+        title: tx("Credits"),
+        path: "/MyObjectBuilder_Checkpoint/SessionComponents/MyObjectBuilder_SessionComponent/=MyObjectBuilder_BankingSystem/Accounts/MyObjectBuilder_AccountEntry",
+        name: &["/OwnerIdentifier"],
+        cols: &[(tx("Credits"), "/Account/Balance")],
+        only: &[],
+        names: &[],
+    }],
 };

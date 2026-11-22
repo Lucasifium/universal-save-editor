@@ -31669,3 +31669,46 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = Toutes les compétences sont déjà équipées.
+
+# src/game_ui/simple/specs_more.rs (Space Engineers)
+Inventory size multiplier
+= Multiplicateur de taille d'inventaire
+
+Block inventory size multiplier
+= Multiplicateur d'inventaire des blocs
+
+Assembler speed multiplier
+= Vitesse de l'assembleur
+
+Assembler efficiency multiplier
+= Efficacité de l'assembleur
+
+Refinery speed multiplier
+= Vitesse de la raffinerie
+
+Welder speed multiplier
+= Vitesse de soudure
+
+Grinder speed multiplier
+= Vitesse de meulage
+
+Hacking speed multiplier
+= Vitesse de piratage
+
+Environment damage multiplier
+= Dégâts de l'environnement
+
+Maximum players
+= Nombre maximal de joueurs
+
+World rules
+= Règles du monde
+
+Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first.
+= Sandbox.sbc dans un dossier de monde de %APPDATA%\\SpaceEngineers\\Saves\\<id>. Les règles du monde (multiplicateurs d'inventaire, d'assembleur, de raffinerie, de soudure et de meulage) et les crédits de chaque identité ; vaisseaux, blocs et inventaires sont dans l'Arbre et dans SANDBOX_0_0_0_.sbs. Fermez d'abord le jeu.
+
+Game screen: the world's rules (inventory, assembler, refinery, welder, grinder and hacking multipliers, damage, player limit) and the credits of every identity in Sandbox.sbc. Checked on public worlds, not yet tried in the game
+= Écran du jeu : les règles du monde (multiplicateurs d'inventaire, d'assembleur, de raffinerie, de soudure, de meulage et de piratage, dégâts, limite de joueurs) et les crédits de chaque identité dans Sandbox.sbc. Vérifié sur des mondes publics, pas encore essayé dans le jeu
+
+Sandbox.sbc (with SANDBOX_0_0_0_.sbs beside it)
+= Sandbox.sbc (avec SANDBOX_0_0_0_.sbs à côté)

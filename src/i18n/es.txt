@@ -31655,3 +31655,46 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = Todas las habilidades ya están equipadas.
+
+# src/game_ui/simple/specs_more.rs (Space Engineers)
+Inventory size multiplier
+= Multiplicador de tamaño del inventario
+
+Block inventory size multiplier
+= Multiplicador del inventario de bloques
+
+Assembler speed multiplier
+= Velocidad del ensamblador
+
+Assembler efficiency multiplier
+= Eficiencia del ensamblador
+
+Refinery speed multiplier
+= Velocidad de la refinería
+
+Welder speed multiplier
+= Velocidad de soldadura
+
+Grinder speed multiplier
+= Velocidad de desguace
+
+Hacking speed multiplier
+= Velocidad de hackeo
+
+Environment damage multiplier
+= Daño del entorno
+
+Maximum players
+= Máximo de jugadores
+
+World rules
+= Reglas del mundo
+
+Sandbox.sbc from a world folder of %APPDATA%\\SpaceEngineers\\Saves\\<id>. The world's rules (inventory, assembler, refinery, welder and grinder multipliers) and the credits of each identity; ships, blocks and inventories are in the Tree and in SANDBOX_0_0_0_.sbs. Close the game first.
+= Sandbox.sbc de una carpeta de mundo de %APPDATA%\\SpaceEngineers\\Saves\\<id>. Las reglas del mundo (multiplicadores de inventario, ensamblador, refinería, soldadura y desguace) y los créditos de cada identidad; las naves, los bloques y los inventarios están en el Árbol y en SANDBOX_0_0_0_.sbs. Cierra el juego antes.
+
+Game screen: the world's rules (inventory, assembler, refinery, welder, grinder and hacking multipliers, damage, player limit) and the credits of every identity in Sandbox.sbc. Checked on public worlds, not yet tried in the game
+= Pantalla del juego: las reglas del mundo (multiplicadores de inventario, ensamblador, refinería, soldadura, desguace y hackeo, daño, límite de jugadores) y los créditos de cada identidad en Sandbox.sbc. Comprobado con mundos públicos, aún no probado en el juego
+
+Sandbox.sbc (with SANDBOX_0_0_0_.sbs beside it)
+= Sandbox.sbc (con SANDBOX_0_0_0_.sbs al lado)
