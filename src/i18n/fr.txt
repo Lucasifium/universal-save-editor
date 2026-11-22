@@ -29987,8 +29987,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Écran de jeu : fonds et quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, niveau et expérience, amitié, chaque matériau d'artisanat et cadeau par son nom avec un bouton Max. matériaux d'artisanat, et les compétences équipées ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur des sauvegardes publiques et dans le jeu
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, niveau et expérience, amitié, chaque matériau d'artisanat et cadeau par son nom avec un bouton Max. matériaux d'artisanat, et les compétences équipées avec un bouton Équiper toutes les compétences ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur des sauvegardes publiques et dans le jeu
 
 Friendship (characters you've met)
 = Amitié (personnages rencontrés)
@@ -31556,3 +31556,13 @@ Xyz Summons
 
 savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
 = savegame.dat de Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Vos points de duel et les statistiques du jeu ; la signature CRC-32 de la sauvegarde est réécrite à l'enregistrement. Les cartes, decks et déblocages ne sont pas modifiés. Fermez d'abord le jeu.
+
+# src/game_ui/simple.rs (Attack on Titan 2 skills)
+Equip all skills
+= Équiper toutes les compétences
+
+Equips every skill in this save, including the ones you haven't learned. The game normally limits what you equip by your SP; it doesn't check that when it loads the save.
+= Équipe toutes les compétences de cette sauvegarde, y compris celles que vous n'avez pas encore apprises. Le jeu limite normalement ce que vous équipez selon vos SP ; il ne le vérifie pas au chargement de la sauvegarde.
+
+Every skill is already equipped.
+= Toutes les compétences sont déjà équipées.

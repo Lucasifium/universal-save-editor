@@ -30031,8 +30031,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = 游戏界面：资金以及你拥有的每件物品的数量；流加密和字校验和会重新写入。已在公开存档上验证，尚未在游戏中试过
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= 游戏界面（Final Battle）：兵团资金、自由之翼、等级和经验值、友好度、显示名称的每种制作材料和礼物（带最大化材料按钮）以及已装备的技能；流加密和字校验和会重新写入。已在公开存档和游戏中验证
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= 游戏界面（Final Battle）：兵团资金、自由之翼、等级和经验值、友好度、显示名称的每种制作材料和礼物（带最大化材料按钮）以及已装备的技能（带装备全部技能按钮）；流加密和字校验和会重新写入。已在公开存档和游戏中验证
 
 Friendship (characters you've met)
 = 友好度（你遇到过的角色）
@@ -31600,3 +31600,13 @@ Xyz Summons
 
 savegame.dat of Legacy of the Duelist (Steam\\userdata\\<account>\\601510\\remote). Your duel points and the game's statistics; the save's CRC-32 signature is written again when you save. Cards, decks and unlocks are not edited. Close the game first.
 = Legacy of the Duelist的savegame.dat(Steam\\userdata\\<account>\\601510\\remote)。可编辑决斗点数和游戏统计;保存时会重新写入存档的CRC-32签名。卡片、卡组和解锁内容不会被编辑。请先关闭游戏。
+
+# src/game_ui/simple.rs (Attack on Titan 2 skills)
+Equip all skills
+= 装备全部技能
+
+Equips every skill in this save, including the ones you haven't learned. The game normally limits what you equip by your SP; it doesn't check that when it loads the save.
+= 装备此存档中的所有技能，包括尚未习得的技能。游戏通常按 SP 限制可装备的技能，但读取存档时不会检查。
+
+Every skill is already equipped.
+= 所有技能都已装备。

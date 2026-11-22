@@ -274,6 +274,22 @@ fn set_count(cx: &mut GameCtx, l: &List, count_path: &str, v: Value) {
     cx.set(count_path, v);
 }
 
+/// Attack on Titan 2's "Equip all skills" button: ticks every skill's Equipped flag in the save
+/// being edited (one save file is one slot). It stays greyed out once every skill is equipped.
+fn equip_all_skills(ui: &Ui, cx: &mut GameCtx, t_path: &str, rows: &[(String, String)]) {
+    let off: Vec<String> = rows
+        .iter()
+        .map(|(key, _)| format!("{t_path}/{key}/Equipped"))
+        .filter(|p| cx.get(p).and_then(Value::as_str) == Some("No"))
+        .collect();
+    let tip = tr("Equips every skill in this save, including the ones you haven't learned. The game normally limits what you equip by your SP; it doesn't check that when it loads the save.");
+    if super::quick_action(ui, tr("Equip all skills"), tip, !off.is_empty(), tr("Every skill is already equipped.")) {
+        for p in off {
+            cx.set(&p, Value::from("Yes"));
+        }
+    }
+}
+
 /// What "Max crafting materials" does on one list; returns the stacks raised.
 pub fn apply_max(cx: &mut GameCtx, l: &List) -> usize {
     let Some(m) = &l.max else { return 0 };
@@ -411,6 +427,9 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                     continue;
                 }
                 panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
+                    if lists_first && t.path == "/Skills" {
+                        equip_all_skills(ui, cx, t_path, &rows);
+                    }
                     let q = filter(ui, &format!("t{i}/{ti}"));
                     // A table wider than the window scrolls sideways; a solid bar (only when it overflows) shows that more is there.
                     ui.style_mut().spacing.scroll = egui::style::ScrollStyle::solid();
@@ -698,6 +717,34 @@ mod tests {
         problems.sort();
         problems.dedup();
         assert!(problems.is_empty(), "{} translated texts are cut off:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
+    }
+
+    /// "Equip all skills" ticks only the skills that are off, and greys out once all are on.
+    #[test]
+    fn aot2_equip_all_skills_ticks_every_skill() {
+        let root = json!({ "Skills": { "Willpower": { "Equipped": "No" }, "Robbery Lv. 2": { "Equipped": "No" }, "Swoop Attack": { "Equipped": "Yes" } } });
+        let rows: Vec<(String, String)> = root["Skills"].as_object().unwrap().keys().map(|k| (k.clone(), k.clone())).collect();
+        let ctx = egui::Context::default();
+        let press = |root: &Value| {
+            ctx.data_mut(|d| d.insert_temp(egui::Id::new(super::super::QA_CLICK), tr("Equip all skills").to_string()));
+            let mut edits = vec![];
+            let _ = ctx.run(egui::RawInput::default(), |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    let mut cx = GameCtx { root, baseline: root, tree: None, edits: vec![], archive: None, open_entry: None };
+                    equip_all_skills(ui, &mut cx, "/Skills", &rows);
+                    edits = cx.edits;
+                });
+            });
+            edits
+        };
+        let mut edits = press(&root);
+        edits.sort_by(|a, b| a.0.cmp(&b.0));
+        assert_eq!(edits, vec![("/Skills/Robbery Lv. 2/Equipped".to_string(), json!("Yes")), ("/Skills/Willpower/Equipped".to_string(), json!("Yes"))]);
+        let mut after = root.clone();
+        for (p, v) in edits {
+            *after.pointer_mut(&p).unwrap() = v;
+        }
+        assert!(press(&after).is_empty(), "nothing left to equip, so the button does nothing");
     }
 
     #[test]
