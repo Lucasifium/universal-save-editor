@@ -31566,3 +31566,17 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = Toutes les compétences sont déjà équipées.
+
+# The Witcher 2, DOOM Eternal
+Decrypted with your Steam account and encrypted again on save; profile.bin opens for Value search and game.details as text (its checksum isn't worked out, so leave it alone). The level saves (game_duration.dat) are packed again inside and aren't opened further
+= Déchiffré avec votre compte Steam et chiffré à nouveau à l'enregistrement ; profile.bin s'ouvre pour la recherche de valeurs et game.details en texte (sa somme de contrôle n'est pas calculée, n'y touchez donc pas). Les sauvegardes de niveau (game_duration.dat) sont compressées une seconde fois à l'intérieur et ne sont pas ouvertes plus loin
+
+Game screen: Geralt's experience, unspent talent points and Orens. The save's DZIP container is unpacked and packed again. Checked on several saves, not yet tried in the game
+= Écran du jeu : l'expérience de Geralt, ses points de talent non dépensés et ses orens. Le conteneur DZIP de la sauvegarde est décompressé puis recompressé. Vérifié sur plusieurs sauvegardes, pas encore essayé en jeu
+
+ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gamesaves. Geralt's experience, unspent talent points and Orens. The save is unpacked and packed again when you save. Close the game first.
+= ManualSave_N.sav, AutoSave_N.sav ou QuickSave.sav dans Documents\\Witcher 2\\gamesaves. L'expérience de Geralt, ses points de talent non dépensés et ses orens. La sauvegarde est décompressée puis recompressée à l'enregistrement. Fermez d'abord le jeu.
+
+Orens
+= Orens
+

@@ -328,6 +328,9 @@ pub mod gtasa;
 pub mod arkhamcity;
 pub mod deadspace2;
 pub mod bloodlines;
+pub mod witcher2;
+pub mod doometernal;
+pub mod kcd;
 pub mod justcause2;
 pub mod tov;
 pub mod sa2chao;
@@ -373,6 +376,11 @@ use crate::tree::TreeDoc;
 
 /// Binary formats with a recognisable signature (checked before text detection).
 pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
+    if witcher2::looks(d) {
+        if let Ok(t) = witcher2::parse(d) {
+            return Some(t);
+        }
+    }
     if bloodlines::looks(d) {
         if let Ok(t) = bloodlines::parse(d) {
             return Some(t);

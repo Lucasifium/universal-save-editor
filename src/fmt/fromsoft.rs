@@ -221,6 +221,9 @@ fn find_sekiro(d: &[u8]) -> Option<usize> {
             && posture[0] <= posture[1]
             && (50..=posture[1]).contains(&posture[2])
             && (1..=99).contains(&u32_at(d, o + 0x30))
+            // Sen within the game's limit: other 1 MB blocks (map chunks of other games) can match the bars by chance
+            && i128::from(u32_at(d, o + 0x64)) <= CURRENCY.1
+            && u32_at(d, o + 0x13C) <= 9_999
     })
 }
 
@@ -878,6 +881,26 @@ mod tests {
         let out = doc.to_bytes().unwrap();
         assert_eq!(u16_at(&out, 0x34), 25, "Adaptability is stored after Faith");
         assert_eq!(u32_at(&out, 0x3C), 32);
+    }
+
+    #[test]
+    fn sekiro_needs_sen_within_the_limit() {
+        // a 1 MB block from another game whose numbers happen to look like the bars
+        let mut d = vec![0u8; SEKIRO_SLOT];
+        let o = 0x40000;
+        for (k, v) in [100, 1024, 126].into_iter().enumerate() {
+            put32(&mut d, o + k * 4, v);
+        }
+        for (k, v) in [73, 91, 73].into_iter().enumerate() {
+            put32(&mut d, o + 0x1C + k * 4, v);
+        }
+        put32(&mut d, o + 0x30, 9);
+        put32(&mut d, o + 0x64, 1_500_000_000);
+        assert_eq!(detect(&d), None);
+        put32(&mut d, o + 0x64, 850);
+        assert_eq!(detect(&d), Some(Game::Sekiro));
+        put32(&mut d, o + 0x13C, 50_000); // skill points earned: far past anything reachable
+        assert_eq!(detect(&d), None);
     }
 
     #[test]

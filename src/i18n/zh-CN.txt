@@ -31610,3 +31610,17 @@ Equips every skill in this save, including the ones you haven't learned. The gam
 
 Every skill is already equipped.
 = 所有技能都已装备。
+
+# The Witcher 2, DOOM Eternal
+Decrypted with your Steam account and encrypted again on save; profile.bin opens for Value search and game.details as text (its checksum isn't worked out, so leave it alone). The level saves (game_duration.dat) are packed again inside and aren't opened further
+= 用你的 Steam 账户解密，保存时重新加密；profile.bin 可用于数值搜索，game.details 以文本打开（其校验和不会重新计算，请不要修改）。关卡存档（game_duration.dat）内部还经过一次压缩，不会进一步打开
+
+Game screen: Geralt's experience, unspent talent points and Orens. The save's DZIP container is unpacked and packed again. Checked on several saves, not yet tried in the game
+= 游戏界面：杰洛特的经验、未使用的天赋点和奥伦。存档的 DZIP 容器会被解包并重新打包。已在多个存档上检查，尚未在游戏中试过
+
+ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gamesaves. Geralt's experience, unspent talent points and Orens. The save is unpacked and packed again when you save. Close the game first.
+= Documents\\Witcher 2\\gamesaves 中的 ManualSave_N.sav、AutoSave_N.sav 或 QuickSave.sav。杰洛特的经验、未使用的天赋点和奥伦。保存时会解包并重新打包存档。请先关闭游戏。
+
+Orens
+= 奥伦
+

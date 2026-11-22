@@ -272,6 +272,10 @@ pub enum Layer {
     Sw5 { account: u32, seed: u32 },
     /// Middle-earth: Shadow of War: AES-256-CBC keyed by the user id, the CRC-32 of the plain data in the header.
     Sow { user: u32 },
+    /// DOOM Eternal: AES-128-GCM keyed by the SteamID64 and the file's name.
+    DoomEternal { steam: u64, nonce: [u8; 12], name: String },
+    /// Kingdom Come: Deliverance `.whs`: zlib pieces of 32 KB and a 64-byte trailer.
+    Kcd(fmt::kcd::Packed),
     /// Capcom RE Engine "Citrus" encryption (Monster Hunter Rise on Steam): the file it came
     /// from (for its block keys), the curve and the Steam ID.
     Citrus { original: Arc<Vec<u8>>, curve: usize, steam: u64 },
@@ -503,6 +507,8 @@ impl Layer {
             Layer::Bl4 { .. } => "Borderlands 4 save encryption".into(),
             Layer::Sw5 { .. } => "Samurai Warriors 5 save encryption".into(),
             Layer::Sow { .. } => "Shadow of War save encryption (checksum written again)".into(),
+            Layer::DoomEternal { .. } => "DOOM Eternal save encryption".into(),
+            Layer::Kcd(_) => "Kingdom Come: Deliverance save (zlib pieces)".into(),
             Layer::Citrus { .. } => "Monster Hunter Rise save encryption".into(),
             Layer::RegFile(_) => "Registry values (Unity PlayerPrefs)".into(),
             Layer::Sol { .. } => "Flash shared object (.sol)".into(),
@@ -1190,6 +1196,8 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
         Layer::Bl4 { user } => fmt::bl4::encrypt(&data, user)?,
         Layer::Sw5 { account, seed } => fmt::sw5::encrypt(&data, *account, *seed)?,
         Layer::Sow { user } => fmt::sow::encrypt(&data, *user),
+        Layer::DoomEternal { steam, nonce, name } => fmt::doometernal::encrypt(&data, nonce, *steam, name),
+        Layer::Kcd(p) => fmt::kcd::close(p, &data)?,
         Layer::Citrus { original, curve, steam } => fmt::citrus::encrypt(&data, original, *curve, *steam)?,
         Layer::RegFile(meta) => fmt::regfile::save(meta, &data)?,
         Layer::Sol { original } => fmt::sol::save(original, &data)?,
@@ -1447,6 +1455,11 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     if fmt::ottd::maybe(data) {
         if let Some((p, inner)) = fmt::ottd::open(data) {
             return Some((Layer::Ottd(p), inner));
+        }
+    }
+    if fmt::kcd::maybe(data) {
+        if let Some((p, inner)) = fmt::kcd::open(data) {
+            return Some((Layer::Kcd(p), inner));
         }
     }
     if fmt::grimrock::maybe(data) {
@@ -1787,6 +1800,14 @@ fn peel(data: &[u8], ctx: &mut Ctx, json: &JsonOnce) -> Option<(Layer, Vec<u8>)>
     }
     if fmt::lime::looks(data) {
         return peel_lime(data, ctx);
+    }
+    if let Some(name) = ctx.opts.path.as_ref().and_then(|p| p.file_name()).map(|n| n.to_string_lossy().to_string()).filter(|n| fmt::doometernal::maybe(data, n)) {
+        if let Some((steam, nonce, plain)) = fmt::doometernal::find(data, &name, &ree_accounts(ctx)) {
+            ctx.hint = Some("DOOM Eternal save: decrypted with your Steam account and encrypted again on save. game.details carries a checksum the editor doesn't work out, so change values in profile.bin. Close the game first and turn Steam Cloud off for it.".into());
+            return Some((Layer::DoomEternal { steam, nonce, name }, plain));
+        }
+        // (the decrypted data passes through here again under the same name; keep the first hint)
+        ctx.hint.get_or_insert_with(|| "This looks like a DOOM Eternal save, but no Steam account on this computer opens it. Keep the file's own name and open it from its folder (Steam\\userdata\\<account>\\782330\\remote), or enter your Steam ID (17 digits) in Tools \u{203A} Decrypt with password.".into());
     }
     if fmt::sow::maybe(data) {
         let users = fmt::sow::users(ctx.opts.path.as_deref(), ctx.opts.password.as_deref());

@@ -1,0 +1,19 @@
+name = "The Witcher 2: Assassins of Kings"
+tab = "Geralt"
+accent = [150, 120, 70]
+kind = "The Witcher 2 save"
+markers = ["/Geralt/Experience"]
+subtitle = '''ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\Witcher 2\gamesaves. Geralt's experience, unspent talent points and Orens. The save is unpacked and packed again when you save. Close the game first.'''
+tiles = [
+    ["Orens", "/Geralt/Orens"],
+    ["Experience", "/Geralt/Experience"],
+    ["Talent points", "/Geralt/Talent points"],
+]
+
+[[sections]]
+title = "Geralt"
+rows = [
+    ["Orens", "/Geralt/Orens"],
+    ["Experience", "/Geralt/Experience"],
+    ["Talent points", "/Geralt/Talent points"],
+]

@@ -3,7 +3,7 @@
 > **Free, and it always will be.** No price, no ads, no account, no paid version, no online service, no
 > rate limits. If anyone is charging you for this, it isn't from here.
 
-An offline save editor and save manager for 580+ (587) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
+An offline save editor and save manager for 590+ (590) PC games (edit saves, and back up, name and restore them): Cairn, Terraria (characters and a world map editor),
 Oxygen Not Included, RimWorld, Stardew Valley, Onimusha: Way of the Sword, Elden Ring, Dark Souls,
 Cyberpunk 2077, the Persona, Yakuza and Final Fantasy games, Ren'Py visual novels, RPG Maker games
 and more (see the [full list](GAMES.md)). Written in Rust (egui). Nothing is uploaded anywhere, and there are
@@ -107,7 +107,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 ## Find my game's saves
 
-*Find my game's saves* (the big button on the start page, *Find saves* in the toolbar and the File menu) lists every one of the 580+ (587) PC games the editor knows, with where it usually keeps its saves and what the files are called, and finds them on your computer: every Steam library (old and new `libraryfolders.vdf`) and `userdata`, Documents wherever Windows has it (moved to another drive, in OneDrive, or left in the user folder), AppData, LocalLow, Saved Games, Ubisoft Connect, Game Pass, and the install folders of Epic, GOG and other launchers. On Linux, macOS and the Steam Deck it also looks inside Proton, Wine, Heroic, Lutris, Bottles, CrossOver and Whisky prefixes, the native `~/.config`, `~/.local/share` and `Application Support` folders, and the folders of emulators such as DuckStation, PCSX2, Dolphin and Citra. Every search looks at all the usual places again, so a game or profile added since the last search is found without waiting.
+*Find my game's saves* (the big button on the start page, *Find saves* in the toolbar and the File menu) lists every one of the 590+ (590) PC games the editor knows, with where it usually keeps its saves and what the files are called, and finds them on your computer: every Steam library (old and new `libraryfolders.vdf`) and `userdata`, Documents wherever Windows has it (moved to another drive, in OneDrive, or left in the user folder), AppData, LocalLow, Saved Games, Ubisoft Connect, Game Pass, and the install folders of Epic, GOG and other launchers. On Linux, macOS and the Steam Deck it also looks inside Proton, Wine, Heroic, Lutris, Bottles, CrossOver and Whisky prefixes, the native `~/.config`, `~/.local/share` and `Application Support` folders, and the folders of emulators such as DuckStation, PCSX2, Dolphin and Citra. Every search looks at all the usual places again, so a game or profile added since the last search is found without waiting.
 
 The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), and each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered and checked first; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
 

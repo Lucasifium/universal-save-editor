@@ -503,7 +503,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>T</strong> (45)</summary>
+<summary><strong>T</strong> (46)</summary>
 
 | Game | Screen |
 |---|---|
@@ -531,6 +531,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | The Sims 2 (incl. Legacy and Ultimate Collection) | One tab per family: funds, and for every Sim the seven skills and five personality traits (0–1000, 100 per point), job performance and aspiration score; townies and the default families are on the *Values* tab with Advanced on. Open `N001_Neighborhood.package`; edited parts are stored uncompressed when the package is saved (the way SimPE does). Sims carry their id, not their name |
 | The Sims 3 | One tab per household (the most-played first): funds (up to 99,999,999), and for every Sim their lifetime reward points, lifetime happiness, celebrity level and points, job and school performance, needs (with a **Fill every need** button) and skills of every age group, including toddler, child and expansion skills, each up to its own highest level (with a **Max every skill** button). The supernatural type is shown but can't be changed. Open `<world>_0x….nhd` inside the town's `.sims3` folder in `Documents\Electronic Arts\The Sims 3\Saves`; the game data is stored uncompressed when saved, so the file grows (checked on public saves, not yet tried in the game) |
 | The Sims 4 | One tab per household: funds (up to 99,999,999) and its Sims with their names, ages and genders. Open `Slot_0000000N.save`; the game data is stored uncompressed when saved, so the file grows (checked on a public save, not yet tried in the game). Skills and traits aren't mapped yet |
+| The Witcher 2: Assassins of Kings | *Geralt*: experience, unspent talent points and Orens, from `ManualSave_N.sav`, `AutoSave_N.sav` or `QuickSave.sav` (the DZIP container is unpacked and packed again; not yet tried in the game) |
 | The Witcher 3 | *Geralt*: crowns, level, unspent skill points and experience; a *Story* panel of about 3,000 quest facts by quest type and area (choices made, who lived, who ruled, romances), checked against a public 100% save with a known ending (repacked with LZ4 on save; not yet tried in the game) |
 | theHunter: Call of the Wild | *Hunter*: cash, level, XP and the skill and perk points of the profile (`thp_player_profile_adf`, an Avalanche ADF file read from its own type definitions and edited in place); no crafting materials (checked on public saves, not yet tried in the game) |
 | Thief Simulator | *Thief*: cash, level, experience, skill points, hard mode and New Game Plus, from the plain JSON `playerdata_…` file (checked on public saves, not yet tried in the game) |
