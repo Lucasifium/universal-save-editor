@@ -31719,3 +31719,13 @@ ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gam
 Orens
 = Orens
 
+# data/games, src/games.rs: Pillars of Eternity
+
+<id> <name>.savegame (the Microsoft Store version keeps MobileObjects.save in a folder)
+= <ID> <Name>.savegame (die Microsoft-Store-Version legt MobileObjects.save in einen Ordner)
+
+A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.
+= Eine .savegame aus Saved Games\\Pillars of Eternity (ein Zip; darin wird MobileObjects.save bearbeitet, der Rest bleibt erhalten) oder die MobileObjects.save der Microsoft-Store-Version. Geld, Lagervorräte, der Schwierigkeitsgrad, Erfahrung, Attribute und Fertigkeiten jedes Gruppenmitglieds sowie die Größe jedes Stapels, den du trägst oder im Lager hast. Fertigkeiten zählen die dafür ausgegebenen Fertigkeitspunkte. Stufen steigen im Spiel, sobald die Erfahrung reicht. Alles andere ist im Baum. Schließe zuerst das Spiel.
+
+Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
+= Spielbildschirm: Geld, Lagervorräte, der Schwierigkeitsgrad, Erfahrung, Attribute, Fertigkeiten und unverteilte Fertigkeitspunkte jedes Gruppenmitglieds sowie die Größe jedes Stapels in Inventar, Lager und Zutaten. Das .savegame-Zip wird geöffnet und seine Objektliste direkt bearbeitet; der Rest bleibt erhalten. An öffentlichen Spielständen geprüft, noch nicht im Spiel ausprobiert

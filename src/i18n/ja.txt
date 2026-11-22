@@ -31797,3 +31797,13 @@ ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gam
 Orens
 = オレン
 
+# data/games, src/games.rs: Pillars of Eternity
+
+<id> <name>.savegame (the Microsoft Store version keeps MobileObjects.save in a folder)
+= <ID> <名前>.savegame（Microsoft Store 版は MobileObjects.save をフォルダーに保存します）
+
+A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.
+= Saved Games\\Pillars of Eternity の .savegame（zip。中の MobileObjects.save を編集し、残りはそのまま保持します）、または Microsoft Store 版の MobileObjects.save。所持金、キャンプ用品、難易度、各パーティーメンバーの経験値・能力値・スキル、そして持ち物や倉庫にある各スタックの数。スキルはそれに使ったスキルポイントで数えます。レベルは経験値が足りるとゲーム内で上がります。その他はすべてツリーにあります。先にゲームを閉じてください。
+
+Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
+= ゲーム画面：所持金、キャンプ用品、難易度、各パーティーメンバーの経験値・能力値・スキル・未使用スキルポイント、そして所持品・倉庫・素材の各スタックの数。.savegame の zip を開き、オブジェクト一覧をその場で編集します。残りはそのまま保持します。公開セーブで確認済み、ゲーム内では未確認

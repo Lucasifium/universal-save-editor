@@ -31712,3 +31712,13 @@ ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gam
 Orens
 = Orens
 
+# data/games, src/games.rs: Pillars of Eternity
+
+<id> <name>.savegame (the Microsoft Store version keeps MobileObjects.save in a folder)
+= <id> <nombre>.savegame (la versión de Microsoft Store guarda MobileObjects.save en una carpeta)
+
+A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.
+= Un .savegame de Saved Games\\Pillars of Eternity (un zip; se edita su MobileObjects.save y el resto se conserva), o el MobileObjects.save de la versión de Microsoft Store. Dinero, suministros de acampada, la dificultad, la experiencia, los atributos y las habilidades de cada miembro del grupo, y el tamaño de cada pila que llevas o guardas en el alijo. Las habilidades cuentan los puntos de habilidad gastados en ellas. Los niveles suben en el juego cuando hay experiencia suficiente. Todo lo demás está en el Árbol. Cierra el juego primero.
+
+Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
+= Pantalla del juego: dinero, suministros de acampada, la dificultad, la experiencia, los atributos, las habilidades y los puntos de habilidad sin gastar de cada miembro del grupo, y el tamaño de cada pila del inventario, el alijo y los ingredientes. Se abre el zip .savegame y su lista de objetos se edita en el sitio; el resto se conserva. Comprobado con partidas públicas, aún no probado en el juego

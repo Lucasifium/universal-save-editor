@@ -300,6 +300,7 @@ pub mod dw4h;
 pub mod falcom;
 mod falcom_tables;
 pub mod obsidian;
+pub mod pillars;
 pub mod roadhog;
 pub mod saltsanc;
 pub mod wasteland2;
@@ -1530,6 +1531,11 @@ pub fn parse_binary(d: &[u8]) -> Option<TreeDoc> {
     }
     if d.starts_with(&[4, 8]) {
         if let Ok(t) = marshal::parse(d) {
+            return Some(t);
+        }
+    }
+    if pillars::looks(d) {
+        if let Ok(t) = pillars::parse(d) {
             return Some(t);
         }
     }

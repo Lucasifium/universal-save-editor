@@ -31686,3 +31686,13 @@ ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gam
 Orens
 = Orens
 
+# data/games, src/games.rs: Pillars of Eternity
+
+<id> <name>.savegame (the Microsoft Store version keeps MobileObjects.save in a folder)
+= <id> <nome>.savegame (a versão da Microsoft Store guarda MobileObjects.save em uma pasta)
+
+A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.
+= Um .savegame de Saved Games\\Pillars of Eternity (um zip; o MobileObjects.save dele é editado e o resto é mantido), ou o MobileObjects.save da versão da Microsoft Store. Dinheiro, suprimentos de acampamento, a dificuldade, a experiência, os atributos e as perícias de cada membro do grupo, e o tamanho de cada pilha que você carrega ou guarda no baú. As perícias contam os pontos de perícia gastos nelas. Os níveis sobem no jogo quando a experiência é suficiente. Todo o resto está na Árvore. Feche o jogo primeiro.
+
+Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
+= Tela do jogo: dinheiro, suprimentos de acampamento, a dificuldade, a experiência, os atributos, as perícias e os pontos de perícia não gastos de cada membro do grupo, e o tamanho de cada pilha do inventário, do baú e dos ingredientes. O zip .savegame é aberto e sua lista de objetos editada no lugar; o resto é mantido. Verificado em saves públicos, ainda não testado no jogo

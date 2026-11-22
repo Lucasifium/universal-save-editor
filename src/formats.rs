@@ -807,7 +807,7 @@ fn generic_unzip(data: &[u8], ctx: &mut Ctx) -> Option<(Layer, Vec<u8>)> {
                 // Decoding a big entry just to rank it is slow (Stellaris' gamestate is tens
                 // of MB): text-looking big entries count as editable without it.
                 let editable = if len > 1 << 20 {
-                    !bytes[..len.min(4096)].contains(&0) || fmt::pdxbin::looks(&bytes)
+                    !bytes[..len.min(4096)].contains(&0) || fmt::pdxbin::looks(&bytes) || fmt::pillars::looks(&bytes)
                 } else {
                     !matches!(decode(&bytes).content, Content::Binary(_))
                 };
@@ -860,6 +860,27 @@ fn pdx_sav_doc(data: &[u8], original: &[u8], opts: &Options) -> Option<TreeDoc> 
         }
     }
     fmt::pdxbin::parse_as(data, game, &lookup).ok()
+}
+
+/// Writes a zip entry back: the archive as it was when the entry is unchanged, else rebuilt.
+fn zip_entry_close(archive: &[u8], name: &str, data: &[u8]) -> Result<Vec<u8>, String> {
+    let read = |entry: &str| -> Option<Vec<u8>> {
+        let mut zip = zip::ZipArchive::new(Cursor::new(archive)).ok()?;
+        let mut out = Vec::new();
+        zip.by_name(entry).ok()?.read_to_end(&mut out).ok()?;
+        Some(out)
+    };
+    if read(name).as_deref() == Some(data) {
+        return Ok(archive.to_vec());
+    }
+    // Pillars of Eternity: the load screen's difficulty (saveinfo.xml) follows the save's.
+    if name == "MobileObjects.save" && fmt::pillars::looks(data) {
+        let info = fmt::pillars::difficulty_id(data).zip(read("saveinfo.xml")).and_then(|(id, xml)| fmt::pillars::saveinfo_with_difficulty(&xml, id));
+        if let Some(info) = info {
+            return rezip_after(Vec::new(), archive, &[(name, data), ("saveinfo.xml", &info)], false);
+        }
+    }
+    rezip(archive, name, data, false)
 }
 
 /// Rebuild a zip, replacing `name` with `data` (and re-signing Ren'Py saves).
@@ -942,7 +963,7 @@ fn wrap(layer: &Layer, data: Vec<u8>) -> Result<Vec<u8>, String> {
     let io = |e: std::io::Error| e.to_string();
     Ok(match layer {
         Layer::RenpyZip { archive, .. } => rezip(archive, "log", &data, true)?,
-        Layer::ZipEntry { archive, name } => rezip(archive, name, &data, false)?,
+        Layer::ZipEntry { archive, name } => zip_entry_close(archive, name, &data)?,
         Layer::PdxSav { original, zip_at } => pdx_sav_wrap(original, *zip_at, &data)?,
         Layer::RenpyPersistent { signed } => {
             let mut out = compress(ZlibEncoder::new(Vec::new(), Compression::new(3)), &data)?.finish().map_err(io)?;

@@ -31726,3 +31726,13 @@ ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gam
 Orens
 = Orens
 
+# data/games, src/games.rs: Pillars of Eternity
+
+<id> <name>.savegame (the Microsoft Store version keeps MobileObjects.save in a folder)
+= <id> <nom>.savegame (la version Microsoft Store range MobileObjects.save dans un dossier)
+
+A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.
+= Un .savegame de Saved Games\\Pillars of Eternity (un zip ; son MobileObjects.save est modifié et le reste est conservé), ou le MobileObjects.save de la version Microsoft Store. L'argent, les fournitures de camp, la difficulté, l'expérience, les attributs et les compétences de chaque membre du groupe, et la taille de chaque pile que vous portez ou gardez dans la réserve. Les compétences comptent les points de compétence qui y ont été dépensés. Les niveaux montent dans le jeu une fois l'expérience atteinte. Tout le reste est dans l'arbre. Fermez d'abord le jeu.
+
+Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
+= Écran de jeu : l'argent, les fournitures de camp, la difficulté, l'expérience, les attributs, les compétences et les points de compétence non dépensés de chaque membre du groupe, et la taille de chaque pile de l'inventaire, de la réserve et des ingrédients. Le zip .savegame est ouvert et sa liste d'objets modifiée sur place ; le reste est conservé. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu

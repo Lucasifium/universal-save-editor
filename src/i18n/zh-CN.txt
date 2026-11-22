@@ -31770,3 +31770,13 @@ ManualSave_N.sav, AutoSave_N.sav or QuickSave.sav from Documents\\Witcher 2\\gam
 Orens
 = 奥伦
 
+# data/games, src/games.rs: Pillars of Eternity
+
+<id> <name>.savegame (the Microsoft Store version keeps MobileObjects.save in a folder)
+= <ID> <名称>.savegame（Microsoft Store 版本将 MobileObjects.save 放在一个文件夹中）
+
+A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.
+= 来自 Saved Games\\Pillars of Eternity 的 .savegame（一个 zip；编辑其中的 MobileObjects.save，其余部分保持不变），或 Microsoft Store 版本的 MobileObjects.save。金钱、露营补给、难度、每名队员的经验、属性和技能，以及你携带或存放在储藏箱中的每一堆物品的数量。技能按投入其中的技能点计算。经验足够后，等级在游戏中提升。其余内容都在树视图中。请先关闭游戏。
+
+Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
+= 游戏界面：金钱、露营补给、难度、每名队员的经验、属性、技能和未使用的技能点，以及物品栏、储藏箱和材料中每一堆物品的数量。打开 .savegame 压缩包并原地编辑其对象列表；其余部分保持不变。已在公开存档上检查，尚未在游戏中试过

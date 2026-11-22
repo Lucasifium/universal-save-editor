@@ -323,6 +323,7 @@ pub const GAME_GENRES: &[(&str, &str)] = &[
     ("Palworld", "survival"),
     ("Pathfinder: Kingmaker", "rpg"),
     ("Pathfinder: Wrath of the Righteous", "rpg"),
+    ("Pillars of Eternity", "rpg"),
     ("Pathway", "roguelike"),
     ("PAYDAY 2", "shooter"),
     ("PC Building Simulator", "simulation"),

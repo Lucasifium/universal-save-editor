@@ -396,7 +396,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 </details>
 
 <details>
-<summary><strong>P</strong> (25)</summary>
+<summary><strong>P</strong> (26)</summary>
 
 | Game | Screen |
 |---|---|
@@ -412,6 +412,7 @@ undo and checksums as everywhere else, and the *Values* and *Tree* tabs still sh
 | Persona 5 Strikers | *Save slots*: money, Persona points, unspent BOND points, and the stacks you hold of consumables, cooking ingredients, incenses, ailment remedies and skill cards. The encrypted `SAVEDATA.BIN` is opened and its checksum kept right (checked on a public save, not yet tried in the game) |
 | Phasmophobia | Money, level, prestige and experience, how many of each item you own, item tiers and their unlocks, and the journal's statistics (`SaveFile.txt`); decrypted and encrypted again on save (checked on public test saves, not yet tried in the game) |
 | Phoenix Wright: Ace Attorney Trilogy | *Episodes*: how many episodes of each of the three games are unlocked on the episode select screen, the volumes and the window size (checked on a real save, not yet tried in the game) |
+| Pillars of Eternity | *Party*: money, camping supplies, the difficulty (the load screen's copy follows), each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients, from the `.savegame` zip or the Microsoft Store version's `MobileObjects.save`; everything else opens in the Tree (checked on public saves, not yet tried in the game) |
 | Pizza Tower | *Tower*: completion %, enemies killed and play time; every level's score, rank (D to P), treasure and secrets found, and the four boss scores and ranks. checked on a public save, not yet tried in the game |
 | Planescape: Torment: Enhanced Edition | Coppers; the Nameless One and each companion: experience, level, hit points, abilities, alignment and item stacks; every global variable by name (quest stages, story choices) (checked on real saves, not yet tried in the game) |
 | Planetbase | *Colony*: coins, extra prestige, landing permissions, and the health, food, water, oxygen, sleep and morale of every colonist and the condition of every bot (plain XML; checked on public saves, not yet tried in the game) |

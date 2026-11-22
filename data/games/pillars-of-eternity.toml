@@ -1,0 +1,61 @@
+name = "Pillars of Eternity"
+tab = "Party"
+accent = [70, 140, 190]
+kind = "Pillars of Eternity save"
+markers = ["/Player/Money", "/Party"]
+subtitle = '''A .savegame from Saved Games\Pillars of Eternity (a zip; its MobileObjects.save is edited and the rest is kept), or the MobileObjects.save of the Microsoft Store version. Money, camping supplies, the difficulty, each party member's experience, attributes and skills, and the size of every stack you carry or keep in the stash. Skills count the skill points spent on them. Levels go up in the game once the experience is there. Everything else is in the Tree. Close the game first.'''
+tiles = [
+    ["Money", "/Player/Money"],
+    ["Camping supplies", "/Player/Camping supplies"],
+]
+
+[[sections]]
+title = "Game"
+rows = [
+    ["Money", "/Player/Money"],
+    ["Camping supplies", "/Player/Camping supplies"],
+    ["Difficulty", "/Game/Difficulty"],
+]
+
+[[tables]]
+title = "Party"
+path = "/Party"
+name = ["/Name"]
+cols = [
+    ["Level", "/Level"],
+    ["Experience", "/Experience"],
+    ["Class", "/Class"],
+    ["Might", "/Might"],
+    ["Constitution", "/Constitution"],
+    ["Dexterity", "/Dexterity"],
+    ["Perception", "/Perception"],
+    ["Intellect", "/Intellect"],
+    ["Resolve", "/Resolve"],
+    ["Athletics", "/Athletics"],
+    ["Lore", "/Lore"],
+    ["Mechanics", "/Mechanics"],
+    ["Survival", "/Survival"],
+    ["Stealth", "/Stealth"],
+    ["Skill points to spend", "/Skill points to spend"],
+]
+
+[[lists]]
+title = "Inventory"
+path = "/Player/Inventory"
+shape = "array"
+id_key = "Item"
+qty_keys = ["StackSize", "stackSize"]
+
+[[lists]]
+title = "Stash"
+path = "/Player/Stash"
+shape = "array"
+id_key = "Item"
+qty_keys = ["StackSize", "stackSize"]
+
+[[lists]]
+title = "Ingredients"
+path = "/Player/Ingredients"
+shape = "array"
+id_key = "Item"
+qty_keys = ["StackSize", "stackSize"]
