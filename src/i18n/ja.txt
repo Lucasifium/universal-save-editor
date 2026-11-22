@@ -30058,8 +30058,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面：資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、友好度、名前付きのすべての素材とギフト（素材最大化ボタン付き）、装備中のスキル。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、友好度、名前付きのすべての素材とギフト（素材最大化ボタン付き）、装備中のスキル（すべてのスキルを装備ボタン付き）。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
 
 Friendship (characters you've met)
 = 友好度（出会ったキャラクター）
@@ -31730,3 +31730,13 @@ Game screen: points, food, sleep, suit battery, the moon phase and the base upgr
 
 s_<name>.sav (one per save) and data.sav (statistics)
 = s_<name>.sav（セーブごとに1つ）と data.sav（統計）
+
+# src/game_ui/simple.rs (Attack on Titan 2 skills)
+Equip all skills
+= すべてのスキルを装備
+
+Equips every skill in this save, including the ones you haven't learned. The game normally limits what you equip by your SP; it doesn't check that when it loads the save.
+= このセーブのスキルを、まだ習得していないものも含めてすべて装備します。通常はSPで装備できる量が制限されますが、セーブ読み込み時には確認されません。
+
+Every skill is already equipped.
+= すべてのスキルは装備済みです。

@@ -29973,8 +29973,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Pantalla de juego: fondos y la cantidad de cada objeto que tienes; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con una partida pública, aún no probado en el juego
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= Pantalla de juego (Final Battle): fondos del regimiento, Wings of Freedom, nivel y experiencia, amistad, cada material de fabricación y regalo por su nombre con un botón Máx. materiales de fabricación, y las habilidades equipadas; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con partidas públicas y en el juego
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= Pantalla de juego (Final Battle): fondos del regimiento, Wings of Freedom, nivel y experiencia, amistad, cada material de fabricación y regalo por su nombre con un botón Máx. materiales de fabricación, y las habilidades equipadas con un botón Equipar todas las habilidades; el cifrado de flujo y la suma de palabras se reescriben. Comprobado con partidas públicas y en el juego
 
 Friendship (characters you've met)
 = Amistad (personajes que conoces)
@@ -31645,3 +31645,13 @@ Game screen: points, food, sleep, suit battery, the moon phase and the base upgr
 
 s_<name>.sav (one per save) and data.sav (statistics)
 = s_<name>.sav (una por partida) y data.sav (estadísticas)
+
+# src/game_ui/simple.rs (Attack on Titan 2 skills)
+Equip all skills
+= Equipar todas las habilidades
+
+Equips every skill in this save, including the ones you haven't learned. The game normally limits what you equip by your SP; it doesn't check that when it loads the save.
+= Equipa todas las habilidades de esta partida, incluidas las que aún no has aprendido. El juego suele limitar lo que equipas según tus SP; no lo comprueba al cargar la partida.
+
+Every skill is already equipped.
+= Todas las habilidades ya están equipadas.
