@@ -107,6 +107,34 @@ const FRIEND_NAMES2: [(usize, &str); 39] = [
     (48, "Merchant Association Boss"),
 ];
 
+/// Owned gear: Blades, Scabbards and ODM gear, 99 rows of 0x40 bytes each (the rows' offsets
+/// match the public PS4 patch list shifted by 0x114740). A row holds the piece's number at +0x18
+/// (0xFF: free) and its upgrade at +0x19 (u16). The game lists the rows in order and has no
+/// separate count: filling the first free row adds a piece, which it shows as new. Names and
+/// upgrade values were read in the game from saves of its own: 1 to 99 show as "+1" to "+99" and
+/// 0x1C6 as "+99" with a star, the value of every fully upgraded piece.
+const GEAR2: [(&str, usize); 3] = [("Blades", P + 0x1363C0), ("Scabbards", P + 0x137C80), ("ODM gear", P + 0x139540)];
+const GEAR_ROWS2: usize = 99;
+const GEAR_STRIDE2: usize = 0x40;
+const GEAR_FREE2: u8 = 0xFF;
+/// `(number, blade, scabbard, ODM gear)`; an empty name is a piece not seen in that list.
+const GEAR_NAMES2: [(u8, &str, &str, &str); 12] = [
+    (51, "Shadow Falcon", "", ""),
+    (87, "Perfected Blade - Ultimate", "Perfected Scabbard - Ultimate", "Perfected Gear - Ultimate"),
+    (92, "Evil Edge", "Evil Coffin", "Evil Drive"),
+    (93, "Chrono Cutter I", "Chrono Booster I", "Chrono Reaper I"),
+    (102, "Fury Blade - Ultimate", "Fury Scabbard - Ultimate", "Fury Gear - Ultimate"),
+    (103, "Divine Reinforced Blade", "Divine Reinforced Scabbard", "Divine Reinforced Gear"),
+    (105, "Kusanagi Zero", "Tsunami Zero", ""),
+    (106, "Blood Rapier", "", ""),
+    (107, "Ultimate Duster", "", ""),
+    (108, "", "Crescent Sheath II", "Crescent Gear II"),
+    (109, "Crescent Blade II", "Shadow Hurricane", "Shadow Moonbow"),
+    (111, "", "Demon God Scabbard Mk II", "Demon God Gear Mk II"),
+];
+/// The upgrade of a fully upgraded piece, shown as "+99" with a star.
+const GEAR_UPGRADE_MAX2: u64 = 0x1C6;
+
 fn w16(d: &[u8], at: usize) -> u16 {
     u16::from_le_bytes([d[at], d[at + 1]])
 }
@@ -197,6 +225,47 @@ fn pack(p: &mut Vec<u8>) {
     stream(&mut p[P..], seed, adv);
 }
 
+/// The gear you own in each list, plus the first free row for adding a piece. A piece's number
+/// can only be set to a name seen in that list; an upgrade value the game hasn't been seen to show
+/// is listed by its number.
+fn gear(b: &mut Builder, p: &[u8]) {
+    for (list, (title, start)) in GEAR2.iter().enumerate() {
+        let names: Vec<(String, u64)> = GEAR_NAMES2
+            .iter()
+            .map(|g| (g.0, [g.1, g.2, g.3][list]))
+            .filter(|(_, n)| !n.is_empty())
+            .map(|(id, n)| (n.to_string(), u64::from(id)))
+            .collect();
+        let mut free_shown = false;
+        for i in 0..GEAR_ROWS2 {
+            let at = start + i * GEAR_STRIDE2;
+            let id = p[at + 0x18];
+            let free = id == GEAR_FREE2;
+            if free && free_shown {
+                continue;
+            }
+            let mut items = names.clone();
+            if free {
+                free_shown = true;
+                items.insert(0, ("(free slot)".to_string(), u64::from(GEAR_FREE2)));
+            } else if !items.iter().any(|(_, v)| *v == u64::from(id)) {
+                items.insert(0, (format!("Item {id}"), u64::from(id)));
+            }
+            let row = format!("Slot {:02}", i + 1);
+            b.pick(&[title, &row, "Piece"], at + 0x18, Kind::U8, &items);
+            let up = u64::from(w16(p, at + 0x19));
+            let mut ups: Vec<(String, u64)> = std::iter::once(("None".to_string(), 0))
+                .chain((1..=99).map(|n| (format!("+{n}"), n)))
+                .chain(std::iter::once(("+99 with star".to_string(), GEAR_UPGRADE_MAX2)))
+                .collect();
+            if !ups.iter().any(|(_, v)| *v == up) {
+                ups.insert(0, (format!("Value {up}"), up));
+            }
+            b.pick(&[title, &row, "Upgrade"], at + 0x19, Kind::U16, &ups);
+        }
+    }
+}
+
 pub fn looks(d: &[u8]) -> bool {
     unpack(d).is_some()
 }
@@ -251,6 +320,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         for (bit, name) in SKILL_BITS2 {
             super::retro::flag(&mut b, &["Skills", name, "Equipped"], SKILLS2 + bit / 8, (bit % 8) as u32);
         }
+        gear(&mut b, &p);
         for i in 0..GIFT_ROWS2 {
             let at = GIFTS2 + i * GIFT_STRIDE2;
             // A gift row the game has set up (flag 0x01, or 0x41) is listed even at 0: giving it a
@@ -284,6 +354,51 @@ mod tests {
         }
         p[2..4].copy_from_slice(&0x1234u16.to_le_bytes());
         p
+    }
+
+    /// Owned gear is named and its upgrade shown; the first free row takes a new piece.
+    #[test]
+    fn second_game_gear() {
+        let mut p = blank(false);
+        for (_, start) in GEAR2 {
+            for i in 0..GEAR_ROWS2 {
+                p[start + i * GEAR_STRIDE2 + 0x18] = GEAR_FREE2;
+            }
+        }
+        let blades = GEAR2[0].1;
+        p[blades + 0x18..blades + 0x1B].copy_from_slice(&[87, 0xC6, 0x01]);
+        p[blades + GEAR_STRIDE2 + 0x18..blades + GEAR_STRIDE2 + 0x1B].copy_from_slice(&[105, 0x63, 0]);
+        p[blades + 2 * GEAR_STRIDE2 + 0x18..blades + 2 * GEAR_STRIDE2 + 0x1B].copy_from_slice(&[70, 0x63, 0x01]);
+        pack(&mut p);
+        let d = p;
+        let mut doc = parse(&d).unwrap();
+        assert_eq!(doc.to_bytes().unwrap(), d);
+        assert_eq!(doc.view.pointer("/Blades/Slot 01/Piece").unwrap(), "Perfected Blade - Ultimate");
+        assert_eq!(doc.view.pointer("/Blades/Slot 01/Upgrade").unwrap(), "+99 with star");
+        assert_eq!(doc.view.pointer("/Blades/Slot 02/Piece").unwrap(), "Kusanagi Zero");
+        assert_eq!(doc.view.pointer("/Blades/Slot 02/Upgrade").unwrap(), "+99");
+        // A piece or upgrade value not seen in the game is shown by its number.
+        assert_eq!(doc.view.pointer("/Blades/Slot 03/Piece").unwrap(), "Item 70");
+        assert_eq!(doc.view.pointer("/Blades/Slot 03/Upgrade").unwrap(), "Value 355");
+        doc.set("/Blades/Slot 03/Upgrade", "+16".into()).unwrap();
+        // Only the first free row is listed; a list with nothing owned shows just that row.
+        assert_eq!(doc.view.pointer("/Blades/Slot 04/Piece").unwrap(), "(free slot)");
+        assert!(doc.view.pointer("/Blades/Slot 05").is_none());
+        assert_eq!(doc.view.pointer("/ODM gear").unwrap().as_object().unwrap().len(), 1);
+        // A blade name can't go in the scabbard list, and an owned piece can't be freed.
+        assert!(doc.set("/Scabbards/Slot 01/Piece", "Kusanagi Zero".into()).is_err());
+        assert!(doc.set("/Blades/Slot 01/Piece", "(free slot)".into()).is_err());
+        doc.set("/Blades/Slot 04/Piece", "Blood Rapier".into()).unwrap();
+        doc.set("/Blades/Slot 02/Upgrade", "+99 with star".into()).unwrap();
+        doc.set("/ODM gear/Slot 01/Piece", "Crescent Gear II".into()).unwrap();
+        let out = doc.to_bytes().unwrap();
+        assert!(looks(&out));
+        let (q, _) = unpack(&out).unwrap();
+        assert_eq!(&q[blades + GEAR_STRIDE2 + 0x18..][..3], &[105, 0xC6, 0x01]);
+        assert_eq!(&q[blades + 3 * GEAR_STRIDE2 + 0x18..][..3], &[106, 0, 0]);
+        assert_eq!(q[GEAR2[2].1 + 0x18], 108);
+        assert_eq!(&q[blades + 2 * GEAR_STRIDE2 + 0x18..][..3], &[70, 16, 0]);
+        assert_eq!(q[blades + 4 * GEAR_STRIDE2 + 0x18], GEAR_FREE2);
     }
 
     #[test]

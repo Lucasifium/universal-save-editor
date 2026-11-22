@@ -290,6 +290,28 @@ fn equip_all_skills(ui: &Ui, cx: &mut GameCtx, t_path: &str, rows: &[(String, St
     }
 }
 
+/// Attack on Titan 2's "Max gear upgrades" button: every Blade, Scabbard and ODM gear piece you
+/// own gets the highest upgrade the game shows ("+99" with a star). Free rows are left alone.
+fn max_gear_upgrades(ui: &Ui, cx: &mut GameCtx) {
+    let top = "+99 with star";
+    let mut low = Vec::new();
+    for list in ["/Blades", "/ODM gear", "/Scabbards"] {
+        let Some(Value::Object(rows)) = cx.get(list) else { continue };
+        for (key, row) in rows {
+            let owned = row.get("Piece").and_then(Value::as_str).is_some_and(|s| s != "(free slot)");
+            if owned && row.get("Upgrade").and_then(Value::as_str) != Some(top) {
+                low.push(format!("{list}/{}/Upgrade", key.replace('~', "~0").replace('/', "~1")));
+            }
+        }
+    }
+    let tip = tr("Gives every Blade, Scabbard and ODM gear piece you own the highest upgrade the game shows, +99 with a star.");
+    if super::quick_action(ui, tr("Max gear upgrades"), tip, !low.is_empty(), tr("Every piece is already fully upgraded.")) {
+        for p in low {
+            cx.set(&p, Value::from(top));
+        }
+    }
+}
+
 /// What "Max crafting materials" does on one list; returns the stacks raised.
 pub fn apply_max(cx: &mut GameCtx, l: &List) -> usize {
     let Some(m) = &l.max else { return 0 };
@@ -429,6 +451,9 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                 panel(ui, &format!("{} ({n})", tr_text(t.title)), |ui| {
                     if lists_first && t.path == "/Skills" {
                         equip_all_skills(ui, cx, t_path, &rows);
+                    }
+                    if lists_first && t.path == "/Blades" {
+                        max_gear_upgrades(ui, cx);
                     }
                     let q = filter(ui, &format!("t{i}/{ti}"));
                     // A table wider than the window scrolls sideways; a solid bar (only when it overflows) shows that more is there.

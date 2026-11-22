@@ -30031,8 +30031,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = 游戏界面：资金以及你拥有的每件物品的数量；流加密和字校验和会重新写入。已在公开存档上验证，尚未在游戏中试过
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= 游戏界面（Final Battle）：兵团资金、自由之翼、等级和经验值、友好度、显示名称的每种制作材料和礼物（带最大化材料按钮）以及已装备的技能（带装备全部技能按钮）；流加密和字校验和会重新写入。已在公开存档和游戏中验证
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= 游戏界面（Final Battle）：兵团资金、自由之翼、等级和经验值、友好度、显示名称的每种制作材料和礼物（带最大化材料按钮）你的刀刃、刀鞘和立体机动装置（可强化、添加装备，或用装备全部强化至最高按钮），以及已装备的技能（带装备全部技能按钮）；流加密和字校验和会重新写入。已在公开存档和游戏中验证
 
 Friendship (characters you've met)
 = 友好度（你遇到过的角色）
@@ -31780,3 +31780,37 @@ A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save
 
 Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
 = 游戏界面：金钱、露营补给、难度、每名队员的经验、属性、技能和未使用的技能点，以及物品栏、储藏箱和材料中每一堆物品的数量。打开 .savegame 压缩包并原地编辑其对象列表；其余部分保持不变。已在公开存档上检查，尚未在游戏中试过
+
+# src/game_ui/simple.rs (Attack on Titan 2 gear)
+Blades
+= 刀刃
+
+Scabbards
+= 刀鞘
+
+ODM gear
+= 立体机动装置
+
+Piece
+= 装备
+
+Upgrade
+= 强化
+
+(free slot)
+= （空位）
+
+None
+= 无
+
++99 with star
+= +99（带星）
+
+Max gear upgrades
+= 装备全部强化至最高
+
+Gives every Blade, Scabbard and ODM gear piece you own the highest upgrade the game shows, +99 with a star.
+= 将你拥有的每把刀刃、刀鞘和立体机动装置设为游戏显示的最高强化：带星的 +99。
+
+Every piece is already fully upgraded.
+= 所有装备都已强化至最高。

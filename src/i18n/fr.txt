@@ -29987,8 +29987,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Écran de jeu : fonds et quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, niveau et expérience, amitié, chaque matériau d'artisanat et cadeau par son nom avec un bouton Max. matériaux d'artisanat, et les compétences équipées avec un bouton Équiper toutes les compétences ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur des sauvegardes publiques et dans le jeu
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, niveau et expérience, amitié, chaque matériau d'artisanat et cadeau par son nom avec un bouton Max. matériaux d'artisanat, vos lames, fourreaux et équipements tridimensionnels (les améliorer, ajouter des pièces ou utiliser le bouton Améliorer tout l'équipement au maximum) et les compétences équipées avec un bouton Équiper toutes les compétences ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur des sauvegardes publiques et dans le jeu
 
 Friendship (characters you've met)
 = Amitié (personnages rencontrés)
@@ -31736,3 +31736,37 @@ A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save
 
 Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
 = Écran de jeu : l'argent, les fournitures de camp, la difficulté, l'expérience, les attributs, les compétences et les points de compétence non dépensés de chaque membre du groupe, et la taille de chaque pile de l'inventaire, de la réserve et des ingrédients. Le zip .savegame est ouvert et sa liste d'objets modifiée sur place ; le reste est conservé. Vérifié sur des sauvegardes publiques, pas encore essayé dans le jeu
+
+# src/game_ui/simple.rs (Attack on Titan 2 gear)
+Blades
+= Lames
+
+Scabbards
+= Fourreaux
+
+ODM gear
+= Équipement tridimensionnel
+
+Piece
+= Pièce
+
+Upgrade
+= Amélioration
+
+(free slot)
+= (emplacement libre)
+
+None
+= Aucune
+
++99 with star
+= +99 avec étoile
+
+Max gear upgrades
+= Améliorer tout l'équipement au maximum
+
+Gives every Blade, Scabbard and ODM gear piece you own the highest upgrade the game shows, +99 with a star.
+= Donne à chaque lame, fourreau et équipement tridimensionnel que vous possédez l'amélioration la plus haute affichée par le jeu : +99 avec étoile.
+
+Every piece is already fully upgraded.
+= Toutes les pièces sont déjà améliorées au maximum.

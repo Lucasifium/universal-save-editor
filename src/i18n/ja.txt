@@ -30058,8 +30058,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面：資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、友好度、名前付きのすべての素材とギフト（素材最大化ボタン付き）、装備中のスキル（すべてのスキルを装備ボタン付き）。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、友好度、名前付きのすべての素材とギフト（素材最大化ボタン付き）、ブレード・鞘・立体機動装置（強化、装備の追加、装備をすべて最大強化ボタン）、装備中のスキル（すべてのスキルを装備ボタン付き）。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
 
 Friendship (characters you've met)
 = 友好度（出会ったキャラクター）
@@ -31807,3 +31807,37 @@ A .savegame from Saved Games\\Pillars of Eternity (a zip; its MobileObjects.save
 
 Game screen: money, camping supplies, the difficulty, each party member's experience, attributes, skills and unspent skill points, and the size of every stack in the inventory, stash and ingredients. The .savegame zip is opened and its object list edited in place; the rest is kept. Checked on public saves, not yet tried in the game
 = ゲーム画面：所持金、キャンプ用品、難易度、各パーティーメンバーの経験値・能力値・スキル・未使用スキルポイント、そして所持品・倉庫・素材の各スタックの数。.savegame の zip を開き、オブジェクト一覧をその場で編集します。残りはそのまま保持します。公開セーブで確認済み、ゲーム内では未確認
+
+# src/game_ui/simple.rs (Attack on Titan 2 gear)
+Blades
+= ブレード
+
+Scabbards
+= 鞘
+
+ODM gear
+= 立体機動装置
+
+Piece
+= 装備
+
+Upgrade
+= 強化
+
+(free slot)
+= （空き枠）
+
+None
+= なし
+
++99 with star
+= +99（星付き）
+
+Max gear upgrades
+= 装備をすべて最大強化
+
+Gives every Blade, Scabbard and ODM gear piece you own the highest upgrade the game shows, +99 with a star.
+= 所持しているブレード、鞘、立体機動装置すべてを、ゲームで表示される最大の強化（星付き+99）にします。
+
+Every piece is already fully upgraded.
+= すべての装備は最大まで強化済みです。
