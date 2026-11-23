@@ -2,6 +2,13 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.9.0
+
+> Every game screen now has section tabs, plus Space Engineers fixes
+
+- Game screens: each section is its own tab, with a dot on tabs that have changes and an Advanced tab at the end (Values, Tree, Raw JSON); the tab row wraps onto more lines when there are many
+- Space Engineers: credits rows are named, table steppers line up, and the app folder is ignored when checking whether the game is running
+
 ## 0.8.7
 
 > New screens for The Witcher 2, Pillars of Eternity, Space Engineers, Voices of the Void and many more, plus Attack on Titan 2 gear editing
