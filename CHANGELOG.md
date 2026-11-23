@@ -2,6 +2,16 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.8.7
+
+> New screens for The Witcher 2, Pillars of Eternity, Space Engineers, Voices of the Void and many more, plus Attack on Titan 2 gear editing
+
+- New game screens: The Witcher 2, Pillars of Eternity, Space Engineers, Voices of the Void, Vampire: The Masquerade - Bloodlines, Yu-Gi-Oh! Legacy of the Duelist, Shadow of War, Dead Space 2, Just Cause 2, Invisible, Inc., Legend of Grimrock, OpenTTD, Rogue Legacy, Underrail, Dragon's Dogma: Dark Arisen, FTL, Project Zomboid, Road 96, Epic Battle Fantasy 5, Amnesia: The Dark Descent, Darkwood and Barotrauma
+- Attack on Titan 2: edit, add and upgrade Blades, Scabbards and ODM gear; Equip all skills button; regiment funds stay editable when above the recorded total
+- Kingdom Come: Deliverance and DOOM Eternal saves open; map chunk files are no longer mistaken for Sekiro saves
+- Metal Gear Solid V: skill 48 is named Materials engineer
+- Drop-down lists keep a steady size while filtering
+
 ## 0.8.6
 
 > Raft player screen, Metal Gear Solid V research and staff upgrades, Onimusha charms
