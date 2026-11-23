@@ -348,7 +348,9 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   - Read-only values say why, where the format knows.
 - **Tree**: the full nested structure, with a filter box (Ctrl+F) that keeps the matching branches.
   **Raw JSON**: edit JSON text directly.
-- **Game screens**: save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
+- **Game screens**: each section of a screen (Character, Inventory, Materials…) is its own tab above
+  the screen, marked with a dot when it holds a change; the *Advanced* tab at the end has the
+  Values, Tree and Raw views. Save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
   sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
 - Changed values are highlighted in orange; hover one to see its original value and click the arrow beside it to reset just that field.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit.
@@ -407,8 +409,8 @@ compression, encryption and checksums.
   the Changes button next to it. The note about the opened file takes one line (*More* shows all of
   it); once dismissed it stays hidden until *View › Show the note about this file*.
 - **Phone-size windows** (the Android app, a narrow browser window): the menus fold into one ☰
-  button so the toolbar is a single line, game screens get large section chips to swipe through and
-  tap to jump to each part (marked when it holds a change), and header tiles sit two to a row with
+  button so the toolbar is a single line, game screen tabs wrap onto extra lines (a tab is marked when it
+  holds a change), and header tiles sit two to a row with
   their − and + buttons.
 
 ## Safety

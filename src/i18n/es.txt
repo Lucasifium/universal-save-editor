@@ -576,8 +576,11 @@ Prev
 Raw keys
 = Claves sin procesar
 
-Everything else in this save is in the Values and Tree tabs.
-= Todo lo demás de esta partida está en las pestañas Valores y Árbol.
+Everything else in this save is in the Advanced tab.
+= Todo lo demás de esta partida está en la pestaña Avanzado.
+
+Every value and the full structure of the save, for anything this screen doesn't show
+= Todos los valores y la estructura completa de la partida, para lo que esta pantalla no muestra
 
 The filter looks at names, keys and current values.
 = El filtro busca en nombres, claves y valores actuales.

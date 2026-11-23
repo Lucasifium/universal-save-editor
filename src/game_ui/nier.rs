@@ -33,7 +33,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     let lists = ["Items", "Materials", "Weapons"];
-    let t = tabs(ui, "nier_tabs", &lists.iter().map(|s| s.to_string()).collect::<Vec<_>>());
+    let t = super::pages(ui, "nier_tabs", &lists.iter().map(|s| s.to_string()).collect::<Vec<_>>());
     let base = format!("/{}", lists[t]);
     let r = rows(cx, &base);
     panel(ui, lists[t], |ui| {

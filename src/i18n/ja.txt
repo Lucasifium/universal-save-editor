@@ -576,8 +576,11 @@ Prev
 Raw keys
 = 生のキー
 
-Everything else in this save is in the Values and Tree tabs.
-= このセーブデータのそれ以外の内容は、「値」タブと「ツリー」タブにあります。
+Everything else in this save is in the Advanced tab.
+= このセーブデータのそれ以外の内容は、「詳細」タブにあります。
+
+Every value and the full structure of the save, for anything this screen doesn't show
+= この画面に表示されないものも含め、すべての値とセーブデータの完全な構造
 
 The filter looks at names, keys and current values.
 = フィルターは名前、キー、現在の値を対象にします。

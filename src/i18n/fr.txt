@@ -576,8 +576,11 @@ Prev
 Raw keys
 = Clés brutes
 
-Everything else in this save is in the Values and Tree tabs.
-= Tout le reste de cette sauvegarde se trouve dans les onglets Valeurs et Arbre.
+Everything else in this save is in the Advanced tab.
+= Tout le reste de cette sauvegarde se trouve dans l'onglet Avancé.
+
+Every value and the full structure of the save, for anything this screen doesn't show
+= Toutes les valeurs et la structure complète de la sauvegarde, pour tout ce que cet écran n'affiche pas
 
 The filter looks at names, keys and current values.
 = Le filtre porte sur les noms, les clés et les valeurs actuelles.

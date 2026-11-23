@@ -104,7 +104,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     });
 
     let names: Vec<String> = ["Inventory", "Character & ship", "Currencies", "Techs & progress"].map(String::from).to_vec();
-    match tabs(ui, "sb_tab", &names) {
+    match super::pages(ui, "sb_tab", &names) {
         0 => inventory(ui, cx),
         1 => character(ui, cx),
         2 => currencies(ui, cx),

@@ -1384,7 +1384,7 @@ pub fn oxygen_not_included(ui: &mut Ui, cx: &mut GameCtx) {
     hero(ui, accent, &colony, &trf("Cycle {0}  \u{00B7}  {1} duplicants  \u{00B7}  Oxygen Not Included", &[&cycles, &n]), |_| {});
     if cx.get("/Worlds").is_some() {
         let pages: Vec<String> = ["Duplicants", "Map", "Worlds & rockets"].iter().map(|s| s.to_string()).collect();
-        match tabs(ui, "oni_tab", &pages) {
+        match super::pages(ui, "oni_tab", &pages) {
             1 => return super::oni_map::map_tab(ui, cx),
             2 => return super::oni_map::worlds_tab(ui, cx, accent),
             _ => {}

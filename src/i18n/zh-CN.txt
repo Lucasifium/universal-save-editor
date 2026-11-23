@@ -576,8 +576,11 @@ Prev
 Raw keys
 = 原始键
 
-Everything else in this save is in the Values and Tree tabs.
-= 此存档的其余内容在“数值”和“树状”标签页中。
+Everything else in this save is in the Advanced tab.
+= 此存档的其余内容在“高级”标签页中。
+
+Every value and the full structure of the save, for anything this screen doesn't show
+= 所有数值和存档的完整结构，用于此画面未显示的内容
 
 The filter looks at names, keys and current values.
 = 筛选会匹配名称、键和当前数值。

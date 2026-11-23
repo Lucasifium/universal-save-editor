@@ -62,6 +62,10 @@ pub fn begin_find(ctx: &egui::Context, needle: &str, target: usize) {
 /// A label that matches the find box gets a highlight, and the current match is scrolled to.
 /// Call with the rectangle the label occupies.
 pub fn find_mark(ui: &Ui, rect: egui::Rect, text: &str) {
+    // A panel on a tab that isn't open is laid out out of sight: not a match to show or scroll to.
+    if !ui.is_visible() {
+        return;
+    }
     let ctx = ui.ctx();
     let needle = ctx.data(|d| d.get_temp::<String>(egui::Id::new(FIND_NEEDLE))).unwrap_or_default();
     if needle.is_empty() || !text.to_lowercase().contains(&needle) {
@@ -552,60 +556,116 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     end_sections(ui.ctx());
 }
 
-// ------------------------------------------------------------------ sections (phone chips)
+// ------------------------------------------------------------------ sections (tabs)
 
-/// A titled part of a game screen (its header card or a panel), for the phone's row of
-/// section chips that jump to each one.
+/// A titled panel of a game screen. Each one is a tab of the screen; the header card and anything
+/// drawn outside a panel stay above the tabs on every one of them.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Section {
     pub title: String,
     /// Holds a field that was changed.
     pub edited: bool,
-    /// Its place in drawing order, which a jump request names.
-    pub index: usize,
-    /// Where it was drawn (screen position), for ordering.
-    pub top: f32,
 }
 
 const SEC_NOW: &str = "game_sections_now";
 const SEC_SHOWN: &str = "game_sections_shown";
-const SEC_JUMP: &str = "game_section_jump";
+const SEC_ACTIVE: &str = "game_section_active";
 const SEC_EDITS: &str = "game_section_edits";
+const SEC_DEPTH: &str = "game_section_depth";
+const SEC_PAGES_NOW: &str = "game_section_pages_now";
+const SEC_PAGES_SHOWN: &str = "game_section_pages_shown";
 
 fn begin_sections(ctx: &egui::Context) {
     ctx.data_mut(|d| {
         d.insert_temp(egui::Id::new(SEC_NOW), Vec::<Section>::new());
         d.insert_temp(egui::Id::new(SEC_EDITS), 0usize);
+        d.insert_temp(egui::Id::new(SEC_DEPTH), 0usize);
+        d.remove::<(String, Vec<String>)>(egui::Id::new(SEC_PAGES_NOW));
     });
 }
 
 fn end_sections(ctx: &egui::Context) {
-    let mut now: Vec<Section> = ctx.data_mut(|d| {
+    let now: Vec<Section> = ctx.data_mut(|d| {
         d.remove_temp::<usize>(egui::Id::new(SEC_EDITS));
-        // A jump to a section that wasn't drawn is dropped, not kept for whatever comes later.
-        d.remove_temp::<usize>(egui::Id::new(SEC_JUMP));
+        d.remove_temp::<usize>(egui::Id::new(SEC_DEPTH));
         d.remove_temp(egui::Id::new(SEC_NOW))
     })
     .unwrap_or_default();
-    // Columns draw their panels in turn, so order them as they sit on the screen.
-    now.sort_by(|a, b| a.top.total_cmp(&b.top).then(a.index.cmp(&b.index)));
     let shown: Vec<Section> = ctx.data(|d| d.get_temp(egui::Id::new(SEC_SHOWN))).unwrap_or_default();
-    let same = |a: &[Section], b: &[Section]| a.len() == b.len() && a.iter().zip(b).all(|(x, y)| x.title == y.title && x.edited == y.edited && x.index == y.index);
-    if !same(&now, &shown) {
+    if now != shown {
         ctx.request_repaint();
     }
-    ctx.data_mut(|d| d.insert_temp(egui::Id::new(SEC_SHOWN), now));
+    let pages: Option<(String, Vec<String>)> = ctx.data(|d| d.get_temp(egui::Id::new(SEC_PAGES_NOW)));
+    if pages != page_tabs(ctx) {
+        ctx.request_repaint();
+    }
+    ctx.data_mut(|d| {
+        d.insert_temp(egui::Id::new(SEC_SHOWN), now);
+        match pages {
+            Some(p) => d.insert_temp(egui::Id::new(SEC_PAGES_SHOWN), p),
+            None => {
+                d.remove::<(String, Vec<String>)>(egui::Id::new(SEC_PAGES_SHOWN));
+            }
+        }
+    });
 }
 
-/// The sections the game screen drew last frame, top to bottom.
+/// The screen's pages (see [`pages`]) as drawn last frame: the id they are remembered under and
+/// their names. These are the tabs when a screen has them, in place of its panels.
+pub fn page_tabs(ctx: &egui::Context) -> Option<(String, Vec<String>)> {
+    ctx.data(|d| d.get_temp(egui::Id::new(SEC_PAGES_SHOWN)))
+}
+
+/// Opens page `i` of the pages remembered under `id`.
+pub fn open_page(ctx: &egui::Context, id: &str, i: usize) {
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(("game_sel", id)), i));
+}
+
+/// Like [`tabs`] for a screen whose content is a few pages rather than panels: on a game screen
+/// the names become the screen's own tabs (next to Advanced) and nothing is drawn here; the
+/// page chosen is returned. What the screen draws after this call shows in full.
+pub fn pages(ui: &mut Ui, id: &str, names: &[String]) -> usize {
+    let ctx = ui.ctx().clone();
+    let on_screen = ctx.data(|d| d.get_temp::<usize>(egui::Id::new(SEC_EDITS))).is_some() && section_depth(&ctx) == 0 && active_section(&ctx).is_some();
+    if !on_screen {
+        return tabs(ui, id, names);
+    }
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(SEC_PAGES_NOW), (id.to_string(), names.to_vec())));
+    set_section_depth(&ctx, 1);
+    selection(ui, id).unwrap_or(0).min(names.len().saturating_sub(1))
+}
+
+/// The tabs the game screen drew last frame, in drawing order.
 pub fn sections(ctx: &egui::Context) -> Vec<Section> {
     ctx.data(|d| d.get_temp(egui::Id::new(SEC_SHOWN))).unwrap_or_default()
 }
 
-/// Asks the screen to scroll section `index` (its [`Section::index`]) to the top.
-pub fn jump_to_section(ctx: &egui::Context, index: usize) {
-    ctx.data_mut(|d| d.insert_temp(egui::Id::new(SEC_JUMP), index));
-    ctx.request_repaint();
+/// Shows only the panel titled `title` (the others are laid out out of sight, so their quick
+/// actions and edit marks still count). `None` draws every panel, as a dialog or test does.
+pub fn set_active_section(ctx: &egui::Context, title: Option<&str>) {
+    ctx.data_mut(|d| match title {
+        Some(t) => d.insert_temp(egui::Id::new(SEC_ACTIVE), t.to_string()),
+        None => {
+            d.remove_temp::<String>(egui::Id::new(SEC_ACTIVE));
+        }
+    });
+}
+
+fn active_section(ctx: &egui::Context) -> Option<String> {
+    ctx.data(|d| d.get_temp(egui::Id::new(SEC_ACTIVE)))
+}
+
+/// Panels inside a panel are not tabs of their own.
+fn section_depth(ctx: &egui::Context) -> usize {
+    ctx.data(|d| d.get_temp::<usize>(egui::Id::new(SEC_DEPTH))).unwrap_or(0)
+}
+
+fn set_section_depth(ctx: &egui::Context, depth: usize) {
+    ctx.data_mut(|d| {
+        if d.get_temp::<usize>(egui::Id::new(SEC_DEPTH)).is_some() {
+            d.insert_temp(egui::Id::new(SEC_DEPTH), depth);
+        }
+    });
 }
 
 /// A changed field was drawn: the section around it gets the "edited" mark.
@@ -617,25 +677,38 @@ fn edits_so_far(ui: &Ui) -> usize {
     ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(SEC_EDITS))).unwrap_or(0)
 }
 
-/// Records a drawn section and scrolls to it when a chip asked for it.
-fn section_drawn(ui: &Ui, title: &str, rect: egui::Rect, edits_before: usize) {
-    let ctx = ui.ctx();
-    let edited = edits_so_far(ui) > edits_before;
-    let Some(index) = ctx.data_mut(|d| {
-        // Drawn outside a game screen (a test, a dialog): nothing collects it.
-        d.get_temp::<usize>(egui::Id::new(SEC_EDITS))?;
-        let list = d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW));
-        let index = list.len();
-        list.push(Section { title: title.to_string(), edited, index, top: rect.top() });
-        Some(index)
-    }) else {
+/// Draws a top-level panel's body as a tab: in place when it is the open tab, out of sight (and
+/// not clickable) when it isn't. Both take the same ids, so what a panel remembers (an open
+/// group, a scroll position) survives switching tabs.
+fn tab_body(ui: &mut Ui, title: &str, body: impl FnOnce(&mut Ui)) {
+    let ctx = ui.ctx().clone();
+    // Drawn outside a game screen (a test, a dialog): nothing collects it, every panel shows.
+    if ctx.data(|d| d.get_temp::<usize>(egui::Id::new(SEC_EDITS))).is_none() || section_depth(&ctx) > 0 {
+        body(ui);
         return;
-    };
-    if ctx.data(|d| d.get_temp::<usize>(egui::Id::new(SEC_JUMP))) == Some(index) {
-        ctx.data_mut(|d| d.remove_temp::<usize>(egui::Id::new(SEC_JUMP)));
-        ui.scroll_to_rect(rect, Some(egui::Align::Min));
     }
+    let edits = edits_so_far(ui);
+    // The open tab; a title the screen no longer draws leaves the first one open.
+    let shown = sections(&ctx);
+    let open = active_section(&ctx).filter(|_| !shown.is_empty() && page_tabs(&ctx).is_none()).map(|a| if shown.iter().any(|s| s.title == a) { a } else { shown[0].title.clone() });
+    set_section_depth(&ctx, 1);
+    match open {
+        Some(open) if open != title => {
+            let away = egui::vec2(-100_000.0, 0.0);
+            let rect = ui.available_rect_before_wrap().translate(away);
+            let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect));
+            child.set_invisible();
+            body(&mut child);
+        }
+        _ => {
+            ui.scope(body);
+        }
+    }
+    set_section_depth(&ctx, 0);
+    let edited = edits_so_far(ui) > edits;
+    ctx.data_mut(|d| d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW)).push(Section { title: title.to_string(), edited }));
 }
+
 
 fn show_screen(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     match game {
@@ -1064,7 +1137,6 @@ pub fn gamemaker_number(s: &str) -> Option<f64> {
 
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
     let subtitle = tr_any(subtitle);
-    let edits = edits_so_far(ui);
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
@@ -1088,24 +1160,21 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
     });
     let r = resp.response.rect;
     ui.painter().rect_filled(egui::Rect::from_min_size(r.min, egui::vec2(5.0, r.height())), egui::Rounding { nw: 10.0, sw: 10.0, ne: 0.0, se: 0.0 }, accent);
-    section_drawn(ui, title, r, edits);
     ui.add_space(10.0);
 }
 
-/// A titled card.
+/// A titled card. At the top of a game screen each one is a tab (see [`tab_body`]).
 pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
     let title = tr_any(title);
-    let edits = edits_so_far(ui);
-    let top = ui.cursor().top();
-    theme::card(ui, |ui| {
-        let r = ui.add(egui::Label::new(RichText::new(title).family(theme::semibold_family()).size(16.0)).truncate());
-        find_mark(ui, r.rect, title);
-        ui.add_space(4.0);
-        add(ui);
+    tab_body(ui, title, |ui| {
+        theme::card(ui, |ui| {
+            let r = ui.add(egui::Label::new(RichText::new(title).family(theme::semibold_family()).size(16.0)).truncate());
+            find_mark(ui, r.rect, title);
+            ui.add_space(4.0);
+            add(ui);
+        });
+        ui.add_space(8.0);
     });
-    let rect = egui::Rect::from_min_max(egui::pos2(ui.min_rect().left(), top), egui::pos2(ui.min_rect().right(), ui.cursor().top()));
-    section_drawn(ui, title, rect, edits);
-    ui.add_space(8.0);
 }
 
 /// Background for boxes inside a panel: distinct from both the panel and the text fields.
@@ -1225,6 +1294,17 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     // doesn't narrow another group or another game's screen.
     let screen = ui.ctx().data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
     let key = ui.next_auto_id().with(("columns_need", n, min_w.to_bits(), screen));
+    // Panels are tabs, one shown at a time: a row of them in columns would leave all but one
+    // column empty, so they are drawn one under the other. Known from the frame before.
+    let tabbed = active_section(ui.ctx()).is_some() && section_depth(ui.ctx()) == 0;
+    let panels_key = key.with("panels");
+    if tabbed && ui.ctx().data(|d| d.get_temp::<bool>(panels_key)).unwrap_or(false) {
+        for i in 0..n {
+            add(ui, i);
+        }
+        return;
+    }
+    let sections_before = ui.ctx().data(|d| d.get_temp::<Vec<Section>>(egui::Id::new(SEC_NOW)).map_or(0, |l| l.len()));
     let avail = ui.available_rect_before_wrap().width();
     // What a column needed at another window width says nothing about this one.
     let need = ui.ctx().data(|d| d.get_temp::<(f32, f32)>(key)).filter(|&(_, w)| (w - avail).abs() < 0.5).map_or(0.0, |(n, _)| n);
@@ -1239,6 +1319,10 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
         }
         widest = cs.iter().map(|c| c.min_rect().width()).fold(0.0, f32::max);
     });
+    if tabbed && ui.ctx().data(|d| d.get_temp::<Vec<Section>>(egui::Id::new(SEC_NOW)).map_or(0, |l| l.len())) > sections_before {
+        ui.ctx().data_mut(|d| d.insert_temp(panels_key, true));
+        ui.ctx().request_repaint();
+    }
     if cols > 1 && widest > col_w + 1.0 && widest > need {
         ui.ctx().data_mut(|d| d.insert_temp(key, (widest, avail)));
         ui.ctx().request_repaint();

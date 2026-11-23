@@ -576,8 +576,11 @@ Prev
 Raw keys
 = Rohe Schlüssel
 
-Everything else in this save is in the Values and Tree tabs.
-= Alles Weitere in diesem Spielstand steht in den Tabs Werte und Baum.
+Everything else in this save is in the Advanced tab.
+= Alles Weitere in diesem Spielstand steht im Tab Erweitert.
+
+Every value and the full structure of the save, for anything this screen doesn't show
+= Jeder Wert und die vollständige Struktur des Spielstands, für alles, was dieser Bildschirm nicht zeigt
 
 The filter looks at names, keys and current values.
 = Der Filter durchsucht Namen, Schlüssel und aktuelle Werte.

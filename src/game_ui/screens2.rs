@@ -1677,7 +1677,7 @@ pub fn ffx(ui: &mut Ui, cx: &mut GameCtx) {
     ];
     const GROW: [&str; 4] = ["AP", "Sphere levels", "Overdrive gauge", "Overdrive mode"];
     let pages = ["Party".to_string(), "Abilities".into(), "Overdrives".into(), "Items".into(), "Monster Arena".into()];
-    match tabs(ui, "ffx_tab", &pages) {
+    match super::pages(ui, "ffx_tab", &pages) {
         0 => {
             for group in ["Characters", "Aeons"] {
                 let who = keys_of(cx, &join("", group));

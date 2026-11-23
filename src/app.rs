@@ -546,6 +546,10 @@ pub struct App {
 
     // Structured view state.
     tab: Tab,
+    /// The open section tab of a game screen (a panel's title; empty: the first), and which of
+    /// Values or Tree the Advanced tab shows.
+    game_section: String,
+    advanced_tab: Tab,
     search: String,
     /// When the search text last changed (big saves wait for typing to pause).
     search_typed_at: f64,
@@ -718,6 +722,8 @@ impl App {
             trace: None,
             changes: Changes::default(),
             tab: Tab::Values,
+            game_section: String::new(),
+            advanced_tab: Tab::Values,
             search: String::new(),
             search_typed_at: 0.0,
             focus_search: false,
@@ -1149,6 +1155,8 @@ impl App {
         self.last_edit = None;
         self.dirty = false;
         self.tab = if game.is_some() { Tab::Game } else { Tab::Values };
+        self.game_section.clear();
+        self.advanced_tab = Tab::Values;
         self.search.clear();
         self.collapsed.clear();
         self.collapsed_gen += 1;
@@ -3585,12 +3593,23 @@ impl App {
                 ui.horizontal(|ui| add(ui));
             }
         };
-        bar(ui, &mut |ui| {
-            let old = self.tab;
-            if let Some(g) = game {
-                let r = ui.selectable_value(&mut self.tab, Tab::Game, crate::i18n::tr_any(g.tab_label())).on_hover_text(tr("This game's own screen: its stats, inventory and more, laid out like the game"));
-                theme::mark_selected(ui, &r, old == Tab::Game);
+        let old = self.tab;
+        if let Some(g) = game {
+            bar(ui, &mut |ui| {
+                self.section_tabs(ui, g);
+                if self.tab == Tab::Game {
+                    self.game_find_box(ui);
+                }
+            });
+        }
+        let on_game_tab = self.tab == Tab::Game;
+        let views_bar = |ui: &mut egui::Ui, add: &mut dyn FnMut(&mut egui::Ui)| {
+            if on_game_tab {
+                return;
             }
+            bar(ui, add)
+        };
+        views_bar(ui, &mut |ui| {
             let r = ui.selectable_value(&mut self.tab, Tab::Values, tr("Values")).on_hover_text(tr("Every editable value in a simple list"));
             theme::mark_selected(ui, &r, old == Tab::Values);
             let r = ui.selectable_value(&mut self.tab, Tab::Tree, tr("Tree")).on_hover_text(tr("The full structure of the save, as nested groups"));
@@ -3598,6 +3617,9 @@ impl App {
             if is_json {
                 let r = ui.selectable_value(&mut self.tab, Tab::Raw, tr("Raw JSON")).on_hover_text(tr("Edit the JSON text directly"));
                 theme::mark_selected(ui, &r, old == Tab::Raw);
+            }
+            if matches!(self.tab, Tab::Values | Tab::Tree) {
+                self.advanced_tab = self.tab;
             }
             if old != self.tab {
                 if old == Tab::Raw {
@@ -3623,9 +3645,6 @@ impl App {
                     ui.colored_label(theme::fg(ui, theme::ERR), e);
                 }
                 return;
-            }
-            if self.tab == Tab::Game {
-                self.game_find_box(ui);
             }
             if matches!(self.tab, Tab::Values | Tab::Tree) {
                 if hi {
@@ -3665,9 +3684,6 @@ impl App {
         if narrow(ui) && matches!(self.tab, Tab::Values | Tab::Tree) {
             ui.horizontal(|ui| self.view_options(ui));
         }
-        if narrow(ui) && self.tab == Tab::Game {
-            section_chips(ui);
-        }
         if self.tab == Tab::Values {
             self.clip_bar(ui);
         }
@@ -3676,6 +3692,63 @@ impl App {
         }
         ui.add_space(4.0);
         self.structured_body(ui, now);
+    }
+
+    /// The tabs of a game's screen: one per section of the screen, then Advanced (the Values and
+    /// Tree views) at the end.
+    fn section_tabs(&mut self, ui: &mut egui::Ui, game: crate::game_ui::Game) {
+        let list = crate::game_ui::sections(ui.ctx());
+        let on_game = self.tab == Tab::Game;
+        let open = if list.iter().any(|s| s.title == self.game_section) { self.game_section.clone() } else { list.first().map(|s| s.title.clone()).unwrap_or_default() };
+        // Some(Some(title)): that section; Some(None): Advanced.
+        let mut pick: Option<Option<String>> = None;
+        let mut tab = |ui: &mut egui::Ui, title: &str, selected: bool, edited: bool, tip: &str| -> bool {
+            let mut r = ui.selectable_label(selected, title);
+            if edited {
+                ui.painter().circle_filled(r.rect.right_top() + egui::vec2(-3.0, 4.0), 3.0, theme::MODIFIED);
+                r = r.on_hover_text(tr("Has changes"));
+            } else if !tip.is_empty() {
+                r = r.on_hover_text(tip);
+            }
+            theme::mark_selected(ui, &r, selected);
+            r.clicked()
+        };
+        if let Some((id, names)) = crate::game_ui::page_tabs(ui.ctx()) {
+            let cur = ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(("game_sel", id.as_str())))).unwrap_or(0).min(names.len().saturating_sub(1));
+            for (i, n) in names.iter().enumerate() {
+                if tab(ui, crate::i18n::tr_any(n), on_game && i == cur, false, "") {
+                    crate::game_ui::open_page(ui.ctx(), &id, i);
+                    pick = Some(Some(open.clone()));
+                }
+            }
+        } else if list.is_empty() {
+            let label = crate::i18n::tr_any(game.tab_label());
+            if tab(ui, label, on_game, false, tr("This game's own screen: its stats, inventory and more, laid out like the game")) {
+                pick = Some(Some(String::new()));
+            }
+        }
+        let paged = crate::game_ui::page_tabs(ui.ctx()).is_some();
+        for s in list.iter().filter(|_| !paged) {
+            if tab(ui, &s.title, on_game && s.title == open, s.edited, "") {
+                pick = Some(Some(s.title.clone()));
+            }
+        }
+        if tab(ui, tr("Advanced"), !on_game, false, tr("Every value and the full structure of the save, for anything this screen doesn't show")) {
+            pick = Some(None);
+        }
+        match pick {
+            Some(Some(title)) => {
+                if self.tab == Tab::Raw && !self.commit_raw() {
+                    return;
+                }
+                self.game_section = title;
+                self.tab = Tab::Game;
+            }
+            Some(None) if on_game => {
+                self.tab = self.advanced_tab;
+            }
+            _ => {}
+        }
     }
 
     /// The find box of a game screen: highlights and scrolls to labels on the visible tab.
@@ -3786,11 +3859,12 @@ impl App {
                 let sb = ui.spacing().scroll.bar_width + ui.spacing().scroll.bar_inner_margin + ui.spacing().scroll.bar_outer_margin;
                 let w = (ui.available_width() - sb).max(100.0);
                 crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
+                crate::game_ui::set_active_section(ui.ctx(), Some(&self.game_section));
                 ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show_locked(ui, |ui| {
                     ui.set_max_width(w);
                     crate::game_ui::show(game, ui, &mut cx);
                     ui.add_space(12.0);
-                    ui.weak(tr("Everything else in this save is in the Values and Tree tabs."));
+                    ui.weak(tr("Everything else in this save is in the Advanced tab."));
                 });
                 edits = cx.edits;
                 if let Some(p) = ui.ctx().data_mut(|d| d.remove_temp::<String>(egui::Id::new(crate::game_ui::SHOW_IN_TREE))) {
@@ -4687,38 +4761,6 @@ fn fit(ctx: &egui::Context, want: f32) -> f32 {
     // The screen less the window's own margins and a few pixels either side.
     let m = ctx.style().spacing.window_margin.sum().x;
     want.min(ctx.screen_rect().width() - 12.0 - m).max(200.0)
-}
-
-/// The phone's row of a game screen's sections: finger-sized chips that jump to each one,
-/// marked when the section holds a change. Swipe it sideways when there are more.
-fn section_chips(ui: &mut egui::Ui) {
-    let list = crate::game_ui::sections(ui.ctx());
-    if list.len() < 2 {
-        return;
-    }
-    ui.add_space(2.0);
-    ScrollArea::horizontal().id_salt("section_chips").auto_shrink([false, true]).show(ui, |ui| {
-        ui.horizontal(|ui| {
-            ui.spacing_mut().item_spacing.x = 8.0;
-            ui.spacing_mut().button_padding = egui::vec2(16.0, 10.0);
-            for s in &list {
-                let title: String = if s.title.chars().count() > 28 { s.title.chars().take(27).chain(['\u{2026}']).collect() } else { s.title.clone() };
-                let mut btn = egui::Button::new(RichText::new(title).size(16.0)).rounding(22.0).min_size(egui::vec2(48.0, 44.0));
-                if s.edited {
-                    btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::MODIFIED));
-                }
-                let mut r = ui.add(btn);
-                if s.edited {
-                    ui.painter().circle_filled(r.rect.right_top() + egui::vec2(-9.0, 9.0), 4.0, theme::MODIFIED);
-                    r = r.on_hover_text(tr("Has changes"));
-                }
-                if r.clicked() {
-                    crate::game_ui::jump_to_section(ui.ctx(), s.index);
-                }
-            }
-        });
-    });
-    ui.add_space(2.0);
 }
 
 /// The phone toolbar's menu button (U+2630, "trigram for heaven").
@@ -7014,7 +7056,7 @@ pub(crate) mod layout_tests {
     }
 
     #[test]
-    fn phone_layout_has_one_toolbar_line_and_section_chips_in_every_language() {
+    fn phone_layout_has_one_toolbar_line_and_section_tabs_in_every_language() {
         let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let path = knight_save("chips");
         let mut problems = vec![];
@@ -7042,11 +7084,8 @@ pub(crate) mod layout_tests {
                 if secs.len() < 3 {
                     problems.push(format!("{who}: only {} sections: {titles:?}", secs.len()));
                 }
-                if !secs.first().is_some_and(|s| s.edited) || secs.iter().skip(1).any(|s| s.edited) {
-                    problems.push(format!("{who}: only the header card holds the edit: {secs:?}"));
-                }
-                // The chips row scrolls sideways: chips past its edge are meant to be cut off.
-                for t in cut_off_text(&out).into_iter().filter(|t| !secs.iter().any(|s| t.starts_with(&format!("{:?} spans", s.title)) || t.starts_with(&format!("\"{}\u{2026}\" spans", s.title.chars().take(27).collect::<String>())))) {
+                // The tabs wrap onto more lines, so none runs past the edge.
+                for t in cut_off_text(&out) {
                     problems.push(format!("{who}: {t}"));
                 }
             }
@@ -7057,25 +7096,44 @@ pub(crate) mod layout_tests {
         assert!(problems.is_empty(), "{} problems:\n{}", problems.len(), problems.iter().take(40).cloned().collect::<Vec<_>>().join("\n"));
     }
 
+    /// Each panel of a game screen is a tab: only the open one is drawn, the others sit
+    /// out of sight, and Advanced (Values and Tree) comes last.
     #[test]
-    fn a_section_chip_scrolls_its_section_to_the_top() {
+    fn a_game_screen_shows_one_section_tab_at_a_time() {
         let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         crate::i18n::set(Some("en"));
-        let path = knight_save("jump");
+        let path = knight_save("tabs");
         let ctx = window();
         let mut app = App::with(&ctx, Settings::default(), false);
         app.load(&path);
-        // Short, so the last section starts below the bottom of the screen.
-        let (w, h) = (380.0, 420.0);
+        let (w, h) = (1100.0, 900.0);
+        let shown = |out: &egui::FullOutput| -> String {
+            let mut all = String::new();
+            let mut stack: Vec<&egui::epaint::Shape> = out.shapes.iter().map(|c| &c.shape).collect();
+            while let Some(sh) = stack.pop() {
+                match sh {
+                    egui::epaint::Shape::Vec(v) => stack.extend(v.iter()),
+                    egui::epaint::Shape::Text(t) => {
+                        all.push_str(t.galley.text());
+                        all.push('\n');
+                    }
+                    _ => {}
+                }
+            }
+            all
+        };
         run_frames(&mut app, &ctx, w, h, 4);
         let secs = crate::game_ui::sections(&ctx);
-        let last = secs.last().cloned().expect("sections");
-        assert!(last.top > h, "the last section is already on screen: {secs:?}");
-        crate::game_ui::jump_to_section(&ctx, last.index);
-        run_frames(&mut app, &ctx, w, h, 6);
-        let after = crate::game_ui::sections(&ctx).into_iter().find(|s| s.index == last.index).unwrap();
-        // The last section can only come up as far as the end of the screen allows.
-        assert!(after.top < h - 60.0, "{} still at {} after the jump", after.title, after.top);
+        assert!(secs.len() >= 2, "{secs:?}");
+        let (first, second) = (secs[0].title.clone(), secs[1].title.clone());
+        let on_first = shown(&run_frames(&mut app, &ctx, w, h, 3));
+        assert!(on_first.contains(&format!("{first}\n")), "the first tab is open at first");
+        assert!(!on_first.contains(&format!("{second}\n")) || on_first.matches(&format!("{second}\n")).count() == 1, "the second tab's panel is out of sight (only its tab label shows)");
+        app.game_section = second.clone();
+        let on_second = shown(&run_frames(&mut app, &ctx, w, h, 3));
+        assert_eq!(on_second.matches(&format!("{second}\n")).count(), 2, "its tab label and its panel title");
+        assert_eq!(on_second.matches(&format!("{first}\n")).count(), 1, "the first panel is gone, its tab label stays");
+        assert_eq!(crate::game_ui::sections(&ctx), secs, "every section is still drawn, so the tabs stay");
     }
 
     #[test]
