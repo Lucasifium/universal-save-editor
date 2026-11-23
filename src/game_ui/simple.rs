@@ -465,6 +465,14 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                 ui.label(egui::RichText::new(tr_text(h)).strong());
                             }
                             ui.end_row();
+                            let mixed: Vec<bool> = t
+                                .cols
+                                .iter()
+                                .map(|(_, k)| {
+                                    let nums: Vec<bool> = rows.iter().filter_map(|(key, _)| cx.get(&resolve(cx.root, &cell_path(t_path, key, k)))).filter(|v| v.is_number()).map(|v| crate::widgets::steps(&v)).collect();
+                                    nums.iter().any(|&b| b) && nums.iter().any(|&b| !b)
+                                })
+                                .collect();
                             for (r, (key, key_name)) in rows.iter().enumerate() {
                                 let name = if t.name.is_empty() {
                                     key_name.clone()
@@ -477,6 +485,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                 if !t.only.is_empty() && !t.only.contains(&name.as_str()) {
                                     continue;
                                 }
+                                let name = choices::lookup_name(cx.root, s.name, t.path, &name).unwrap_or(name);
                                 let name = t.names.iter().find(|(id, _)| *id == name).map_or(name, |(_, n)| n.to_string());
                                 if name.is_empty() {
                                     ui.label(format!("#{}", r + 1));
@@ -487,10 +496,15 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                                         resp.on_hover_text(name);
                                     }
                                 }
-                                for (_, k) in t.cols {
+                                for (ci, (_, k)) in t.cols.iter().enumerate() {
                                     let p = resolve(cx.root, &cell_path(t_path, key, k));
                                     if cx.get(&p).is_some() {
-                                        cx.cell(ui, &p, 64.0);
+                                        // A column that mixes small and big numbers gets no −/+ at all, so its boxes line up.
+                                        if mixed[ci] {
+                                            cx.compact(ui, &p, 64.0);
+                                        } else {
+                                            cx.cell(ui, &p, 64.0);
+                                        }
                                     } else {
                                         ui.label("");
                                     }

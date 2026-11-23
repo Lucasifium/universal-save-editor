@@ -25,3 +25,56 @@ pub const CHOICES: &[Choice] = &[
 pub const MIRRORS: &[(&str, &str, &str)] = &[
     ("House Flipper", "/moneyProgress/Money", "/moneyProgress/_money"),
 ];
+
+/// Tables whose rows are named by an id that another list of the same save explains:
+/// `(screen, table path, [(list path, pointer of the id inside an entry, pointer of the name)])`.
+pub const NAME_LOOKUPS: &[(&str, &str, &[(&str, &str, &str)])] = &[(
+    "Space Engineers",
+    "/MyObjectBuilder_Checkpoint/SessionComponents/MyObjectBuilder_SessionComponent/=MyObjectBuilder_BankingSystem/Accounts/MyObjectBuilder_AccountEntry",
+    &[
+        ("/MyObjectBuilder_Checkpoint/Identities/MyObjectBuilder_Identity", "/IdentityId", "/DisplayName"),
+        ("/MyObjectBuilder_Checkpoint/Factions/Factions/MyObjectBuilder_Faction", "/FactionId", "/Name"),
+    ],
+)];
+
+/// The name another list gives to `id` for this table, if any.
+pub fn lookup_name(root: &serde_json::Value, spec: &str, table: &str, id: &str) -> Option<String> {
+    let (_, _, lists) = NAME_LOOKUPS.iter().find(|(s, t, _)| *s == spec && *t == table)?;
+    for (list, id_ptr, name_ptr) in *lists {
+        let list = super::resolve(root, list);
+        let entries: Vec<&serde_json::Value> = match root.pointer(&list)? {
+            serde_json::Value::Array(a) => a.iter().collect(),
+            o @ serde_json::Value::Object(_) => vec![o],
+            _ => continue,
+        };
+        for e in entries {
+            let same = match e.pointer(id_ptr) {
+                Some(serde_json::Value::String(s)) => s == id,
+                Some(v) => v.to_string() == id,
+                None => false,
+            };
+            if same {
+                if let Some(n) = e.pointer(name_ptr).and_then(|v| v.as_str()).filter(|n| !n.is_empty()) {
+                    return Some(n.to_string());
+                }
+            }
+        }
+    }
+    None
+}
+
+#[cfg(test)]
+mod lookup_tests {
+    use super::*;
+
+    #[test]
+    fn space_engineers_credits_are_named_from_identities_and_factions() {
+        let root = serde_json::json!({"MyObjectBuilder_Checkpoint": {
+            "Identities": {"MyObjectBuilder_Identity": [{"IdentityId": 7, "DisplayName": "Pilot"}]},
+            "Factions": {"Factions": {"MyObjectBuilder_Faction": [{"FactionId": 9, "Name": "Space Pirates"}]}}}});
+        let t = NAME_LOOKUPS[0].1;
+        assert_eq!(lookup_name(&root, "Space Engineers", t, "7").as_deref(), Some("Pilot"));
+        assert_eq!(lookup_name(&root, "Space Engineers", t, "9").as_deref(), Some("Space Pirates"));
+        assert_eq!(lookup_name(&root, "Space Engineers", t, "11"), None);
+    }
+}
