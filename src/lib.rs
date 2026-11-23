@@ -71,7 +71,7 @@ pub fn run_desktop(initial: Option<std::path::PathBuf>) -> eframe::Result {
         viewport: eframe::egui::ViewportBuilder::default()
             .with_title(platform::DISPLAY_NAME)
             .with_app_id(APP_NAME)
-            .with_inner_size([1150.0, 760.0])
+            .with_inner_size([1150.0, std::env::var("SAVE_EDITOR_SHOT_HEIGHT").ok().and_then(|h| h.parse::<f32>().ok()).map_or(760.0, |h| h.clamp(400.0, 4000.0))])
             .with_min_inner_size([700.0, 400.0])
             .with_drag_and_drop(true)
             .with_icon(icon),

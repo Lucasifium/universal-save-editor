@@ -3595,7 +3595,8 @@ impl App {
         };
         let old = self.tab;
         if let Some(g) = game {
-            bar(ui, &mut |ui| {
+            // Many tabs wrap onto more lines rather than running past the window's edge.
+            ui.horizontal_wrapped(|ui| {
                 self.section_tabs(ui, g);
                 if self.tab == Tab::Game {
                     self.game_find_box(ui);
@@ -3735,6 +3736,16 @@ impl App {
         }
         if tab(ui, tr("Advanced"), !on_game, false, tr("Every value and the full structure of the save, for anything this screen doesn't show")) {
             pick = Some(None);
+        }
+        // Testing aid, with SAVE_EDITOR_SHOT: SAVE_EDITOR_SHOT_TAB=n opens the nth tab (counting from 0; one past the last is Advanced).
+        #[cfg(not(target_os = "android"))]
+        if pick.is_none() && !list.is_empty() {
+            static DONE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+            if let Some(n) = std::env::var("SAVE_EDITOR_SHOT_TAB").ok().and_then(|s| s.parse::<usize>().ok()) {
+                if !DONE.swap(true, std::sync::atomic::Ordering::SeqCst) {
+                    pick = Some(list.get(n).map(|s| s.title.clone()));
+                }
+            }
         }
         match pick {
             Some(Some(title)) => {
