@@ -290,6 +290,23 @@ fn equip_all_skills(ui: &Ui, cx: &mut GameCtx, t_path: &str, rows: &[(String, St
     }
 }
 
+/// Attack on Titan 2's "Max training" button: every Training Field course goes to level 30, the
+/// level each course holds in a completed save.
+fn max_training(ui: &Ui, cx: &mut GameCtx, t_path: &str, rows: &[(String, String)]) {
+    let top = 30;
+    let low: Vec<String> = rows
+        .iter()
+        .map(|(key, _)| format!("{t_path}/{key}/Training level"))
+        .filter(|p| cx.num(p).is_some_and(|n| n < f64::from(top)))
+        .collect();
+    let tip = tr("Raises every Training Field course to training level 30, the level each course holds in a completed save. Each level is 100 training points.");
+    if super::quick_action(ui, tr("Max training"), tip, !low.is_empty(), tr("Every course is already at training level 30.")) {
+        for p in low {
+            cx.set(&p, Value::from(top));
+        }
+    }
+}
+
 /// Attack on Titan 2's "Max gear upgrades" button: every Blade, Scabbard and ODM gear piece you
 /// own gets the highest upgrade the game shows ("+99" with a star). Free rows are left alone.
 fn max_gear_upgrades(ui: &Ui, cx: &mut GameCtx) {
@@ -454,6 +471,9 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                     }
                     if lists_first && t.path == "/Blades" {
                         max_gear_upgrades(ui, cx);
+                    }
+                    if lists_first && t.path == "/Training" {
+                        max_training(ui, cx, t_path, &rows);
                     }
                     let q = filter(ui, &format!("t{i}/{ti}"));
                     // A table wider than the window scrolls sideways; a solid bar (only when it overflows) shows that more is there.
@@ -784,6 +804,33 @@ mod tests {
             *after.pointer_mut(&p).unwrap() = v;
         }
         assert!(press(&after).is_empty(), "nothing left to equip, so the button does nothing");
+    }
+
+    #[test]
+    fn aot2_max_training_raises_every_course() {
+        let root = json!({ "Training": { "Lecture": { "Training level": 30 }, "Hand-to-hand Combat Training": { "Training level": 0 }, "Omni-direction Mobility Training": { "Training level": 10 } } });
+        let rows: Vec<(String, String)> = root["Training"].as_object().unwrap().keys().map(|k| (k.clone(), k.clone())).collect();
+        let ctx = egui::Context::default();
+        let press = |root: &Value| {
+            ctx.data_mut(|d| d.insert_temp(egui::Id::new(super::super::QA_CLICK), tr("Max training").to_string()));
+            let mut edits = vec![];
+            let _ = ctx.run(egui::RawInput::default(), |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    let mut cx = GameCtx { root, baseline: root, tree: None, edits: vec![], archive: None, open_entry: None };
+                    max_training(ui, &mut cx, "/Training", &rows);
+                    edits = cx.edits;
+                });
+            });
+            edits
+        };
+        let mut edits = press(&root);
+        edits.sort_by(|a, b| a.0.cmp(&b.0));
+        assert_eq!(edits, vec![("/Training/Hand-to-hand Combat Training/Training level".to_string(), json!(30)), ("/Training/Omni-direction Mobility Training/Training level".to_string(), json!(30))]);
+        let mut after = root.clone();
+        for (p, v) in edits {
+            *after.pointer_mut(&p).unwrap() = v;
+        }
+        assert!(press(&after).is_empty(), "every course is at the top, so the button does nothing");
     }
 
     #[test]

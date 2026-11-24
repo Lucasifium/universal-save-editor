@@ -107,6 +107,17 @@ const FRIEND_NAMES2: [(usize, &str); 39] = [
     (48, "Merchant Association Boss"),
 ];
 
+/// Training Field courses, one 0x50-byte record each: u32 training points, then the training
+/// level (one per 100 points). Matched by training once in each course in the game and comparing
+/// the save before and after; a completed save holds 3,000 points and level 30 in each.
+const TRAINING2: usize = P + 0x18FA68;
+const TRAINING_STRIDE2: usize = 0x50;
+const TRAINING_POINTS_PER_LEVEL2: u32 = 100;
+const TRAINING_MAX2: u8 = 30;
+/// The byte after the level, 5 in every course record seen.
+const TRAINING_TAG2: u8 = 5;
+const TRAINING_NAMES2: [&str; 3] = ["Omni-direction Mobility Training", "Hand-to-hand Combat Training", "Lecture"];
+
 /// Owned gear: Blades, Scabbards and ODM gear, 99 rows of 0x40 bytes each (the rows' offsets
 /// match the public PS4 patch list shifted by 0x114740). A row holds the piece's number at +0x18
 /// (0xFF: free) and its upgrade at +0x19 (u16). The game lists the rows in order and has no
@@ -206,9 +217,26 @@ fn material_rows() -> impl Iterator<Item = usize> {
     (0..MATERIAL_ROWS2).filter(|i| !MATERIAL_SKIP2.contains(i))
 }
 
+/// A Training Field course record: the tag byte the game writes, a level up to the top one and
+/// no more points than the top level. The screen lists exactly these, and only these are synced
+/// on save, so nothing the screen doesn't show is changed.
+fn training_course(p: &[u8], at: usize) -> bool {
+    p[at + 5] == TRAINING_TAG2 && p[at + 4] <= TRAINING_MAX2 && w32(p, at) <= u32::from(TRAINING_MAX2) * TRAINING_POINTS_PER_LEVEL2
+}
+
 fn pack(p: &mut Vec<u8>) {
     let Some(adv) = advances(p.len()) else { return };
     if p.len() == SIZE2 {
+        // A course whose training level was changed gets the points that level starts at, so the
+        // two agree as they do in every save the game writes (where the level is always the points
+        // / 100); an untouched course keeps its points.
+        for k in 0..TRAINING_NAMES2.len() {
+            let at = TRAINING2 + k * TRAINING_STRIDE2;
+            let (points, level) = (w32(p, at), p[at + 4]);
+            if training_course(p, at) && points / TRAINING_POINTS_PER_LEVEL2 != u32::from(level) {
+                p[at..at + 4].copy_from_slice(&(u32::from(level) * TRAINING_POINTS_PER_LEVEL2).to_le_bytes());
+            }
+        }
         // A material given a quantity it didn't have is marked as owned, as the game does.
         for i in material_rows() {
             let at = MATERIALS2 + i * GIFT_STRIDE2;
@@ -296,6 +324,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         }
         if w32(&p, EXP2) <= EXP2_CAP {
             b.ranged(&["Player", "Experience"], EXP2, Kind::U32, 0, EXP2_CAP as i64);
+        }
+        for (k, name) in TRAINING_NAMES2.iter().enumerate() {
+            let at = TRAINING2 + k * TRAINING_STRIDE2;
+            if training_course(&p, at) {
+                b.ranged(&["Training", name, "Training level"], at + 4, Kind::U8, 0, i64::from(TRAINING_MAX2));
+            }
         }
         // Every material is listed, owned or not; one you don't own yet is marked as owned on save.
         for i in material_rows() {
@@ -418,6 +452,39 @@ mod tests {
         let out = doc.to_bytes().unwrap();
         assert!(looks(&out));
         assert_eq!(parse(&out).unwrap().view.pointer("/Resources/Funds").unwrap(), 99_999_999);
+    }
+
+    #[test]
+    fn second_game_training() {
+        let mut p = blank(false);
+        let course = |k: usize| TRAINING2 + k * TRAINING_STRIDE2;
+        // Mid-way through level 0 in the first course, level 10 in the second, a third the game
+        // wouldn't write (more points than the top level).
+        p[course(0)..course(0) + 12].copy_from_slice(&[70, 0, 0, 0, 0, 5, 0, 0, 3, 0, 0, 0]);
+        p[course(1)..course(1) + 6].copy_from_slice(&[0xE8, 0x03, 0, 0, 10, 5]);
+        p[course(2)..course(2) + 6].copy_from_slice(&[0x88, 0x13, 0, 0, 7, 5]);
+        pack(&mut p);
+        let mut doc = parse(&p).unwrap();
+        assert_eq!(doc.to_bytes().unwrap(), p, "untouched training round-trips");
+        assert_eq!(doc.view.pointer("/Training/Omni-direction Mobility Training/Training level").unwrap(), 0);
+        assert_eq!(doc.view.pointer("/Training/Hand-to-hand Combat Training/Training level").unwrap(), 10);
+        assert!(doc.view.pointer("/Training/Lecture").is_none(), "a record the game wouldn't write is not shown");
+        assert!(doc.set("/Training/Hand-to-hand Combat Training/Training level", 31.into()).is_err());
+        doc.set("/Training/Omni-direction Mobility Training/Training level", 30.into()).unwrap();
+        doc.set("/Training/Hand-to-hand Combat Training/Training level", 4.into()).unwrap();
+        let (q, _) = unpack(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(&q[course(0)..course(0) + 12], &[0xB8, 0x0B, 0, 0, 30, 5, 0, 0, 3, 0, 0, 0], "3,000 points, level 30, sessions kept");
+        assert_eq!(&q[course(1)..course(1) + 6], &[0x90, 0x01, 0, 0, 4, 5]);
+        assert_eq!(&q[course(2)..course(2) + 6], &[0x88, 0x13, 0, 0, 7, 5], "a course not shown is left alone");
+        // Points and level that disagree (never seen in a save the game wrote) are shown by level,
+        // and the points follow that level on save.
+        let mut p = blank(false);
+        p[course(0)..course(0) + 6].copy_from_slice(&[0xE8, 0x03, 0, 0, 7, 5]);
+        pack(&mut p);
+        let doc = parse(&p).unwrap();
+        assert_eq!(doc.view.pointer("/Training/Omni-direction Mobility Training/Training level").unwrap(), 7);
+        let (q, _) = unpack(&doc.to_bytes().unwrap()).unwrap();
+        assert_eq!(&q[course(0)..course(0) + 6], &[0xBC, 0x02, 0, 0, 7, 5]);
     }
 
     #[test]
