@@ -2,6 +2,13 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.9.1
+
+> Attack on Titan 2 Training Field levels and named gear
+
+- Attack on Titan 2: Training Field levels can be edited, with a Max training button
+- Attack on Titan 2: every Blade, Scabbard and ODM gear piece is named
+
 ## 0.9.0
 
 > Every game screen now has section tabs, plus Space Engineers fixes

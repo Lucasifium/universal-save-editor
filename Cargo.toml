@@ -1,6 +1,6 @@
 [package]
 name = "universal_save_editor"
-version = "0.9.0"
+version = "0.9.1"
 edition = "2021"
 description = "Universal Save Editor: a free, offline save editor and manager (with backups and restore) for 590+ (593) PC games"
 license = "GPL-3.0-or-later"
