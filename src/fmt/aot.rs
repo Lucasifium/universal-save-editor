@@ -120,28 +120,37 @@ const TRAINING_NAMES2: [&str; 3] = ["Omni-direction Mobility Training", "Hand-to
 
 /// Owned gear: Blades, Scabbards and ODM gear, 99 rows of 0x40 bytes each (the rows' offsets
 /// match the public PS4 patch list shifted by 0x114740). A row holds the piece's number at +0x18
-/// (0xFF: free) and its upgrade at +0x19 (u16). The game lists the rows in order and has no
-/// separate count: filling the first free row adds a piece, which it shows as new. Names and
-/// upgrade values were read in the game from saves of its own: 1 to 99 show as "+1" to "+99" and
-/// 0x1C6 as "+99" with a star, the value of every fully upgraded piece.
+/// (0xFF: free) and its upgrade at +0x19 (u16). The game lists the equipped piece first, then the
+/// other rows in order, and has no separate count: filling the first free row adds a piece, which
+/// it shows as new. Names and upgrade values were read in the game from saves of its own: 1 to 99
+/// show as "+1" to "+99" and 0x1C6 as "+99" with a star, the value of every fully upgraded piece.
 const GEAR2: [(&str, usize); 3] = [("Blades", P + 0x1363C0), ("Scabbards", P + 0x137C80), ("ODM gear", P + 0x139540)];
 const GEAR_ROWS2: usize = 99;
 const GEAR_STRIDE2: usize = 0x40;
 const GEAR_FREE2: u8 = 0xFF;
 /// `(number, blade, scabbard, ODM gear)`; an empty name is a piece not seen in that list.
-const GEAR_NAMES2: [(u8, &str, &str, &str); 12] = [
+const GEAR_NAMES2: [(u8, &str, &str, &str); 21] = [
     (51, "Shadow Falcon", "", ""),
     (87, "Perfected Blade - Ultimate", "Perfected Scabbard - Ultimate", "Perfected Gear - Ultimate"),
     (92, "Evil Edge", "Evil Coffin", "Evil Drive"),
     (93, "Chrono Cutter I", "Chrono Booster I", "Chrono Reaper I"),
+    (97, "Phos Chrono Cutter", "Phos Chrono Booster", "Phos Chrono Reaper"),
     (102, "Fury Blade - Ultimate", "Fury Scabbard - Ultimate", "Fury Gear - Ultimate"),
     (103, "Divine Reinforced Blade", "Divine Reinforced Scabbard", "Divine Reinforced Gear"),
-    (105, "Kusanagi Zero", "Tsunami Zero", ""),
-    (106, "Blood Rapier", "", ""),
-    (107, "Ultimate Duster", "", ""),
-    (108, "", "Crescent Sheath II", "Crescent Gear II"),
+    (104, "Koenigmesser II", "Koenigscheide II", "Koenighaken II"),
+    (105, "Kusanagi Zero", "Tsunami Zero", "Brilliance Zero"),
+    (106, "Blood Rapier", "Blood Wing", "Blood Crest"),
+    (107, "Ultimate Duster", "Heavy Scabbard Ver.6 - Red Hare", "Heavy Gear Ver.6 - Bright Burn"),
+    (108, "Heavy Blade Ver.6 - Crimson Blossom", "Crescent Sheath II", "Crescent Gear II"),
     (109, "Crescent Blade II", "Shadow Hurricane", "Shadow Moonbow"),
-    (111, "", "Demon God Scabbard Mk II", "Demon God Gear Mk II"),
+    (110, "Shadow Kestrel", "Platinum Fliegen", "Platinum Motor"),
+    (111, "Platinum Dolch", "Demon God Scabbard Mk II", "Demon God Gear Mk II"),
+    (112, "Demon God Blade Mk II", "Onogoro Hyaku-Shiki Mk II", "Kagutsuchi Hyaku-Shiki Mk II"),
+    (113, "", "Helleisen II", "Hellbogen II"),
+    (114, "Hellklinge II", "Ultimate Dream Sheath", "Soaring Assault Gear"),
+    (115, "Explosive Skysplitter Gunblade", "Blazing Axel", "Blazing Machinery"),
+    (116, "Blazing Blade", "Omega Sol Fuel", "Omega Sol Unit"),
+    (117, "Omega Sol Slicer", "", ""),
 ];
 /// The upgrade of a fully upgraded piece, shown as "+99" with a star.
 const GEAR_UPGRADE_MAX2: u64 = 0x1C6;
