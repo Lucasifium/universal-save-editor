@@ -290,17 +290,17 @@ fn equip_all_skills(ui: &Ui, cx: &mut GameCtx, t_path: &str, rows: &[(String, St
     }
 }
 
-/// Attack on Titan 2's "Max training" button: every Training Field course goes to level 30, the
-/// level each course holds in a completed save.
+/// Attack on Titan 2's "Max training" button: every Training Field course goes to 3,000 points
+/// (level 30), what each course holds in a completed save.
 fn max_training(ui: &Ui, cx: &mut GameCtx, t_path: &str, rows: &[(String, String)]) {
-    let top = 30;
+    let top = 3000;
     let low: Vec<String> = rows
         .iter()
-        .map(|(key, _)| format!("{t_path}/{key}/Training level"))
+        .map(|(key, _)| format!("{t_path}/{key}/Training points"))
         .filter(|p| cx.num(p).is_some_and(|n| n < f64::from(top)))
         .collect();
-    let tip = tr("Raises every Training Field course to training level 30, the level each course holds in a completed save. Each level is 100 training points.");
-    if super::quick_action(ui, tr("Max training"), tip, !low.is_empty(), tr("Every course is already at training level 30.")) {
+    let tip = tr("Raises every Training Field course to 3,000 training points (training level 30), what each course holds in a completed save. Every 100 points is one level.");
+    if super::quick_action(ui, tr("Max training"), tip, !low.is_empty(), tr("Every course already has 3,000 training points.")) {
         for p in low {
             cx.set(&p, Value::from(top));
         }
@@ -808,7 +808,7 @@ mod tests {
 
     #[test]
     fn aot2_max_training_raises_every_course() {
-        let root = json!({ "Training": { "Lecture": { "Training level": 30 }, "Hand-to-hand Combat Training": { "Training level": 0 }, "Omni-direction Mobility Training": { "Training level": 10 } } });
+        let root = json!({ "Training": { "Lecture": { "Training points": 3000 }, "Hand-to-hand Combat Training": { "Training points": 0 }, "Omni-direction Mobility Training": { "Training points": 1000 } } });
         let rows: Vec<(String, String)> = root["Training"].as_object().unwrap().keys().map(|k| (k.clone(), k.clone())).collect();
         let ctx = egui::Context::default();
         let press = |root: &Value| {
@@ -825,7 +825,7 @@ mod tests {
         };
         let mut edits = press(&root);
         edits.sort_by(|a, b| a.0.cmp(&b.0));
-        assert_eq!(edits, vec![("/Training/Hand-to-hand Combat Training/Training level".to_string(), json!(30)), ("/Training/Omni-direction Mobility Training/Training level".to_string(), json!(30))]);
+        assert_eq!(edits, vec![("/Training/Hand-to-hand Combat Training/Training points".to_string(), json!(3000)), ("/Training/Omni-direction Mobility Training/Training points".to_string(), json!(3000))]);
         let mut after = root.clone();
         for (p, v) in edits {
             *after.pointer_mut(&p).unwrap() = v;

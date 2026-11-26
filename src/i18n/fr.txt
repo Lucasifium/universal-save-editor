@@ -29978,8 +29978,8 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = atwin0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Vos fonds et la quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont gérés.
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training level of each Training Field course (up to 30) with a Max training button, the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
-= Attack on Titan2_AOT2_PK_WIN0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fonds du régiment, Wings of Freedom (jusqu'à 999), votre niveau de joueur (jusqu'à 120) et votre expérience, le niveau d'entraînement de chaque cours du terrain d'entraînement (jusqu'à 30) avec un bouton Max. entraînement, le niveau d'amitié (0 à 10) et les points d'amitié (jusqu'à 1 000) de chaque personnage rencontré, chaque matériau d'artisanat, y compris ceux que vous ne possédez pas encore, par leur nom, avec un bouton Max. matériaux d'artisanat (999 chacun), les compétences équipées et chaque cadeau par son nom, jusqu'à 99 chacun, y compris ceux que vous ne possédez pas encore ; le chiffrement de flux et la somme de mots sont gérés.
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training points of each Training Field course (up to 3,000, 100 per level) with a Max training button, the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat depuis Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fonds du régiment, Wings of Freedom (jusqu'à 999), votre niveau de joueur (jusqu'à 120) et votre expérience, les points d'entraînement de chaque cours du terrain d'entraînement (jusqu'à 3 000, 100 par niveau) avec un bouton Max. entraînement, le niveau (jusqu'à 10) et l'EXP (jusqu'à 33 000) de la salle de recherche sur les titans, le niveau d'amitié (0 à 10) et les points d'amitié (jusqu'à 1 000) de chaque personnage rencontré, chaque matériau d'artisanat, y compris ceux que vous ne possédez pas encore, par leur nom, avec un bouton Max. matériaux d'artisanat (999 chacun), les compétences équipées et chaque cadeau par son nom, jusqu'à 99 chacun, y compris ceux que vous ne possédez pas encore ; le chiffrement de flux et la somme de mots sont gérés.
 
 Close the game first. The stream cipher and the word checksum are written again. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP.
 = Fermez d'abord le jeu. Le chiffrement de flux et la somme de mots sont réécrits. Tous les matériaux et cadeaux sont listés ; donner une quantité à un élément que vous ne possédez pas l'ajoute. Équiper des compétences ne vérifie pas vos SP.
@@ -29990,8 +29990,8 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Écran de jeu : fonds et quantité de chaque objet que vous possédez ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur une sauvegarde publique, pas encore essayé dans le jeu
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field levels with a Max training button, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, niveau et expérience, niveaux du terrain d'entraînement avec un bouton Max. entraînement, amitié, chaque matériau d'artisanat et cadeau par son nom avec un bouton Max. matériaux d'artisanat, vos lames, fourreaux et équipements tridimensionnels (les améliorer, ajouter des pièces ou utiliser le bouton Améliorer tout l'équipement au maximum) et les compétences équipées avec un bouton Équiper toutes les compétences ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur des sauvegardes publiques et dans le jeu
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field points with a Max training button, Titan Research Room level and EXP, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= Écran de jeu (Final Battle) : fonds du régiment, Wings of Freedom, niveau et expérience, points du terrain d'entraînement avec un bouton Max. entraînement, niveau et EXP de la salle de recherche sur les titans, amitié, chaque matériau d'artisanat et cadeau par son nom avec un bouton Max. matériaux d'artisanat, vos lames, fourreaux et équipements tridimensionnels (les améliorer, ajouter des pièces ou utiliser le bouton Améliorer tout l'équipement au maximum) et les compétences équipées avec un bouton Équiper toutes les compétences ; le chiffrement de flux et la somme de mots sont réécrits. Vérifié sur des sauvegardes publiques et dans le jeu
 
 Friendship (characters you've met)
 = Amitié (personnages rencontrés)
@@ -31774,14 +31774,17 @@ Gives every Blade, Scabbard and ODM gear piece you own the highest upgrade the g
 Every piece is already fully upgraded.
 = Toutes les pièces sont déjà améliorées au maximum.
 
-Training level
-= Niveau d'entraînement
+Training points
+= Points d'entraînement
 
 Max training
 = Max. entraînement
 
-Raises every Training Field course to training level 30, the level each course holds in a completed save. Each level is 100 training points.
-= Porte chaque cours du terrain d'entraînement au niveau d'entraînement 30, le niveau de chaque cours dans une sauvegarde terminée. Chaque niveau vaut 100 points d'entraînement.
+Raises every Training Field course to 3,000 training points (training level 30), what each course holds in a completed save. Every 100 points is one level.
+= Porte chaque cours du terrain d'entraînement à 3 000 points d'entraînement (niveau d'entraînement 30), ce que chaque cours a dans une sauvegarde terminée. Chaque tranche de 100 points vaut un niveau.
 
-Every course is already at training level 30.
-= Chaque cours est déjà au niveau d'entraînement 30.
+Every course already has 3,000 training points.
+= Chaque cours a déjà 3 000 points d'entraînement.
+
+Titan Research Room
+= Salle de recherche sur les titans

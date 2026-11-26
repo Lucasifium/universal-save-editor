@@ -116,6 +116,11 @@ const TRAINING_POINTS_PER_LEVEL2: u32 = 100;
 const TRAINING_MAX2: u8 = 30;
 /// The byte after the level, 5 in every course record seen.
 const TRAINING_TAG2: u8 = 5;
+/// Titan Research Room: u32 EXP, then the room's level, matched to the game's own screen (level 1 at
+/// 1,550 EXP, level 4 at 7,750); a completed save holds level 10 with 33,000 EXP.
+const RESEARCH2: usize = P + 0x1859B8;
+const RESEARCH_EXP_MAX2: u32 = 33_000;
+const RESEARCH_LEVEL_MAX2: u8 = 10;
 const TRAINING_NAMES2: [&str; 3] = ["Omni-direction Mobility Training", "Hand-to-hand Combat Training", "Lecture"];
 
 /// Owned gear: Blades, Scabbards and ODM gear, 99 rows of 0x40 bytes each (the rows' offsets
@@ -236,14 +241,13 @@ fn training_course(p: &[u8], at: usize) -> bool {
 fn pack(p: &mut Vec<u8>) {
     let Some(adv) = advances(p.len()) else { return };
     if p.len() == SIZE2 {
-        // A course whose training level was changed gets the points that level starts at, so the
-        // two agree as they do in every save the game writes (where the level is always the points
-        // / 100); an untouched course keeps its points.
+        // A course whose training points were changed gets the level those points reach (one per
+        // 100), as in every save the game writes; an untouched course already agrees.
         for k in 0..TRAINING_NAMES2.len() {
             let at = TRAINING2 + k * TRAINING_STRIDE2;
-            let (points, level) = (w32(p, at), p[at + 4]);
-            if training_course(p, at) && points / TRAINING_POINTS_PER_LEVEL2 != u32::from(level) {
-                p[at..at + 4].copy_from_slice(&(u32::from(level) * TRAINING_POINTS_PER_LEVEL2).to_le_bytes());
+            let level = w32(p, at) / TRAINING_POINTS_PER_LEVEL2;
+            if training_course(p, at) && level != u32::from(p[at + 4]) {
+                p[at + 4] = level as u8;
             }
         }
         // A material given a quantity it didn't have is marked as owned, as the game does.
@@ -334,10 +338,14 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
         if w32(&p, EXP2) <= EXP2_CAP {
             b.ranged(&["Player", "Experience"], EXP2, Kind::U32, 0, EXP2_CAP as i64);
         }
+        if w32(&p, RESEARCH2) <= RESEARCH_EXP_MAX2 && p[RESEARCH2 + 4] <= RESEARCH_LEVEL_MAX2 {
+            b.ranged(&["Titan Research Room", "Level"], RESEARCH2 + 4, Kind::U8, 0, i64::from(RESEARCH_LEVEL_MAX2));
+            b.ranged(&["Titan Research Room", "EXP"], RESEARCH2, Kind::U32, 0, i64::from(RESEARCH_EXP_MAX2));
+        }
         for (k, name) in TRAINING_NAMES2.iter().enumerate() {
             let at = TRAINING2 + k * TRAINING_STRIDE2;
             if training_course(&p, at) {
-                b.ranged(&["Training", name, "Training level"], at + 4, Kind::U8, 0, i64::from(TRAINING_MAX2));
+                b.ranged(&["Training", name, "Training points"], at, Kind::U32, 0, i64::from(TRAINING_MAX2) * i64::from(TRAINING_POINTS_PER_LEVEL2));
             }
         }
         // Every material is listed, owned or not; one you don't own yet is marked as owned on save.
@@ -475,25 +483,25 @@ mod tests {
         pack(&mut p);
         let mut doc = parse(&p).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), p, "untouched training round-trips");
-        assert_eq!(doc.view.pointer("/Training/Omni-direction Mobility Training/Training level").unwrap(), 0);
-        assert_eq!(doc.view.pointer("/Training/Hand-to-hand Combat Training/Training level").unwrap(), 10);
+        assert_eq!(doc.view.pointer("/Training/Omni-direction Mobility Training/Training points").unwrap(), 70);
+        assert_eq!(doc.view.pointer("/Training/Hand-to-hand Combat Training/Training points").unwrap(), 1000);
         assert!(doc.view.pointer("/Training/Lecture").is_none(), "a record the game wouldn't write is not shown");
-        assert!(doc.set("/Training/Hand-to-hand Combat Training/Training level", 31.into()).is_err());
-        doc.set("/Training/Omni-direction Mobility Training/Training level", 30.into()).unwrap();
-        doc.set("/Training/Hand-to-hand Combat Training/Training level", 4.into()).unwrap();
+        assert!(doc.set("/Training/Hand-to-hand Combat Training/Training points", 3001.into()).is_err());
+        doc.set("/Training/Omni-direction Mobility Training/Training points", 3000.into()).unwrap();
+        doc.set("/Training/Hand-to-hand Combat Training/Training points", 455.into()).unwrap();
         let (q, _) = unpack(&doc.to_bytes().unwrap()).unwrap();
         assert_eq!(&q[course(0)..course(0) + 12], &[0xB8, 0x0B, 0, 0, 30, 5, 0, 0, 3, 0, 0, 0], "3,000 points, level 30, sessions kept");
-        assert_eq!(&q[course(1)..course(1) + 6], &[0x90, 0x01, 0, 0, 4, 5]);
+        assert_eq!(&q[course(1)..course(1) + 6], &[0xC7, 0x01, 0, 0, 4, 5], "455 points is level 4");
         assert_eq!(&q[course(2)..course(2) + 6], &[0x88, 0x13, 0, 0, 7, 5], "a course not shown is left alone");
-        // Points and level that disagree (never seen in a save the game wrote) are shown by level,
-        // and the points follow that level on save.
+        // Points and level that disagree (never seen in a save the game wrote): the level follows
+        // the points on save.
         let mut p = blank(false);
         p[course(0)..course(0) + 6].copy_from_slice(&[0xE8, 0x03, 0, 0, 7, 5]);
         pack(&mut p);
         let doc = parse(&p).unwrap();
-        assert_eq!(doc.view.pointer("/Training/Omni-direction Mobility Training/Training level").unwrap(), 7);
+        assert_eq!(doc.view.pointer("/Training/Omni-direction Mobility Training/Training points").unwrap(), 1000);
         let (q, _) = unpack(&doc.to_bytes().unwrap()).unwrap();
-        assert_eq!(&q[course(0)..course(0) + 6], &[0xBC, 0x02, 0, 0, 7, 5]);
+        assert_eq!(&q[course(0)..course(0) + 6], &[0xE8, 0x03, 0, 0, 10, 5]);
     }
 
     #[test]
@@ -530,6 +538,10 @@ mod tests {
         assert_eq!(doc.view.pointer("/Friendship/Hannes").unwrap(), 3);
         doc.set("/Friendship/Hannes", 10.into()).unwrap();
         assert!(doc.set("/Friendship/Hannes", 11.into()).is_err());
+        doc.set("/Titan Research Room/Level", 10.into()).unwrap();
+        assert!(doc.set("/Titan Research Room/Level", 11.into()).is_err());
+        doc.set("/Titan Research Room/EXP", 33_000.into()).unwrap();
+        assert!(doc.set("/Titan Research Room/EXP", 33_001.into()).is_err());
         doc.set("/Player/Level", 120.into()).unwrap();
         assert!(doc.set("/Player/Level", 121.into()).is_err());
         doc.set("/Player/Experience", 605_770.into()).unwrap();
