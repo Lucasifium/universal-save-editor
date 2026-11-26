@@ -398,8 +398,10 @@ fn schema(name: &str, desc: &str, url: &str) -> String {
         "description": desc,
         "url": url,
         "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "Windows, Linux, web browser",
+        "operatingSystem": "Windows, Linux, macOS, web browser",
         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "isAccessibleForFree": true,
+        "image": format!("{SITE}/social-preview.png"),
         "license": "https://www.gnu.org/licenses/gpl-3.0.html",
         "downloadUrl": DOWNLOAD,
     })
@@ -448,7 +450,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Checksum finder.</strong> For a save it doesn't know, the editor looks for a CRC, sum or hash near the start or end of the file and writes it again every time you save.</li>
 <li><strong>Find a value, step by step.</strong> On a game it doesn't know, a short guide walks you through finding a number and changing it, and the search can refine by itself each time the game saves.</li>
 <li><strong>Your own templates.</strong> Name the values you found and press <em>Use for every save</em>, or write a small JSON file saying where each value is; matching saves then open as a list of those values, with the checksum kept right. Names and templates are easy to share.</li>
-<li><strong>Made for phones too.</strong> On a phone-size screen the toolbar is one line, and large section chips jump to each part of a game screen, marked where you made changes.</li>
+<li><strong>Made for phones too.</strong> On a phone-size screen the toolbar is one line, and a game screen's sections are tabs that wrap onto extra lines, marked where you made changes.</li>
 <li><strong>Bulk edit and presets.</strong> Tick many values and set, add to or multiply them all at once; keep a set of changes as a preset and make it again on another save or slot.</li>
 <li><strong>Console cheat patches.</strong> About 2,400 PlayStation 1 to 4, PSP, Vita and Dreamcast games have ready-made cheats from the Apollo patch collection built in: pick the codes and apply them. Encrypted saves from about 80 PS3, PS4, PSP and Vita games open already decrypted, and are encrypted again on save.</li>
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
@@ -544,6 +546,61 @@ fn pokemon_body(rows: &[(String, String)], pages: &[(&str, String)]) -> String {
         gen49 = row("Pokémon (Gen IV"),
         n = GAMES.len(),
     )
+}
+
+/// The home page's questions about save editing: (question, answer as HTML).
+fn home_questions() -> Vec<(String, String)> {
+    let (many, n) = (GAMES.len() / 10 * 10, GAMES.len());
+    vec![
+        (
+            "Is it safe to edit a save file?".to_string(),
+            "The downloaded app backs up the old file before every save, then reads the new file back and checks it before replacing anything. If the game doesn't like an edit, restore the backup from <em>Backups</em>. In the browser version, keep a copy of the original yourself.".to_string(),
+        ),
+        (
+            "Do I have to upload my save?".to_string(),
+            format!(r#"No. The editor is a program on your own computer and works offline. <a href="{WEB_APP}">The browser version</a> also runs on your computer, inside the page, and never uploads the save."#),
+        ),
+        (
+            "Which games does it work with?".to_string(),
+            format!(r##"{many}+ ({n}) games are <a href="#games">listed below</a>, each with a page saying what can be changed and where its saves are. Saves of games that aren't listed often open too: as named values when the format is a common one, or through value search."##),
+        ),
+        (
+            "Does it work on Steam Deck, Linux and Mac?".to_string(),
+            "Yes. There are downloads for Windows, Linux and macOS. On Linux and the Steam Deck, <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.".to_string(),
+        ),
+        (
+            "Can I use edited saves online?".to_string(),
+            "Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.".to_string(),
+        ),
+        ("Does it cost anything?".to_string(), "No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.".to_string()),
+    ]
+}
+
+/// The home page's structured data: the app with what it does, and the questions answered on the page.
+fn home_schema(desc: &str, questions: &[(String, String)]) -> String {
+    let mut app: serde_json::Value = serde_json::from_str(&schema("Universal Save Editor", desc, &format!("{SITE}/"))).unwrap();
+    app["applicationSubCategory"] = "Game save editor".into();
+    app["screenshot"] = format!("{SITE}/screenshot.png").into();
+    app["sameAs"] = serde_json::json!([REPO]);
+    app["featureList"] = serde_json::json!([
+        "Edit money, levels, items, stats and unlocks in game saves",
+        "Works offline: saves are never uploaded",
+        "Automatic and named backups with one-click restore",
+        "Finds the saves of installed games",
+        "Value search for games that aren't listed",
+        "Runs on Windows, Linux, macOS and in the browser",
+    ]);
+    let mut all: serde_json::Value = serde_json::from_str(&website_schema(&app.to_string(), None)).unwrap();
+    all["@graph"].as_array_mut().unwrap().push(serde_json::json!({
+        "@type": "FAQPage",
+        "@id": format!("{SITE}/#questions"),
+        "mainEntity": questions.iter().map(|(q, a)| serde_json::json!({
+            "@type": "Question",
+            "name": q,
+            "acceptedAnswer": {"@type": "Answer", "text": a.replace(r#"href="app/""#, &format!(r#"href="{SITE}/app/""#)).replace(r##"href="#games""##, &format!(r##"href="{SITE}/#games""##))}
+        })).collect::<Vec<_>>()
+    }));
+    all.to_string().replace("</", "<\\/")
 }
 
 /// A short list of reasons for a game's page; the home page keeps the full list.
@@ -1061,20 +1118,33 @@ fn build_site() {
         let _ = write!(cards, r#"<details class="letter"><summary>{title} <span>({count})</span></summary><ul class="grid">{items}</ul></details>"#);
     }
     let full = GAMES.iter().filter(|g| has_screen(g)).count();
-    let desc = format!("Universal Save Editor is a free, offline save editor and manager for {}+ ({}) PC games, including Elden Ring, Skyrim, Stardew Valley and Cyberpunk 2077. Nothing is uploaded.", GAMES.len() / 10 * 10, GAMES.len());
+    let many = GAMES.len() / 10 * 10;
+    let desc = format!("Free offline save editor for {many}+ ({}) PC games, including Elden Ring, Skyrim and Stardew Valley. Change money, items and stats. Nothing is uploaded.", GAMES.len());
+    let questions = home_questions();
+    let questions_html: String = questions.iter().map(|(q, a)| format!("<h3>{q}</h3>\n<p>{a}</p>\n")).collect();
     let body = format!(
-        r#"<section class="hero"><div><h1>Universal Save Editor: a free save editor and manager for {n} games</h1>
-<p class="lead">Universal Save Editor edits and manages your saves on your own computer (backups, named save slots, restore, and back up and start a new game): no uploads, no accounts, no rate limits. It's free, and always will be.</p>
-<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · Browser</span></div>
+        r#"<section class="hero"><div><h1>Free offline save editor for {many}+ ({n}) games</h1>
+<p class="lead">Universal Save Editor is a save editor and save manager for PC games. Open a save file, change money, levels, items and stats, and save it back. It runs on your own computer: no uploads, no accounts, no rate limits, and the downloaded app backs up every save before changing it. It's free, and always will be.</p>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · macOS · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a></div><div class="mock" aria-hidden="true"><div class="bar"><i></i><i></i><i></i></div><div class="row"><div class="k"><span>Gold</span><b>99,999</b></div><div class="t" style="--w:92%"></div></div><div class="row"><div class="k"><span>Level</span><b>60</b></div><div class="t" style="--w:60%"></div></div><div class="row"><div class="k"><span>Crafting materials</span><b>Max</b></div><div class="t" style="--w:100%"></div></div></div></section>
 <section class="feature"><div><h2>Save manager built in</h2><p>Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.</p><a class="btn alt" href="save-manager/">How the save manager works</a></div></section>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
 <p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-&lt;version&gt;-linux-x64.tar.gz</code> (Linux) or <code>certutil -hashfile UniversalSaveEditor-&lt;version&gt;-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here. If Windows shows "Windows protected your PC", the file is new and unsigned, not harmful: click <em>More info</em>, then <em>Run anyway</em>.</p>
 <p><strong>Install with Scoop (Windows):</strong> <code>scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json</code> installs it with a Start menu shortcut and checks the download for you; <code>scoop update universal-save-editor</code> gets new releases.</p>
 <figure class="shot"><picture><source media="(max-width: 600px)" type="image/webp" srcset="screenshot-phone.webp" width="780" height="1500"><source media="(max-width: 600px)" srcset="screenshot-phone.png" width="780" height="1500"><source type="image/webp" srcset="screenshot.webp"><img src="screenshot.png" width="2000" height="1322" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy" decoding="async"></picture><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
+<h2>What is a save editor?</h2>
+<p>A save editor opens the file a game writes when you save and lets you change what is stored in it: money, experience, items, stats, unlocks. Games keep their saves in many formats, often compressed, encrypted or guarded by a checksum, so each one needs its own handling. Universal Save Editor does that for {many}+ ({n}) games in one program and writes the file back the way the game expects it.</p>
+<h2>How to edit a save file</h2>
+<ol>
+<li><a href="{DOWNLOAD}">Download the editor</a>, or open <a href="{WEB_APP}">the browser version</a>.</li>
+<li>In the downloaded app, choose <em>Find my game's saves</em> and pick your game. In the browser, open the save file yourself.</li>
+<li>Change what you want. {full} games open on a screen made for them, with every value named; other saves open as a list of values, or through value search.</li>
+<li>Save. The downloaded app backs up the old file first and reads the new one back to check it before replacing anything; the browser version downloads the edited file, so keep a copy of the original. Then load the save in your game.</li>
+</ol>
 <h2>Why download a save editor?</h2>
 {WHY}
-{newest}<h2>Browse by genre</h2>
+<h2 id="questions">Questions about save editing</h2>
+{questions_html}{newest}<h2>Browse by genre</h2>
 <ul class="grid genres">{genre_links}</ul>
 <h2 id="games">Games ({n})</h2>
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
@@ -1089,7 +1159,7 @@ fn build_site() {
         newest = newest_html(&newest_games(&skip, 10)),
         genre_links = GENRES.iter().filter(|g| genre_items.contains_key(g.0)).map(|g| format!(r#"<li><a href="{}/"><span>{}</span><small>{} games</small></a></li>"#, g.1, g.2, genre_items[g.0].len())).collect::<String>(),
     );
-    std::fs::write(out.join("index.html"), page(&format!("Universal Save Editor - Free Offline Save Editor and Manager for {}+ ({}) Games", GAMES.len() / 10 * 10, GAMES.len()), &desc, "", &body, &website_schema(&schema("Universal Save Editor", &desc, &format!("{SITE}/")), None))).unwrap();
+    std::fs::write(out.join("index.html"), page(&format!("Free Offline Save Editor for {many}+ ({}) Games | Universal Save Editor", GAMES.len()), &desc, "", &body, &home_schema(&desc, &questions))).unwrap();
 
     // Pages about one feature or one series rather than one game.
     for (path, title, desc, body, crumb) in [
