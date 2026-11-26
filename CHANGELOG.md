@@ -2,6 +2,13 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.9.2
+
+> Attack on Titan 2 training points and Titan Research Room
+
+- Attack on Titan 2: Training Field is edited as points (0 to 3000) instead of levels
+- Attack on Titan 2: new Titan Research Room tab with level and EXP
+
 ## 0.9.1
 
 > Attack on Titan 2 Training Field levels and named gear
