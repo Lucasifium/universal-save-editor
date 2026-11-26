@@ -357,12 +357,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Crafting materials", &format!("Material {:02}", i + 1)], at, Kind::U16, 0, 999);
             }
         }
-        // Only characters you've met (points or a level set) are listed.
+        // Only characters you've met (points or a level set) are listed. The level itself isn't
+        // offered: a level the game didn't reach locks that character's skills, missions and talks.
         for (k, name) in FRIEND_NAMES2 {
             let at = FRIENDS2 + k * FRIEND_STRIDE2;
-            if (w16(&p, at) != 0 || p[at + 2] != 0) && p[at + 2] <= 10 {
-                b.ranged(&["Friendship", name], at + 2, Kind::U8, 0, 10);
-            }
             // Points add up over every level (1,000 at level 10); the bar is the share toward the next level.
             if (w16(&p, at) != 0 || p[at + 2] != 0) && w16(&p, at) <= 1000 {
                 b.ranged(&["Friendship points", name], at, Kind::U16, 0, 1000);
@@ -380,7 +378,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Gifts", &format!("Gift {:02}", i + 1)], at, Kind::U16, 0, 99);
             }
         }
-        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. The stream cipher and the word checksum are written again. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP.")))
+        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. Training points, the Research Room and friendship points only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.")))
     }
 }
 
@@ -534,10 +532,8 @@ mod tests {
         assert_eq!(parse(&out).unwrap().view.pointer("/Resources/Regiment funds").unwrap(), 12_345);
         doc.set("/Resources/Wings of Freedom", 999.into()).unwrap();
         assert!(doc.set("/Resources/Wings of Freedom", 1000.into()).is_err());
-        assert!(doc.view.pointer("/Friendship/Levi").is_none());
-        assert_eq!(doc.view.pointer("/Friendship/Hannes").unwrap(), 3);
-        doc.set("/Friendship/Hannes", 10.into()).unwrap();
-        assert!(doc.set("/Friendship/Hannes", 11.into()).is_err());
+        // The friendship level isn't editable: the game must reach it itself.
+        assert!(doc.view.pointer("/Friendship").is_none());
         doc.set("/Titan Research Room/Level", 10.into()).unwrap();
         assert!(doc.set("/Titan Research Room/Level", 11.into()).is_err());
         doc.set("/Titan Research Room/EXP", 33_000.into()).unwrap();

@@ -29938,11 +29938,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = atwin0000.dat de Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Seus fundos e a quantidade de cada item que você tem; a cifra de fluxo e a soma de palavras são tratadas.
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training points of each Training Field course (up to 3,000, 100 per level) with a Max training button, the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
-= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fundos do regimento, Wings of Freedom (até 999), seu nível de jogador (até 120) e sua experiência, os pontos de treinamento de cada curso do campo de treinamento (até 3.000, 100 por nível) com um botão Máx. treinamento, o nível (até 10) e a EXP (até 33.000) da sala de pesquisa de titãs, o nível de amizade (0 a 10) e os pontos de amizade (até 1.000) de cada personagem que você conheceu, cada material de criação, inclusive os que você ainda não tem, pelo nome, com um botão Máx. materiais de criação (999 cada), quais habilidades estão equipadas e cada presente pelo nome, até 99 cada, inclusive os que você ainda não tem; a cifra de fluxo e a soma de palavras são tratadas.
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training points of each Training Field course (up to 3,000, 100 per level), the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
+= Attack on Titan2_AOT2_PK_WIN0000.dat de Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Fundos do regimento, Wings of Freedom (até 999), seu nível de jogador (até 120) e sua experiência, os pontos de treinamento de cada curso do campo de treinamento (até 3.000, 100 por nível), o nível (até 10) e a EXP (até 33.000) da sala de pesquisa de titãs, os pontos de amizade (até 1.000) de cada personagem que você conheceu, cada material de criação, inclusive os que você ainda não tem, pelo nome, com um botão Máx. materiais de criação (999 cada), quais habilidades estão equipadas e cada presente pelo nome, até 99 cada, inclusive os que você ainda não tem; a cifra de fluxo e a soma de palavras são tratadas.
 
-Close the game first. The stream cipher and the word checksum are written again. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP.
-= Feche o jogo primeiro. A cifra de fluxo e a soma de palavras são gravadas de novo. Todos os materiais e presentes são listados; dar uma quantidade a um que você não tem o adiciona. Equipar habilidades não verifica seus SP.
+Close the game first. Training points, the Research Room and friendship points only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.
+= Feche o jogo primeiro. Pontos de treinamento, a sala de pesquisa e pontos de amizade só enchem as barras: um nível que o jogo não alcançou sozinho não dá nenhuma de suas recompensas (atributos, habilidades, missões ou conversas), então deixe o jogo subir de nível. Todos os materiais e presentes são listados; dar uma quantidade a um que você não tem o adiciona. Equipar habilidades não verifica seus SP. A cifra de fluxo e a soma de palavras são gravadas de novo.
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = Feche o jogo primeiro. A cifra de fluxo e a soma de palavras são gravadas de novo. Os itens aparecem pelo número no save, não pelo nome; só os que você tem são listados.
@@ -29950,11 +29950,9 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = Tela do jogo: fundos e a quantidade de cada item que você tem; a cifra de fluxo e a soma de palavras são regravadas. Verificado em um save público, ainda não testado no jogo
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field points with a Max training button, Titan Research Room level and EXP, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= Tela do jogo (Final Battle): fundos do regimento, Wings of Freedom, nível e experiência, pontos do campo de treinamento com um botão Máx. treinamento, nível e EXP da sala de pesquisa de titãs, amizade, cada material de criação e presente pelo nome com um botão Máx. materiais de criação, suas lâminas, bainhas e equipamentos de manobra (melhorá-los, adicionar peças ou usar o botão Melhorar todo o equipamento ao máximo) e as habilidades equipadas com um botão Equipar todas as habilidades; a cifra de fluxo e a soma de palavras são regravadas. Verificado em saves públicos e no jogo
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field points, Titan Research Room level and EXP, friendship points, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= Tela do jogo (Final Battle): fundos do regimento, Wings of Freedom, nível e experiência, pontos do campo de treinamento, nível e EXP da sala de pesquisa de titãs, pontos de amizade, cada material de criação e presente pelo nome com um botão Máx. materiais de criação, suas lâminas, bainhas e equipamentos de manobra (melhorá-los, adicionar peças ou usar o botão Melhorar todo o equipamento ao máximo) e as habilidades equipadas com um botão Equipar todas as habilidades; a cifra de fluxo e a soma de palavras são regravadas. Verificado em saves públicos e no jogo
 
-Friendship (characters you've met)
-= Amizade (personagens que você conheceu)
 Friendship points (characters you've met)
 = Pontos de amizade (personagens que você conheceu)
 
@@ -31736,15 +31734,6 @@ Every piece is already fully upgraded.
 
 Training points
 = Pontos de treinamento
-
-Max training
-= Máx. treinamento
-
-Raises every Training Field course to 3,000 training points (training level 30), what each course holds in a completed save. Every 100 points is one level.
-= Eleva cada curso do campo de treinamento a 3.000 pontos de treinamento (nível de treinamento 30), o que cada curso tem em um save concluído. Cada 100 pontos são um nível.
-
-Every course already has 3,000 training points.
-= Todos os cursos já têm 3.000 pontos de treinamento.
 
 Titan Research Room
 = Sala de pesquisa de titãs

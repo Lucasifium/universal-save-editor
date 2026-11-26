@@ -30049,11 +30049,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA の atwin0000.dat。資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training points of each Training Field course (up to 3,000, 100 per level) with a Max training button, the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship level (0 to 10) and friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
-= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、プレイヤーレベル（最大120）と経験値、訓練場の各訓練の訓練ポイント（最大3,000、100ごとに1レベル、訓練最大化ボタン付き）、巨人研究室のレベル（最大10）と経験値（最大33,000）、出会ったキャラクターごとの友好度（0〜10）と友好度ポイント（最大1,000）、まだ所持していないものも含むすべての素材（名前付き、各999まで、素材最大化ボタン付き）、装備中のスキル、まだ所持していないものも含むすべてのギフト（名前付き、各最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training points of each Training Field course (up to 3,000, 100 per level), the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
+= Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA の Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。連隊資金、自由の翼（最大999）、プレイヤーレベル（最大120）と経験値、訓練場の各訓練の訓練ポイント（最大3,000、100ごとに1レベル）、巨人研究室のレベル（最大10）と経験値（最大33,000）、出会ったキャラクターごとの友好度ポイント（最大1,000）、まだ所持していないものも含むすべての素材（名前付き、各999まで、素材最大化ボタン付き）、装備中のスキル、まだ所持していないものも含むすべてのギフト（名前付き、各最大99）。ストリーム暗号とワードチェックサムは自動で処理されます。
 
-Close the game first. The stream cipher and the word checksum are written again. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP.
-= 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。素材とギフトはすべて一覧に出ます。所持していないものに数量を入れると追加されます。スキルの装備ではSPを確認しません。
+Close the game first. Training points, the Research Room and friendship points only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.
+= 先にゲームを終了してください。訓練ポイント、研究室、友好度ポイントはゲージを埋めるだけです。ゲーム自身が到達していないレベルでは、その報酬（能力値、スキル、ミッション、会話）は得られないため、レベルアップはゲーム内で行ってください。素材とギフトはすべて一覧に出ます。所持していないものに数量を入れると追加されます。スキルの装備ではSPを確認しません。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = 先にゲームを終了してください。ストリーム暗号とワードチェックサムは書き込み時に再計算されます。アイテムは名前ではなくセーブ内の番号で表示され、所持しているものだけが一覧に出ます。
@@ -30061,11 +30061,9 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = ゲーム画面：資金と所持している各アイテムの数量。ストリーム暗号とワードチェックサムは書き直されます。公開セーブで確認済み、ゲーム内ではまだ未確認
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field points with a Max training button, Titan Research Room level and EXP, friendship, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、訓練場の訓練ポイント（訓練最大化ボタン付き）、巨人研究室のレベルと経験値、友好度、名前付きのすべての素材とギフト（素材最大化ボタン付き）、ブレード・鞘・立体機動装置（強化、装備の追加、装備をすべて最大強化ボタン）、装備中のスキル（すべてのスキルを装備ボタン付き）。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field points, Titan Research Room level and EXP, friendship points, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= ゲーム画面（Final Battle）：連隊資金、自由の翼、レベルと経験値、訓練場の訓練ポイント、巨人研究室のレベルと経験値、友好度ポイント、名前付きのすべての素材とギフト（素材最大化ボタン付き）、ブレード・鞘・立体機動装置（強化、装備の追加、装備をすべて最大強化ボタン）、装備中のスキル（すべてのスキルを装備ボタン付き）。ストリーム暗号とワードチェックサムは書き直されます。公開セーブとゲーム内で確認済み
 
-Friendship (characters you've met)
-= 友好度（出会ったキャラクター）
 Friendship points (characters you've met)
 = 友好度ポイント（出会ったキャラクター）
 
@@ -31847,15 +31845,6 @@ Every piece is already fully upgraded.
 
 Training points
 = 訓練ポイント
-
-Max training
-= 訓練を最大化
-
-Raises every Training Field course to 3,000 training points (training level 30), what each course holds in a completed save. Every 100 points is one level.
-= 訓練場のすべての訓練を、クリア済みセーブと同じ訓練ポイント3,000（訓練レベル30）に上げます。100ポイントごとに1レベルです。
-
-Every course already has 3,000 training points.
-= すべての訓練がすでに訓練ポイント3,000です。
 
 Titan Research Room
 = 巨人研究室
