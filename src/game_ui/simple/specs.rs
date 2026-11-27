@@ -12203,7 +12203,7 @@ const AOT2: Spec = Spec {
     accent: (150, 110, 60),
     kind: Some(crate::fmt::aot::KIND2),
     markers: &["/Skills"],
-    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, each character's Another Mode rank (up to 15) and EXP (up to 472,000), the training points of each Training Field course (up to 3,000, 100 per level), the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.",
+    subtitle: "Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, each character's Another Mode EXP (up to 472,000, with a Max button; the game ranks them up itself), the training points of each Training Field course (up to 3,000, 100 per level), the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.",
     tiles: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")],
     sections: &[Section { title: "Resources", rows: &[("Regiment funds", "/Resources/Regiment funds"), ("Wings of Freedom", "/Resources/Wings of Freedom")] }, Section { title: "Player", rows: &[("Level", "/Player/Level"), ("Experience", "/Player/Experience")] }, Section { title: "Titan Research Room", rows: &[("Level", "/Titan Research Room/Level"), ("EXP", "/Titan Research Room/EXP")] }],
     lists: &[
@@ -12220,11 +12220,23 @@ const AOT2: Spec = Spec {
                 about: "Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.",
             }),
         },
+        List {
+            title: "Another Mode characters",
+            path: "/Another Mode",
+            shape: Shape::Map,
+            names: &[],
+            max: Some(Max {
+                ids: &["Eren Jaeger", "Mikasa Ackermann", "Armin Arlelt", "Reiner Braun", "Bertholdt Hoover", "Annie Leonhart", "Jean Kirschtein", "Conny Springer", "Sasha Braus", "Christa Lenz", "Ymir", "Levi", "Hange Zoë", "Erwin Smith", "Marco Bodt", "Thomas Wagner", "Mina Carolina", "Miche Zacharius", "Oruo Bozad", "Petra Ral", "Gunther Schultz", "Eld Gin", "Moblit", "Ian Dietrich", "Rico Brzenska", "Mitabi Jarnach", "Nile Dawk", "Marlo Freudenberg", "Hitch", "Hannes", "Dot Pyxis", "Keith Sadies", "Kitz Woermann", "Dhalis Zachary", "Nanaba", "Gelgar", "Daz"],
+                cap: 472_000,
+                caps: &[],
+                estimate: false,
+                about: "Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.",
+            }),
+        },
         List { title: "Friendship points (characters you've met)", path: "/Friendship points", shape: Shape::Map, names: &[], max: None },
         List { title: "Gifts", path: "/Gifts", shape: Shape::Map, names: &[("Gift 01", "Assorted Field Provisions"), ("Gift 02", "Stale Bread"), ("Gift 03", "Fresh Bread"), ("Gift 04", "Dried Meat"), ("Gift 05", "Marbled Meat"), ("Gift 06", "Rice Omelet"), ("Gift 07", "Black Tea"), ("Gift 08", "High Quality Tea"), ("Gift 09", "Cheap Alcohol"), ("Gift 10", "Pricey Alcohol"), ("Gift 11", "Water of the Far North"), ("Gift 12", "Anti-Titan Manual Part 1"), ("Gift 13", "Anti-Titan Manual Part 2"), ("Gift 14", "Soldier's Handbook"), ("Gift 15", "History of the Walls"), ("Gift 16", "Weapons Engineering Lecture"), ("Gift 17", "Interior Sightseeing Map"), ("Gift 18", "Hungry Titan"), ("Gift 19", "Where Mom Lives"), ("Gift 20", "Strange Vase"), ("Gift 21", "Strange Painting"), ("Gift 22", "Strange Objet d'Art"), ("Gift 23", "Quill Pen"), ("Gift 24", "Sketchbook"), ("Gift 25", "Dust Rag"), ("Gift 26", "Ultimate Dust Rag"), ("Gift 27", "Pomade"), ("Gift 28", "Hunter's Armory"), ("Gift 29", "Gold Bar"), ("Gift 30", "Horse Brush"), ("Gift 31", "Chess Set"), ("Gift 32", "Rose Bouquet"), ("Gift 33", "Soothing Herb"), ("Gift 34", "Elegant Bedding"), ("Gift 35", "Silver Ring"), ("Gift 36", "Golden Necklace"), ("Gift 37", "Gemstone"), ("Gift 38", "Hair Tie"), ("Gift 39", "Thick Parka"), ("Gift 40", "Leather Gloves"), ("Gift 41", "Titan Training Dummy"), ("Gift 42", "Training Equipment"), ("Gift 43", "Camouflage Uniform"), ("Gift 44", "Emergency Kit"), ("Gift 45", "Iron Bamboo Kit"), ("Gift 46", "Perfected Replica Blade"), ("Gift 47", "Special Newspaper"), ("Gift 48", "Regiment Medal"), ("Gift 49", "Strange Fossil"), ("Gift 50", "Titan Doll")], max: None },
     ],
     tables: &[
-        Table { title: "Another Mode characters", path: "/Another Mode", name: &[], only: &[], cols: &[("Rank", "/Rank"), ("EXP", "/EXP")], names: &[] },
         Table { title: "Training", path: "/Training", name: &[], only: &[], cols: &[("Training points", "/Training points")], names: &[] },
         Table { title: "Blades", path: "/Blades", name: &[], only: &[], cols: &[("Piece", "/Piece"), ("Upgrade", "/Upgrade")], names: &[] },
         Table { title: "Scabbards", path: "/Scabbards", name: &[], only: &[], cols: &[("Piece", "/Piece"), ("Upgrade", "/Upgrade")], names: &[] },

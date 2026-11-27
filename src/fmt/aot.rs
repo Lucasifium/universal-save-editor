@@ -354,12 +354,12 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             b.ranged(&["Titan Research Room", "Level"], RESEARCH2 + 4, Kind::U8, 0, i64::from(RESEARCH_LEVEL_MAX2));
             b.ranged(&["Titan Research Room", "EXP"], RESEARCH2, Kind::U32, 0, i64::from(RESEARCH_EXP_MAX2));
         }
-        // Another Mode: every character's own rank and EXP (the bar between ranks is worked out from EXP).
+        // Another Mode: every character's EXP. The rank isn't offered: the game ranks a character up by
+        // itself from the EXP when the save loads (checked with every character set to the top).
         for (k, (_, name)) in FRIEND_NAMES2.iter().take(CHAR_COUNT2).enumerate() {
             let at = CHAR2 + k * CHAR_STRIDE2;
             if w32(&p, at + CHAR_EXP2) <= CHAR_EXP_MAX2 && p[at + CHAR_RANK2] < CHAR_RANK_MAX2 {
-                b.bits(&["Another Mode", name, "Rank"], at + CHAR_RANK2, Kind::U8, 0, 8, 1, 1, i64::from(CHAR_RANK_MAX2));
-                b.ranged(&["Another Mode", name, "EXP"], at + CHAR_EXP2, Kind::U32, 0, i64::from(CHAR_EXP_MAX2));
+                b.ranged(&["Another Mode", name], at + CHAR_EXP2, Kind::U32, 0, i64::from(CHAR_EXP_MAX2));
             }
         }
         for (k, name) in TRAINING_NAMES2.iter().enumerate() {
@@ -398,7 +398,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
                 b.ranged(&["Gifts", &format!("Gift {:02}", i + 1)], at, Kind::U16, 0, 99);
             }
         }
-        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. Training points, the Research Room, friendship points and Another Mode ranks only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.")))
+        Ok(b.finish(KIND2, Checksum::Repack(pack)).with_note(crate::i18n::tx("Close the game first. Training points, the Research Room and friendship points only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.")))
     }
 }
 
@@ -536,17 +536,13 @@ mod tests {
         pack(&mut p);
         let mut doc = parse(&p).unwrap();
         assert_eq!(doc.to_bytes().unwrap(), p, "untouched Another Mode data round-trips");
-        assert_eq!(doc.view.pointer("/Another Mode/Eren Jaeger/EXP").unwrap(), 11_720);
-        assert_eq!(doc.view.pointer("/Another Mode/Eren Jaeger/Rank").unwrap(), 3);
-        assert_eq!(doc.view.pointer("/Another Mode/Mikasa Ackermann/Rank").unwrap(), 2);
-        assert_eq!(doc.view.pointer("/Another Mode/Levi/Rank").unwrap(), 1, "an unplayed character is rank 1");
+        assert_eq!(doc.view.pointer("/Another Mode/Eren Jaeger").unwrap(), 11_720);
+        assert_eq!(doc.view.pointer("/Another Mode/Levi").unwrap(), 0, "an unplayed character has no EXP");
         assert!(doc.view.pointer("/Another Mode/Armin Arlelt").is_none());
-        assert!(doc.set("/Another Mode/Levi/Rank", 16.into()).is_err());
-        assert!(doc.set("/Another Mode/Levi/EXP", 472_001.into()).is_err());
-        doc.set("/Another Mode/Levi/Rank", 15.into()).unwrap();
-        doc.set("/Another Mode/Levi/EXP", 472_000.into()).unwrap();
+        assert!(doc.set("/Another Mode/Levi", 472_001.into()).is_err());
+        doc.set("/Another Mode/Levi", 472_000.into()).unwrap();
         let (q, _) = unpack(&doc.to_bytes().unwrap()).unwrap();
-        assert_eq!(q[rec(11) + CHAR_RANK2], 14);
+        assert_eq!(q[rec(11) + CHAR_RANK2], 0, "the rank is left to the game");
         assert_eq!(w32(&q, rec(11) + CHAR_EXP2), 472_000);
         assert_eq!(w32(&q, rec(0) + CHAR_EXP2), 11_720, "other characters are left alone");
     }
