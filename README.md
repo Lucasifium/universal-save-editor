@@ -456,7 +456,7 @@ game itself are marked *Confirmed in game*.
 Both themes meet contrast guidelines for text and control outlines, everything can be reached with
 the keyboard (a focus ring shows where Tab is), and buttons and boxes have names for screen readers.
 
-**New-version alert (optional):** *Edit › Preferences › Tell me when a new version is out* makes the program ask GitHub for the newest release when it starts and show a dismissible banner with a download link when there is one. It is **off by default**, so the program stays fully offline unless you turn it on. The only thing sent is the request for the project's public "latest release" page (no save, game or personal data); with no connection it does nothing. *Help › Check for a new version* does the same once, on demand. Not in the browser or Android versions.
+**New-version alert (optional):** *Edit › Preferences › Tell me when a new version is out* makes the program ask GitHub for the newest release when it starts and show a dismissible banner with a download link when there is one. The first time you start the program it asks once whether to turn this on (Yes is the default); the answer is remembered across versions, and you can change it in Preferences, so the program can stay fully offline. The only thing sent is the request for the project's public "latest release" page (no save, game or personal data); with no connection it does nothing. *Help › Check for a new version* does the same once, on demand. Not in the browser or Android versions.
 
 Japanese, Chinese and Korean names in saves use your system's fonts (Yu Gothic, Microsoft YaHei and
 Malgun Gothic on Windows; Noto CJK and similar on Linux; Hiragino and Apple SD Gothic on macOS),

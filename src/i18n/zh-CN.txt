@@ -25167,8 +25167,8 @@ Updates
 Tell me when a new version is out
 = 有新版本时通知我
 
-When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
-= 启动时向 GitHub 查询最新版本，不发送其他任何内容。默认关闭，因此程序仍完全离线运行。
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Turn it off and the program stays fully offline.
+= 程序启动时向 GitHub 查询最新版本，不会发送其他任何内容。关闭后程序保持完全离线。
 
 Check for a new version
 = 检查新版本
@@ -31821,3 +31821,20 @@ Training points
 
 Titan Research Room
 = 巨人研究室
+
+# src/app/safety.rs (first-launch update question)
+
+Check for new versions?
+= 检查新版本？
+
+Tell you when a new version is out? When the program starts it asks GitHub for the newest release. Nothing else is sent.
+= 新版本发布时通知你？程序启动时会向 GitHub 查询最新版本，不会发送其他任何内容。
+
+You can change this any time in Preferences.
+= 你可以随时在“偏好设置”中更改。
+
+Yes, tell me
+= 是，通知我
+
+No thanks
+= 不用了

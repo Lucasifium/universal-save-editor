@@ -264,7 +264,7 @@ impl App {
                     ui.separator();
                     ui.label(RichText::new(tr("Updates")).strong());
                     changed |= crate::widgets::checkbox(ui, &mut self.settings.check_updates, tr("Tell me when a new version is out"))
-                        .on_hover_text(tr("When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline."))
+                        .on_hover_text(tr("When the program starts, asks GitHub for the newest release. Nothing else is sent. Turn it off and the program stays fully offline."))
                         .changed();
                 }
                 if !WEB && !cfg!(target_os = "android") {

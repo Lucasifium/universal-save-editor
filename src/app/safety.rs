@@ -96,6 +96,42 @@ impl App {
         self.update_rx = Some(crate::update::start());
     }
 
+    /// The question asked once, on the first launch: turn on the check for a new version?
+    /// Yes is the focused default. The answer is saved, so it is never asked again.
+    pub(super) fn update_question_dialog(&mut self, ctx: &egui::Context) {
+        if !self.update_question {
+            return;
+        }
+        let mut answer: Option<bool> = None;
+        modal(ctx, tr("Check for new versions?"), |ui| {
+            ui.set_max_width(440.0);
+            ui.label(tr("Tell you when a new version is out? When the program starts it asks GitHub for the newest release. Nothing else is sent."));
+            ui.add_space(4.0);
+            ui.weak(tr("You can change this any time in Preferences."));
+            ui.add_space(8.0);
+            ui.horizontal_wrapped(|ui| {
+                let yes = safe_choice(ui.add(egui::Button::new(RichText::new(tr("Yes, tell me")).color(Color32::WHITE)).fill(theme::ACCENT)));
+                if yes.clicked() {
+                    answer = Some(true);
+                }
+                let no = ui.button(tr("No thanks"));
+                if no.clicked() {
+                    answer = Some(false);
+                }
+                tab_ring(&yes, &no);
+            });
+        });
+        if let Some(on) = answer {
+            self.update_question = false;
+            self.settings.check_updates = on;
+            self.settings.update_question_answered = true;
+            self.settings.save();
+            if on {
+                self.start_update_check(false);
+            }
+        }
+    }
+
     /// Collects the answer of a new-version check. A check at startup says nothing unless a
     /// newer version that wasn't dismissed before turns up.
     pub(super) fn poll_update(&mut self, ctx: &egui::Context) {

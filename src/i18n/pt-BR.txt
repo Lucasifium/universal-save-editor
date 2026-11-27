@@ -25083,8 +25083,8 @@ Updates
 Tell me when a new version is out
 = Avisar quando uma nova versão for lançada
 
-When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
-= Ao iniciar, pergunta ao GitHub qual é a versão mais recente. Nada mais é enviado. Desativado por padrão, para o programa continuar totalmente offline.
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Turn it off and the program stays fully offline.
+= Ao iniciar, pergunta ao GitHub qual é a versão mais recente. Nada mais é enviado. Desativada, o programa fica totalmente offline.
 
 Check for a new version
 = Verificar nova versão
@@ -31737,3 +31737,20 @@ Training points
 
 Titan Research Room
 = Sala de pesquisa de titãs
+
+# src/app/safety.rs (first-launch update question)
+
+Check for new versions?
+= Verificar novas versões?
+
+Tell you when a new version is out? When the program starts it asks GitHub for the newest release. Nothing else is sent.
+= Avisar quando uma nova versão for lançada? Ao iniciar, o programa pergunta ao GitHub qual é a versão mais recente. Nada mais é enviado.
+
+You can change this any time in Preferences.
+= Você pode mudar isso a qualquer momento em Preferências.
+
+Yes, tell me
+= Sim, avisar
+
+No thanks
+= Não, obrigado

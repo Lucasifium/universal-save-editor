@@ -25194,8 +25194,8 @@ Updates
 Tell me when a new version is out
 = 新しいバージョンが出たら知らせる
 
-When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
-= 起動時にGitHubへ最新リリースを問い合わせます。それ以外は何も送信されません。完全オフラインを保つため、初期設定ではオフです。
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Turn it off and the program stays fully offline.
+= 起動時にGitHubへ最新バージョンを問い合わせます。それ以外は何も送信されません。オフにすると、プログラムは完全にオフラインのままです。
 
 Check for a new version
 = 新しいバージョンを確認
@@ -31848,3 +31848,20 @@ Training points
 
 Titan Research Room
 = 巨人研究室
+
+# src/app/safety.rs (first-launch update question)
+
+Check for new versions?
+= 新しいバージョンを確認しますか？
+
+Tell you when a new version is out? When the program starts it asks GitHub for the newest release. Nothing else is sent.
+= 新しいバージョンが出たらお知らせしますか？起動時に、GitHubへ最新バージョンを問い合わせます。それ以外は何も送信されません。
+
+You can change this any time in Preferences.
+= この設定はいつでも環境設定で変更できます。
+
+Yes, tell me
+= はい、知らせてください
+
+No thanks
+= いいえ

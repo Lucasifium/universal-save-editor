@@ -640,6 +640,8 @@ pub struct App {
     update_note: Option<&'static str>,
     update_manual: bool,
     update_started: bool,
+    /// The one-time "check for updates?" dialog is showing (real launches only).
+    update_question: bool,
     help: Option<help::Window>,
     /// Load the Japanese, Chinese and Korean fonts on the next frame.
     need_cjk: bool,
@@ -670,6 +672,7 @@ impl App {
         cc.egui_ctx.set_zoom_factor(settings.zoom);
         crate::drives::set_include_removable(settings.search_removable);
         let mut app = Self::with(&cc.egui_ctx, settings, has_icons);
+        app.update_question = crate::update::AVAILABLE && !app.settings.update_question_answered;
         // Phones and the browser can't look through folders.
         if !cfg!(target_os = "android") && !WEB && std::env::var_os("SAVE_EDITOR_NO_SEARCH").is_none() {
             app.saves_found = Some(search_saves());
@@ -782,6 +785,7 @@ impl App {
             update_note: None,
             update_manual: false,
             update_started: false,
+            update_question: false,
             help: None,
             // Japanese and Chinese menus need those fonts from the start.
             need_cjk: crate::i18n::current().cjk,
@@ -933,6 +937,9 @@ impl App {
     fn close_top_dialog(&mut self) {
         if self.loading.is_some() {
             self.cancel_loading();
+        } else if self.update_question {
+            // Not answered: asked again on the next launch.
+            self.update_question = false;
         } else if self.quick_restore.is_some() {
             self.quick_restore = None;
         } else if self.preset_apply.as_ref().is_some_and(|pa| pa.confirm_delete.is_some()) {
@@ -4981,6 +4988,7 @@ impl App {
         if !saving {
             self.check_disk(ctx);
         }
+        self.update_question_dialog(ctx);
         self.poll_update(ctx);
         self.banners(ctx);
         if std::mem::take(&mut self.need_cjk) {
@@ -5832,6 +5840,28 @@ mod save_tests {
         app.raw_input_hook(ctx, &mut raw);
         let out = ctx.run(raw, |ctx| app.frame(ctx));
         out.viewport_output.get(&egui::ViewportId::ROOT).map(|v| v.commands.clone()).unwrap_or_default()
+    }
+
+    #[test]
+    fn first_launch_update_question_defaults_to_yes_on_enter() {
+        let _locks = locks();
+        let ctx = window();
+        let mut app = App::with(&ctx, Settings::default(), false);
+        assert!(!app.settings.update_question_answered && !app.settings.check_updates);
+        app.update_question = true;
+        for _ in 0..3 {
+            frame(&mut app, &ctx, egui::RawInput::default());
+        }
+        assert!(app.update_question, "stays until answered");
+        let key = |pressed| egui::Event::Key { key: egui::Key::Enter, physical_key: None, pressed, repeat: false, modifiers: egui::Modifiers::NONE };
+        let mut raw = egui::RawInput::default();
+        raw.events = vec![key(true), key(false)];
+        frame(&mut app, &ctx, raw);
+        for _ in 0..2 {
+            frame(&mut app, &ctx, egui::RawInput::default());
+        }
+        assert!(!app.update_question);
+        assert!(app.settings.check_updates && app.settings.update_question_answered);
     }
 
     /// Runs frames until the save is in; returns every window command sent meanwhile.

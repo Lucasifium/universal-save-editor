@@ -25113,8 +25113,8 @@ Updates
 Tell me when a new version is out
 = Benachrichtigen, wenn eine neue Version erscheint
 
-When the program starts, asks GitHub for the newest release. Nothing else is sent. Off by default, so the program stays fully offline.
-= Fragt beim Start bei GitHub nach der neuesten Version. Es wird nichts anderes gesendet. Standardmäßig aus, damit das Programm vollständig offline bleibt.
+When the program starts, asks GitHub for the newest release. Nothing else is sent. Turn it off and the program stays fully offline.
+= Fragt beim Start bei GitHub nach der neuesten Version. Es wird nichts anderes gesendet. Wenn du es ausschaltest, bleibt das Programm vollständig offline.
 
 Check for a new version
 = Nach neuer Version suchen
@@ -31770,3 +31770,20 @@ Training points
 
 Titan Research Room
 = Titan-Forschungsraum
+
+# src/app/safety.rs (first-launch update question)
+
+Check for new versions?
+= Nach neuen Versionen suchen?
+
+Tell you when a new version is out? When the program starts it asks GitHub for the newest release. Nothing else is sent.
+= Benachrichtigen, wenn eine neue Version erscheint? Beim Start fragt das Programm bei GitHub nach der neuesten Version. Es wird nichts anderes gesendet.
+
+You can change this any time in Preferences.
+= Du kannst das jederzeit in den Einstellungen ändern.
+
+Yes, tell me
+= Ja, benachrichtigen
+
+No thanks
+= Nein danke
