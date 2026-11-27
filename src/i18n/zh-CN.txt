@@ -30022,11 +30022,11 @@ Peaceful
 atwin0000.dat from Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA. Your funds and the quantity of every item you own; the stream cipher and word checksum are handled.
 = 来自 Documents\\KoeiTecmo\\Attack on Titan\\SAVEDATA 的 atwin0000.dat。资金以及你拥有的每件物品的数量；流加密和字校验和会自动处理。
 
-Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, the training points of each Training Field course (up to 3,000, 100 per level), the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
-= 来自 Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA 的 Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。兵团资金、自由之翼（最多 999）、玩家等级（最高 120）和经验值、训练场每项训练的训练点数（最多 3,000，每 100 点一级）、巨人研究室的等级（最高 10）和经验值（最多 33,000）、你遇到过的每个角色的友好度点数（最多 1,000）、每种制作材料，包括你还没有的（显示名称，每种最多 999，带最大化材料按钮）、已装备的技能以及每件礼物，包括你还没有的（显示名称，每件最多 99）；流加密和字校验和会自动处理。
+Attack on Titan2_AOT2_PK_WIN0000.dat from Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA (Final Battle). Regiment funds, Wings of Freedom (up to 999), your player level (up to 120) and experience, each character's Another Mode rank (up to 15) and EXP (up to 472,000), the training points of each Training Field course (up to 3,000, 100 per level), the Titan Research Room's level (up to 10) and EXP (up to 33,000), the friendship points (up to 1,000) of every character you've met, every crafting material, including ones you don't own yet, by name, with a Max crafting materials button (999 each), which skills are equipped, and every gift by name, up to 99 each, including ones you don't own yet; the stream cipher and word checksum are handled.
+= 来自 Documents\\KoeiTecmo\\Attack on Titan2_AOT2\\SAVEDATA 的 Attack on Titan2_AOT2_PK_WIN0000.dat（Final Battle）。兵团资金、自由之翼（最多 999）、玩家等级（最高 120）和经验值、每个角色的另一模式等级（最高 15）和经验值（最高 472,000）、训练场每项训练的训练点数（最多 3,000，每 100 点一级）、巨人研究室的等级（最高 10）和经验值（最多 33,000）、你遇到过的每个角色的友好度点数（最多 1,000）、每种制作材料，包括你还没有的（显示名称，每种最多 999，带最大化材料按钮）、已装备的技能以及每件礼物，包括你还没有的（显示名称，每件最多 99）；流加密和字校验和会自动处理。
 
-Close the game first. Training points, the Research Room and friendship points only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.
-= 请先关闭游戏。训练点数、研究室和友好度点数只会填满进度条：不是游戏自己达到的等级不会给予其奖励（属性、技能、任务或对话），所以请在游戏中升级。所有材料和礼物都会列出；给你没有的填入数量即可添加。装备技能时不会检查你的 SP。流加密和字校验和会重新写入。
+Close the game first. Training points, the Research Room, friendship points and Another Mode ranks only fill the bars: a level the game didn't reach itself gives none of its rewards (stats, skills, missions or conversations), so let the game level up. Every material and gift is listed; giving one you don't own a quantity adds it. Equipping skills doesn't check your SP. The stream cipher and the word checksum are written again.
+= 请先关闭游戏。训练点数、研究室、友好度点数和另一模式等级只会填满进度条：不是游戏自己达到的等级不会给予其奖励（属性、技能、任务或对话），所以请在游戏中升级。所有材料和礼物都会列出；给你没有的填入数量即可添加。装备技能时不会检查你的 SP。流加密和字校验和会重新写入。
 
 Close the game first. The stream cipher and the word checksum are written again. Items are shown by their number in the save, not by name; only items you own are listed.
 = 请先关闭游戏。流加密和字校验和会重新写入。物品按存档中的编号显示，而不是名称；只列出你拥有的物品。
@@ -30034,8 +30034,11 @@ Close the game first. The stream cipher and the word checksum are written again.
 Game screen: funds and the quantity of every item you own; the stream cipher and word checksum are rewritten. Checked on a public save, not yet tried in the game
 = 游戏界面：资金以及你拥有的每件物品的数量；流加密和字校验和会重新写入。已在公开存档上验证，尚未在游戏中试过
 
-Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Training Field points, Titan Research Room level and EXP, friendship points, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
-= 游戏界面（Final Battle）：兵团资金、自由之翼、等级和经验值、训练场训练点数、巨人研究室等级和经验值、友好度点数、显示名称的每种制作材料和礼物（带最大化材料按钮）、你的刀刃、刀鞘和立体机动装置（可强化、添加装备，或用装备全部强化至最高按钮），以及已装备的技能（带装备全部技能按钮）；流加密和字校验和会重新写入。已在公开存档和游戏中验证
+Game screen (Final Battle): regiment funds, Wings of Freedom, level and experience, Another Mode rank and EXP of each character, Training Field points, Titan Research Room level and EXP, friendship points, every crafting material and gift by name with a Max crafting materials button, your Blades, Scabbards and ODM gear (upgrade them, add pieces or use a Max gear upgrades button), and equipped skills with an Equip all skills button; the stream cipher and word checksum are rewritten. Checked on public saves and in the game
+= 游戏界面（Final Battle）：兵团资金、自由之翼、等级和经验值、每个角色的另一模式等级和经验值、训练场训练点数、巨人研究室等级和经验值、友好度点数、显示名称的每种制作材料和礼物（带最大化材料按钮）、你的刀刃、刀鞘和立体机动装置（可强化、添加装备，或用装备全部强化至最高按钮），以及已装备的技能（带装备全部技能按钮）；流加密和字校验和会重新写入。已在公开存档和游戏中验证
+
+Another Mode characters
+= 另一模式角色
 
 Friendship points (characters you've met)
 = 友好度点数（你遇到过的角色）
