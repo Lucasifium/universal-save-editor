@@ -2,6 +2,14 @@
 
 Each version starts with a one-line summary for players (the `> ` line), which becomes the release title.
 
+## 0.9.3
+
+> Attack on Titan 2 Another Mode EXP and a first-launch update question
+
+- Attack on Titan 2: Another Mode EXP can be edited for each character, with a Max EXP button; the game ranks characters up by itself
+- Attack on Titan 2: the Training Field screen no longer has a Max button and warns that levels set by editing give no rewards
+- First launch asks once whether to check for new versions (Yes by default) and remembers the answer
+
 ## 0.9.2
 
 > Attack on Titan 2 training points and Titan Research Room
