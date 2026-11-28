@@ -129,13 +129,14 @@ struct Doc {
     /// else (the game, cloud sync) writes it in the meantime.
     stamp: Option<Stamp>,
     /// Browser version: the id of the file handle this document saves back through (opened
-    /// with "Open to save in place"). It belongs to this document alone: a document read again
-    /// or saved under another name doesn't have it.
+    /// with "Open to save in place"). It belongs to this document alone: it stays when the same
+    /// file is read again (another way, or newer from disk), and goes when the document is
+    /// saved under another name; another file opened under the same name never gets it.
     handle: Option<HandleId>,
 }
 
 /// Browser version: a document's file handle, by id (see `web.rs`). The browser lets go of the
-/// handle when the document does (closed, read again, or saved under another name).
+/// handle when the document does (closed, or saved under another name).
 #[derive(Debug, PartialEq, Eq)]
 struct HandleId(u64);
 

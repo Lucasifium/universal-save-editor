@@ -1275,6 +1275,41 @@ fn open_with_handle(app: &mut App, p: &Path, id: u64) -> bool {
     app.attach_handle(p, id, loads)
 }
 
+/// Browser version: reading the same file another way (Open as, a password, another entry of
+/// an archive) keeps its handle, so saving still writes back to the file instead of turning
+/// into a download.
+#[test]
+fn reading_the_file_another_way_keeps_its_handle() {
+    let _locks = locks();
+    let dir = Scratch::new("handle-open-as");
+    let p = dir.0.join("save.json");
+    std::fs::write(&p, br#"{"gold": 1}"#).unwrap();
+    let ctx = window();
+    let mut app = App::with(&ctx, Settings::default(), false);
+    assert!(open_with_handle(&mut app, &p, 5));
+    app.open_as(formats::ReadAs::Bytes);
+    assert!(matches!(app.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_))));
+    assert_eq!(handle_of(&app), Some(5));
+    app.open_as(formats::ReadAs::Detected);
+    assert_eq!(handle_of(&app), Some(5));
+    // Refused (unsaved changes): what is on screen keeps it too.
+    app.apply_edit("/gold".into(), json!(2), 0.0);
+    app.open_as(formats::ReadAs::Text);
+    assert_eq!(handle_of(&app), Some(5));
+}
+
+/// Browser version, `web/fsa.js`: a file read again ("Reload the newer file") counts as what
+/// the page knows the file to hold only once the page shows it, so a save made from the older
+/// file before then still asks instead of writing over the newer one. Run with Node.js
+/// (`tests/fsa_check.js`), when it is installed.
+#[test]
+fn a_file_read_again_is_known_only_once_it_is_shown() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let out = std::process::Command::new("node").arg(root.join("tests/fsa_check.js")).arg(root.join("web/fsa.js")).output();
+    let Ok(out) = out else { return };
+    assert!(out.status.success(), "{}{}", String::from_utf8_lossy(&out.stdout), String::from_utf8_lossy(&out.stderr));
+}
+
 /// A handle belongs to the document that opened the file: closing it lets the handle go,
 /// and another file opened later under the same name (in the browser: the same path) has
 /// none, so its saves download instead of writing into the first file.
