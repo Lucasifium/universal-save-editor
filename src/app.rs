@@ -1057,6 +1057,7 @@ impl App {
             let _ = tx.send(r);
         });
         self.loading = Some(Loading { path: path.to_path_buf(), opts, started: f64::NAN, job, rx });
+        crate::widgets::set_busy(true);
         self.info(trf("Opening {0}\u{2026}", &[&file_name(path)]));
     }
 
@@ -1653,6 +1654,7 @@ impl App {
             return self.save_with(path, then, false);
         }
         self.saving = Some(Saving { path: path.to_path_buf(), then, gen: (self.edit_gen, self.tabs.active), started: f64::NAN, rx });
+        crate::widgets::set_busy(true);
         self.info(trf("Saving {0}\u{2026}", &[&file_name(path)]));
     }
 
@@ -1820,6 +1822,7 @@ impl App {
         }
         self.running = running.clone();
         self.save_review = Some(SaveReview { path, running, lines: self.review_lines() });
+        crate::widgets::set_busy(true);
     }
 
     fn game_picker_dialog(&mut self, ctx: &egui::Context) {
@@ -4756,6 +4759,7 @@ impl App {
         begin_dialogs(ctx);
         let now = ctx.input(|i| i.time);
         let saving = self.saving.is_some();
+        crate::widgets::set_busy(saving || self.loading.is_some() || self.save_review.is_some());
         #[cfg(not(target_os = "android"))]
         self_shot(ctx);
         theme::fit_window_margin(ctx);

@@ -154,20 +154,10 @@ fn unescape_breaks(s: &str) -> String {
     s.replace('\u{21A9}', "\n").replace('\u{00B6}', "\r")
 }
 
-/// Parse user input for a number, keeping integers as integers.
+/// Parse user input for a number in the interface language's way of writing numbers, keeping
+/// integers as integers. `None` for anything that can't be read without guessing.
 pub fn parse_number(text: &str, integer: bool) -> Option<Value> {
-    let t: String = text.chars().filter(|c| !matches!(c, ' ' | ',' | '_')).collect();
-    if t.is_empty() {
-        return None;
-    }
-    if integer {
-        if let Ok(i) = t.parse::<i64>() {
-            return Some(Value::from(i));
-        }
-        return t.parse::<u64>().ok().map(Value::from);
-    }
-    let f: f64 = t.parse().ok()?;
-    Number::from_f64(f).map(Value::Number)
+    crate::number_input::parse_in(text, integer, crate::number_input::locale())
 }
 
 pub fn display(v: &Value) -> String {
@@ -286,6 +276,21 @@ thread_local! {
     static STEPPERS: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
 }
 
+thread_local! {
+    static BUSY: std::cell::Cell<bool> = const { std::cell::Cell::new(false) };
+}
+
+/// Tells the number boxes that a save or an open is under way (or the save review is up):
+/// quick maths still being typed is then dropped instead of applied, so it can't change the
+/// file while it is written or swap in a value from the file that was open before.
+pub fn set_busy(busy: bool) {
+    BUSY.with(|c| c.set(busy));
+}
+
+fn busy() -> bool {
+    BUSY.with(|c| c.get())
+}
+
 /// Runs `f` with −/+ buttons kept even on a phone-width screen, for boxes that have the room
 /// (a header tile, an attribute line).
 pub fn with_steppers<R>(f: impl FnOnce() -> R) -> R {
@@ -334,16 +339,41 @@ pub struct EditOut {
 
 /// A typed number pulled back into the range the format accepts, so a value can never go
 /// outside it (the typing box keeps what was typed; the save gets the nearest allowed value).
+/// The end of the range comes back as the same kind of number as `v`, so a float field
+/// pulled to a whole-number limit stays a float.
 pub fn clamp_to(range: Option<(Value, Value)>, v: Value) -> Value {
     let Some((lo, hi)) = range else { return v };
     let (Some(x), Some(l), Some(h)) = (v.as_f64(), lo.as_f64(), hi.as_f64()) else { return v };
     if x < l {
-        lo
+        same_kind(&v, lo)
     } else if x > h {
-        hi
+        same_kind(&v, hi)
     } else {
         v
     }
+}
+
+/// `v` as the same kind of number as `template`: a whole number for a float field becomes a
+/// float, and a float with no fraction for a whole-number field becomes whole. Anything else
+/// (not numbers, a fraction for a whole-number field) comes back as it is.
+pub fn same_kind(template: &Value, v: Value) -> Value {
+    let (Value::Number(t), Value::Number(n)) = (template, &v) else { return v };
+    let t_whole = t.is_i64() || t.is_u64();
+    let n_whole = n.is_i64() || n.is_u64();
+    if !t_whole && n_whole {
+        return n.as_f64().and_then(Number::from_f64).map(Value::Number).unwrap_or(v);
+    }
+    if t_whole && !n_whole {
+        if let Some(f) = n.as_f64().filter(|f| f.fract() == 0.0) {
+            if f >= i64::MIN as f64 && f < i64::MAX as f64 {
+                return Value::from(f as i64);
+            }
+            if f >= 0.0 && f < u64::MAX as f64 {
+                return Value::from(f as u64);
+            }
+        }
+    }
+    v
 }
 
 /// `v` moved by `steps` whole units (the step of the -/+ buttons is 1; decimal fields use 1 too),
@@ -385,7 +415,7 @@ fn value_menu(resp: &Response, ptr: &str, v: &Value, editable: bool, opts: &Edit
             ui.close_menu();
         }
         if editable {
-            if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)) {
+            if let Some((lo, hi)) = opts.tree.and_then(|t| t.range(ptr)).map(|(lo, hi)| (same_kind(v, lo), same_kind(v, hi))) {
                 ui.separator();
                 if &hi != v && ui.button(trf("Set to maximum ({0})", &[&display(&hi)])).on_hover_text(tr("The largest value this field accepts")).clicked() {
                     out.edit = Some(hi);
@@ -527,7 +557,8 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 ui.data_mut(|d| d.remove::<String>(id));
             }
             let mut buf = if focused {
-                ui.data(|d| d.get_temp::<String>(id)).unwrap_or_else(|| number_text(n))
+                // In the language's style ("2,5" in German), so that it reads back as the same number.
+                ui.data(|d| d.get_temp::<String>(id)).unwrap_or_else(|| crate::number_input::edit_text(n, crate::number_input::locale()))
             } else {
                 number_text(n)
             };
@@ -549,7 +580,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 if steps != 0 {
                     let base = parse_number(&buf, integer).unwrap_or_else(|| v.clone());
                     if let Some(nv) = step_number(&base, steps, range.clone()) {
-                        buf = nv.to_string();
+                        buf = match &nv {
+                            Value::Number(x) => crate::number_input::edit_text(x, crate::number_input::locale()),
+                            other => other.to_string(),
+                        };
                         ui.data_mut(|d| d.insert_temp(id, buf.clone()));
                         keyed = Some(nv);
                     }
@@ -581,7 +615,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                     }
                 }
             }
-            if focused && resp.lost_focus() {
+            // Enter or clicking away applies pending quick maths; Escape cancels it, and so does
+            // a save or open under way.
+            let cancelled = ui.input(|i| i.key_pressed(egui::Key::Escape)) || busy();
+            if focused && resp.lost_focus() && !cancelled {
                 if let Some(nv) = crate::number_input::quick_maths(&buf, v, integer, range.clone()).filter(|nv| nv != v) {
                     out = Some(nv);
                 }
@@ -626,6 +663,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                         other => display(other),
                     };
                     let r = ui.add(egui::Button::new(RichText::new(format!("/ {text}")).weak()).frame(false)).on_hover_text(trf("The most this field takes. Click to set it to {0}.", &[&text]));
+                    let hi = same_kind(v, hi);
                     if r.clicked() && hi != *v {
                         out = Some(hi);
                     }
@@ -750,7 +788,10 @@ mod tests {
 
     #[test]
     fn numbers_parse_strictly() {
+        // In the interface language's style (English in tests); every language has its own
+        // table in number_input.
         assert_eq!(parse_number("2,500", true), Some(Value::from(2500)));
+        assert_eq!(parse_number("2,50", true), None, "a group that isn't three digits");
         assert_eq!(parse_number("-7", true), Some(Value::from(-7)));
         assert_eq!(parse_number("1.5", true), None, "whole-number fields reject decimals");
         assert_eq!(parse_number("", true), None);
@@ -795,6 +836,47 @@ mod tests {
         let mut w = Value::from(50);
         type_into(&ctx, &mut w, "-10");
         assert_eq!(w, Value::from(-10), "a leading minus is a negative number, not subtract");
+    }
+
+    #[test]
+    fn escape_cancels_quick_maths_still_being_typed() {
+        let ctx = egui::Context::default();
+        let mut v = Value::from(1000);
+        type_into(&ctx, &mut v, "*3");
+        number_frame(&ctx, &mut v, vec![key(egui::Key::Escape, false)], false);
+        assert_eq!(v, Value::from(1000), "Escape leaves the value as it was");
+        // The box is left and the cancelled text is gone: nothing comes back on the next frame.
+        number_frame(&ctx, &mut v, vec![], false);
+        assert_eq!(v, Value::from(1000));
+        // Enter still works out the same text.
+        type_into(&ctx, &mut v, "*3");
+        number_frame(&ctx, &mut v, vec![key(egui::Key::Enter, false)], false);
+        assert_eq!(v, Value::from(3000));
+    }
+
+    #[test]
+    fn quick_maths_is_dropped_while_a_save_or_open_runs() {
+        let ctx = egui::Context::default();
+        let mut v = Value::from(1000);
+        type_into(&ctx, &mut v, "+5");
+        set_busy(true);
+        number_frame(&ctx, &mut v, vec![key(egui::Key::Enter, false)], false);
+        set_busy(false);
+        assert_eq!(v, Value::from(1000));
+    }
+
+    #[test]
+    fn limits_keep_the_kind_of_number_the_field_holds() {
+        let ints = Some((Value::from(0), Value::from(100)));
+        let hi = clamp_to(ints.clone(), serde_json::json!(250.5));
+        assert!(hi.is_f64() && hi.as_f64() == Some(100.0), "{hi:?}");
+        let lo = clamp_to(ints, serde_json::json!(-1.0));
+        assert!(lo.is_f64(), "{lo:?}");
+        assert_eq!(clamp_to(Some((serde_json::json!(0.0), serde_json::json!(9.0))), Value::from(12)), Value::from(9));
+        assert!(same_kind(&serde_json::json!(1.5), Value::from(7)).is_f64());
+        assert_eq!(same_kind(&Value::from(1), serde_json::json!(7.0)), Value::from(7));
+        assert!(same_kind(&Value::from(1), serde_json::json!(7.5)).is_f64(), "a fraction is never cut off silently");
+        assert_eq!(step_number(&serde_json::json!(99.5), 1, Some((Value::from(0), Value::from(100)))), Some(serde_json::json!(100.0)));
     }
 }
 
