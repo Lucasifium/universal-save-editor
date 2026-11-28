@@ -20,9 +20,46 @@ pub fn config_dir() -> Option<PathBuf> {
     ANDROID_DATA.get().cloned()
 }
 
+/// Name of the file that, placed next to the program, turns on portable mode.
+pub const PORTABLE_MARKER: &str = "portable";
+/// Folder beside the program that holds settings, templates and presets in portable mode.
+pub const PORTABLE_DATA: &str = "data";
+
+/// The folder to keep everything in when `marker` sits in `exe_dir`: `<exe_dir>/data`,
+/// created if needed. `None` when the marker is missing or the folder can't be made (a
+/// read-only drive), so the program then keeps using the normal settings folder.
+#[cfg(not(any(target_os = "android", target_arch = "wasm32")))]
+pub fn portable_dir_in(exe_dir: &Path) -> Option<PathBuf> {
+    if !exe_dir.join(PORTABLE_MARKER).is_file() {
+        return None;
+    }
+    let data = exe_dir.join(PORTABLE_DATA);
+    std::fs::create_dir_all(&data).ok()?;
+    Some(data)
+}
+
+/// The portable data folder next to the running program, if portable mode is on.
+#[cfg(not(any(target_os = "android", target_arch = "wasm32")))]
+pub fn portable_dir() -> Option<PathBuf> {
+    static DIR: std::sync::OnceLock<Option<PathBuf>> = std::sync::OnceLock::new();
+    DIR.get_or_init(|| {
+        let exe = std::env::current_exe().ok()?;
+        portable_dir_in(exe.parent()?)
+    })
+    .clone()
+}
+
+#[cfg(any(target_os = "android", target_arch = "wasm32"))]
+pub fn portable_dir() -> Option<PathBuf> {
+    None
+}
+
 /// Where the app keeps its own settings.
 #[cfg(not(target_os = "android"))]
 pub fn config_dir() -> Option<PathBuf> {
+    if let Some(d) = portable_dir() {
+        return Some(d);
+    }
     let env = |k: &str| std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from);
     let dir = if cfg!(windows) {
         env("APPDATA").map(|d| windows_dir(&d))
@@ -287,4 +324,27 @@ fn steam_userdata_dirs_now() -> Vec<PathBuf> {
         }
     }
     out
+}
+
+#[cfg(all(test, not(any(target_os = "android", target_arch = "wasm32"))))]
+mod portable_tests {
+    use super::*;
+
+    #[test]
+    fn portable_mode_needs_the_marker_and_keeps_data_beside_the_program() {
+        let base = std::env::temp_dir().join(format!("use-portable-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&base);
+        std::fs::create_dir_all(&base).unwrap();
+        assert_eq!(portable_dir_in(&base), None, "no marker, no portable mode");
+        assert!(!base.join(PORTABLE_DATA).exists(), "nothing is created without the marker");
+        std::fs::write(base.join(PORTABLE_MARKER), "").unwrap();
+        let d = portable_dir_in(&base).expect("portable");
+        assert_eq!(d, base.join(PORTABLE_DATA));
+        assert!(d.is_dir());
+        // A folder called portable is not the marker.
+        std::fs::remove_file(base.join(PORTABLE_MARKER)).unwrap();
+        std::fs::create_dir(base.join(PORTABLE_MARKER)).unwrap();
+        assert_eq!(portable_dir_in(&base), None);
+        let _ = std::fs::remove_dir_all(&base);
+    }
 }

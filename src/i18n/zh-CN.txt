@@ -31844,3 +31844,46 @@ Yes, tell me
 
 No thanks
 = 不用了
+
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= 仅为您的账户，将本程序添加到资源管理器针对某一游戏系列专属文件类型（.sl2、.rpgsave、.rmmzsave、.rxdata、.lsv、.ess、.fos、.d2s、.es3、.sii）的“打开方式”列表中。它不会成为默认程序，关闭后会再次移除。
+
+Carried items to 99 (RPG Maker MV / MZ)
+= 将携带的物品提高到 99（RPG Maker MV / MZ）
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= 将携带的武器和防具提高到 99（RPG Maker MV / MZ）
+
+Choose a preset file someone shared with you, to look at it and apply it
+= 选择别人分享给您的预设文件，查看并应用
+
+Couldn't change the Open with list: {0}
+= 无法更改“打开方式”列表：{0}
+
+List this program under “Open with” for some save file types
+= 对部分存档文件类型在“打开方式”中显示本程序
+
+Max gold (RPG Maker MV / MZ)
+= 金币最大（RPG Maker MV / MZ）
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= 此存档中没有与该预设匹配的内容，应用后不会有任何改变。
+
+Opening saves
+= 打开存档
+
+Portable mode: settings, templates and presets are kept in {0}
+= 便携模式：设置、模板和预设保存在 {0}
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= 随程序附带的现成预设。它只会提高存档中已有的数值。
+
+at least {0}
+= 至少 {0}
+
+built in
+= 内置
+
+{0} (each): {1}
+= {0}（每个）：{1}

@@ -32,6 +32,7 @@ mod oodle;
 mod pickle;
 mod par;
 mod platform;
+mod openwith;
 mod presets;
 mod preview;
 mod progress;

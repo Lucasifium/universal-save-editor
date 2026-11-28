@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.Lucasifium.UniversalSaveEditor</id>
+  <name>Universal Save Editor</name>
+  <summary>Free, offline save editor and save manager for PC games</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <description>
+    <p>Opens and edits save files from hundreds of PC games, with a dedicated screen for the most popular ones and a values and hex editor for the rest. It keeps a backup before every save, can restore any earlier version, and works fully offline.</p>
+  </description>
+  <launchable type="desktop-id">io.github.Lucasifium.UniversalSaveEditor.desktop</launchable>
+  <url type="homepage">https://universalsaveeditor.com/</url>
+  <url type="bugtracker">https://github.com/Lucasifium/universal-save-editor/issues</url>
+  <developer id="io.github.Lucasifium"><name>Lucasifium</name></developer>
+  <provides><binary>UniversalSaveEditor</binary></provides>
+  <categories><category>Game</category><category>Utility</category></categories>
+  <content_rating type="oars-1.1"/>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/assets/screenshot.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="0.9.3" date="2026-11-27"/>
+  </releases>
+</component>
