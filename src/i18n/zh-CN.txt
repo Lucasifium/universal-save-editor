@@ -30014,6 +30014,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = 将每个角色的另一模式经验值设为游戏上限 472,000（通关存档中所有角色都是这个值）。加载存档时，游戏会自动将他们提升到 15 级。
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= 将每件礼物提升到游戏的上限99，包括你尚未拥有的礼物。
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = 将每种制作材料提升到游戏显示的上限 999（在已通关的存档中许多都是 999），包括你还没有的。
 
