@@ -300,7 +300,7 @@ fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::
             Ok(None) => {}
         }
     }
-    Ok(Written { stamp: safety::stamp(path), check, len: bytes.len(), note })
+    Ok(Written { stamp: safety::stamp_with(safety::stamp(path), &bytes), check, len: bytes.len(), note })
 }
 
 /// Whether the Values list built from `new` is the one built from `old`, for the same names.
@@ -1020,6 +1020,7 @@ impl App {
             let r = crate::progress::read_file(&p)
                 .map_err(|e| trf("Couldn't open {0}: {1}", &[&p.display(), &e]))
                 .map(|raw| {
+                    let stamp = safety::stamp_with(stamp, &raw);
                     let decoded = formats::decode_with(&raw, &o);
                     crate::progress::stage(crate::progress::Stage::Showing);
                     (raw.len(), Prepared { stamp, ..prepare(&p, decoded) })
@@ -1128,6 +1129,7 @@ impl App {
             Ok(r) => r,
             Err(e) => return self.fail(trf("Couldn't open {0}: {1}", &[&path.display(), &e])),
         };
+        let stamp = safety::stamp_with(stamp, &raw);
         let prepared = Prepared { stamp, ..prepare(path, formats::decode_with(&raw, &opts)) };
         self.finish_load(path, opts, raw.len(), prepared);
     }

@@ -13,27 +13,91 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::time::SystemTime;
 
-/// What a file looked like on disk: its size and when it was last written.
-#[derive(Clone, Debug, PartialEq, Eq)]
+/// What a file looked like on disk: its size, when it was last written and, when the bytes
+/// were at hand, a hash of them.
+///
+/// Size and time alone miss a rewrite of the same size within the file system's time step
+/// (some keep only whole or even two seconds). The hash closes that gap without slowing big
+/// files down: it is taken from the bytes already in memory (when the file is opened, or the
+/// bytes just written), never by reading the file again. Only when a save is about to be
+/// written and size and time still match is the file read once more and hashed
+/// (`changed`); the check when the window gets the focus back stays on size and time
+/// (`changed_quick`), so switching windows never reads a large save.
+#[derive(Clone, Debug)]
 pub struct Stamp {
     len: u64,
     modified: Option<SystemTime>,
+    hash: Option<u64>,
 }
 
-/// The file's stamp now (`None`: it isn't there, or this is the browser version).
+/// Two stamps are the same file when size and time match, and the hashes too when both have one.
+impl PartialEq for Stamp {
+    fn eq(&self, o: &Self) -> bool {
+        self.len == o.len && self.modified == o.modified && (self.hash.is_none() || o.hash.is_none() || self.hash == o.hash)
+    }
+}
+impl Eq for Stamp {}
+
+/// A fast hash of a file's bytes (FNV-1a over 8-byte words; not for security, only to tell
+/// two versions of a save apart).
+pub fn hash_bytes(bytes: &[u8]) -> u64 {
+    const PRIME: u64 = 0x0000_0100_0000_01B3;
+    let mut h: u64 = 0xCBF2_9CE4_8422_2325 ^ bytes.len() as u64;
+    let mut words = bytes.chunks_exact(8);
+    for w in &mut words {
+        let mut a = [0u8; 8];
+        a.copy_from_slice(w);
+        h = (h ^ u64::from_le_bytes(a)).wrapping_mul(PRIME);
+        h ^= h >> 29;
+    }
+    for &b in words.remainder() {
+        h = (h ^ b as u64).wrapping_mul(PRIME);
+    }
+    h
+}
+
+/// The file's stamp now (`None`: it isn't there, or this is the browser version). Size and
+/// time only.
 pub fn stamp(path: &Path) -> Option<Stamp> {
     if cfg!(target_arch = "wasm32") {
         return None;
     }
     let m = std::fs::metadata(path).ok()?;
-    m.is_file().then(|| Stamp { len: m.len(), modified: m.modified().ok() })
+    m.is_file().then(|| Stamp { len: m.len(), modified: m.modified().ok(), hash: None })
+}
+
+/// The stamp of a file whose bytes are `bytes` (just read from it, or just written to it).
+/// Size and time are taken from `meta`, the file as it was before it was read; when the
+/// bytes don't have that size the file changed while it was read, and the stamp says so
+/// by not matching what is on disk.
+pub fn stamp_with(meta: Option<Stamp>, bytes: &[u8]) -> Option<Stamp> {
+    meta.map(|m| Stamp { hash: (m.len == bytes.len() as u64).then(|| hash_bytes(bytes)), ..m })
 }
 
 /// Whether the file at `path` is no longer the one stamped `was` (written again, or gone).
-/// Files that weren't stamped (the browser version) never count as changed.
+/// Files that weren't stamped (the browser version) never count as changed. When size and
+/// time match and `was` has a hash, the file is read again and its hash compared.
 pub fn changed(path: &Path, was: Option<&Stamp>) -> bool {
+    let Some(w) = was else { return false };
+    if changed_quick(path, Some(w)) {
+        return true;
+    }
+    match w.hash {
+        Some(h) => match std::fs::read(path) {
+            Ok(b) => b.len() as u64 != w.len || hash_bytes(&b) != h,
+            Err(_) => true,
+        },
+        None => false,
+    }
+}
+
+/// `changed` on size and time only, without reading the file.
+pub fn changed_quick(path: &Path, was: Option<&Stamp>) -> bool {
     match was {
-        Some(w) => stamp(path).as_ref() != Some(w),
+        Some(w) => match stamp(path) {
+            Some(now) => now.len != w.len || now.modified != w.modified,
+            None => true,
+        },
         None => false,
     }
 }
@@ -80,7 +144,7 @@ impl App {
             return;
         }
         if let Some(d) = &self.doc {
-            if changed(&d.path, d.stamp.as_ref()) && (self.disk_seen.is_none() || stamp(&d.path) != self.disk_seen) {
+            if changed_quick(&d.path, d.stamp.as_ref()) && (self.disk_seen.is_none() || stamp(&d.path) != self.disk_seen) {
                 self.disk_changed = true;
             }
         }
@@ -380,6 +444,51 @@ mod tests {
         drop(f);
         assert!(changed(&p, s.as_ref()));
         let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn same_size_same_time_rewrite_is_stale() {
+        let d = dir("same-size");
+        let p = d.join("save.dat");
+        std::fs::write(&p, b"gold=100").unwrap();
+        let s = stamp_with(stamp(&p), b"gold=100");
+        assert!(s.as_ref().is_some_and(|s| s.hash.is_some()));
+        assert!(!changed(&p, s.as_ref()));
+        let when = std::fs::metadata(&p).unwrap().modified().unwrap();
+        // Another program writes as many bytes and the time stays the same.
+        std::fs::write(&p, b"gold=999").unwrap();
+        let f = std::fs::OpenOptions::new().write(true).open(&p).unwrap();
+        f.set_modified(when).unwrap();
+        drop(f);
+        assert!(!changed_quick(&p, s.as_ref()), "size and time alone can't tell");
+        assert!(changed(&p, s.as_ref()), "the hash does");
+        // Put back byte for byte: not a change.
+        std::fs::write(&p, b"gold=100").unwrap();
+        let f = std::fs::OpenOptions::new().write(true).open(&p).unwrap();
+        f.set_modified(when).unwrap();
+        drop(f);
+        assert!(!changed(&p, s.as_ref()));
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn stamp_of_bytes_that_dont_match_the_size_has_no_hash() {
+        let d = dir("short-read");
+        let p = d.join("save.dat");
+        std::fs::write(&p, b"gold=100").unwrap();
+        // The file grew between the stamp and the read.
+        let s = stamp_with(stamp(&p), b"gold=100000");
+        assert!(s.as_ref().is_some_and(|s| s.hash.is_none()));
+        assert_eq!(s, stamp(&p), "a stamp without a hash still compares by size and time");
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn hash_tells_close_bytes_apart() {
+        assert_ne!(hash_bytes(b"gold=100"), hash_bytes(b"gold=101"));
+        assert_ne!(hash_bytes(b""), hash_bytes(b"\0"));
+        assert_ne!(hash_bytes(&[0u8; 16]), hash_bytes(&[0u8; 17]));
+        assert_eq!(hash_bytes(b"same bytes here!"), hash_bytes(b"same bytes here!"));
     }
 
     #[test]
