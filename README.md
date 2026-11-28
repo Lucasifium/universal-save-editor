@@ -357,7 +357,10 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
 - **Values** (default view): every editable value in one aligned list, grouped into collapsible
   sections, with search (Ctrl+F) across names *and* current values.
   - Numbers use a checked text box: invalid input turns red and is never written. Whole numbers
-    stay whole, and `2,500` is accepted. Use −/+ for quick tweaks.
+    stay whole, and numbers are read the way the interface language writes them: `2,500` and
+    `2.5` in English, `2.500` and `2,5` in German, `2 500` and `2,5` in French. Anything that
+    could mean two things (a group that isn't three digits, separators in the wrong order) is
+    refused rather than guessed. Use −/+ for quick tweaks.
   - Quick maths: type `+500`, `*2`, `/2`, `250k`, `1.5m`, `max` or `min` and press Enter; the
     result is kept inside what the field accepts. A leading `-` is always a plain negative number.
   - On/off values use a switch.

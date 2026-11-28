@@ -26923,7 +26923,7 @@ Deleted the preset “{0}”.
 = Se eliminó el preajuste “{0}”.
 
 Enter a number, e.g. 2.5
-= Escribe un número, p. ej. 2.5
+= Escribe un número, p. ej. 2,5
 
 Enter a whole number, e.g. 1500
 = Escribe un número entero, p. ej. 1500
@@ -32316,7 +32316,7 @@ this is your home folder, not a save folder
 # Number boxes, game list, theme and window
 
 Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
-= También puedes hacer cuentas: +500, *2, /2, 250k, 1.5m, max o min; se calcula al pulsar Intro.
+= También puedes hacer cuentas: +500, *2, /2, 250k, 1,5m, max o min; se calcula al pulsar Intro.
 
 The most this field takes. Click to set it to {0}.
 = El máximo que admite este campo. Haz clic para ponerlo en {0}.

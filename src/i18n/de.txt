@@ -26924,7 +26924,7 @@ Deleted the preset “{0}”.
 = Preset „{0}“ gelöscht.
 
 Enter a number, e.g. 2.5
-= Eine Zahl eingeben, z. B. 2.5
+= Eine Zahl eingeben, z. B. 2,5
 
 Enter a whole number, e.g. 1500
 = Eine ganze Zahl eingeben, z. B. 1500
@@ -32323,7 +32323,7 @@ this is your home folder, not a save folder
 # Number boxes, game list, theme and window
 
 Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
-= Rechnen geht auch: +500, *2, /2, 250k, 1.5m, max oder min, ausgerechnet beim Drücken der Eingabetaste.
+= Rechnen geht auch: +500, *2, /2, 250k, 1,5m, max oder min, ausgerechnet beim Drücken der Eingabetaste.
 
 The most this field takes. Click to set it to {0}.
 = Der Höchstwert dieses Felds. Klicken, um es auf {0} zu setzen.

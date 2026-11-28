@@ -26931,7 +26931,7 @@ Deleted the preset “{0}”.
 = Préréglage « {0} » supprimé.
 
 Enter a number, e.g. 2.5
-= Saisissez un nombre, par ex. 2.5
+= Saisissez un nombre, par ex. 2,5
 
 Enter a whole number, e.g. 1500
 = Saisissez un nombre entier, par ex. 1500
@@ -32330,7 +32330,7 @@ this is your home folder, not a save folder
 # Number boxes, game list, theme and window
 
 Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
-= Les calculs rapides marchent aussi : +500, *2, /2, 250k, 1.5m, max ou min, calculés quand vous appuyez sur Entrée.
+= Les calculs rapides marchent aussi : +500, *2, /2, 250k, 1,5m, max ou min, calculés quand vous appuyez sur Entrée.
 
 The most this field takes. Click to set it to {0}.
 = Le maximum accepté par ce champ. Cliquez pour le mettre à {0}.

@@ -26897,7 +26897,7 @@ Deleted the preset “{0}”.
 = Predefinição “{0}” excluída.
 
 Enter a number, e.g. 2.5
-= Digite um número, p. ex. 2.5
+= Digite um número, p. ex. 2,5
 
 Enter a whole number, e.g. 1500
 = Digite um número inteiro, p. ex. 1500
@@ -32290,7 +32290,7 @@ this is your home folder, not a save folder
 # Number boxes, game list, theme and window
 
 Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
-= Contas rápidas também funcionam: +500, *2, /2, 250k, 1.5m, max ou min, calculadas ao apertar Enter.
+= Contas rápidas também funcionam: +500, *2, /2, 250k, 1,5m, max ou min, calculadas ao apertar Enter.
 
 The most this field takes. Click to set it to {0}.
 = O máximo que este campo aceita. Clique para definir como {0}.
