@@ -31844,3 +31844,134 @@ Yes, tell me
 
 No thanks
 = 不用了
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 项未勾选的更改已还原且未保存；撤销可将其恢复。
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} 项未勾选的更改已还原且未保存；撤销可将其恢复。
+
+As detected
+= 按检测结果
+
+Click to open it another way (Open as).
+= 点击以其他方式打开（打开方式）。
+
+Common edits
+= 常用修改
+
+Couldn't keep the pin: {0}
+= 无法保存固定：{0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= 就是磁盘上的内容，不做任何解包。保存时按原样写入这些字节。
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= 当游戏界面属于另一款游戏时：以数值列表显示相同的数据。
+
+Made by one button together with other values: kept or left out together.
+= 由一个按钮与其他数值一起修改：一起保留或一起排除。
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= 没有勾选任何项，因此会还原所有更改，不写入任何内容。
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= 没有要保存的内容：未勾选的更改已还原，文件未被修改。撤销可将其恢复。
+
+Open as
+= 打开方式
+
+Opened as text
+= 已作为文本打开
+
+Opened as the file's bytes
+= 已作为文件字节打开
+
+Opened as unpacked bytes
+= 已作为解包后的字节打开
+
+Opened without the game screen
+= 已不使用游戏界面打开
+
+Pin
+= 固定
+
+Pin to the top
+= 固定到顶部
+
+Pin: show this value at the top of the list for every save of this game
+= 固定：在此游戏的每个存档中都将此数值显示在列表顶部
+
+Pinned
+= 已固定
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= 已固定 {0}。它会在此游戏的每个存档中留在列表顶部。
+
+Put them back
+= 全部还原
+
+Read this file another way, for when the editor guessed wrong
+= 在编辑器判断错误时，以其他方式读取此文件
+
+Read this file another way, for when the editor guessed wrong.
+= 在编辑器判断错误时，以其他方式读取此文件。
+
+Save or revert your changes before opening the file another way.
+= 以其他方式打开文件前，请先保存或还原你的更改。
+
+Save ticked
+= 保存已勾选项
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= 以字节显示文件封装（压缩、加密、归档）内部的数据。保存时会以同样方式重新封装。
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= 将文件作为纯文本，不做任何解包。保存时按原样写入文本。
+
+The file's own bytes in the hex view
+= 在十六进制视图中显示文件本身的字节
+
+The way the editor reads this file on its own.
+= 编辑器自行读取此文件的方式。
+
+The whole file as text
+= 将整个文件作为文本
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= 此文件不是纯文本，因此以字节显示在十六进制视图中。
+
+Tick all
+= 全部勾选
+
+Unpacked data in the hex view
+= 在十六进制视图中显示解包后的数据
+
+Unpin
+= 取消固定
+
+Unpin: stop showing this value at the top for this game's saves
+= 取消固定：不再在此游戏的存档中将此数值显示在顶部
+
+Unpinned {0}.
+= 已取消固定 {0}。
+
+Untick a change to leave it out of this save.
+= 取消勾选某项更改即可在本次保存中排除它。
+
+Unticked changes are put back before saving. Undo brings them back.
+= 未勾选的更改会在保存前还原。撤销可将其恢复。
+
+Values only, without the game screen
+= 仅数值，不使用游戏界面
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= 名称看起来像金钱、等级、经验、生命、点数或物品数量的数值。每项也会列在其所属的分区中。
+
+Values you pinned. They stay at the top for every save of this game.
+= 你固定的数值。它们会在此游戏的每个存档中留在顶部。
+
+You can pin up to {0} values per game. Unpin one first.
+= 每款游戏最多可固定 {0} 个数值。请先取消固定一个。

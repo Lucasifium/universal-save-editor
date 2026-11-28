@@ -30,6 +30,7 @@ mod memory;
 mod names;
 mod oodle;
 mod pickle;
+mod pins;
 mod par;
 mod platform;
 mod presets;

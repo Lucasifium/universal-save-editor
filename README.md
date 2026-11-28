@@ -401,6 +401,13 @@ compression, encryption and checksums.
 - **Bulk edit** (Values tab): tick values, or search and *Tick all shown*, then set them all to one
   value, add to them or multiply them. Set only changes values of the kind typed (a number sets
   numbers, never a name). One *Undo* puts them all back.
+- **Pinned values and Common edits** (Values tab): the pin beside any value keeps it in a
+  *Pinned* group at the top of the list for every save of that game. Saves without a game screen
+  also get a *Common edits* group above the sections, listing the values whose names look like
+  money, levels, experience, health, points or item counts.
+- **Open as** (*File › Open as*, or click the format chip): when the editor guessed wrong, open the
+  file again *without the game screen* (the same data as a list of values), as the *unpacked data*
+  in the hex view (packed again the same way on save), as *text*, or as *the file's own bytes*.
 - **Presets** (*Tools › Presets*, or *Save as preset…* in the Changes panel): keep a set of changes
   and make them again on another save or slot of the game; preset files can be shared.
 - **Copy changes as text** (*Edit*, or the Changes panel): the list of changes, ready to paste
@@ -430,7 +437,7 @@ compression, encryption and checksums.
 - **Export and import**: *File › Export decoded data* writes the unpacked data (JSON, text or bytes) for any other tool; *File › Import edited data* brings the edited file back, and saving packs, encrypts and checksums it the way the save was
 - **Game running**: if the game that owns the save is running, the app says so when opening and warns before saving (games write their save back when they autosave or quit)
 - **Cloud sync**: a save in a folder that Steam Cloud, OneDrive, Dropbox, Google Drive, iCloud Drive or Ubisoft Connect syncs shows a small *Cloud sync* label, and the save list and the message after saving say to choose the local copy if the service asks which to keep
-- **Review before saving**: Save lists every change in words first (can be turned off in that dialog)
+- **Review before saving**: Save lists every change in words first, each with a tick box: untick a change to leave it out of this save (it is put back first, and *Undo* brings it back; values one button changed together stay together). Long lists are grouped by section, and risky values carry their note (the list can be turned off in that dialog)
   (*File › Restore original from backup*).
 - You're asked before closing or opening another file with unsaved changes.
 - Values are range-checked for their real type (a 16-bit number can't be set to 70000, etc.).

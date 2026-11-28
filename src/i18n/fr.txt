@@ -31800,3 +31800,134 @@ Yes, tell me
 
 No thanks
 = Non merci
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 modification non cochée a été annulée et non enregistrée ; Annuler la rétablit.
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} modifications non cochées ont été annulées et non enregistrées ; Annuler les rétablit.
+
+As detected
+= Tel que détecté
+
+Click to open it another way (Open as).
+= Cliquez pour l'ouvrir autrement (Ouvrir comme).
+
+Common edits
+= Modifications courantes
+
+Couldn't keep the pin: {0}
+= Impossible de conserver l'épingle : {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= Exactement ce qui est sur le disque, rien n'est décompressé. L'enregistrement écrit les octets tels quels.
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= Quand l'écran de jeu correspond à un autre jeu : les mêmes données, sous forme de liste de valeurs.
+
+Made by one button together with other values: kept or left out together.
+= Fait par un seul bouton avec d'autres valeurs : conservées ou écartées ensemble.
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= Rien n'est coché : toutes les modifications seront annulées et rien ne sera écrit.
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= Plus rien à enregistrer : les modifications non cochées ont été annulées et le fichier n'a pas été modifié. Annuler les rétablit.
+
+Open as
+= Ouvrir comme
+
+Opened as text
+= Ouvert comme texte
+
+Opened as the file's bytes
+= Ouvert comme octets du fichier
+
+Opened as unpacked bytes
+= Ouvert comme octets décompressés
+
+Opened without the game screen
+= Ouvert sans l'écran de jeu
+
+Pin
+= Épingler
+
+Pin to the top
+= Épingler en haut
+
+Pin: show this value at the top of the list for every save of this game
+= Épingler : afficher cette valeur en haut de la liste pour chaque sauvegarde de ce jeu
+
+Pinned
+= Épinglées
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} épinglé. Il reste en haut de la liste pour chaque sauvegarde de ce jeu.
+
+Put them back
+= Les annuler
+
+Read this file another way, for when the editor guessed wrong
+= Lire ce fichier autrement, si l'éditeur s'est trompé
+
+Read this file another way, for when the editor guessed wrong.
+= Lire ce fichier autrement, si l'éditeur s'est trompé.
+
+Save or revert your changes before opening the file another way.
+= Enregistrez ou annulez vos modifications avant d'ouvrir le fichier autrement.
+
+Save ticked
+= Enregistrer la sélection
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= Les données à l'intérieur de l'emballage du fichier (compression, chiffrement, archive) sous forme d'octets. L'enregistrement les réemballe de la même façon.
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= Le fichier en texte brut, rien n'est décompressé. L'enregistrement écrit le texte tel quel.
+
+The file's own bytes in the hex view
+= Les octets du fichier dans la vue hexadécimale
+
+The way the editor reads this file on its own.
+= La façon dont l'éditeur lit ce fichier de lui-même.
+
+The whole file as text
+= Le fichier entier comme texte
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= Ce fichier n'est pas du texte brut : il est affiché en octets dans la vue hexadécimale.
+
+Tick all
+= Tout cocher
+
+Unpacked data in the hex view
+= Données décompressées dans la vue hexadécimale
+
+Unpin
+= Désépingler
+
+Unpin: stop showing this value at the top for this game's saves
+= Désépingler : ne plus afficher cette valeur en haut pour les sauvegardes de ce jeu
+
+Unpinned {0}.
+= {0} désépinglé.
+
+Untick a change to leave it out of this save.
+= Décochez une modification pour l'écarter de cet enregistrement.
+
+Unticked changes are put back before saving. Undo brings them back.
+= Les modifications non cochées sont annulées avant l'enregistrement. Annuler les rétablit.
+
+Values only, without the game screen
+= Valeurs seules, sans l'écran de jeu
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= Valeurs dont le nom ressemble à de l'argent, des niveaux, de l'expérience, de la santé, des points ou des quantités d'objets. Chacune figure aussi dans sa propre section.
+
+Values you pinned. They stay at the top for every save of this game.
+= Les valeurs que vous avez épinglées. Elles restent en haut pour chaque sauvegarde de ce jeu.
+
+You can pin up to {0} values per game. Unpin one first.
+= Vous pouvez épingler jusqu'à {0} valeurs par jeu. Désépinglez-en une d'abord.

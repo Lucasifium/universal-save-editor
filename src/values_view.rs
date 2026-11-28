@@ -62,12 +62,50 @@ pub struct Model {
     pub sections: Vec<Section>,
     pub rows: Vec<Row>,
     pub by_ptr: HashMap<Arc<str>, usize>,
+    /// Rows for the "Common edits" group (money, levels...), best first.
+    pub common: Vec<usize>,
 }
 
 #[derive(Clone, Copy)]
 pub enum Disp {
     Header(usize, usize),
     Item(usize),
+    /// A group shown above the sections, and how many values it lists.
+    Group(Group, usize),
+    /// A value listed again in a group above its own section.
+    Extra(usize),
+}
+
+/// The groups above the sections: the values the player pinned, and the values most players
+/// come to change, picked by name.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Group {
+    Pinned,
+    Common,
+}
+
+impl Group {
+    /// The number it is opened and closed by, beside the sections' own.
+    pub const fn id(self) -> usize {
+        match self {
+            Group::Pinned => usize::MAX,
+            Group::Common => usize::MAX - 1,
+        }
+    }
+
+    pub fn title(self) -> &'static str {
+        match self {
+            Group::Pinned => tr("Pinned"),
+            Group::Common => tr("Common edits"),
+        }
+    }
+
+    pub fn hint(self) -> &'static str {
+        match self {
+            Group::Pinned => tr("Values you pinned. They stay at the top for every save of this game."),
+            Group::Common => tr("Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section."),
+        }
+    }
 }
 
 fn is_scalar(v: &Value) -> bool {
@@ -236,7 +274,30 @@ pub fn build(root: &Value, names: &Names, editable: Option<&HashMap<String, usiz
             b.collect(other, "", s, true);
         }
     }
-    b.model
+    let mut model = b.model;
+    model.common = common_rows(&model, root);
+    model
+}
+
+/// The rows of the "Common edits" group: editable numbers outside the advanced sections whose
+/// key names money, a level, experience, health, points or a count; best kind first.
+fn common_rows(model: &Model, root: &Value) -> Vec<usize> {
+    let mut hits: Vec<(u8, usize)> = model
+        .rows
+        .iter()
+        .enumerate()
+        .filter(|(_, r)| r.editable && !model.sections[r.section].advanced)
+        .filter_map(|(i, r)| Some((crate::pins::common_rank(r.raw_key())?, i)))
+        .filter(|&(_, i)| root.pointer(&model.rows[i].ptr).is_some_and(Value::is_number))
+        .collect();
+    hits.sort_unstable();
+    // Item counts can run to thousands: a few of them, so the rest of the group shows too.
+    let mut counts = 0;
+    hits.retain(|&(rank, _)| {
+        counts += usize::from(rank == crate::pins::COUNT_RANK);
+        rank != crate::pins::COUNT_RANK || counts <= crate::pins::MAX_COMMON_COUNTS
+    });
+    hits.into_iter().take(crate::pins::MAX_COMMON).map(|(_, i)| i).collect()
 }
 
 impl Row {
@@ -253,8 +314,32 @@ impl Row {
 
 /// Rows to display after search / section collapse / advanced filtering.
 pub fn filter(model: &Model, root: &Value, needle: &str, advanced: bool, collapsed: &HashSet<usize>) -> Vec<Disp> {
+    filter_with(model, root, needle, advanced, collapsed, &[], false)
+}
+
+/// `filter`, with the pinned rows (`pinned`) and, when `common`, the "Common edits" group
+/// above the sections. While searching only the sections are listed, so nothing shows twice.
+pub fn filter_with(model: &Model, root: &Value, needle: &str, advanced: bool, collapsed: &HashSet<usize>, pinned: &[usize], common: bool) -> Vec<Disp> {
     let needle = needle.trim().to_lowercase();
     let mut out = Vec::new();
+    if needle.is_empty() {
+        let pinned: Vec<usize> = pinned.iter().copied().filter(|&i| i < model.rows.len() && (advanced || model.rows[i].editable)).collect();
+        let mut group = |g: Group, rows: Vec<usize>, out: &mut Vec<Disp>| {
+            if !rows.is_empty() {
+                out.push(Disp::Group(g, rows.len()));
+                if !collapsed.contains(&g.id()) {
+                    out.extend(rows.into_iter().map(Disp::Extra));
+                }
+            }
+        };
+        if common {
+            let rows = model.common.iter().copied().filter(|i| !pinned.contains(i)).collect();
+            group(Group::Pinned, pinned, &mut out);
+            group(Group::Common, rows, &mut out);
+        } else {
+            group(Group::Pinned, pinned, &mut out);
+        }
+    }
     let mut start = 0;
     while start < model.rows.len() {
         let sec = model.rows[start].section;
@@ -304,6 +389,10 @@ pub struct ViewCtx<'a> {
     pub copy: Option<(String, Vec<(String, Value)>)>,
     /// Asked to paste the copied value into this pointer.
     pub paste_at: Option<String>,
+    /// The rows pinned for this game (`None`: no pinning here) and the row whose pin was
+    /// clicked this frame.
+    pub pins: Option<&'a HashSet<usize>>,
+    pub toggle_pin: Option<usize>,
 }
 
 /// What bulk edit does to each ticked value.
@@ -382,6 +471,9 @@ pub fn bulk_value(cur: &Value, op: BulkOp, arg: &str) -> Result<Option<Value>, S
 
 pub const ROW_H: f32 = 34.0;
 
+/// The list is at least this wide when each row has its pin button.
+const PIN_BUTTON_FROM: f32 = 520.0;
+
 pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize>, ctx: &mut ViewCtx) {
     let mut area = egui::ScrollArea::vertical().auto_shrink([false, false]);
     if let Some(target) = ctx.scroll_to.take() {
@@ -393,39 +485,16 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
     area.show_rows(ui, ROW_H, disp.len(), |ui, range| {
         let full_w = ui.available_width();
         let name_w = (full_w * 0.4).clamp(110.0, 460.0);
+        let name_w = if ctx.ticked.is_some() { (name_w - 28.0).max(80.0) } else { name_w };
         for idx in range {
-            let row_rect = egui::Rect::from_min_size(ui.cursor().min, egui::vec2(full_w, ROW_H));
-            let name_w = if ctx.ticked.is_some() { (name_w - 28.0).max(80.0) } else { name_w };
             match disp[idx] {
                 Disp::Header(sec, count) => {
                     let s = &model.sections[sec];
-                    let open = !collapsed.contains(&sec);
-                    let (row_rect, resp) = ui.allocate_exact_size(egui::vec2(full_w, ROW_H), Sense::click());
-                    // A painted row: tell screen readers it's a heading that opens and closes (Enter or Space work as a click).
-                    resp.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::CollapsingHeader, true, open, &s.title));
-                    let painter = ui.painter();
-                    let fill = if resp.hovered() { ui.visuals().widgets.hovered.weak_bg_fill } else { ui.visuals().faint_bg_color };
-                    painter.rect_filled(row_rect.shrink2(egui::vec2(0.0, 2.0)), 6.0, fill);
-                    let c = ui.visuals().strong_text_color();
-                    if ctx.has_icons {
-                        let chevron = if open { theme::icon::DOWN } else { theme::icon::RIGHT };
-                        painter.text(row_rect.left_center() + egui::vec2(12.0, 0.0), egui::Align2::LEFT_CENTER, chevron, FontId::new(11.0, theme::icons_family()), c);
-                    } else {
-                        // No icon font (Linux, macOS, the browser): a drawn triangle, like the tree's, not a letter "v".
-                        let m = row_rect.left_center() + egui::vec2(17.0, 0.0);
-                        let pts = if open {
-                            vec![m + egui::vec2(-4.5, -2.5), m + egui::vec2(4.5, -2.5), m + egui::vec2(0.0, 3.0)]
-                        } else {
-                            vec![m + egui::vec2(-2.5, -4.5), m + egui::vec2(3.0, 0.0), m + egui::vec2(-2.5, 4.5)]
-                        };
-                        painter.add(egui::Shape::convex_polygon(pts, c, egui::Stroke::NONE));
-                    }
-                    painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, &s.title, FontId::new(16.0, theme::semibold_family()), c);
                     let mut right = format!("{count}");
                     if s.advanced {
                         right = format!("{}  \u{00B7}  {right}", tr("advanced"));
                     }
-                    painter.text(row_rect.right_center() - egui::vec2(12.0, 0.0), egui::Align2::RIGHT_CENTER, right, FontId::new(13.0, egui::FontFamily::Proportional), ui.visuals().weak_text_color());
+                    let resp = header_row(ui, full_w, &s.title, &right, !collapsed.contains(&sec), ctx.has_icons);
                     if resp.clicked() {
                         ctx.toggle_section = Some(sec);
                     }
@@ -442,104 +511,201 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                         }
                     });
                 }
-                Disp::Item(i) => {
-                    let r = &model.rows[i];
-                    let Some(v) = ctx.root.pointer(&r.ptr) else {
-                        ui.allocate_exact_size(egui::vec2(full_w, ROW_H), Sense::hover());
-                        continue;
-                    };
-                    let modified = ctx.baseline.pointer(&r.ptr) != Some(v);
-                    let hovered = ui.rect_contains_pointer(row_rect);
-                    if hovered {
-                        ui.painter().rect_filled(row_rect, 6.0, ui.visuals().faint_bg_color);
+                Disp::Group(g, count) => {
+                    let resp = header_row(ui, full_w, g.title(), &format!("{count}"), !collapsed.contains(&g.id()), ctx.has_icons).on_hover_text(g.hint());
+                    if resp.clicked() {
+                        ctx.toggle_section = Some(g.id());
                     }
-                    if modified {
-                        let bar = egui::Rect::from_min_size(row_rect.min + egui::vec2(2.0, 6.0), egui::vec2(3.0, ROW_H - 12.0));
-                        ui.painter().rect_filled(bar, 2.0, theme::fg(ui, theme::MODIFIED));
-                    }
-                    ui.allocate_ui_with_layout(egui::vec2(full_w, ROW_H), Layout::left_to_right(Align::Center), |ui| {
-                        ui.set_min_size(egui::vec2(full_w, ROW_H));
-                        {
-                            ui.add_space(14.0);
-                            if let Some(t) = ctx.ticked {
-                                let mut on = t.contains(&i);
-                                let tip = if r.editable { tr("Tick to include in Bulk edit") } else { tr("Read-only: bulk edit leaves it alone") };
-                                if crate::widgets::square(ui, |ui| ui.add_enabled(r.editable, egui::Checkbox::without_text(&mut on))).on_hover_text(tip).clicked() {
-                                    ctx.toggle_tick.push(i);
-                                }
-                            }
-                            // Name column.
-                            ui.allocate_ui_with_layout(egui::vec2(name_w, ROW_H), Layout::left_to_right(Align::Center), |ui| {
-                                ui.set_width(name_w);
-                                let font = egui::TextStyle::Body.resolve(ui.style());
-                                let mut job = LayoutJob::default();
-                                if !r.context().is_empty() {
-                                    // The name is what tells rows apart, so where the column is too narrow for
-                                    // both it is the "where" text in front that is cut short, from its start.
-                                    let room = name_w - text_width(ui, r.name(), &font) - 4.0;
-                                    let shown = fit_context(r.context(), room, |t| text_width(ui, t, &font));
-                                    job.append(&shown, 0.0, TextFormat::simple(font.clone(), ui.visuals().weak_text_color()));
-                                }
-                                let name_color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
-                                job.append(r.name(), 0.0, TextFormat::simple(font.clone(), name_color));
-                                if ctx.show_raw_keys && names::raw_differs(r.raw_key(), r.name()) {
-                                    let small = FontId::new(font.size * 0.82, font.family.clone());
-                                    job.append(r.raw_key(), 8.0, TextFormat::simple(small, theme::fg(ui, theme::RAW_KEY)));
-                                }
-                                let label = ui.add(egui::Label::new(job).truncate().sense(Sense::click()));
-                                label.context_menu(|ui| {
-                                    if ui.button(tr("Copy for another save")).on_hover_text(tr("Then paste it into another open save (or another field)")).clicked() {
-                                        ctx.copy = Some((r.name().to_string(), vec![(r.ptr.to_string(), v.clone())]));
-                                        ui.close_menu();
-                                    }
-                                    if ctx.can_paste_one && r.editable && ui.button(tr("Paste here")).clicked() {
-                                        ctx.paste_at = Some(r.ptr.to_string());
-                                        ui.close_menu();
-                                    }
-                                });
-                                label.on_hover_ui(|ui| {
-                                    ui.label(RichText::new(r.name()).strong());
-                                    if !r.context().is_empty() {
-                                        ui.label(trf("in {0}", &[&r.context()]));
-                                    }
-                                    ui.weak(trf("key: {0}   ({1})", &[&r.raw_key(), &widgets::type_name(v)]));
-                                    ui.weak(trf("path: {0}", &[&r.ptr]));
-                                    if let Some(note) = ctx.tree.and_then(|t| crate::risks::note(&t.kind_name, &r.ptr)) {
-                                        ui.label(trf("Note: {0}", &[&note]));
-                                    }
-                                });
-                            });
-                            // Value column.
-                            let w = (ui.available_width() - 120.0).clamp(120.0, 420.0);
-                            let choices = if r.editable { ctx.tree.and_then(|t| t.choices(&r.ptr)) } else { None };
-                            let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(r.name()), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: true, reset_button: false };
-                            let edit = match (choices, v) {
-                                (Some(list), Value::String(cur)) => widgets::choice_editor(ui, &r.ptr, cur, &list, w),
-                                _ => {
-                                    let o = widgets::value_editor_ex(ui, &r.ptr, v, r.editable, w, &opts);
-                                    if o.go_to_tree {
-                                        ctx.show_in_tree = Some(r.ptr.to_string());
-                                    }
-                                    o.edit
-                                }
-                            };
-                            if let Some(nv) = edit {
-                                ctx.edits.push((r.ptr.to_string(), nv));
-                            }
-                            if modified {
-                                let old = ctx.baseline.pointer(&r.ptr).map(widgets::display).unwrap_or_default();
-                                let tip = trf("Revert to original: {0}", &[&old]);
-                                let btn = widgets::icon_button(ui, widgets::icon(ctx.has_icons, theme::icon::REVERT, tr("Revert")).size(12.0), &tip, &tip);
-                                if btn.clicked() {
-                                    if let Some(orig) = ctx.baseline.pointer(&r.ptr) {
-                                        ctx.edits.push((r.ptr.to_string(), orig.clone()));
-                                    }
-                                }
-                            }
-                        }
-                    });
+                }
+                Disp::Item(i) => value_row(ui, model, i, full_w, name_w, false, ctx),
+                // The same value shown again at the top: its own ids, so the two copies' fields don't clash.
+                Disp::Extra(i) => {
+                    ui.push_id(("values_extra", idx), |ui| value_row(ui, model, i, full_w, name_w, true, ctx));
                 }
             }
+        }
+    });
+}
+
+/// A section heading row that opens and closes.
+fn header_row(ui: &mut Ui, full_w: f32, title: &str, right: &str, open: bool, has_icons: bool) -> egui::Response {
+    let (row_rect, resp) = ui.allocate_exact_size(egui::vec2(full_w, ROW_H), Sense::click());
+    // A painted row: tell screen readers it's a heading that opens and closes (Enter or Space work as a click).
+    resp.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::CollapsingHeader, true, open, title));
+    let painter = ui.painter();
+    let fill = if resp.hovered() { ui.visuals().widgets.hovered.weak_bg_fill } else { ui.visuals().faint_bg_color };
+    painter.rect_filled(row_rect.shrink2(egui::vec2(0.0, 2.0)), 6.0, fill);
+    let c = ui.visuals().strong_text_color();
+    if has_icons {
+        let chevron = if open { theme::icon::DOWN } else { theme::icon::RIGHT };
+        painter.text(row_rect.left_center() + egui::vec2(12.0, 0.0), egui::Align2::LEFT_CENTER, chevron, FontId::new(11.0, theme::icons_family()), c);
+    } else {
+        // No icon font (Linux, macOS, the browser): a drawn triangle, like the tree's, not a letter "v".
+        let m = row_rect.left_center() + egui::vec2(17.0, 0.0);
+        let pts = if open {
+            vec![m + egui::vec2(-4.5, -2.5), m + egui::vec2(4.5, -2.5), m + egui::vec2(0.0, 3.0)]
+        } else {
+            vec![m + egui::vec2(-2.5, -4.5), m + egui::vec2(3.0, 0.0), m + egui::vec2(-2.5, 4.5)]
+        };
+        painter.add(egui::Shape::convex_polygon(pts, c, egui::Stroke::NONE));
+    }
+    painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, title, FontId::new(16.0, theme::semibold_family()), c);
+    painter.text(row_rect.right_center() - egui::vec2(12.0, 0.0), egui::Align2::RIGHT_CENTER, right, FontId::new(13.0, egui::FontFamily::Proportional), ui.visuals().weak_text_color());
+    resp
+}
+
+/// The pin beside a value: drawn (the built-in fonts have no pin symbol), filled when pinned.
+fn pin_button(ui: &mut Ui, pinned: bool, row_hovered: bool) -> egui::Response {
+    let size = egui::vec2(widgets::MIN_TARGET, widgets::MIN_TARGET);
+    let (rect, resp) = ui.allocate_exact_size(size, Sense::click());
+    let (name, tip) = if pinned {
+        (tr("Unpin"), tr("Unpin: stop showing this value at the top for this game's saves"))
+    } else {
+        (tr("Pin"), tr("Pin: show this value at the top of the list for every save of this game"))
+    };
+    let resp = widgets::named(resp, egui::WidgetType::Button, name).on_hover_text(tip);
+    let color = if pinned {
+        theme::fg(ui, theme::ACCENT)
+    } else if resp.hovered() || resp.has_focus() {
+        ui.visuals().strong_text_color()
+    } else if row_hovered {
+        ui.visuals().weak_text_color()
+    } else {
+        ui.visuals().weak_text_color().gamma_multiply(0.45)
+    };
+    if resp.hovered() {
+        ui.painter().rect_filled(rect, 4.0, ui.visuals().widgets.hovered.weak_bg_fill);
+    }
+    let c = rect.center();
+    let head = c + egui::vec2(0.0, -3.0);
+    let stroke = egui::Stroke::new(1.5, color);
+    ui.painter().line_segment([head + egui::vec2(0.0, 4.0), c + egui::vec2(0.0, 8.0)], stroke);
+    if pinned {
+        ui.painter().circle_filled(head, 4.5, color);
+    } else {
+        ui.painter().circle_stroke(head, 4.0, stroke);
+    }
+    resp
+}
+
+/// One value: its name, where it is, the field to edit it, and the revert and pin buttons.
+/// `extra`: shown again in a group above the sections, so where it is starts with its section.
+fn value_row(ui: &mut Ui, model: &Model, i: usize, full_w: f32, name_w: f32, extra: bool, ctx: &mut ViewCtx) {
+    let row_rect = egui::Rect::from_min_size(ui.cursor().min, egui::vec2(full_w, ROW_H));
+    let r = &model.rows[i];
+    let section = &model.sections[r.section].title;
+    // ("General" holds the values at the top of the save: naming it adds nothing.)
+    let context = match (extra && section != "General", r.context().is_empty()) {
+        (true, true) => section.clone(),
+        (true, false) => format!("{section} \u{203A} {}", r.context()),
+        (false, _) => r.context().to_string(),
+    };
+    let Some(v) = ctx.root.pointer(&r.ptr) else {
+        ui.allocate_exact_size(egui::vec2(full_w, ROW_H), Sense::hover());
+        return;
+    };
+    let modified = ctx.baseline.pointer(&r.ptr) != Some(v);
+    let hovered = ui.rect_contains_pointer(row_rect);
+    if hovered {
+        ui.painter().rect_filled(row_rect, 6.0, ui.visuals().faint_bg_color);
+    }
+    if modified {
+        let bar = egui::Rect::from_min_size(row_rect.min + egui::vec2(2.0, 6.0), egui::vec2(3.0, ROW_H - 12.0));
+        ui.painter().rect_filled(bar, 2.0, theme::fg(ui, theme::MODIFIED));
+    }
+    let pinned = ctx.pins.map(|p| p.contains(&i));
+    ui.allocate_ui_with_layout(egui::vec2(full_w, ROW_H), Layout::left_to_right(Align::Center), |ui| {
+        ui.set_min_size(egui::vec2(full_w, ROW_H));
+        ui.add_space(14.0);
+        if let Some(t) = ctx.ticked {
+            let mut on = t.contains(&i);
+            let tip = if r.editable { tr("Tick to include in Bulk edit") } else { tr("Read-only: bulk edit leaves it alone") };
+            if crate::widgets::square(ui, |ui| ui.add_enabled(r.editable, egui::Checkbox::without_text(&mut on))).on_hover_text(tip).clicked() {
+                ctx.toggle_tick.push(i);
+            }
+        }
+        // Name column.
+        ui.allocate_ui_with_layout(egui::vec2(name_w, ROW_H), Layout::left_to_right(Align::Center), |ui| {
+            ui.set_width(name_w);
+            let font = egui::TextStyle::Body.resolve(ui.style());
+            let mut job = LayoutJob::default();
+            if !context.is_empty() {
+                // The name is what tells rows apart, so where the column is too narrow for
+                // both it is the "where" text in front that is cut short, from its start.
+                let room = name_w - text_width(ui, r.name(), &font) - 4.0;
+                let shown = fit_context(&context, room, |t| text_width(ui, t, &font));
+                job.append(&shown, 0.0, TextFormat::simple(font.clone(), ui.visuals().weak_text_color()));
+            }
+            let name_color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
+            job.append(r.name(), 0.0, TextFormat::simple(font.clone(), name_color));
+            if ctx.show_raw_keys && names::raw_differs(r.raw_key(), r.name()) {
+                let small = FontId::new(font.size * 0.82, font.family.clone());
+                job.append(r.raw_key(), 8.0, TextFormat::simple(small, theme::fg(ui, theme::RAW_KEY)));
+            }
+            let label = ui.add(egui::Label::new(job).truncate().sense(Sense::click()));
+            label.context_menu(|ui| {
+                if ui.button(tr("Copy for another save")).on_hover_text(tr("Then paste it into another open save (or another field)")).clicked() {
+                    ctx.copy = Some((r.name().to_string(), vec![(r.ptr.to_string(), v.clone())]));
+                    ui.close_menu();
+                }
+                if ctx.can_paste_one && r.editable && ui.button(tr("Paste here")).clicked() {
+                    ctx.paste_at = Some(r.ptr.to_string());
+                    ui.close_menu();
+                }
+                if let Some(p) = pinned {
+                    if ui.button(if p { tr("Unpin") } else { tr("Pin to the top") }).clicked() {
+                        ctx.toggle_pin = Some(i);
+                        ui.close_menu();
+                    }
+                }
+            });
+            label.on_hover_ui(|ui| {
+                ui.label(RichText::new(r.name()).strong());
+                if !context.is_empty() {
+                    ui.label(trf("in {0}", &[&context]));
+                }
+                ui.weak(trf("key: {0}   ({1})", &[&r.raw_key(), &widgets::type_name(v)]));
+                ui.weak(trf("path: {0}", &[&r.ptr]));
+                if let Some(note) = ctx.tree.and_then(|t| crate::risks::note(&t.kind_name, &r.ptr)) {
+                    ui.label(trf("Note: {0}", &[&note]));
+                }
+            });
+        });
+        // Value column, leaving room for the revert and pin buttons.
+        let w = (ui.available_width() - 120.0).clamp(120.0, 420.0);
+        let choices = if r.editable { ctx.tree.and_then(|t| t.choices(&r.ptr)) } else { None };
+        let opts = widgets::EditOpts { tree: ctx.tree, baseline: Some(ctx.baseline), name: Some(r.name()), kind: ctx.tree.map(|t| t.kind_name.as_str()), show_in_tree: true, reset_button: false };
+        let edit = match (choices, v) {
+            (Some(list), Value::String(cur)) => widgets::choice_editor(ui, &r.ptr, cur, &list, w),
+            _ => {
+                let o = widgets::value_editor_ex(ui, &r.ptr, v, r.editable, w, &opts);
+                if o.go_to_tree {
+                    ctx.show_in_tree = Some(r.ptr.to_string());
+                }
+                o.edit
+            }
+        };
+        if let Some(nv) = edit {
+            ctx.edits.push((r.ptr.to_string(), nv));
+        }
+        if modified {
+            let old = ctx.baseline.pointer(&r.ptr).map(widgets::display).unwrap_or_default();
+            let tip = trf("Revert to original: {0}", &[&old]);
+            let btn = widgets::icon_button(ui, widgets::icon(ctx.has_icons, theme::icon::REVERT, tr("Revert")).size(12.0), &tip, &tip);
+            if btn.clicked() {
+                if let Some(orig) = ctx.baseline.pointer(&r.ptr) {
+                    ctx.edits.push((r.ptr.to_string(), orig.clone()));
+                }
+            }
+        }
+        // On a phone-width list there is no room for it: the name's menu (a long press) pins.
+        if let Some(p) = pinned.filter(|_| full_w >= PIN_BUTTON_FROM) {
+            ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                ui.add_space(6.0);
+                if pin_button(ui, p, hovered).clicked() {
+                    ctx.toggle_pin = Some(i);
+                }
+            });
         }
     });
 }
@@ -624,6 +790,8 @@ mod tests {
                 .map(|d| match d {
                     Disp::Header(s, n) => format!("[{} {n}]", model.sections[s].title),
                     Disp::Item(i) => model.rows[i].ptr.to_string(),
+                    Disp::Group(g, n) => format!("<{g:?} {n}>"),
+                    Disp::Extra(i) => format!("+{}", model.rows[i].ptr),
                 })
                 .collect()
         };
@@ -651,6 +819,37 @@ mod tests {
         assert_eq!(ro.rows.iter().filter(|r| r.editable).count(), 1);
         assert_eq!(filter(&ro, &doc, "", false, &HashSet::new()).len(), 2);
         assert_eq!(filter(&ro, &doc, "", true, &HashSet::new()).len(), model.rows.len() + 4);
+    }
+
+    #[test]
+    fn pinned_and_common_values_come_first_and_only_without_a_search() {
+        let doc = json!({"MiniMapZoom": 2, "bValidSaveGameData": true, "Gold": 500, "Player": {"Level": 12, "MaxHp": 300, "Name": "Hero"}, "Bag": [{"ItemId": 4, "Count": 3}], "Options": {"MusicVolume": 80}});
+        let model = build(&doc, &Names::default(), None);
+        let ptrs = |d: &[Disp]| -> Vec<String> {
+            d.iter()
+                .map(|d| match *d {
+                    Disp::Header(s, n) => format!("[{} {n}]", model.sections[s].title),
+                    Disp::Item(i) => model.rows[i].ptr.to_string(),
+                    Disp::Group(g, n) => format!("<{g:?} {n}>"),
+                    Disp::Extra(i) => format!("+{}", model.rows[i].ptr),
+                })
+                .collect()
+        };
+        // Money first, then levels, health and counts; settings and ids are left out.
+        assert_eq!(model.common.iter().map(|&i| model.rows[i].ptr.to_string()).collect::<Vec<_>>(), ["/Gold", "/Player/Level", "/Player/MaxHp", "/Bag/0/Count"]);
+        let none = HashSet::new();
+        let zoom = model.by_ptr["/MiniMapZoom"];
+        let gold = model.by_ptr["/Gold"];
+        let d = filter_with(&model, &doc, "", false, &none, &[zoom, gold], true);
+        assert_eq!(ptrs(&d)[..7], ["<Pinned 2>", "+/MiniMapZoom", "+/Gold", "<Common 3>", "+/Player/Level", "+/Player/MaxHp", "+/Bag/0/Count"]);
+        assert_eq!(ptrs(&d)[7], "[General 3]");
+        // With a game screen there is no Common edits group, and a search lists only the sections.
+        assert_eq!(ptrs(&filter_with(&model, &doc, "", false, &none, &[gold], false))[..3], ["<Pinned 1>", "+/Gold", "[General 3]"]);
+        assert_eq!(ptrs(&filter_with(&model, &doc, "gold", false, &none, &[gold], true)), ["[General 1]", "/Gold"]);
+        // A closed group keeps its heading.
+        let closed: HashSet<usize> = [Group::Common.id()].into_iter().collect();
+        assert_eq!(ptrs(&filter_with(&model, &doc, "", false, &closed, &[], true))[..2], ["<Common 4>", "[General 3]"]);
+        assert_eq!(filter(&model, &doc, "", false, &none).len(), filter_with(&model, &doc, "", false, &none, &[], false).len());
     }
 
     #[test]

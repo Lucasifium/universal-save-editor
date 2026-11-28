@@ -31871,3 +31871,134 @@ Yes, tell me
 
 No thanks
 = いいえ
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= チェックを外した変更 1 件は元に戻され、保存されませんでした。「元に戻す」で戻せます。
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= チェックを外した変更 {0} 件は元に戻され、保存されませんでした。「元に戻す」で戻せます。
+
+As detected
+= 検出されたとおり
+
+Click to open it another way (Open as).
+= クリックすると別の方法で開けます（形式を指定して開く）。
+
+Common edits
+= よく変更する値
+
+Couldn't keep the pin: {0}
+= ピン留めを保存できませんでした: {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= ディスク上の内容そのままで、何も展開しません。保存するとバイトがそのまま書き込まれます。
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= ゲーム画面が別のゲームのものだった場合に：同じデータを値の一覧で表示します。
+
+Made by one button together with other values: kept or left out together.
+= 1 つのボタンで他の値と一緒に変更されました：まとめて残すか外します。
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= 何もチェックされていないため、すべての変更を元に戻し、何も書き込みません。
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= 保存するものがありません：チェックを外した変更は元に戻され、ファイルは変更されていません。「元に戻す」で戻せます。
+
+Open as
+= 形式を指定して開く
+
+Opened as text
+= テキストとして開いています
+
+Opened as the file's bytes
+= ファイルのバイトとして開いています
+
+Opened as unpacked bytes
+= 展開したバイトとして開いています
+
+Opened without the game screen
+= ゲーム画面なしで開いています
+
+Pin
+= ピン留め
+
+Pin to the top
+= 上にピン留め
+
+Pin: show this value at the top of the list for every save of this game
+= ピン留め：このゲームのすべてのセーブで、この値を一覧の一番上に表示します
+
+Pinned
+= ピン留め
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} をピン留めしました。このゲームのすべてのセーブで一覧の一番上に表示されます。
+
+Put them back
+= 元に戻す
+
+Read this file another way, for when the editor guessed wrong
+= エディターの判定が間違っていたときに、このファイルを別の方法で読み込みます
+
+Read this file another way, for when the editor guessed wrong.
+= エディターの判定が間違っていたときに、このファイルを別の方法で読み込みます。
+
+Save or revert your changes before opening the file another way.
+= 別の方法で開く前に、変更を保存するか元に戻してください。
+
+Save ticked
+= チェックした変更を保存
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= ファイルのパッケージ（圧縮、暗号化、アーカイブ）の中のデータをバイトで表示します。保存すると同じ方法でもう一度パッケージします。
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= ファイルをそのままテキストとして表示し、何も展開しません。保存するとテキストがそのまま書き込まれます。
+
+The file's own bytes in the hex view
+= ファイルそのもののバイトを16進表示で
+
+The way the editor reads this file on its own.
+= エディターが自動で判定した読み込み方です。
+
+The whole file as text
+= ファイル全体をテキストとして
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= このファイルはテキストではないため、16進表示でバイトとして表示します。
+
+Tick all
+= すべてチェック
+
+Unpacked data in the hex view
+= 展開したデータを16進表示で
+
+Unpin
+= ピン留めを外す
+
+Unpin: stop showing this value at the top for this game's saves
+= ピン留めを外す：このゲームのセーブでこの値を一番上に表示しなくなります
+
+Unpinned {0}.
+= {0} のピン留めを外しました。
+
+Untick a change to leave it out of this save.
+= チェックを外した変更は、今回の保存から除外されます。
+
+Unticked changes are put back before saving. Undo brings them back.
+= チェックを外した変更は保存前に元に戻されます。「元に戻す」で戻せます。
+
+Values only, without the game screen
+= 値のみ（ゲーム画面なし）
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= 名前がお金、レベル、経験値、体力、ポイント、アイテム数に見える値です。それぞれ元のセクションにも表示されます。
+
+Values you pinned. They stay at the top for every save of this game.
+= ピン留めした値です。このゲームのすべてのセーブで一番上に表示されます。
+
+You can pin up to {0} values per game. Unpin one first.
+= ピン留めできる値は 1 ゲームにつき {0} 個までです。先にどれかを外してください。

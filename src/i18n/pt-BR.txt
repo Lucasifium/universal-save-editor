@@ -31760,3 +31760,134 @@ Yes, tell me
 
 No thanks
 = Não, obrigado
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 alteração desmarcada foi desfeita e não foi salva; Desfazer a traz de volta.
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} alterações desmarcadas foram desfeitas e não foram salvas; Desfazer as traz de volta.
+
+As detected
+= Como detectado
+
+Click to open it another way (Open as).
+= Clique para abri-lo de outra forma (Abrir como).
+
+Common edits
+= Edições comuns
+
+Couldn't keep the pin: {0}
+= Não foi possível manter o fixado: {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= Exatamente o que está no disco, nada desempacotado. Salvar grava os bytes como estão.
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= Para quando a tela do jogo é de outro jogo: os mesmos dados, como lista de valores.
+
+Made by one button together with other values: kept or left out together.
+= Feito por um botão junto com outros valores: mantidos ou deixados de fora juntos.
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= Nada está marcado, então todas as alterações são desfeitas e nada é gravado.
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= Nada a salvar: as alterações desmarcadas foram desfeitas e o arquivo não foi alterado. Desfazer as traz de volta.
+
+Open as
+= Abrir como
+
+Opened as text
+= Aberto como texto
+
+Opened as the file's bytes
+= Aberto como os bytes do arquivo
+
+Opened as unpacked bytes
+= Aberto como bytes desempacotados
+
+Opened without the game screen
+= Aberto sem a tela do jogo
+
+Pin
+= Fixar
+
+Pin to the top
+= Fixar no topo
+
+Pin: show this value at the top of the list for every save of this game
+= Fixar: mostrar este valor no topo da lista em todo save deste jogo
+
+Pinned
+= Fixados
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} fixado. Ele fica no topo da lista em todo save deste jogo.
+
+Put them back
+= Desfazê-las
+
+Read this file another way, for when the editor guessed wrong
+= Ler este arquivo de outra forma, caso o editor tenha errado
+
+Read this file another way, for when the editor guessed wrong.
+= Ler este arquivo de outra forma, caso o editor tenha errado.
+
+Save or revert your changes before opening the file another way.
+= Salve ou desfaça suas alterações antes de abrir o arquivo de outra forma.
+
+Save ticked
+= Salvar marcados
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= Os dados dentro do empacotamento do arquivo (compressão, criptografia, arquivo compactado) como bytes. Salvar empacota de novo do mesmo jeito.
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= O arquivo como texto simples, nada desempacotado. Salvar grava o texto como está.
+
+The file's own bytes in the hex view
+= Os próprios bytes do arquivo na visão hexadecimal
+
+The way the editor reads this file on its own.
+= Do jeito que o editor lê este arquivo sozinho.
+
+The whole file as text
+= O arquivo inteiro como texto
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= Este arquivo não é texto simples, então é mostrado como bytes na visão hexadecimal.
+
+Tick all
+= Marcar todos
+
+Unpacked data in the hex view
+= Dados desempacotados na visão hexadecimal
+
+Unpin
+= Desafixar
+
+Unpin: stop showing this value at the top for this game's saves
+= Desafixar: parar de mostrar este valor no topo nos saves deste jogo
+
+Unpinned {0}.
+= {0} desafixado.
+
+Untick a change to leave it out of this save.
+= Desmarque uma alteração para deixá-la fora deste salvamento.
+
+Unticked changes are put back before saving. Undo brings them back.
+= As alterações desmarcadas são desfeitas antes de salvar. Desfazer as traz de volta.
+
+Values only, without the game screen
+= Só valores, sem a tela do jogo
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= Valores cujos nomes parecem dinheiro, níveis, experiência, vida, pontos ou quantidades de itens. Cada um também aparece na sua própria seção.
+
+Values you pinned. They stay at the top for every save of this game.
+= Valores que você fixou. Eles ficam no topo em todo save deste jogo.
+
+You can pin up to {0} values per game. Unpin one first.
+= Você pode fixar até {0} valores por jogo. Desafixe um primeiro.

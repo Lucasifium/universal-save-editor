@@ -31793,3 +31793,134 @@ Yes, tell me
 
 No thanks
 = Nein danke
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 nicht angehakte Änderung wurde zurückgesetzt und nicht gespeichert; Rückgängig holt sie zurück.
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} nicht angehakte Änderungen wurden zurückgesetzt und nicht gespeichert; Rückgängig holt sie zurück.
+
+As detected
+= Wie erkannt
+
+Click to open it another way (Open as).
+= Klicken, um die Datei anders zu öffnen (Öffnen als).
+
+Common edits
+= Häufige Änderungen
+
+Couldn't keep the pin: {0}
+= Die Anheftung konnte nicht gespeichert werden: {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= Genau das, was auf dem Datenträger liegt, nichts entpackt. Beim Speichern werden die Bytes so geschrieben, wie sie sind.
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= Wenn die Spielansicht zu einem anderen Spiel gehört: dieselben Daten als Werteliste.
+
+Made by one button together with other values: kept or left out together.
+= Mit einer Schaltfläche zusammen mit anderen Werten geändert: wird gemeinsam behalten oder weggelassen.
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= Nichts ist angehakt, daher werden alle Änderungen zurückgesetzt und nichts geschrieben.
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= Nichts mehr zu speichern: Die nicht angehakten Änderungen wurden zurückgesetzt und die Datei wurde nicht verändert. Rückgängig holt sie zurück.
+
+Open as
+= Öffnen als
+
+Opened as text
+= Als Text geöffnet
+
+Opened as the file's bytes
+= Als Bytes der Datei geöffnet
+
+Opened as unpacked bytes
+= Als entpackte Bytes geöffnet
+
+Opened without the game screen
+= Ohne Spielansicht geöffnet
+
+Pin
+= Anheften
+
+Pin to the top
+= Oben anheften
+
+Pin: show this value at the top of the list for every save of this game
+= Anheften: diesen Wert bei jedem Spielstand dieses Spiels oben in der Liste zeigen
+
+Pinned
+= Angeheftet
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} angeheftet. Der Wert bleibt bei jedem Spielstand dieses Spiels oben in der Liste.
+
+Put them back
+= Zurücksetzen
+
+Read this file another way, for when the editor guessed wrong
+= Diese Datei anders lesen, falls der Editor falsch geraten hat
+
+Read this file another way, for when the editor guessed wrong.
+= Diese Datei anders lesen, falls der Editor falsch geraten hat.
+
+Save or revert your changes before opening the file another way.
+= Speichere deine Änderungen oder setze sie zurück, bevor du die Datei anders öffnest.
+
+Save ticked
+= Angehakte speichern
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= Die Daten innerhalb der Verpackung der Datei (Komprimierung, Verschlüsselung, Archiv) als Bytes. Beim Speichern wird alles wieder genauso verpackt.
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= Die Datei als reiner Text, nichts entpackt. Beim Speichern wird der Text so geschrieben, wie er ist.
+
+The file's own bytes in the hex view
+= Die Bytes der Datei in der Hex-Ansicht
+
+The way the editor reads this file on its own.
+= So, wie der Editor diese Datei von selbst liest.
+
+The whole file as text
+= Die ganze Datei als Text
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= Diese Datei ist kein reiner Text und wird daher als Bytes in der Hex-Ansicht gezeigt.
+
+Tick all
+= Alle anhaken
+
+Unpacked data in the hex view
+= Entpackte Daten in der Hex-Ansicht
+
+Unpin
+= Lösen
+
+Unpin: stop showing this value at the top for this game's saves
+= Lösen: diesen Wert bei den Spielständen dieses Spiels nicht mehr oben zeigen
+
+Unpinned {0}.
+= {0} gelöst.
+
+Untick a change to leave it out of this save.
+= Entferne den Haken bei einer Änderung, um sie bei diesem Speichern wegzulassen.
+
+Unticked changes are put back before saving. Undo brings them back.
+= Nicht angehakte Änderungen werden vor dem Speichern zurückgesetzt. Rückgängig holt sie zurück.
+
+Values only, without the game screen
+= Nur Werte, ohne Spielansicht
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= Werte, deren Namen nach Geld, Stufen, Erfahrung, Gesundheit, Punkten oder Gegenstandsanzahlen aussehen. Jeder steht auch in seinem eigenen Abschnitt.
+
+Values you pinned. They stay at the top for every save of this game.
+= Von dir angeheftete Werte. Sie bleiben bei jedem Spielstand dieses Spiels oben.
+
+You can pin up to {0} values per game. Unpin one first.
+= Du kannst bis zu {0} Werte pro Spiel anheften. Löse zuerst einen.
