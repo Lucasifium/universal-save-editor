@@ -192,14 +192,15 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
 }
 
 /// The theme the player picked: dark, light, or (`follow_system`) whichever the system uses,
-/// changing with it while the program runs. Where the system says nothing, egui falls back to
-/// dark.
+/// changing with it while the program runs. Where the system says nothing, the last of dark and
+/// light chosen is used.
 pub fn apply_choice(ctx: &egui::Context, dark: bool, follow_system: bool) {
     if !follow_system {
         return apply(ctx, dark);
     }
     set_style(ctx, true);
     set_style(ctx, false);
+    ctx.options_mut(|o| o.fallback_theme = if dark { egui::Theme::Dark } else { egui::Theme::Light });
     ctx.set_theme(egui::ThemePreference::System);
 }
 

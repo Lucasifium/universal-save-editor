@@ -617,9 +617,10 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 }
             }
             // A real limit of the field, shown faintly after the box ("/ 99"); clicking it sets
-            // the value to it. Not in tight tables, and not for on/off fields kept as 0 or 1.
-            if !COMPACT.with(|c| c.get()) {
-                if let Some((_, hi)) = real_cap(opts, id_src).filter(|(_, hi)| hi.as_f64().is_some_and(|h| h > 1.0)) {
+            // the value to it. Not in tight tables or on a phone-width screen, and not for on/off
+            // fields kept as 0 or 1.
+            if !COMPACT.with(|c| c.get()) && ui.ctx().screen_rect().width() >= 520.0 {
+                if let Some((_, hi)) = real_cap(opts, id_src).filter(|(lo, hi)| hi.as_f64().is_some_and(|h| h > 1.0) && !crate::number_input::is_bit_width(lo, hi)) {
                     let text = match &hi {
                         Value::Number(h) => number_shown(h),
                         other => display(other),

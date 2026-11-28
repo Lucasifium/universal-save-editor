@@ -5406,6 +5406,9 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 ui.separator();
                 let q = gp.query.trim().to_lowercase();
                 let (level, genre) = (gp.level, gp.genre);
+                // Browsing the whole list: the letters start closed. A typed name or a genre
+                // narrows it, and the letters holding what is left open by themselves.
+                let browsing = q.is_empty() && genre.is_none();
                 let matches = |i: usize| {
                     let g = &crate::games::GAMES[i];
                     crate::games::name_matches(g.name, &q) && level.is_none_or(|l| crate::games::level(g) == l) && genre.is_none_or(|k| picker_extra::genre_of(g.name) == Some(k))
@@ -5521,8 +5524,8 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         by_console.sort_by_key(|(c, _)| crate::games::CONSOLES.iter().position(|(n, _)| n == c));
                         for (c, members) in &groups {
                             let title = format!("{c}  ({})", members.len());
-                            let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_letter", *c, found_here.is_empty(), q.is_empty()));
-                            h = if q.is_empty() { h.default_open(false) } else { h.open(Some(true)) };
+                            let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_letter", *c, found_here.is_empty(), browsing));
+                            h = if browsing { h.default_open(false) } else { h.open(Some(true)) };
                             h.show(ui, |ui| {
                                 for &i in members {
                                     row(ui, i, picked);
@@ -5534,8 +5537,8 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                             ui.label(RichText::new(tr("Console games")).strong());
                             for (c, members) in &by_console {
                                 let title = format!("{c}  ({})", members.len());
-                                let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_console", *c, found_here.is_empty(), q.is_empty()));
-                                h = if q.is_empty() { h.default_open(false) } else { h.open(Some(true)) };
+                                let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_console", *c, found_here.is_empty(), browsing));
+                                h = if browsing { h.default_open(false) } else { h.open(Some(true)) };
                                 h.show(ui, |ui| {
                                     for &i in members {
                                         row(ui, i, picked);

@@ -170,6 +170,17 @@ pub fn is_type_range(lo: &Value, hi: &Value) -> bool {
     }
 }
 
+/// Whether `lo..=hi` is what a field of some number of bits holds (0 to 1023 for 10 bits,
+/// 0 to 33,554,431 for 25): a packed field's width, which may be far above what the game
+/// allows (Diablo II keeps gold in 25 bits but caps it at 10,000 per level). Such a range is
+/// still a limit of the save, but it is not shown as the field's cap beside the box.
+pub fn is_bit_width(lo: &Value, hi: &Value) -> bool {
+    let whole = |v: &Value| v.as_i64().map(i128::from).or_else(|| v.as_u64().map(i128::from));
+    let (Some(l), Some(h)) = (whole(lo), whole(hi)) else { return false };
+    let pow2 = |x: i128| x > 0 && x & (x - 1) == 0;
+    (l == 0 && h >= 255 && pow2(h + 1)) || (l < 0 && h > 0 && -l == h + 1 && pow2(h + 1) && h >= 127)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -258,5 +269,18 @@ mod tests {
         assert!(!r(json!(0), json!(999)));
         assert!(!r(json!(0), json!(9_999_999)));
         assert!(!r(json!(0.0), json!(100.0)));
+    }
+
+    #[test]
+    fn bit_widths_are_told_from_game_caps() {
+        let b = |a: i64, c: i64| is_bit_width(&json!(a), &json!(c));
+        assert!(b(0, 1023));
+        assert!(b(0, 33_554_431));
+        assert!(b(-128, 127));
+        assert!(!b(0, 99));
+        assert!(!b(1, 99));
+        assert!(!b(0, 999_999));
+        assert!(!b(0, 1), "an on/off field");
+        assert!(!b(0, 15), "too small to be anything but a real limit");
     }
 }
