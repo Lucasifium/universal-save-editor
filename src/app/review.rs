@@ -83,7 +83,8 @@ impl App {
                             note: crate::risks::note(kind, p).filter(|n| noted.insert(*n)),
                             group,
                             together: self.touched.group.get(p).copied(),
-                            undo: Undo::Value(p.clone()),
+                            // A value the file didn't have can't be put back on its own.
+                            undo: if bv.pointer(p).is_some() { Undo::Value(p.clone()) } else { Undo::Whole },
                             keep: true,
                         }
                     })
@@ -152,6 +153,7 @@ impl App {
         let mut dont_ask = !self.settings.confirm_save;
         let mut tick = None;
         let (mut all, mut none) = (false, false);
+        // Lines without a tick box (a Raw JSON edit, bytes added or removed) are always saved.
         let kept = r.lines.iter().filter(|l| l.keep).count();
         modal(ctx, tr("Save changes?"), |ui| {
             ui.set_max_width(520.0);
@@ -257,7 +259,8 @@ impl App {
             Self::tick_review_line(&mut r.lines, i);
         }
         if all || none {
-            for l in r.lines.iter_mut() {
+            // Lines without a tick box are always saved.
+            for l in r.lines.iter_mut().filter(|l| l.undo != Undo::Whole) {
                 l.keep = all;
             }
         }
