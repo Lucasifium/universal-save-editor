@@ -337,7 +337,7 @@ mod tests {
 
     #[test]
     fn lzf_round_trips() {
-        for data in [vec![], vec![5u8], b"abcabcabcabcabcabc".to_vec(), (0..70_000u32).map(|i| (i * i % 253) as u8).collect(), vec![0u8; 70_000]] {
+        for data in [vec![], vec![5u8], b"abcabcabcabcabcabc".to_vec(), (0..70_000u64).map(|i| (i * i % 253) as u8).collect(), vec![0u8; 70_000]] {
             let z = lzf(&data);
             assert_eq!(unlzf(&z, data.len()).unwrap(), data);
         }
