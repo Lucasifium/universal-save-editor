@@ -50,7 +50,8 @@ My favourites so far:
 
 or download a build from Releases (below). On desktop you can also drag a save onto the program or
 the window. The welcome screen lists your favourite and recently opened games (star a game in *Find my game's saves*), recent files and common save folders (Ren'Py games, Unity, Saved
-Games; on Android: RetroArch, Downloads).
+Games; on Android: RetroArch, Downloads). When no saves were found, *Your games* offers *Search again* and
+*Open a file…*; once you have opened a file, the list of formats it can open waits behind *What can it open?*.
 
 ## Downloads
 
@@ -109,7 +110,7 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 *Find my game's saves* (the big button on the start page, *Find saves* in the toolbar and the File menu) lists every one of the 590+ (593) PC games the editor knows, with where it usually keeps its saves and what the files are called, and finds them on your computer: every Steam library (old and new `libraryfolders.vdf`) and `userdata`, Documents wherever Windows has it (moved to another drive, in OneDrive, or left in the user folder), AppData, LocalLow, Saved Games, Ubisoft Connect, Game Pass, and the install folders of Epic, GOG and other launchers. On Linux, macOS and the Steam Deck it also looks inside Proton, Wine, Heroic, Lutris, Bottles, CrossOver and Whisky prefixes, the native `~/.config`, `~/.local/share` and `Application Support` folders, and the folders of emulators such as DuckStation, PCSX2, Dolphin and Citra. Every search looks at all the usual places again, so a game or profile added since the last search is found without waiting.
 
-The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), and each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered and checked first; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
+The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), then a short *Popular* list of well-known games, then every game under its first letter; a genre drop-down (RPG, Soulslike, Shooter, Strategy and so on) narrows the list, and typing a name opens the letters that hold it. Until a game is picked, the right-hand side says how the window works. Each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered and checked first; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
 
 <details>
 <summary>Other places saves live (Flash, Unity, Xbox app, console memory cards)</summary>
@@ -338,11 +339,16 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   sections, with search (Ctrl+F) across names *and* current values.
   - Numbers use a checked text box: invalid input turns red and is never written. Whole numbers
     stay whole, and `2,500` is accepted. Use −/+ for quick tweaks.
+  - Quick maths: type `+500`, `*2`, `/2`, `250k`, `1.5m`, `max` or `min` and press Enter; the
+    result is kept inside what the field accepts. A leading `-` is always a plain negative number.
   - On/off values use a switch.
-  - **Advanced** shows engine internals (Ren'Py internals; RPG Maker system/map/player…) and
+  - **Rarely needed** (the switch above the list; *Show rarely needed values* in the View menu and
+    Preferences) shows engine internals (Ren'Py internals; RPG Maker system/map/player…) and
     read-only values.
-  - Hover a number to see the range the save file accepts; right-click any value to copy its
-    value, name or path, set it to the minimum or maximum, revert it or show it in the Tree.
+  - Where a field has a real limit (a level up to 99), it shows faintly after the box (`/ 99`;
+    click it to set the value to it) and on hover; the bare range of the number's storage type is
+    not shown. Right-click any value to copy its value, name or path, set it to the minimum or
+    maximum, revert it or show it in the Tree.
   - Risky values (very large amounts, levels, story progress, account ids, online-banned stats) show
     a short note on hover, repeated in the save confirmation.
   - Read-only values say why, where the format knows.
@@ -353,7 +359,11 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   Values, Tree and Raw views. Save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
   sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
 - Changed values are highlighted in orange; hover one to see its original value and click the arrow beside it to reset just that field.
-- **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit.
+- **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit; the
+  save dialog lists the changes the same way, and *Edit › Copy changes as text* writes them as
+  `old -> new`.
+- A save that opens without a game screen (an Unreal or JSON save) still names its game on the
+  toolbar and in the status bar when its folder and file name match a game in the list.
 
 ## Command line
 
@@ -444,7 +454,7 @@ compression, encryption and checksums.
 
 ## Preferences
 
-*Edit › Preferences* has the theme (dark/light), zoom, *Review changes before saving*, how many
+*Edit › Preferences* has the theme (dark, light, or the same as the system), zoom, *Review changes before saving*, how many
 automatic backups to keep per save and where backups go. *Help* has the keyboard shortcuts, the
 supported games, the website, *Report a problem* and *Request a game* (open a form on GitHub with the
 version and system filled in; your save is never sent), licences and *About* with the version.
@@ -463,8 +473,8 @@ Malgun Gothic on Windows; Noto CJK and similar on Linux; Hiragino and Apple SD G
 loaded only when a save needs them. The browser version can't reach system fonts, so such names may
 show as boxes there.
 
-Theme (dark/light), zoom (Ctrl +/−), recent files and view toggles are remembered in
-`settings.json` in `%APPDATA%\UniversalSaveEditor` (Windows), `~/Library/Application Support/UniversalSaveEditor`
+Theme, zoom (Ctrl +/−), the window size, recent files and view toggles are remembered in
+`settings.json` (written to a temporary file and renamed, so a crash never leaves it half written) in `%APPDATA%\UniversalSaveEditor` (Windows), `~/Library/Application Support/UniversalSaveEditor`
 (macOS), `~/.config/UniversalSaveEditor` (Linux) or the app's private storage (Android).
 
 ## Tests
