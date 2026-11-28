@@ -2437,6 +2437,10 @@ impl App {
                         ui.close_menu();
                         self.start_preset_apply();
                     }
+                    if ui.button(tr("Open a preset file\u{2026}")).on_hover_text(tr("Choose a preset file someone shared with you, to look at it and apply it")).clicked() {
+                        ui.close_menu();
+                        self.start_preset_open();
+                    }
                 });
                 if ui
                     .add_enabled(has, egui::Button::new(tr("Compare with another save\u{2026}")))
@@ -6672,7 +6676,7 @@ mod save_tests {
         let path = s.0.join("save.json");
         std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
         let file = s.0.join("rich.json");
-        let preset = crate::presets::Preset { name: "Rich".into(), game: String::new(), values: vec![], bytes: vec![] };
+        let preset = crate::presets::Preset { name: "Rich".into(), game: String::new(), values: vec![], bytes: vec![], built_in: false };
         std::fs::write(&file, b"{}").unwrap();
         let mut app = opened(&ctx, &path);
         let open = |app: &mut App| app.preset_apply = Some(PresetApply { list: vec![(file.clone(), preset.clone())], picked: Some(0), opened: None, confirm_delete: None });
@@ -6841,7 +6845,7 @@ mod save_tests {
         // A folder with something in it where the preset file should be: removing it fails.
         let file = s.0.join("rich.json");
         std::fs::create_dir_all(file.join("inside")).unwrap();
-        let preset = crate::presets::Preset { name: "Rich".into(), game: String::new(), values: vec![], bytes: vec![] };
+        let preset = crate::presets::Preset { name: "Rich".into(), game: String::new(), values: vec![], bytes: vec![], built_in: false };
         let mut app = opened(&ctx, &path);
         app.preset_apply = Some(PresetApply { list: vec![(file.clone(), preset)], picked: Some(0), opened: None, confirm_delete: None });
         click(&mut app, &ctx, "Delete preset");

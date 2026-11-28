@@ -454,7 +454,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Pinned values.</strong> Pin the values you change most and they stay at the top of the list for every save of that game; saves without a game screen also get a <em>Common edits</em> group with the money, level, experience and item counts it finds by name.</li>
 <li><strong>Your call when it guesses wrong.</strong> <em>File &rsaquo; Open as</em> opens a file again without the game screen, as the unpacked data, as text or as its own bytes.</li>
 <li><strong>Choose what gets saved.</strong> The <em>Save changes?</em> list has a tick box on each change: untick one to leave it out of this save, and Undo brings it back.</li>
-<li><strong>Bulk edit and presets.</strong> Tick many values and set, add to or multiply them all at once; keep a set of changes as a preset and make it again on another save or slot.</li>
+<li><strong>Bulk edit and presets.</strong> Tick many values and set, add to or multiply them all at once; keep a set of changes as a preset and make it again on another save or slot. A few ready-made presets (such as max gold for RPG Maker MV / MZ) come with the program and only ever raise numbers.</li>
 <li><strong>Console cheat patches.</strong> About 2,400 PlayStation 1 to 4, PSP, Vita and Dreamcast games have ready-made cheats from the Apollo patch collection built in: pick the codes and apply them. Encrypted saves from about 80 PS3, PS4, PSP and Vita games open already decrypted, and are encrypted again on save.</li>
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
 <li><strong>Sega Saturn saves.</strong> Single <code>.bup</code>, <code>.sro</code>, <code>.xml</code>, <code>.b64</code> and <code>.cms</code> saves, and whole backup RAM images from Mednafen, Beetle, Yabause, Kronos and SAROO, one save at a time.</li>
@@ -466,7 +466,8 @@ const WHY: &str = r#"<ul>
 <li><strong>Never writes over a newer save.</strong> If the game or a cloud sync saved the file after you opened it, saving stops and asks (reload, or save anyway with the newer file backed up first).</li>
 <li><strong>Japanese, Chinese and Korean names.</strong> Shown with your computer's own fonts in the downloaded app.</li>
 <li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
-<li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
+<li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code>, <code>encode</code>, <code>backup</code>, <code>restore</code> and <code>apply</code> (a preset) work from scripts and Steam Deck launch options, with the same checks and backups as the window.</li>
+<li><strong>Portable mode.</strong> An empty <code>portable</code> file next to the program keeps settings, templates and presets in a folder beside it, for a USB stick or a games drive.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
 

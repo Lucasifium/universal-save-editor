@@ -33,6 +33,7 @@ mod pickle;
 mod pins;
 mod par;
 mod platform;
+mod openwith;
 mod presets;
 mod preview;
 mod progress;

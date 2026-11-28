@@ -31872,6 +31872,49 @@ Yes, tell me
 No thanks
 = いいえ
 
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= 1つのゲームシリーズに固有のファイル形式（.sl2、.rpgsave、.rmmzsave、.rxdata、.lsv、.ess、.fos、.d2s、.es3、.sii）について、エクスプローラーの「プログラムから開く」にこのプログラムを追加します（あなたのアカウントのみ）。既定のプログラムにはならず、オフにすると削除されます。
+
+Carried items to 99 (RPG Maker MV / MZ)
+= 所持アイテムを99にする（RPG Maker MV / MZ）
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= 所持している武器と防具を99にする（RPG Maker MV / MZ）
+
+Choose a preset file someone shared with you, to look at it and apply it
+= 共有されたプリセットファイルを選んで、内容を確認して適用します
+
+Couldn't change the Open with list: {0}
+= 「プログラムから開く」の一覧を変更できませんでした: {0}
+
+List this program under “Open with” for some save file types
+= 一部のセーブファイル形式で「プログラムから開く」に表示する
+
+Max gold (RPG Maker MV / MZ)
+= 所持金を最大にする（RPG Maker MV / MZ）
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= このセーブにはこのプリセットに該当するものがないため、適用しても何も変わりません。
+
+Opening saves
+= セーブを開く
+
+Portable mode: settings, templates and presets are kept in {0}
+= ポータブルモード: 設定、テンプレート、プリセットは {0} に保存されます
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= プログラムに付属の既製プリセットです。セーブにすでにある数値を引き上げるだけです。
+
+at least {0}
+= {0} 以上
+
+built in
+= 内蔵
+
+{0} (each): {1}
+= {0}（各）: {1}
+
 # Pinned values, Open as and the save review
 
 1 unticked change was put back and not saved; Undo brings it back.

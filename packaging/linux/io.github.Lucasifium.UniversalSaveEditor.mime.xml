@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-universal-save-editor">
+    <comment>Game save file</comment>
+    <glob pattern="*.sl2"/>
+    <glob pattern="*.rpgsave"/>
+    <glob pattern="*.rmmzsave"/>
+    <glob pattern="*.rxdata"/>
+    <glob pattern="*.lsv"/>
+    <glob pattern="*.ess"/>
+    <glob pattern="*.fos"/>
+    <glob pattern="*.d2s"/>
+    <glob pattern="*.es3"/>
+    <glob pattern="*.sii"/>
+    <icon name="io.github.Lucasifium.UniversalSaveEditor"/>
+  </mime-type>
+</mime-info>

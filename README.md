@@ -72,6 +72,8 @@ Ready-made builds are on the [Releases page](../../releases):
 
 **Code signing:** the builds are made by GitHub Actions from this repository's source; see the [code signing policy](https://universalsaveeditor.com/code-signing/). The Windows builds are not code-signed yet.
 
+**Flatpak (Linux, Steam Deck):** `packaging/flatpak/` has a manifest that builds a Flatpak from the release's Linux download (`flatpak-builder --user --install build packaging/flatpak/io.github.Lucasifium.UniversalSaveEditor.yml`). It can see the Steam folders, including Proton prefixes, and the usual documents and data folders; other folders open through the file chooser. `packaging/linux/` also holds a desktop entry and file-type registration for the tarball install.
+
 **Install with Scoop (Windows):** `scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json` installs the program and a Start menu shortcut; `scoop update universal-save-editor` gets new releases. A Scoop install checks the download against the published checksum and doesn't trigger SmartScreen.
 
 There is also a browser version on the project website. There is no ready-made Android app: the source is in the repo, and you can build the APK yourself (Android 8+) as described in [BUILDING.md](BUILDING.md).
@@ -369,6 +371,11 @@ The same program runs commands without opening the window, for scripts and batch
     UniversalSaveEditor steamid <save> [<old> <new>]    list the Steam IDs in a save, or move it to another account
     UniversalSaveEditor patch  <save> [<game> [<n>...]] console cheat patches: the game's patch files, its codes, or apply codes by number
     UniversalSaveEditor games  [--json]                 the games the editor knows
+    UniversalSaveEditor backup  <save> [--name <n>]     keep a copy of the save as it is now (a name keeps it for good)
+    UniversalSaveEditor backups <save> [--json]         the kept copies, newest first, numbered
+    UniversalSaveEditor restore <save> <n>              put copy <n> back (the save as it is now is backed up first)
+    UniversalSaveEditor presets [--json]                the presets you can apply: your own and the ready-made ones
+    UniversalSaveEditor apply   <save> <preset> [--dry-run] [-o <out>]   make a preset's changes; <preset> is a name or a .json file
 
 `--password <p>` opens encrypted saves, like *Tools › Decrypt with password*; `--entry <name>`
 picks one save inside an archive or memory card (`info` lists them). Writing is as careful
@@ -409,7 +416,17 @@ compression, encryption and checksums.
   file again *without the game screen* (the same data as a list of values), as the *unpacked data*
   in the hex view (packed again the same way on save), as *text*, or as *the file's own bytes*.
 - **Presets** (*Tools › Presets*, or *Save as preset…* in the Changes panel): keep a set of changes
-  and make them again on another save or slot of the game; preset files can be shared.
+  and make them again on another save or slot of the game; preset files can be shared (*Open a preset
+  file…* shows what one holds before it is applied). A few ready-made presets come with the program,
+  for example *Max gold* and *Carried items to 99* for RPG Maker MV / MZ saves; they only raise numbers
+  the save already has, never lower them or add anything.
+- **Portable mode**: put an empty file called `portable` next to the program and it keeps its
+  settings, templates and presets in a `data` folder beside it instead of the user profile, so it
+  can live on a USB stick or a games drive. *Help › About* shows when it is on.
+- **Open with** (Windows, off by default; *Edit › Preferences*): lists the program in Explorer's
+  *Open with* menu for a few save file types that belong to one game family (`.sl2`, `.rpgsave`,
+  `.rmmzsave`, `.rxdata`, `.lsv`, `.ess`, `.fos`, `.d2s`, `.es3`, `.sii`), for your account only. It
+  never becomes the default program, and turning it off removes the entries again.
 - **Copy changes as text** (*Edit*, or the Changes panel): the list of changes, ready to paste
   when asking for help or sharing a recipe.
 - **Save shows the count**: the Save button says how many changes it will write (*Save (3)*), with

@@ -31794,6 +31794,49 @@ Yes, tell me
 No thanks
 = Nein danke
 
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= Fügt das Programm zur „Öffnen mit“-Liste des Explorers hinzu, für Dateitypen, die zu genau einer Spielefamilie gehören (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), nur für dein Konto. Es wird nie zum Standardprogramm, und beim Ausschalten wird es wieder entfernt.
+
+Carried items to 99 (RPG Maker MV / MZ)
+= Mitgeführte Gegenstände auf 99 (RPG Maker MV / MZ)
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= Mitgeführte Waffen und Rüstungen auf 99 (RPG Maker MV / MZ)
+
+Choose a preset file someone shared with you, to look at it and apply it
+= Wähle eine Preset-Datei, die dir jemand gegeben hat, um sie anzusehen und anzuwenden
+
+Couldn't change the Open with list: {0}
+= Die „Öffnen mit“-Liste konnte nicht geändert werden: {0}
+
+List this program under “Open with” for some save file types
+= Dieses Programm unter „Öffnen mit“ für einige Spielstand-Dateitypen anzeigen
+
+Max gold (RPG Maker MV / MZ)
+= Maximales Gold (RPG Maker MV / MZ)
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= In diesem Spielstand passt nichts zu diesem Preset, daher ändert es nichts.
+
+Opening saves
+= Spielstände öffnen
+
+Portable mode: settings, templates and presets are kept in {0}
+= Portabler Modus: Einstellungen, Vorlagen und Presets liegen in {0}
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= Fertiges Preset, das mit dem Programm kommt. Es erhöht nur Zahlen, die der Spielstand schon hat.
+
+at least {0}
+= mindestens {0}
+
+built in
+= eingebaut
+
+{0} (each): {1}
+= {0} (je): {1}
+
 # Pinned values, Open as and the save review
 
 1 unticked change was put back and not saved; Undo brings it back.

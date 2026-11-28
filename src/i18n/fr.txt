@@ -31801,6 +31801,49 @@ Yes, tell me
 No thanks
 = Non merci
 
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= Ajoute le programme à la liste « Ouvrir avec » de l'Explorateur pour des types de fichiers propres à une seule famille de jeux (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), pour votre compte seulement. Il ne devient jamais le programme par défaut, et le désactiver le retire.
+
+Carried items to 99 (RPG Maker MV / MZ)
+= Objets portés à 99 (RPG Maker MV / MZ)
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= Armes et armures portées à 99 (RPG Maker MV / MZ)
+
+Choose a preset file someone shared with you, to look at it and apply it
+= Choisissez un fichier de préréglage que quelqu'un vous a transmis, pour le consulter et l'appliquer
+
+Couldn't change the Open with list: {0}
+= Impossible de modifier la liste « Ouvrir avec » : {0}
+
+List this program under “Open with” for some save file types
+= Afficher ce programme dans « Ouvrir avec » pour certains types de sauvegarde
+
+Max gold (RPG Maker MV / MZ)
+= Or maximal (RPG Maker MV / MZ)
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= Rien dans cette sauvegarde ne correspond à ce préréglage, l'appliquer ne change donc rien.
+
+Opening saves
+= Ouverture des sauvegardes
+
+Portable mode: settings, templates and presets are kept in {0}
+= Mode portable : les réglages, modèles et préréglages sont gardés dans {0}
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= Préréglage prêt à l'emploi fourni avec le programme. Il ne fait qu'augmenter des nombres que la sauvegarde contient déjà.
+
+at least {0}
+= au moins {0}
+
+built in
+= intégré
+
+{0} (each): {1}
+= {0} (chacun) : {1}
+
 # Pinned values, Open as and the save review
 
 1 unticked change was put back and not saved; Undo brings it back.
