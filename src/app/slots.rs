@@ -1,7 +1,7 @@
 //! Tools › Copy a slot to another slot: for saves that keep several self-contained slots in one
 //! file (Elden Ring characters, Final Fantasy VII, Super Mario 64 and other console games).
 
-use super::{modal, safe_choice, write_in_place, App, WEB};
+use super::{fit, modal, safe_choice, write_in_place, App, WEB};
 use crate::fmt::slot_copy::{self, Slot};
 use crate::i18n::{tr, trf};
 use crate::theme;
@@ -71,7 +71,7 @@ impl App {
         let Some(c) = &mut self.copy_slots else { return };
         let mut choice = None;
         modal(ctx, tr("Copy a slot"), |ui| {
-            ui.set_max_width(520.0);
+            ui.set_max_width(fit(ctx, 520.0));
             ui.weak(c.game);
             egui::Grid::new("copy_slots").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
                 ui.label(tr("Copy"));

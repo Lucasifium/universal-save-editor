@@ -119,7 +119,7 @@ impl App {
         }
         let mut choice = None;
         modal(ctx, tr("The save changed on disk"), |ui| {
-            ui.set_max_width(460.0);
+            ui.set_max_width(fit(ctx, 460.0));
             ui.label(trf("{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.", &[&file_name(&path)]));
             ui.add_space(4.0);
             ui.label(tr("Saving now would put the version you opened, with your changes, over that newer file."));

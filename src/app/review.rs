@@ -192,7 +192,7 @@ impl App {
         // Lines without a tick box (a Raw JSON edit, bytes added or removed) are always saved.
         let kept = r.lines.iter().filter(|l| l.keep).count();
         modal(ctx, tr("Save changes?"), |ui| {
-            ui.set_max_width(520.0);
+            ui.set_max_width(fit(ctx, 520.0));
             if let Some(game) = &r.running {
                 theme::card(ui, |ui| {
                     ui.label(RichText::new(trf("{0} looks like it's running.", &[game])).color(theme::fg(ui, theme::WARN)).strong());

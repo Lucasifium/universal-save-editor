@@ -334,7 +334,7 @@ impl App {
         let mut open_file = false;
         let mut ask_delete: Option<usize> = None;
         modal(ctx, tr("Apply a preset"), |ui| {
-            ui.set_max_width(460.0);
+            ui.set_max_width(fit(ctx, 460.0));
             if pa.list.is_empty() && pa.opened.is_none() {
                 ui.label(tr("No presets yet."));
                 ui.weak(tr("Make some changes, then use Save changes as a preset (in the Changes panel or Tools \u{203A} Presets). Presets shared by others open with Open a preset file."));
@@ -427,7 +427,7 @@ impl App {
     fn preset_delete_dialog(&mut self, ctx: &egui::Context, pa: &mut PresetApply, i: usize) {
         let mut choice = None;
         modal(ctx, tr("Delete this preset?"), |ui| {
-            ui.set_max_width(460.0);
+            ui.set_max_width(fit(ctx, 460.0));
             ui.label(trf("The preset \u{201C}{0}\u{201D} will be deleted. This can't be undone.", &[&pa.list[i].1.name]));
             ui.weak(tr("Your saves are not changed."));
             ui.add_space(8.0);
@@ -582,7 +582,7 @@ impl App {
         let sum = d.opts.sum;
         let mut choice = None;
         modal(ctx, tr("Use these names for every save of this game"), |ui| {
-            ui.set_max_width(440.0);
+            ui.set_max_width(fit(ctx, 440.0));
             ui.label(tr("Makes a template from your names, so every save of the game opens with these values listed by name, ready to change. Use View \u{203A} Show decoded data as hex to find more values later."));
             ui.add_space(6.0);
             ui.horizontal(|ui| {

@@ -1,7 +1,7 @@
 //! Tools › Copy to the Steam version: a Game Pass save copied into the folder the same game's
 //! Steam version uses (see `crate::xbox_steam`).
 
-use super::{modal, safe_choice, App};
+use super::{fit, modal, safe_choice, App};
 use crate::i18n::{tr, trf};
 use crate::theme;
 use crate::xbox_steam::{self, Source};
@@ -56,7 +56,7 @@ impl App {
         let Some(x) = &mut self.xbox_steam else { return };
         let mut choice = None;
         modal(ctx, tr("Copy to the Steam version"), |ui| {
-            ui.set_max_width(560.0);
+            ui.set_max_width(fit(ctx, 560.0));
             ui.label(trf("{0}: \u{201C}{1}\u{201D} from the Xbox app.", &[&x.src.game.name, &x.src.logical]));
             ui.add_space(4.0);
             if x.folders.is_empty() {

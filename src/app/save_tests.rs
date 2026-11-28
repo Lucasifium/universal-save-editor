@@ -1185,6 +1185,33 @@ fn close_save_is_reachable_at_phone_width() {
 }
 
 #[test]
+fn save_changes_dialog_fits_at_phone_width() {
+    let _l = locks();
+    let s = Scratch::new("review-phone");
+    let ctx = window();
+    let path = s.0.join("save.json");
+    std::fs::write(&path, br#"{"gold": 5}"#).unwrap();
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(7), 1.0);
+    app.save_clicked();
+    assert!(app.save_review.is_some(), "{}", app.status);
+    let w: f32 = 360.0;
+    let mut out = None;
+    for _ in 0..4 {
+        let mut raw = egui::RawInput { screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, egui::vec2(w, 700.0))), ..Default::default() };
+        app.raw_input_hook(&ctx, &mut raw);
+        out = Some(ctx.run(raw, |ctx| app.frame(ctx)));
+    }
+    let area = ctx.memory(|m| m.area_rect(egui::Id::new(tr("Save changes?")))).expect("the dialog is shown");
+    assert!(area.left() >= -0.5 && area.right() <= w + 0.5, "the dialog {area:?} leaves the {w} px screen");
+    let texts = texts(&out.unwrap());
+    for button in [tr("Save"), tr("Cancel")] {
+        let at = texts.iter().find(|(t, _)| t == button).unwrap_or_else(|| panic!("no {button:?} button")).1;
+        assert!(at.x > 0.0 && at.x < w, "{button:?} at {at:?} is off the screen");
+    }
+}
+
+#[test]
 fn tab_keys_under_a_quick_restore_never_restore_over_another_save() {
     let _l = locks();
     for (name, k, shift) in [("ctrl-w", egui::Key::W, false), ("ctrl-tab", egui::Key::Tab, false), ("ctrl-shift-tab", egui::Key::Tab, true)] {

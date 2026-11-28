@@ -1,7 +1,7 @@
 # Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
 
-Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
-= PCゲーム用の無料のオフラインセーブデータエディター。550本以上のゲームのセーブデータで、お金やアイテム、ステータスを変更できます。アップロードは一切なく、保存前に必ずバックアップを作成します。
+Free offline save editor for PC games: change money, items and stats in the saves of {0}+ ({1}) games. Nothing is uploaded, and every save is backed up first.
+= PCゲーム用の無料のオフラインセーブデータエディター。{0}本以上（{1}本）のゲームのセーブデータで、お金やアイテム、ステータスを変更できます。アップロードは一切なく、保存前に必ずバックアップを作成します。
 
 Free offline save editor for {0}+ ({1}) games | Universal Save Editor
 = {0}本以上（{1}本）のゲームに対応した無料のオフラインセーブデータエディター | Universal Save Editor
@@ -201,8 +201,8 @@ Source code on GitHub
 Code signing policy
 = コード署名ポリシー
 
-Universal Save Editor: free, offline save editor for 550+ games
-= Universal Save Editor：550本以上のゲームに対応した無料のオフラインセーブデータエディター
+Universal Save Editor: free, offline save editor for {0}+ ({1}) games
+= Universal Save Editor：{0}本以上（{1}本）のゲームに対応した無料のオフラインセーブデータエディター
 
 Download for Windows
 = Windows版をダウンロード
@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = このゲームの編集済みセーブデータが、ゲーム内で読み込めて正常に動作したという報告があります。
 
+# Skip link
+Skip to content
+= 本文へスキップ

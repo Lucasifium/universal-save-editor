@@ -3,7 +3,7 @@
 //! where they can't be missed.
 
 use crate::i18n::{tr, trf};
-use super::{file_name, modal, safe_choice, tab_ring, App};
+use super::{file_name, fit, modal, safe_choice, tab_ring, App};
 use crate::formats::Content;
 use crate::theme;
 use eframe::egui::{self, Color32, RichText};
@@ -253,7 +253,7 @@ impl App {
         }
         let mut answer: Option<bool> = None;
         modal(ctx, tr("Check for new versions?"), |ui| {
-            ui.set_max_width(440.0);
+            ui.set_max_width(fit(ctx, 440.0));
             ui.label(tr("Tell you when a new version is out? When the program starts it asks GitHub for the newest release. Nothing else is sent."));
             ui.add_space(4.0);
             ui.weak(tr("You can change this any time in Preferences."));
@@ -400,7 +400,7 @@ impl App {
         }
         let mut choice = None;
         modal(ctx, tr("Restore this backup?"), |ui| {
-            ui.set_max_width(460.0);
+            ui.set_max_width(fit(ctx, 460.0));
             ui.label(trf("This replaces {0} on disk with {1}.", &[&file_name(&path), &what]));
             ui.add_space(4.0);
             ui.weak(tr("The save on disk now is backed up first. Backups \u{203A} Quick restore brings it back."));
@@ -432,7 +432,7 @@ impl App {
         let Some((path, then)) = self.stale_save.clone() else { return };
         let mut choice: Option<u8> = None;
         modal(ctx, tr("The save changed on disk"), |ui| {
-            ui.set_max_width(460.0);
+            ui.set_max_width(fit(ctx, 460.0));
             let name = file_name(&path);
             if path.exists() {
                 ui.label(trf("{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.", &[&name]));
