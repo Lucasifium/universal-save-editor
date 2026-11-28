@@ -282,7 +282,7 @@ pub fn parse_platoon(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use crate::tree::TreeDoc;
     use serde_json::json;
@@ -339,7 +339,7 @@ mod tests {
         }
     }
 
-    fn sample() -> Vec<u8> {
+    pub(crate) fn sample() -> Vec<u8> {
         let mut o = vec![];
         n(&mut o, 15);
         n(&mut o, 9);

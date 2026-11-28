@@ -550,6 +550,16 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     // What `columns` remembers about widths belongs to this game's screen only.
     let screen = egui::Id::new(("game_screen", format!("{game:?}")));
     ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SCREEN_SALT), screen));
+    let family = simple::families::family_accent(game);
+    ui.ctx().data_mut(|d| {
+        d.remove_temp::<Color32>(egui::Id::new(ACCENT_FROM));
+        match family {
+            Some(f) => d.insert_temp(egui::Id::new(FAMILY_ACCENT), f),
+            None => {
+                d.remove_temp::<Color32>(egui::Id::new(FAMILY_ACCENT));
+            }
+        }
+    });
     quick_strip(ui);
     begin_sections(ui.ctx());
     show_screen(game, ui, cx);
@@ -677,6 +687,24 @@ fn edits_so_far(ui: &Ui) -> usize {
     ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(SEC_EDITS))).unwrap_or(0)
 }
 
+/// Stands for the save's data as drawn: set by the window (see [`set_data_version`]).
+const DATA_VERSION: &str = "game_data_version";
+
+/// What a tab showed the last time it was laid out, for the data version it was laid out for.
+#[derive(Clone, Default)]
+struct TabCache {
+    version: u64,
+    edited: bool,
+    actions: Vec<QuickAction>,
+}
+
+/// A number that changes whenever the save's data (or what it is compared with) may have:
+/// hidden tabs are laid out again only when it does. Without it, every tab is laid out on
+/// every frame.
+pub fn set_data_version(ctx: &egui::Context, v: u64) {
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(DATA_VERSION), v));
+}
+
 /// Draws a top-level panel's body as a tab: in place when it is the open tab, out of sight (and
 /// not clickable) when it isn't. Both take the same ids, so what a panel remembers (an open
 /// group, a scroll position) survives switching tabs.
@@ -691,21 +719,46 @@ fn tab_body(ui: &mut Ui, title: &str, body: impl FnOnce(&mut Ui)) {
     // The open tab; a title the screen no longer draws leaves the first one open.
     let shown = sections(&ctx);
     let open = active_section(&ctx).filter(|_| !shown.is_empty() && page_tabs(&ctx).is_none()).map(|a| if shown.iter().any(|s| s.title == a) { a } else { shown[0].title.clone() });
+    let hidden = open.as_ref().is_some_and(|o| o != title);
+    // A hidden tab whose data hasn't changed since it was last laid out isn't laid out again:
+    // its edit mark and quick actions are taken from then (a screen with hundreds of tabs took
+    // several times as long per frame otherwise). It is laid out whenever something may differ:
+    // a change to the save, a quick action clicked, a search on the screen.
+    let screen = ctx.data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
+    let key = egui::Id::new(("game_tab_cache", screen, title));
+    let version: Option<u64> = ctx.data(|d| d.get_temp(egui::Id::new(DATA_VERSION)));
+    let busy = ctx.data(|d| d.get_temp::<String>(egui::Id::new(QA_CLICK)).is_some() || d.get_temp::<String>(egui::Id::new(FIND_NEEDLE)).is_some_and(|n| !n.is_empty()));
+    if let (true, Some(v), false) = (hidden, version, busy) {
+        if let Some(c) = ctx.data(|d| d.get_temp::<TabCache>(key)).filter(|c| c.version == v) {
+            ctx.data_mut(|d| {
+                let list = d.get_temp_mut_or_default::<Vec<QuickAction>>(egui::Id::new(QA_NOW));
+                for a in c.actions {
+                    if !list.iter().any(|x| x.label == a.label) {
+                        list.push(a);
+                    }
+                }
+                d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW)).push(Section { title: title.to_string(), edited: c.edited });
+            });
+            return;
+        }
+    }
+    let actions_before = ctx.data(|d| d.get_temp::<Vec<QuickAction>>(egui::Id::new(QA_NOW)).map_or(0, |l| l.len()));
     set_section_depth(&ctx, 1);
-    match open {
-        Some(open) if open != title => {
-            let away = egui::vec2(-100_000.0, 0.0);
-            let rect = ui.available_rect_before_wrap().translate(away);
-            let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect));
-            child.set_invisible();
-            body(&mut child);
-        }
-        _ => {
-            ui.scope(body);
-        }
+    if hidden {
+        let away = egui::vec2(-100_000.0, 0.0);
+        let rect = ui.available_rect_before_wrap().translate(away);
+        let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect));
+        child.set_invisible();
+        body(&mut child);
+    } else {
+        ui.scope(body);
     }
     set_section_depth(&ctx, 0);
     let edited = edits_so_far(ui) > edits;
+    if let Some(v) = version {
+        let actions: Vec<QuickAction> = ctx.data(|d| d.get_temp::<Vec<QuickAction>>(egui::Id::new(QA_NOW)).map(|l| l.get(actions_before..).unwrap_or_default().to_vec()).unwrap_or_default());
+        ctx.data_mut(|d| d.insert_temp(key, TabCache { version: v, edited, actions }));
+    }
     ctx.data_mut(|d| d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW)).push(Section { title: title.to_string(), edited }));
 }
 
@@ -839,6 +892,8 @@ pub struct GameCtx<'a> {
 
 impl GameCtx<'_> {
     pub fn get(&self, p: &str) -> Option<&Value> {
+        #[cfg(test)]
+        crate::layout_check::note_read(p);
         self.root.pointer(p)
     }
 
@@ -999,10 +1054,11 @@ impl GameCtx<'_> {
 
     /// A compact tile: small caption, big value with its editor.
     pub fn tile(&mut self, ui: &mut Ui, caption: &str, p: &str, accent: Color32) {
-        let caption = tr_any(caption);
         if self.get(p).is_none() {
             return;
         }
+        note_tile(ui, caption);
+        let caption = tr_any(caption);
         let modified = self.modified(p);
         // Long numbers (money in the trillions) get a wider tile instead of being cut off.
         let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
@@ -1012,10 +1068,10 @@ impl GameCtx<'_> {
         let steps = self.get(p).is_some_and(widgets::steps) && self.can_edit(p);
         let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
         tile_frame_min(ui, accent, modified, need + if steps { 76.0 } else { 8.0 }, |ui| {
-            let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(caption_color(ui))).truncate());
+            let r = ui.add(egui::Label::new(RichText::new(caption).size(crate::theme::size::CAPTION).color(caption_color(ui))).truncate());
             find_mark(ui, r.rect, caption);
             ui.horizontal(|ui| {
-                ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
+                ui.style_mut().override_font_id = Some(crate::theme::font(crate::theme::size::PANEL));
                 let w = if steps {
                     (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need))
                 } else if whole {
@@ -1039,6 +1095,36 @@ impl GameCtx<'_> {
     /// past any fixed top, or whose limit isn't known.
     pub fn attribute_open(&mut self, ui: &mut Ui, name: &str, p: &str) {
         self.attribute_line(ui, name, p, None);
+    }
+
+    /// `grid_row`s for `(label, pointer, editor width)` rows in a label/editor grid, split into
+    /// columns where the panel is wide (one on a phone). Rows the save doesn't have are left out.
+    pub fn value_grid<L: AsRef<str>, P: AsRef<str>>(&mut self, ui: &mut Ui, id: impl std::hash::Hash + Copy, rows: &[(L, P, f32)]) {
+        let rows: Vec<(&str, &str, f32)> = rows.iter().map(|(l, p, w)| (l.as_ref(), p.as_ref(), *w)).filter(|(_, p, _)| self.get(p).is_some()).collect();
+        let widest = rows.iter().map(|r| r.2).fold(0.0, f32::max);
+        row_columns(ui, 360.0, rows.len(), |ui, range, col| {
+            let mut grid = egui::Grid::new((id, col)).num_columns(2).spacing([12.0, 6.0]);
+            // On a phone a long label is held to the room left of its box (and −/+) and wraps.
+            if ui.ctx().screen_rect().width() < 640.0 {
+                grid = grid.max_col_width((ui.available_width() - widest - 12.0 - 84.0).max(90.0));
+            }
+            grid.show(ui, |ui| {
+                for (label, p, w) in &rows[range] {
+                    self.grid_row(ui, label, p, *w);
+                }
+            });
+        });
+    }
+
+    /// `attribute_open` lines for `(name, pointer)` rows, in columns where the panel is wide (one
+    /// on a phone), so a panel of stats isn't mostly empty. Rows the save doesn't have are left out.
+    pub fn open_attributes<L: AsRef<str>, P: AsRef<str>>(&mut self, ui: &mut Ui, rows: &[(L, P)]) {
+        let rows: Vec<(&str, &str)> = rows.iter().map(|(l, p)| (l.as_ref(), p.as_ref())).filter(|(_, p)| self.num(p).is_some()).collect();
+        row_columns(ui, 300.0, rows.len(), |ui, range, _| {
+            for (name, p) in &rows[range] {
+                self.attribute_open(ui, name, p);
+            }
+        });
     }
 
     fn attribute_line(&mut self, ui: &mut Ui, name: &str, p: &str, cap: Option<(f64, Color32)>) {
@@ -1104,9 +1190,10 @@ impl GameCtx<'_> {
         if modified {
             note_edited(ui);
         }
+        let color = accent_of(ui, color);
         let fill = if on { color.gamma_multiply(0.85) } else { ui.visuals().widgets.inactive.bg_fill };
         let text_c = if on { Color32::WHITE } else { ui.visuals().weak_text_color() };
-        let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(13.0)).fill(fill).rounding(12.0);
+        let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(crate::theme::size::CAPTION)).fill(fill).rounding(12.0);
         if modified {
             btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::fg(ui, theme::MODIFIED)));
         }
@@ -1126,6 +1213,33 @@ impl GameCtx<'_> {
 
 // ------------------------------------------------------------------ layout pieces
 
+/// The colour of the game series the open screen belongs to (see [`family_accent`]).
+const FAMILY_ACCENT: &str = "game_family_accent";
+/// The screen's own colour, as its header card was given it, which the series' colour replaces.
+const ACCENT_FROM: &str = "game_accent_from";
+/// Facts about the open file for the header card: (caption, value, hover text).
+const HEADER_FACTS: &str = "game_header_facts";
+
+/// Facts about the open file the header card shows beside the title (when it was last saved,
+/// play time), set by the window before it draws the screen. They are about the file, so a
+/// screen drawn alone (a test, a dialog) has none.
+pub fn set_header_facts(ctx: &egui::Context, facts: Vec<(String, String, String)>) {
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(HEADER_FACTS), facts));
+}
+
+fn header_facts(ui: &Ui) -> Vec<(String, String, String)> {
+    ui.ctx().data(|d| d.get_temp(egui::Id::new(HEADER_FACTS))).unwrap_or_default()
+}
+
+/// `c`, or the series' colour where `c` is the colour the screen gave its header card.
+pub fn accent_of(ui: &Ui, c: Color32) -> Color32 {
+    let (family, from): (Option<Color32>, Option<Color32>) = ui.ctx().data(|d| (d.get_temp(egui::Id::new(FAMILY_ACCENT)), d.get_temp(egui::Id::new(ACCENT_FROM))));
+    match (family, from) {
+        (Some(f), Some(from)) if from == c => f,
+        _ => c,
+    }
+}
+
 /// The header card: a coloured band with the character's name and a line under it.
 /// A number GameMaker wrote as text: digits, a point and exactly six decimals ("110.000000").
 pub fn gamemaker_number(s: &str) -> Option<f64> {
@@ -1137,21 +1251,75 @@ pub fn gamemaker_number(s: &str) -> Option<f64> {
 
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
     let subtitle = tr_any(subtitle);
+    // The game series' colour, when the screen belongs to one: tiles drawn in the screen's own
+    // colour take it too (see `accent_of`).
+    let family: Option<Color32> = ui.ctx().data(|d| d.get_temp(egui::Id::new(FAMILY_ACCENT)));
+    if family.is_some() {
+        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(ACCENT_FROM), accent));
+    }
+    let accent = accent_of(ui, accent);
+    // A screen whose tiles already show the play time doesn't get it twice (known from the
+    // frame before, as the tiles are drawn after the title).
+    let tiles_have_time = ui.ctx().data(|d| d.get_temp::<bool>(egui::Id::new(HERO_TIME))).unwrap_or(false);
+    let play_time = tr("Play time");
+    let facts: Vec<_> = header_facts(ui).into_iter().filter(|(c, _, _)| !(tiles_have_time && c == play_time)).collect();
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
-        let r = ui.label(RichText::new(title).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
-        find_mark(ui, r.rect, title);
-        if !subtitle.is_empty() {
-            ui.label(RichText::new(subtitle).size(14.0).color(theme::fg(ui, accent)));
+        // On a wide window the facts about the file (when it was saved, play time) sit at the
+        // right of the title; on a phone they follow the subtitle as one line.
+        let phone = ui.ctx().screen_rect().width() < 640.0;
+        let measure = |ui: &Ui, t: &str, size: f32| ui.fonts(|f| f.layout_no_wrap(t.to_string(), crate::theme::font(size), Color32::WHITE).size().x);
+        let facts_w: f32 = facts.iter().map(|(c, v, _)| measure(ui, c, crate::theme::size::CAPTION).max(measure(ui, v, crate::theme::size::BODY))).sum::<f32>()
+            + 24.0 * facts.len() as f32;
+        let side = !phone && !facts.is_empty() && facts_w < ui.available_width() * 0.45;
+        let left_w = if side { ui.available_width() - facts_w } else { ui.available_width() };
+        let top_right = ui.max_rect().right_top().max(ui.cursor().left_top());
+        ui.vertical(|ui| {
+            ui.set_max_width(left_w);
+            let r = ui.label(crate::theme::title(title).color(ui.visuals().strong_text_color()));
+            find_mark(ui, r.rect, title);
+            if !subtitle.is_empty() {
+                ui.label(RichText::new(subtitle).size(crate::theme::size::BODY).color(theme::fg(ui, accent)));
+            }
+            if !side && !facts.is_empty() {
+                let line: Vec<String> = facts.iter().map(|(c, v, _)| format!("{c}: {v}")).collect();
+                ui.label(crate::theme::caption(line.join("  \u{00B7}  ")).color(caption_color(ui)));
+            }
+        });
+        if side {
+            // Drawn over the right of the title's lines, which are taller than the facts.
+            let top = egui::pos2(ui.max_rect().right(), top_right.y);
+            let rect = egui::Rect::from_min_max(egui::pos2(top.x - facts_w, top.y), egui::pos2(top.x, top.y + 60.0));
+            let mut right = ui.new_child(egui::UiBuilder::new().max_rect(rect).layout(egui::Layout::right_to_left(egui::Align::Min)));
+            right.spacing_mut().item_spacing.x = 24.0;
+            for (c, v, tip) in facts.iter().rev() {
+                let r = right
+                    .vertical(|ui| {
+                        ui.label(crate::theme::caption(c.as_str()).color(caption_color(ui)));
+                        ui.label(RichText::new(v.as_str()).size(crate::theme::size::BODY).color(ui.visuals().strong_text_color()));
+                    })
+                    .response;
+                if !tip.is_empty() {
+                    r.on_hover_text(tip.as_str());
+                }
+            }
         }
         ui.add_space(6.0);
         // Tiles count themselves, so on a phone the last of an odd number can fill its row
         // (see `tile_frame_min`); the count is known from the frame before.
         let key = ui.id().with("hero_tiles");
         let before = ui.ctx().data(|d| d.get_temp::<usize>(key)).unwrap_or(0);
-        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(HERO_TILES), (before, 0usize)));
+        ui.ctx().data_mut(|d| {
+            d.insert_temp(egui::Id::new(HERO_TILES), (before, 0usize));
+            d.insert_temp(egui::Id::new(HERO_TIME_NOW), false);
+        });
         ui.horizontal_wrapped(add);
+        let now = ui.ctx().data_mut(|d| d.remove_temp::<bool>(egui::Id::new(HERO_TIME_NOW))).unwrap_or(false);
+        if now != tiles_have_time {
+            ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(HERO_TIME), now));
+            ui.ctx().request_repaint();
+        }
         let drawn = ui.ctx().data_mut(|d| d.remove_temp::<(usize, usize)>(egui::Id::new(HERO_TILES))).map_or(0, |(_, n)| n);
         if drawn != before {
             ui.ctx().data_mut(|d| d.insert_temp(key, drawn));
@@ -1168,10 +1336,12 @@ pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
     let title = tr_any(title);
     tab_body(ui, title, |ui| {
         theme::card(ui, |ui| {
-            let r = ui.add(egui::Label::new(RichText::new(title).family(theme::semibold_family()).size(16.0)).truncate());
+            let r = ui.add(egui::Label::new(crate::theme::panel_title(title)).truncate());
             find_mark(ui, r.rect, title);
             ui.add_space(4.0);
             add(ui);
+            #[cfg(test)]
+            crate::layout_check::note_panel(ui, title);
         });
         ui.add_space(8.0);
     });
@@ -1192,6 +1362,20 @@ const TILE_W: f32 = 196.0;
 
 /// While a header card lays out its tiles: (how many it had last frame, how many so far).
 const HERO_TILES: &str = "game_hero_tiles";
+/// Whether a tile of the header card shows the play time (this frame so far, and last frame).
+const HERO_TIME_NOW: &str = "game_hero_time_now";
+const HERO_TIME: &str = "game_hero_time";
+
+/// Notes that a header tile captioned `caption` (in English) was drawn.
+fn note_tile(ui: &Ui, caption: &str) {
+    if caption.starts_with("Play time") || caption.contains("played") {
+        ui.ctx().data_mut(|d| {
+            if d.get_temp::<bool>(egui::Id::new(HERO_TIME_NOW)).is_some() {
+                d.insert_temp(egui::Id::new(HERO_TIME_NOW), true);
+            }
+        });
+    }
+}
 
 pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce(&mut Ui)) {
     tile_frame_min(ui, accent, modified, 0.0, add)
@@ -1199,6 +1383,7 @@ pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce
 
 /// A tile at least `min` wide inside (when the row has room).
 pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, add: impl FnOnce(&mut Ui)) {
+    let accent = accent_of(ui, accent);
     // At least two tiles per row, even on a phone.
     let row = ui.max_rect().width();
     let half = (row / 2.0 - 30.0).max(110.0);
@@ -1236,11 +1421,12 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
 
 /// A read-only figure in the same style as `tile`.
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
+    note_tile(ui, caption);
     let caption = tr_any(caption);
     tile_frame(ui, accent, false, |ui| {
-        let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(caption_color(ui))).truncate());
+        let r = ui.add(egui::Label::new(RichText::new(caption).size(crate::theme::size::CAPTION).color(caption_color(ui))).truncate());
         find_mark(ui, r.rect, caption);
-        ui.label(RichText::new(value).size(18.0).color(ui.visuals().strong_text_color()));
+        ui.label(RichText::new(value).size(crate::theme::size::PANEL).color(ui.visuals().strong_text_color()));
     });
 }
 
@@ -1258,9 +1444,9 @@ pub fn bar(ui: &mut Ui, width: f32, frac: f32, color: Color32, text: Option<&str
         // A dark copy underneath keeps the white figures readable where they lie on a light
         // fill (green health) or straddle the end of the fill.
         for d in [egui::vec2(1.0, 1.0), egui::vec2(-1.0, 1.0), egui::vec2(1.0, -1.0), egui::vec2(-1.0, -1.0)] {
-            p.text(rect.center() + d, egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::from_black_alpha(150));
+            p.text(rect.center() + d, egui::Align2::CENTER_CENTER, t, crate::theme::font(crate::theme::size::CAPTION), Color32::from_black_alpha(150));
         }
-        p.text(rect.center(), egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::WHITE);
+        p.text(rect.center(), egui::Align2::CENTER_CENTER, t, crate::theme::font(crate::theme::size::CAPTION), Color32::WHITE);
     }
 }
 
@@ -1297,6 +1483,9 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     // Panels are tabs, one shown at a time: a row of them in columns would leave all but one
     // column empty, so they are drawn one under the other. Known from the frame before.
     let tabbed = active_section(ui.ctx()).is_some() && section_depth(ui.ctx()) == 0;
+    // The layout check draws every tab at once, each laid out as it is when open.
+    #[cfg(test)]
+    let tabbed = tabbed || (crate::layout_check::stacking() && section_depth(ui.ctx()) == 0);
     let panels_key = key.with("panels");
     if tabbed && ui.ctx().data(|d| d.get_temp::<bool>(panels_key)).unwrap_or(false) {
         for i in 0..n {
@@ -1324,6 +1513,44 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
         ui.ctx().request_repaint();
     }
     if cols > 1 && widest > col_w + 1.0 && widest > need {
+        ui.ctx().data_mut(|d| d.insert_temp(key, (widest, avail)));
+        ui.ctx().request_repaint();
+    }
+}
+
+/// The rows of one panel (label and editor) in as many columns of at least `min_w` as fit, so a
+/// wide panel isn't mostly empty: one column on a phone, filled top to bottom. `add` draws the rows `range` of column `col` (a grid of them, or one row each).
+pub fn row_columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, std::ops::Range<usize>, usize)) {
+    if n == 0 {
+        return;
+    }
+    // As in `columns`: a column whose rows need more than `min_w` is remembered, and fewer
+    // columns are used from the next frame on.
+    let screen = ui.ctx().data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
+    let key = ui.next_auto_id().with(("row_columns_need", n, min_w.to_bits(), screen));
+    let avail = ui.available_rect_before_wrap().width();
+    let need = ui.ctx().data(|d| d.get_temp::<(f32, f32)>(key)).filter(|&(_, w)| (w - avail).abs() < 0.5).map_or(0.0, |(n, _)| n);
+    let gap = ui.spacing().item_spacing.x;
+    let fit = (((avail + gap) / (min_w.max(need) + gap)).floor() as usize).clamp(1, n);
+    // As many rows to a column as that takes, then no more columns than those rows fill.
+    let per = n.div_ceil(fit);
+    let cols = n.div_ceil(per);
+    if cols == 1 {
+        add(ui, 0..n, 0);
+        return;
+    }
+    let col_w = (avail - gap * (cols - 1) as f32) / cols as f32;
+    let mut widest = 0.0_f32;
+    ui.columns(cols, |cs| {
+        for (c, col) in cs.iter_mut().enumerate() {
+            let range = (c * per).min(n)..((c + 1) * per).min(n);
+            if !range.is_empty() {
+                col.with_layout(egui::Layout::top_down(egui::Align::Min), |ui| add(ui, range, c));
+            }
+        }
+        widest = cs.iter().map(|c| c.min_rect().width()).fold(0.0, f32::max);
+    });
+    if widest > col_w + 1.0 && widest > need {
         ui.ctx().data_mut(|d| d.insert_temp(key, (widest, avail)));
         ui.ctx().request_repaint();
     }
@@ -1429,7 +1656,7 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
                     let pos = rect.center() - galley.size() / 2.0 - egui::vec2(0.0, 4.0);
                     ui.painter().with_clip_rect(rect.shrink(2.0)).galley(pos, galley, Color32::WHITE);
                     if let Some(n) = cell.count.filter(|&n| n > 1) {
-                        ui.painter().text(rect.right_bottom() - egui::vec2(4.0, 3.0), egui::Align2::RIGHT_BOTTOM, fmt_num(n as f64), FontId::proportional(11.0), theme::fg(ui, accent));
+                        ui.painter().text(rect.right_bottom() - egui::vec2(4.0, 3.0), egui::Align2::RIGHT_BOTTOM, fmt_num(n as f64), crate::theme::font(crate::theme::size::CAPTION), theme::fg(ui, accent));
                     }
                 }
                 if !cell.empty {
@@ -1446,7 +1673,8 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
     clicked
 }
 
-/// A cell's title, in the largest size (11 down to 8) where every word fits on a line and
+/// A cell's title, in the largest size (11 down to 8; the one place off the type scale, as
+/// item names must fit cells 52 px wide) where every word fits on a line and
 /// the text leaves room for the count below it.
 fn fit_title(ui: &Ui, title: &str, size: f32) -> std::sync::Arc<egui::Galley> {
     let color = ui.visuals().strong_text_color();

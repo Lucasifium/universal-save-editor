@@ -12,6 +12,37 @@ pub const ERR: Color32 = Color32::from_rgb(240, 110, 110);
 /// The save's own key, shown small beside a friendlier name (as text: through `fg`).
 pub const RAW_KEY: Color32 = Color32::from_rgb(120, 150, 185);
 
+/// The type scale: every font size in the program is one of these four steps.
+/// Screen titles (the header card's game name, the start page), panel and dialog titles (and
+/// big figures on tiles), body text (labels, buttons, values), and captions (tile captions,
+/// paths, notes under a row). Only icon glyphs set sizes of their own.
+pub mod size {
+    pub const TITLE: f32 = 26.0;
+    pub const PANEL: f32 = 17.0;
+    pub const BODY: f32 = 15.0;
+    pub const CAPTION: f32 = 12.5;
+}
+
+/// A screen title: the header card's name, the start page's name.
+pub fn title(text: impl Into<String>) -> egui::RichText {
+    egui::RichText::new(text).family(semibold_family()).size(size::TITLE)
+}
+
+/// The title of a panel, card or dialog section.
+pub fn panel_title(text: impl Into<String>) -> egui::RichText {
+    egui::RichText::new(text).family(semibold_family()).size(size::PANEL)
+}
+
+/// Caption-sized text: tile captions, paths, notes under a row.
+pub fn caption(text: impl Into<String>) -> egui::RichText {
+    egui::RichText::new(text).size(size::CAPTION)
+}
+
+/// A proportional font at one of the steps of [`size`] (for text painted directly).
+pub fn font(size: f32) -> FontId {
+    FontId::proportional(size)
+}
+
 /// Segoe Fluent Icons / MDL2 code points (only used when the font was found).
 pub mod icon {
     pub const OPEN: &str = "\u{E8E5}";
@@ -46,7 +77,8 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
     has_icons
 }
 
-static CJK_ON: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+/// The language (index in `i18n::LANGS`, plus one) the CJK fonts were last installed for; 0 = not yet.
+static CJK_ON: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
 
 /// Whether `s` has Japanese, Chinese or Korean characters, which the main fonts don't have.
 pub fn has_cjk(s: &str) -> bool {
@@ -62,13 +94,16 @@ pub fn has_cjk(s: &str) -> bool {
 /// when none was found (always, in the browser version).
 pub fn enable_cjk(ctx: &egui::Context) -> bool {
     use std::sync::atomic::Ordering;
-    if CJK_ON.load(Ordering::Relaxed) {
+    // The fonts are ordered by the interface language (a Traditional Chinese interface wants
+    // Traditional glyph shapes first), so a language change installs them again.
+    let want = crate::i18n::current_index() + 1;
+    if CJK_ON.load(Ordering::Relaxed) == want {
         return true;
     }
     if cjk_fonts().is_empty() {
         return false;
     }
-    CJK_ON.store(true, Ordering::Relaxed);
+    CJK_ON.store(want, Ordering::Relaxed);
     let (fonts, _) = definitions(true);
     ctx.set_fonts(fonts);
     true
@@ -87,41 +122,67 @@ pub fn cjk_available() -> bool {
 }
 
 /// Font files with Japanese, Chinese and Korean characters on this computer, one per script
-/// where the system splits them, most complete first.
+/// where the system splits them. The script of the interface language comes first, so shared
+/// Han characters take that language's glyph shapes; the rest keep a fixed order.
 fn cjk_fonts() -> Vec<String> {
     if cfg!(target_arch = "wasm32") {
         return vec![];
     }
     let win = std::env::var("WINDIR").unwrap_or_else(|_| "C:\\Windows".into());
     let w = |name: &str| format!("{win}\\Fonts\\{name}");
-    let groups: Vec<Vec<String>> = if cfg!(windows) {
+    // (script, candidate files); the first file that exists in a group is used.
+    let mut groups: Vec<(&str, Vec<String>)> = if cfg!(windows) {
         vec![
-            // Japanese (kana and kanji), then Simplified Chinese, then Korean (hangul).
-            vec![w("YuGothM.ttc"), w("YuGothR.ttc"), w("meiryo.ttc"), w("msgothic.ttc")],
-            vec![w("msyh.ttc"), w("msyh.ttf"), w("simsun.ttc")],
-            vec![w("malgun.ttf"), w("gulim.ttc")],
+            ("ja", vec![w("YuGothM.ttc"), w("YuGothR.ttc"), w("meiryo.ttc"), w("msgothic.ttc")]),
+            ("sc", vec![w("msyh.ttc"), w("msyh.ttf"), w("simsun.ttc")]),
+            ("tc", vec![w("msjh.ttc"), w("msjh.ttf"), w("mingliu.ttc")]),
+            ("ko", vec![w("malgun.ttf"), w("gulim.ttc")]),
         ]
     } else if cfg!(target_os = "macos") {
         vec![
-            vec!["/System/Library/Fonts/Hiragino Sans GB.ttc".into(), "/System/Library/Fonts/STHeiti Light.ttc".into(), "/System/Library/Fonts/Supplemental/Arial Unicode.ttf".into(), "/Library/Fonts/Arial Unicode.ttf".into()],
-            vec!["/System/Library/Fonts/AppleSDGothicNeo.ttc".into()],
+            ("ja", vec!["/System/Library/Fonts/Hiragino Sans GB.ttc".into(), "/System/Library/Fonts/STHeiti Light.ttc".into(), "/System/Library/Fonts/Supplemental/Arial Unicode.ttf".into(), "/Library/Fonts/Arial Unicode.ttf".into()]),
+            ("tc", vec!["/System/Library/Fonts/STHeiti Medium.ttc".into(), "/System/Library/Fonts/PingFang.ttc".into()]),
+            ("ko", vec!["/System/Library/Fonts/AppleSDGothicNeo.ttc".into()]),
         ]
     } else if cfg!(target_os = "android") {
-        vec![vec!["/system/fonts/NotoSansCJK-Regular.ttc".into(), "/system/fonts/NotoSansSC-Regular.otf".into(), "/system/fonts/DroidSansFallback.ttf".into()]]
+        vec![("ja", vec!["/system/fonts/NotoSansCJK-Regular.ttc".into(), "/system/fonts/NotoSansSC-Regular.otf".into(), "/system/fonts/DroidSansFallback.ttf".into()])]
     } else {
-        vec![vec![
-            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc".into(),
-            "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc".into(),
-            "/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc".into(),
-            "/usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc".into(),
-            "/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf".into(),
-            "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc".into(),
-            "/usr/share/fonts/wenquanyi/wqy-microhei/wqy-microhei.ttc".into(),
-            "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf".into(),
-            "/usr/share/fonts/google-droid/DroidSansFallbackFull.ttf".into(),
-        ]]
+        let dirs = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/noto-cjk", "/usr/share/fonts/google-noto-cjk"];
+        // Per-script Noto files, where the distribution splits them, give the right glyph shapes.
+        let per = |s: &str| dirs.iter().map(|d| format!("{d}/NotoSansCJK{s}-Regular.otf")).collect::<Vec<_>>();
+        vec![
+            ("sc", per("sc")),
+            ("tc", per("tc")),
+            ("ko", per("kr")),
+            (
+                "ja",
+                vec![
+                    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc".into(),
+                    "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc".into(),
+                    "/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc".into(),
+                    "/usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc".into(),
+                    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc".into(),
+                    "/usr/share/fonts/wenquanyi/wqy-microhei/wqy-microhei.ttc".into(),
+                    "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf".into(),
+                    "/usr/share/fonts/google-droid/DroidSansFallbackFull.ttf".into(),
+                ],
+            ),
+        ]
     };
-    groups.into_iter().filter_map(|g| g.into_iter().find(|p| std::path::Path::new(p).is_file())).collect()
+    let first = match crate::i18n::current().code {
+        "zh-CN" => "sc",
+        "zh-TW" => "tc",
+        "ko" => "ko",
+        _ => "ja",
+    };
+    // Stable: the language's own script first, the others as listed.
+    groups.sort_by_key(|(script, _)| *script != first);
+    let found: Vec<String> = groups.into_iter().filter_map(|(_, g)| g.into_iter().find(|p| std::path::Path::new(p).is_file())).collect();
+    // The Linux per-script files and the all-in-one collection overlap: the first two suffice.
+    if cfg!(all(unix, not(target_os = "macos"), not(target_os = "android"))) {
+        return found.into_iter().take(2).collect();
+    }
+    found
 }
 
 fn definitions(cjk: bool) -> (FontDefinitions, bool) {
@@ -208,10 +269,11 @@ pub fn apply_choice(ctx: &egui::Context, dark: bool, follow_system: bool) {
 fn set_style(ctx: &egui::Context, dark: bool) {
     let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
     style.text_styles = [
-        (TextStyle::Small, FontId::new(12.5, FontFamily::Proportional)),
-        (TextStyle::Body, FontId::new(15.0, FontFamily::Proportional)),
-        (TextStyle::Button, FontId::new(15.0, FontFamily::Proportional)),
-        (TextStyle::Heading, FontId::new(22.0, semibold_family())),
+        (TextStyle::Small, FontId::new(size::CAPTION, FontFamily::Proportional)),
+        (TextStyle::Body, FontId::new(size::BODY, FontFamily::Proportional)),
+        (TextStyle::Button, FontId::new(size::BODY, FontFamily::Proportional)),
+        // Window titles and `ui.heading`: the panel step.
+        (TextStyle::Heading, FontId::new(size::PANEL, semibold_family())),
         (TextStyle::Monospace, FontId::new(14.0, FontFamily::Monospace)),
     ]
     .into();
@@ -460,6 +522,43 @@ mod tests {
         // Picking dark or light stops following the system.
         apply_choice(&ctx, false, false);
         assert!(!dark_with(Some(egui::Theme::Dark)));
+    }
+
+    /// Every font size comes from the type scale (`size`): no size written as a number elsewhere,
+    /// except icon glyphs and the item cells' fitted titles.
+    #[test]
+    fn font_sizes_come_from_the_type_scale() {
+        fn walk(dir: &std::path::Path, out: &mut Vec<std::path::PathBuf>) {
+            for e in std::fs::read_dir(dir).into_iter().flatten().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    walk(&p, out);
+                } else if p.extension().is_some_and(|x| x == "rs") {
+                    out.push(p);
+                }
+            }
+        }
+        let mut files = vec![];
+        walk(&std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src"), &mut files);
+        let literal = |l: &str| {
+            [".size(", "FontId::proportional(", "FontId::new("].iter().any(|pat| {
+                l.match_indices(pat).any(|(i, _)| l[i + pat.len()..].starts_with(|c: char| c.is_ascii_digit()))
+            })
+        };
+        let mut bad = vec![];
+        for f in files {
+            if f.ends_with("theme.rs") {
+                continue;
+            }
+            let text = std::fs::read_to_string(&f).unwrap_or_default();
+            for (n, l) in text.lines().enumerate() {
+                let icon = l.contains("icon(") || l.contains("icons_family") || l.contains("PHONE_MENU");
+                if literal(l) && !icon && !l.contains("proportional(pt)") {
+                    bad.push(format!("{}:{}: {}", f.display(), n + 1, l.trim()));
+                }
+            }
+        }
+        assert!(bad.is_empty(), "font sizes off the type scale (use theme::size, theme::title, panel_title or caption):\n{}", bad.join("\n"));
     }
 
     #[test]

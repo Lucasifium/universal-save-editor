@@ -46,6 +46,31 @@
 <li>Choose <em>Find my game's saves</em>, pick <strong>Ren'Py visual novels</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
+<h2 id="renpy-guide">Ren'Py saves: a guide</h2>
+<h3>Where the files are</h3>
+<ul>
+<li><strong>Windows:</strong> <code>%APPDATA%\RenPy\&lt;game&gt;-&lt;number&gt;</code></li>
+<li><strong>Linux:</strong> <code>~/.renpy/&lt;game&gt;-&lt;number&gt;</code></li>
+<li><strong>macOS:</strong> <code>~/Library/RenPy/&lt;game&gt;-&lt;number&gt;</code></li>
+</ul>
+<p>Ren'Py is the engine behind most visual novels. Its saves look the same in every game, so one guide covers them all. Some games, and older versions of the engine, keep saves in a <code>saves</code> folder next to the game instead.</p>
+<h3>The files</h3>
+<ul>
+<li><code>1-1-LT1.save</code>, <code>1-2-LT1.save</code> and so on: one file per save slot (page, slot). <code>auto-1-LT1.save</code> and <code>quick-1-LT1.save</code> are the automatic and quick saves.</li>
+<li><code>persistent</code>: what the game remembers between playthroughs, such as gallery unlocks, endings seen and settings. Its values are edited the same way.</li>
+<li>A <code>.save</code> file is a zip archive holding the game's variables, a screenshot and a signature. The editor opens the archive for you, and puts it back together on save.</li>
+</ul>
+<h3>What the values mean</h3>
+<p>The editor lists the story's own variables: numbers (money, affection, stats), true/false flags (a route finished, a scene seen) and text (the player's name). Names come from the game's script, so they differ from game to game: use the filter box, and look for <code>money</code>, <code>gold</code>, <code>love</code>, <code>points</code> and <code>route</code>. The usual ones are shown first. The engine's own internals sit under a separate heading and are best left alone.</p>
+<h3>Signed saves (Ren'Py 8.1 and newer)</h3>
+<p>Newer versions of Ren'Py sign every save with a key kept on your computer (on Windows, <code>%APPDATA%\RenPy\tokens\security_keys.txt</code>). A save whose data no longer matches its signature makes the game ask whether to trust it, and may refuse it. On Windows, Universal Save Editor signs the edited save again with your own key, which is what the game does itself when it saves, so the game loads it normally. If the key isn't found, it leaves the signature out and the game asks once before loading the save. A <code>persistent</code> file that carries a signature is not saved without the key, because the game would throw it away.</p>
+<h3>Rollback</h3>
+<p>A Ren'Py save also keeps a short history of earlier values, for rolling back. On load the game steps back to the last choice using that history, which would undo an edit made only to the current value. The editor changes the earlier copies too, so the edit is still there after loading.</p>
+<h3>Things to know</h3>
+<ul>
+<li>Close the game before you edit, and load the edited slot from the game's own load screen.</li>
+<li>Changing a number is safe; changing a true/false flag can skip or repeat a scene, so make a backup first (the editor does, automatically) and change one flag at a time.</li>
+</ul>
 <h2>Questions about Ren'Py visual novels saves</h2>
 <h3>Where is the Ren'Py visual novels save file?</h3>
 <p>Usually in <code>%APPDATA%\RenPy\&lt;game&gt;</code>, in files named <code>1-1-LT1.save, persistent</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick Ren'Py visual novels.</p>
@@ -68,7 +93,7 @@
 <li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
-<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Italian, Polish, Turkish, Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese, following the system language.</li>
 <li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>

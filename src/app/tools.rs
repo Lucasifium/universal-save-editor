@@ -86,10 +86,10 @@ impl App {
             ui.horizontal_wrapped(|ui| {
                 ui.label(RichText::new(tr("Bulk edit")).strong());
                 ui.label(trf("{0} ticked", &[&b.ticked.len()]));
-                if ui.small_button(trf("Tick all shown ({0})", &[&shown.len()])).on_hover_text(tr("Ticks every editable value in the list below. Search first to pick a group, e.g. \u{201C}count\u{201D} or a section's name.")).clicked() {
+                if crate::widgets::small_button(ui, trf("Tick all shown ({0})", &[&shown.len()])).on_hover_text(tr("Ticks every editable value in the list below. Search first to pick a group, e.g. \u{201C}count\u{201D} or a section's name.")).clicked() {
                     b.ticked.extend(shown.iter().copied());
                 }
-                if !b.ticked.is_empty() && ui.small_button(tr("Untick all")).clicked() {
+                if !b.ticked.is_empty() && crate::widgets::small_button(ui, tr("Untick all")).clicked() {
                     b.ticked.clear();
                 }
                 ui.separator();
@@ -110,7 +110,7 @@ impl App {
                     apply = true;
                 }
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.small_button(tr("Done")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Done")).clicked() {
                         close = true;
                     }
                 });
@@ -356,7 +356,7 @@ impl App {
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                                 if p.built_in {
                                     ui.weak(tr("built in"));
-                                } else if ui.small_button(tr("Delete preset")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
+                                } else if crate::widgets::small_button(ui, tr("Delete preset")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
                                     ask_delete = Some(i);
                                 }
                             });
@@ -679,9 +679,9 @@ impl App {
         let step = h.guide_step();
         theme::card(ui, |ui| {
             ui.horizontal(|ui| {
-                ui.label(RichText::new(tr("Find a value, step by step")).family(theme::semibold_family()).size(16.0));
+                ui.label(crate::theme::panel_title(tr("Find a value, step by step")));
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.small_button(tr("Hide")).on_hover_text(tr("Bring it back from Value search")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Hide")).on_hover_text(tr("Bring it back from Value search")).clicked() {
                         *hide = true;
                     }
                 });

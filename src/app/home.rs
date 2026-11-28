@@ -75,7 +75,7 @@ impl App {
         let mut pick: Option<usize> = None;
         let mut toggle: Option<String> = None;
         theme::card(ui, |ui| {
-            ui.label(RichText::new(tr("Favourites and recent games")).family(theme::semibold_family()).size(16.0));
+            ui.label(crate::theme::panel_title(tr("Favourites and recent games")));
             for (name, fav) in &names {
                 let Some(i) = GAMES.iter().position(|g| g.name == name) else { continue };
                 let newest = found.get(i).and_then(|f| f.as_ref()).and_then(|f| f.iter().max_by_key(|s| s.modified)).cloned();
@@ -97,7 +97,7 @@ impl App {
                         Some(n) => {
                             link.on_hover_text(n.path.display().to_string());
                             if ui.available_width() > 48.0 {
-                                ui.add(egui::Label::new(RichText::new(format!("{} \u{00B7} {}", n.label.clone().unwrap_or_else(|| file_name(&n.path)), when(n))).weak().size(12.5)).truncate());
+                                ui.add(egui::Label::new(RichText::new(format!("{} \u{00B7} {}", n.label.clone().unwrap_or_else(|| file_name(&n.path)), when(n))).weak().size(crate::theme::size::CAPTION)).truncate());
                             }
                         }
                         None => {
@@ -138,7 +138,7 @@ impl App {
         let mut show_game: Option<Option<usize>> = None;
         theme::card(ui, |ui| {
             ui.horizontal(|ui| {
-                ui.label(RichText::new(tr("Your games")).family(theme::semibold_family()).size(16.0));
+                ui.label(crate::theme::panel_title(tr("Your games")));
                 if !done {
                     ui.spinner();
                     ui.weak(tr("looking for saves on this computer\u{2026}"));
@@ -175,7 +175,7 @@ impl App {
                 ui.horizontal(|ui| {
                     ui.set_min_height(ui.spacing().interact_size.y);
                     ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                        if r.count > 1 && ui.small_button(tr("Other saves\u{2026}")).clicked() {
+                        if r.count > 1 && crate::widgets::small_button(ui, tr("Other saves\u{2026}")).clicked() {
                             show_game = Some(Some(r.game));
                         }
                         ui.with_layout(egui::Layout::left_to_right(egui::Align::Center), |ui| {
@@ -194,7 +194,7 @@ impl App {
                             }
                             // Too little room left (a phone, a long name): leave the details out rather than run under the button.
                             if ui.available_width() > 48.0 {
-                                ui.add(egui::Label::new(RichText::new(line).weak().size(12.5)).truncate());
+                                ui.add(egui::Label::new(RichText::new(line).weak().size(crate::theme::size::CAPTION)).truncate());
                             }
                         });
                     });

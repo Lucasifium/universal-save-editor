@@ -690,7 +690,7 @@ pub fn parse(f: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 
@@ -800,7 +800,7 @@ mod tests {
         d
     }
 
-    fn package() -> Vec<u8> {
+    pub(crate) fn package() -> Vec<u8> {
         let body = objs();
         let other = b"other resource".to_vec();
         let mut d = b"DBPF".to_vec();

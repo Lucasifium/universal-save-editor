@@ -51,7 +51,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
 
 fn character(ui: &mut Ui, cx: &mut GameCtx, base: &str, accent: Color32) {
     let line: Vec<String> = ["Class", "Race", "Creature"].iter().filter_map(|k| cx.text(&join(base, k))).filter(|s| !s.is_empty()).collect();
-    ui.label(RichText::new(line.join("  \u{00B7}  ")).size(14.0).color(ui.visuals().weak_text_color()));
+    ui.label(RichText::new(line.join("  \u{00B7}  ")).size(crate::theme::size::BODY).color(ui.visuals().weak_text_color()));
     ui.add_space(4.0);
     let levels: Vec<String> = keys(cx, base).into_iter().filter(|k| k == "Level" || k.ends_with(" level")).collect();
     columns(ui, 360.0, 2, |ui, i| {

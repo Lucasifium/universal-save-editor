@@ -207,7 +207,7 @@ impl App {
                             let editable = self.model.by_ptr.get(p.as_str()).is_some_and(|&i| self.model.rows[i].editable);
                             let scalar = theirs.as_ref().is_some_and(|t| t.is_number() || t.is_string() || t.is_boolean());
                             if let (true, false, true, Some(t), Some(_)) = (editable, binary, scalar, theirs, mine) {
-                                if ui.small_button(tr("Use theirs")).clicked() {
+                                if crate::widgets::small_button(ui, tr("Use theirs")).clicked() {
                                     take = Some((p.clone(), t.clone()));
                                 }
                             }
@@ -237,16 +237,7 @@ impl App {
         }
         if let Some(p) = jump {
             if let Some(&i) = self.model.by_ptr.get(p.as_str()) {
-                self.tab = Tab::Values;
-                self.search.clear();
-                let sec = self.model.rows[i].section;
-                if self.collapsed.remove(&sec) {
-                    self.collapsed_gen += 1;
-                }
-                if self.model.sections[sec].advanced && !self.settings.show_advanced {
-                    self.settings.show_advanced = true;
-                }
-                self.scroll_to_row = Some(i);
+                self.jump_to_row(i);
             } else if let Some(off) = p.strip_prefix("0x").and_then(|h| usize::from_str_radix(h, 16).ok()) {
                 self.hex.jump(off);
             }

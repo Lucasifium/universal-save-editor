@@ -92,6 +92,8 @@ There is also a browser version on the project website. There is no ready-made A
 
 590+ (593) games, with a screen of their own for the most popular ones and a value editor for the rest. See the full list with what each screen edits in **[GAMES.md](GAMES.md)**, or find your game on the [website](https://universalsaveeditor.com/#games), which has a page for each one.
 
+The website's pages for Ren'Py, RPG Maker (MV / MZ and XP / VX / Ace) and Unity games carry a guide to where that engine keeps its saves and what the values mean.
+
 ## Paradox ironman and binary saves
 
 Ironman saves of Europa Universalis IV, Crusader Kings II and III, Hearts of Iron IV, Victoria 3,
@@ -346,11 +348,12 @@ another one (e.g. before and after you earned gold), with how much each number c
 
 ## Languages
 
-Menus, buttons and messages are in English, German, Spanish, French, Brazilian Portuguese,
-Japanese and Simplified Chinese. The app follows the system language; *Edit › Preferences ›
-Language* changes it. Game screens and value names stay as the game has them. Japanese and Chinese
-need a system font with those characters (Windows, macOS and most Linux desktops have one), so the
-browser version offers the other languages only.
+Menus, buttons and messages are in English, German, Spanish, French, Italian, Polish, Turkish,
+Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese. The app
+follows the system language; *Edit › Preferences › Language* changes it. Game screens and value
+names stay as the game has them. Japanese, Korean and Chinese need a system font with those
+characters (Windows, macOS and most Linux desktops have one), so the browser version offers the
+other languages only.
 
 ## Several saves at once
 
@@ -389,7 +392,14 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   the screen, marked with a dot when it holds a change; the *Advanced* tab at the end has the
   Values, Tree and Raw views. Save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
   sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
+  The header card at the top names the character or game and, beside the title, when the file was
+  last saved and the play time where the save holds it; games of one series (Final Fantasy, Yakuza,
+  the FromSoftware games and so on) share one colour.
 - Changed values are highlighted in orange; hover one to see its original value and click the arrow beside it to reset just that field.
+- **Search everything** (Ctrl+K, Cmd+K on a Mac, or *Edit › Search everything*): one box finds a
+  menu command, a game (it opens *Find my game's saves* on that game), a recent file or a value on
+  the open save, by any words of its name in any order. Up and Down pick a row, Enter runs it or
+  shows the value in the Values list, Esc closes; a command the menu greys out is greyed out there too.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit; the
   save dialog lists the changes the same way, and *Edit › Copy changes as text* writes them as
   `old -> new`.
@@ -511,6 +521,10 @@ compression, encryption and checksums.
 automatic backups to keep per save and where backups go. *Help* has the keyboard shortcuts, the
 supported games, the website, *Report a problem* and *Request a game* (open a form on GitHub with the
 version and system filled in; your save is never sent), licences and *About* with the version.
+
+On the first start, once the update question is answered, the start page points out three things
+with a numbered mark: *Find my game's saves*, the backup taken before every save, and *Backups ›
+Save manager*. *Got it* hides the pointers for good; they never show again after that.
 
 Tried an edit and loaded the save in the game? [Tell us whether it worked](https://github.com/Lucasifium/universal-save-editor/issues/new?template=worked-in-game.yml)
 (no save is sent). Every game page on the website has the same link, and games reported to work in the

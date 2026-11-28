@@ -43,21 +43,18 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let t = tabs(ui, "pst_party", &members);
     let base = join("/Party members", &members[t]);
     let line: Vec<String> = ["Class", "Race"].iter().filter_map(|k| cx.text(&join(&base, k))).filter(|s| !s.is_empty()).collect();
-    ui.label(RichText::new(line.join("  \u{00B7}  ")).size(14.0).color(ui.visuals().weak_text_color()));
+    ui.label(RichText::new(line.join("  \u{00B7}  ")).size(crate::theme::size::BODY).color(ui.visuals().weak_text_color()));
     ui.add_space(4.0);
     let levels: Vec<String> = keys(cx, &base).into_iter().filter(|k| k == "Level" || k.ends_with(" level")).collect();
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Life and growth", |ui| {
-                egui::Grid::new(("pst_char", &base)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Experience", &join(&base, "Experience"), 110.0);
-                    for l in &levels {
-                        cx.grid_row(ui, l, &join(&base, l), 70.0);
-                    }
-                    cx.grid_row(ui, "Hit points", &join(&base, "Hit points"), 70.0);
-                    cx.grid_row(ui, "Max hit points", &join(&base, "Max hit points"), 70.0);
-                    cx.grid_row(ui, "Alignment", &join(&base, "Alignment"), 150.0);
-                });
+                let first = "Experience";
+                let mut rows: Vec<(String, String, f32)> = vec![(first.into(), join(&base, first), 110.0)];
+                rows.extend(levels.iter().map(|l| (l.clone(), join(&base, l), 70.0)));
+                let more = [("Hit points", 70.0), ("Max hit points", 70.0), ("Alignment", 150.0)];
+                rows.extend(more.map(|(k, w)| (k.to_string(), join(&base, k), w)));
+                cx.value_grid(ui, "pst_char", &rows);
                 ui.weak(tr("Levels don't follow experience by themselves: set both."));
             });
         } else {

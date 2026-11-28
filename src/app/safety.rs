@@ -38,6 +38,13 @@ impl PartialEq for Stamp {
 }
 impl Eq for Stamp {}
 
+impl Stamp {
+    /// When the file was last written, as read or saved.
+    pub fn modified(&self) -> Option<SystemTime> {
+        self.modified
+    }
+}
+
 /// A fast hash of a file's bytes (FNV-1a over 8-byte words; not for security, only to tell
 /// two versions of a save apart).
 pub fn hash_bytes(bytes: &[u8]) -> u64 {

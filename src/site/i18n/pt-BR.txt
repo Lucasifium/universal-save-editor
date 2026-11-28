@@ -1,0 +1,320 @@
+# Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
+
+Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
+= Editor de saves gratuito e offline para jogos de PC: altere dinheiro, itens e atributos nos saves de mais de 550 jogos. Nada é enviado e cada save recebe um backup antes de ser alterado.
+
+Free offline save editor for {0}+ ({1}) games | Universal Save Editor
+= Editor de saves gratuito e offline para {0}+ ({1}) jogos | Universal Save Editor
+
+The {0} screen in Universal Save Editor, with a save open
+= A tela de {0} no Universal Save Editor, com um save aberto
+
+{0} in the editor
+= {0} no editor
+
+Is it safe to edit a save file?
+= É seguro editar um arquivo de save?
+
+The downloaded app backs up the old file before every save, then reads the new file back and checks it before replacing anything. If the game doesn't like an edit, restore the backup from <em>Backups</em>. In the browser version, keep a copy of the original yourself (in Chrome and Edge, <em>Open to save in place</em> also keeps one in the browser before the first save).
+= O app baixado faz um backup do arquivo antigo antes de cada gravação, depois lê o arquivo novo de volta e o confere antes de substituir qualquer coisa. Se o jogo não aceitar uma alteração, restaure o backup em <em>Backups</em>. Na versão para navegador, guarde você mesmo uma cópia do original (no Chrome e no Edge, <em>Abrir para salvar no próprio arquivo</em> também guarda uma cópia no navegador antes da primeira gravação).
+
+Do I have to upload my save?
+= Preciso enviar meu save para algum lugar?
+
+No. The editor is a program on your own computer and works offline. <a href="{0}">The browser version</a> also runs on your computer, inside the page, and never uploads the save.
+= Não. O editor é um programa no seu próprio computador e funciona offline. <a href="{0}">A versão para navegador</a> também roda no seu computador, dentro da página, e nunca envia o save.
+
+Which games does it work with?
+= Com quais jogos funciona?
+
+{1}+ ({2}) games are <a href="{3}">listed on the English home page</a>, each with a page saying what can be changed and where its saves are. Saves of games that aren't listed often open too: as named values when the format is a common one, or through value search.
+= {1}+ ({2}) jogos estão <a href="{3}">na página inicial em inglês</a>, cada um com uma página que diz o que pode ser alterado e onde ficam seus saves. Saves de jogos que não estão na lista muitas vezes também abrem: como valores com nome, quando o formato é comum, ou pela busca de valores.
+
+Does it work on Steam Deck, Linux and Mac?
+= Funciona no Steam Deck, no Linux e no Mac?
+
+Yes. There are downloads for Windows, Linux and macOS. On Linux and the Steam Deck, <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.
+= Sim. Há downloads para Windows, Linux e macOS. No Linux e no Steam Deck, <em>Encontrar os saves do meu jogo</em> também procura dentro dos prefixos do Proton e do Wine, onde o Steam Play guarda os saves de jogos de Windows.
+
+Can I use edited saves online?
+= Posso usar saves editados online?
+
+Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.
+= Saves editados são para jogar sozinho. Não os use em modos online ou multijogador, onde podem violar regras ou fazer sua conta ser sinalizada.
+
+Does it cost anything?
+= Custa alguma coisa?
+
+No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.
+= Não. É gratuito e sempre será: sem anúncios, sem conta e sem limites. O código é aberto, sob a GPL-3.0.
+
+Free offline save editor for {0}+ ({1}) games
+= Editor de saves gratuito e offline para {0}+ ({1}) jogos
+
+Universal Save Editor is a save editor and save manager for PC games. Open a save file, change money, levels, items and stats, and save it back. It runs on your own computer: no uploads, no accounts, no rate limits, and the downloaded app backs up every save before changing it. It's free, and always will be.
+= O Universal Save Editor é um editor e gerenciador de saves para jogos de PC. Abra um arquivo de save, altere dinheiro, níveis, itens e atributos e salve de volta. Ele roda no seu próprio computador: sem envios, sem contas, sem limites, e o app baixado faz um backup de cada save antes de alterá-lo. É gratuito e sempre será.
+
+Free forever
+= Grátis para sempre
+
+Offline
+= Offline
+
+Open source
+= Código aberto
+
+Browser
+= navegador
+
+Download for free
+= Baixar de graça
+
+Use it in your browser
+= Usar no navegador
+
+Save manager built in
+= Gerenciador de saves incluso
+
+Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.
+= Toda vez que você salva, o editor faz primeiro um backup do arquivo, automaticamente. Crie um backup com nome antes de um chefe ou de uma escolha importante, restaure qualquer backup com um clique, compare dois deles ou deixe um save de lado para começar um jogo novo e voltar a ele depois. Os backups ficam ao lado dos seus saves, no seu computador.
+
+How the save manager works
+= Como o gerenciador de saves funciona
+
+<strong>Don't want to run a program?</strong> <a href="{0}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file (Chrome and Edge can also save back to the same file, keeping the original in the browser first). After the first visit it opens without a connection too.
+= <strong>Não quer executar um programa?</strong> <a href="{0}">A versão para navegador</a> é o mesmo editor, rodando dentro da página web no seu próprio computador: seu save nunca é enviado. Ela não consegue procurar saves nas suas pastas nem fazer backups por você, então abra o arquivo você mesmo e guarde uma cópia; ao salvar, o arquivo editado é baixado (o Chrome e o Edge também podem salvar no mesmo arquivo, guardando antes o original no navegador). Depois da primeira visita, ela também abre sem conexão.
+
+What is a save editor?
+= O que é um editor de saves?
+
+A save editor opens the file a game writes when you save and lets you change what is stored in it: money, experience, items, stats, unlocks. Games keep their saves in many formats, often compressed, encrypted or guarded by a checksum, so each one needs its own handling. Universal Save Editor does that for {0}+ ({1}) games in one program and writes the file back the way the game expects it.
+= Um editor de saves abre o arquivo que um jogo grava quando você salva e deixa você alterar o que está guardado nele: dinheiro, experiência, itens, atributos, desbloqueios. Os jogos guardam seus saves em muitos formatos, muitas vezes compactados, criptografados ou protegidos por uma soma de verificação, então cada um precisa de um tratamento próprio. O Universal Save Editor faz isso para {0}+ ({1}) jogos em um só programa e grava o arquivo de volta do jeito que o jogo espera.
+
+How to edit a save file
+= Como editar um arquivo de save
+
+<a href="{0}">Download the editor</a>, or open <a href="{1}">the browser version</a>.
+= <a href="{0}">Baixe o editor</a> ou abra <a href="{1}">a versão para navegador</a>.
+
+In the downloaded app, choose <em>Find my game's saves</em> and pick your game. In the browser, open the save file yourself.
+= No app baixado, escolha <em>Encontrar os saves do meu jogo</em> e selecione seu jogo. No navegador, abra o arquivo de save você mesmo.
+
+Change what you want. {0} games open on a screen made for them, with every value named; other saves open as a list of values, or through value search.
+= Altere o que quiser. {0} jogos abrem em uma tela feita para eles, com cada valor nomeado; os outros saves abrem como uma lista de valores ou pela busca de valores.
+
+Save. The downloaded app backs up the old file first and reads the new one back to check it before replacing anything; the browser version downloads the edited file (or, in Chrome and Edge, can write it back to the same file), so keep a copy of the original. Then load the save in your game.
+= Salve. O app baixado faz primeiro um backup do arquivo antigo e lê o novo de volta para conferir antes de substituir qualquer coisa; a versão para navegador baixa o arquivo editado (no Chrome e no Edge, também pode gravar no mesmo arquivo), então guarde uma cópia do original. Depois carregue o save no seu jogo.
+
+Why download a save editor?
+= Por que baixar um editor de saves?
+
+<li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
+= <li><strong>Grátis para sempre.</strong> Sem preço, sem anúncios, sem conta, sem plano pago.</li>
+
+<li><strong>Offline.</strong> Your save never leaves your computer: nothing is uploaded, so there are no file size limits, queues or rate limits.</li>
+= <li><strong>Offline.</strong> Seu save nunca sai do seu computador: nada é enviado, então não há limite de tamanho de arquivo, filas nem limites de uso.</li>
+
+<li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
+= <li><strong>Seguro.</strong> Cada save é conferido por releitura antes de ser gravado, e o arquivo antigo recebe um backup primeiro (Backups &rsaquo; Abrir o gerenciador de saves).</li>
+
+<li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
+= <li><strong>Funciona em jogos que ele não conhece.</strong> A busca de valores encontra um número que você sabe, ou um que você não sabe (uma barra de vida, um contador oculto): escaneie, jogue, salve e fique com o que aumentou, diminuiu, mudou ou ficou igual.</li>
+
+<li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
+= <li><strong>Linux e Steam Deck.</strong> <em>Encontrar os saves do meu jogo</em> também procura dentro dos prefixos do Proton e do Wine, onde os jogos de Windows executados pelo Steam Play guardam seus saves.</li>
+
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Italian, Polish, Turkish, Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese, following the system language.</li>
+= <li><strong>No seu idioma.</strong> Menus e mensagens em inglês, alemão, espanhol, francês, italiano, polonês, turco, russo, português do Brasil, japonês, coreano, chinês simplificado e chinês tradicional, de acordo com o idioma do sistema.</li>
+
+<li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
+= <li><strong>Gerenciador de saves (botão da barra de ferramentas).</strong> Backups automáticos e com nome guardados em uma pasta ao lado de cada save, onde nenhum jogo os carrega. Restaure qualquer backup (o save atual recebe um backup antes), compare-o, ou faça um backup e comece um jogo novo em um jogo de save único e restaure o antigo depois. Cada backup é gravado no disco e conferido antes de substituir qualquer coisa.</li>
+
+<li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
+= <li><strong>Código aberto.</strong> Qualquer pessoa pode ler o código (GPL-3.0).</li>
+
+Questions about save editing
+= Perguntas sobre a edição de saves
+
+Popular games
+= Jogos populares
+
+{0} games open on a screen made for them; the rest can be edited value by value. These are some of the most popular. The game pages are in English, apart from the ones that are translated.
+= {0} jogos abrem em uma tela feita para eles; os demais podem ser editados valor por valor. Estes são alguns dos mais populares. As páginas dos jogos estão em inglês, exceto as que foram traduzidas.
+
+Game screen
+= Tela do jogo
+
+See all {0} supported games (English)
+= Ver todos os {0} jogos compatíveis (em inglês)
+
+No game on the list? The editor can still open saves of games that aren't listed: try it, or <a href="{0}">ask for the game</a>.
+= Seu jogo não está na lista? O editor também consegue abrir saves de jogos que não estão listados: experimente, ou <a href="{0}">peça o jogo</a>.
+
+Download for
+= Baixar para
+
+Games
+= Jogos
+
+Save manager
+= Gerenciador de saves
+
+What's new
+= Novidades
+
+Use in browser
+= Usar no navegador
+
+Download
+= Baixar
+
+Source
+= Código-fonte
+
+Light theme
+= Tema claro
+
+Dark theme
+= Tema escuro
+
+Switch to light theme
+= Mudar para o tema claro
+
+Switch to dark theme
+= Mudar para o tema escuro
+
+Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.
+= O Universal Save Editor é gratuito e sempre será. Código aberto sob a GPL-3.0. Sem ligação com nenhuma desenvolvedora ou publicadora de jogos; nomes de jogos e marcas pertencem aos seus donos. Mantenha sempre um backup dos seus saves.
+
+Questions and ideas
+= Perguntas e ideias
+
+Report a problem
+= Relatar um problema
+
+All versions and release notes
+= Todas as versões e notas de versão
+
+Source code on GitHub
+= Código-fonte no GitHub
+
+Code signing policy
+= Política de assinatura de código
+
+Universal Save Editor: free, offline save editor for 550+ games
+= Universal Save Editor: editor de saves gratuito e offline para mais de 550 jogos
+
+Download for Windows
+= Baixar para Windows
+
+Version {0}:
+= Versão {0}:
+
+Free, offline {0} save editor for PC. Change your values, with a backup before every save. Nothing is uploaded, no limits.
+= Editor de saves de {0} gratuito e offline para PC. Altere seus valores, com um backup antes de cada gravação. Nada é enviado, sem limites.
+
+{0} save editor: free and offline | Universal Save Editor
+= Editor de saves de {0}: grátis e offline | Universal Save Editor
+
+Where is the {0} save file?
+= Onde fica o arquivo de save de {0}?
+
+Usually in <code>{0}</code>, in files named <code>{1}</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick {2}.
+= Normalmente em <code>{0}</code>, em arquivos chamados <code>{1}</code>. O editor baixado encontra para você: escolha <em>Encontrar os saves do meu jogo</em> e selecione {2}.
+
+Will {0} still load an edited save?
+= {0} ainda vai carregar um save editado?
+
+The editor writes the save back in the same format the game uses and reads the new file back to check it before replacing anything. The original is backed up first, so if anything looks wrong in the game, restore it from <em>Backups</em>.
+= O editor grava o save de volta no mesmo formato que o jogo usa e lê o arquivo novo de volta para conferir antes de substituir qualquer coisa. O original recebe um backup antes; se algo parecer errado no jogo, restaure-o em <em>Backups</em>.
+
+Can I edit {0} saves on Steam Deck or Linux?
+= Posso editar saves de {0} no Steam Deck ou no Linux?
+
+Yes. There's a Linux build, and <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.
+= Sim. Há uma versão para Linux, e <em>Encontrar os saves do meu jogo</em> também procura dentro dos prefixos do Proton e do Wine, onde o Steam Play guarda os saves de jogos de Windows.
+
+Can I edit my {0} save in the browser?
+= Posso editar meu save de {0} no navegador?
+
+Yes. <a href="{0}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one. In Chrome and Edge it can also save back to the same file, keeping the original in the browser first.
+= Sim. <a href="{0}">A versão para navegador</a> roda no seu próprio computador e nunca envia o save. Abra o arquivo você mesmo e guarde uma cópia, porque ao salvar o arquivo editado é baixado em vez de fazer um backup do antigo. No Chrome e no Edge, ela também pode salvar no mesmo arquivo, guardando antes o original no navegador.
+
+Is it safe to use with online play?
+= É seguro usar no jogo online?
+
+{0} save editor screen with a save open
+= Tela do editor de saves de {0} com um save aberto
+
+The {0} screen in Universal Save Editor, opened on an example save. Select the picture to see it full size.
+= A tela de {0} no Universal Save Editor, aberta com um save de exemplo. Clique na imagem para vê-la em tamanho real.
+
+{0} save editor
+= Editor de saves de {0}
+
+Edit your {0} save on your own PC with Universal Save Editor, a free, offline save editor and manager for {1}+ ({2}) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.
+= Edite seu save de {0} no seu próprio PC com o Universal Save Editor, um editor e gerenciador de saves gratuito e offline para {1}+ ({2}) jogos. Faça backups, restaure e comece novas partidas na mesma janela. Nada é enviado e não há limites.
+
+What you can edit
+= O que você pode editar
+
+The editor shows these value names in English.
+= O editor mostra esses nomes de valores em inglês.
+
+Where {0} keeps its saves
+= Onde {0} guarda os saves
+
+Folder:
+= Pasta:
+
+Files:
+= Arquivos:
+
+You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {0}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)
+= Você não precisa procurar sozinho: no editor, escolha <em>Encontrar os saves do meu jogo</em>, selecione {0} e ele lista os saves que encontrar. (A versão para navegador não consegue vasculhar suas pastas: abra você mesmo o arquivo desta pasta.)
+
+How to edit your {0} save
+= Como editar seu save de {0}
+
+<a href="{0}">Download Universal Save Editor</a> for Windows, macOS or Linux; just run it. Rather not install anything? <a href="{1}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file (Chrome and Edge can save back to the same file).
+= <a href="{0}">Baixe o Universal Save Editor</a> para Windows, macOS ou Linux e é só executar. Prefere não instalar nada? <a href="{1}">Use-o no navegador</a>: ele também roda no seu computador, e ao salvar o arquivo editado é baixado (o Chrome e o Edge podem salvar no mesmo arquivo).
+
+Close the game, so it doesn't write over your changes.
+= Feche o jogo para que ele não sobrescreva suas alterações.
+
+Choose <em>Find my game's saves</em>, pick <strong>{0}</strong> and open your save (or drag the save file onto the window).
+= Escolha <em>Encontrar os saves do meu jogo</em>, selecione <strong>{0}</strong> e abra seu save (ou arraste o arquivo de save para a janela).
+
+Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.
+= Altere o que quiser e depois escolha <em>Salvar</em>. O editor confere o arquivo novo e faz antes um backup do antigo.
+
+Questions about {0} saves
+= Perguntas sobre os saves de {0}
+
+Did it work in your game?
+= Funcionou no seu jogo?
+
+Tried an edit in {0}? <a href="{1}">Tell us whether it worked</a>. It takes a minute, and no save is sent.
+= Testou uma edição em {0}? <a href="{1}">Conte-nos se funcionou</a>. Leva um minuto, e nenhum save é enviado.
+
+Why use it
+= Por que usar
+
+Edited saves are for single-player play. Don't use them in online or multiplayer modes.
+= Saves editados são para jogar sozinho. Não os use em modos online ou multijogador.
+
+More save editors
+= Mais editores de saves
+
+This page in English
+= Esta página em inglês
+
+The editor reads and writes this save correctly on the test saves it was checked with, but loading an edited save in the game itself hasn't been tried yet. The original is backed up before every save, so if the game doesn't accept the edit, restore it from <em>Backups</em>.
+= O editor lê e grava este save corretamente nos saves de teste com que foi conferido, mas carregar um save editado no próprio jogo ainda não foi testado. O original recebe um backup antes de cada gravação; se o jogo não aceitar a alteração, restaure-o em <em>Backups</em>.
+
+Confirmed in game
+= Confirmado no jogo
+
+Edited saves of this game have been reported to load and work in the game.
+= Foi relatado que saves editados deste jogo carregam e funcionam no jogo.
+

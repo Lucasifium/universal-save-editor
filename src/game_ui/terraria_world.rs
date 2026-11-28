@@ -579,7 +579,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
             }
         }
     }
-    let font = egui::FontId::proportional(12.0);
+    let font = crate::theme::font(crate::theme::size::CAPTION);
     for (role, name, x, y, homeless) in &map.npcs {
         if *homeless || !v.marks[2] {
             continue;
@@ -673,7 +673,7 @@ fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
         None => crate::i18n::tr("Scroll or pinch to zoom; drag to move (right-drag while painting). Click a chest with Look / move to open it.").into(),
     };
-    ui.label(RichText::new(info).size(13.0));
+    ui.label(RichText::new(info).size(crate::theme::size::CAPTION));
     ui.weak(crate::i18n::tr("Painting changes blocks, walls and liquids; furniture, chests, trees and other objects are left alone. Each stroke is one undo step. Liquid only fills empty tiles and settles when the game runs."));
     poi_panel(ui, &map, v);
     if v.stroke.is_some() || !v.dirty.iter().all(|d| !d) {
@@ -727,11 +727,11 @@ fn poi_panel(ui: &mut Ui, map: &WorldMap, v: &mut MapView) {
             });
         });
         ui.horizontal(|ui| {
-            if ui.small_button(tr("Show all")).clicked() {
+            if crate::widgets::small_button(ui, tr("Show all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = true);
                 v.marks = [true; 4];
             }
-            if ui.small_button(tr("Hide all")).clicked() {
+            if crate::widgets::small_button(ui, tr("Hide all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = false);
                 v.marks = [false; 4];
             }

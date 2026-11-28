@@ -85,24 +85,17 @@ pub fn grim_dawn(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Attributes", |ui| {
-                for k in ["Physique", "Cunning", "Spirit"] {
-                    let p = join("/Attributes", k);
-                    cx.attribute_open(ui, k, &p);
-                }
-                ui.add_space(6.0);
-                egui::Grid::new("gd_base").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Base health", "/Attributes/Health", 90.0);
-                    cx.grid_row(ui, "Base energy", "/Attributes/Energy", 90.0);
-                });
+                let names = ["Physique", "Cunning", "Spirit"];
+                let mut rows: Vec<(&str, String)> = names.into_iter().map(|k| (k, join("/Attributes", k))).collect();
+                rows.extend([("Base health", "/Attributes/Health".to_string()), ("Base energy", "/Attributes/Energy".to_string())]);
+                cx.open_attributes(ui, &rows);
                 ui.weak(tr("Base values before items and skills."));
             });
         } else {
             panel(ui, "Unspent points", |ui| {
-                egui::Grid::new("gd_pts").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    for k in ["Attribute points", "Skill points", "Devotion points"] {
-                        cx.grid_row(ui, k, &join("/Points", k), 70.0);
-                    }
-                });
+                let names = ["Attribute points", "Skill points", "Devotion points"];
+                let rows: Vec<(&str, String)> = names.into_iter().map(|k| (k, join("/Points", k))).collect();
+                cx.open_attributes(ui, &rows);
                 ui.add_space(4.0);
                 ui.horizontal_wrapped(|ui| {
                     if let Some(n) = cx.int("/Points/Devotion points unlocked") {
@@ -176,23 +169,14 @@ pub fn titan_quest(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Attributes", |ui| {
-                for k in ["Strength", "Dexterity", "Intelligence"] {
-                    let p = join("/Attributes", k);
-                    cx.attribute_open(ui, k, &p);
-                }
-                ui.add_space(6.0);
-                egui::Grid::new("tq_base").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Health", "/Attributes/Health", 90.0);
-                    cx.grid_row(ui, "Energy", "/Attributes/Energy", 90.0);
-                });
+                let names = ["Strength", "Dexterity", "Intelligence", "Health", "Energy"];
+                let rows: Vec<(&str, String)> = names.into_iter().map(|k| (k, join("/Attributes", k))).collect();
+                cx.open_attributes(ui, &rows);
                 ui.weak(tr("Base values before items and skills."));
             });
         } else {
             panel(ui, "Unspent points", |ui| {
-                egui::Grid::new("tq_pts").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Attribute points", "/Points/Attribute points", 70.0);
-                    cx.grid_row(ui, "Skill points", "/Points/Skill points", 70.0);
-                });
+                cx.open_attributes(ui, &[("Attribute points", "/Points/Attribute points"), ("Skill points", "/Points/Skill points")]);
                 ui.add_space(4.0);
                 ui.horizontal_wrapped(|ui| {
                     if let Some(n) = cx.int("/Statistics/Play time (seconds)") {
@@ -238,19 +222,13 @@ pub fn torchlight2(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Stats", |ui| {
-                for k in ["Strength", "Dexterity", "Vitality", "Focus"] {
-                    let p = join("/Stats", k);
-                    cx.attribute_open(ui, k, &p);
-                }
+                let names = ["Strength", "Dexterity", "Vitality", "Focus"];
+                let rows: Vec<(&str, String)> = names.into_iter().map(|k| (k, join("/Stats", k))).collect();
+                cx.open_attributes(ui, &rows);
             });
         } else {
             panel(ui, "Points, health and mana", |ui| {
-                egui::Grid::new("tl2_pts").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    cx.grid_row(ui, "Attribute points", "/Points/Attribute points", 70.0);
-                    cx.grid_row(ui, "Skill points", "/Points/Skill points", 70.0);
-                    cx.grid_row(ui, "Health", "/Health and mana/Health", 90.0);
-                    cx.grid_row(ui, "Mana", "/Health and mana/Mana", 90.0);
-                });
+                cx.open_attributes(ui, &[("Attribute points", "/Points/Attribute points"), ("Skill points", "/Points/Skill points"), ("Health", "/Health and mana/Health"), ("Mana", "/Health and mana/Mana")]);
                 let spells: Vec<String> = keys(cx, "/Spells");
                 if !spells.is_empty() {
                     ui.add_space(6.0);

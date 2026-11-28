@@ -37,25 +37,33 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         });
     }
     panel(ui, "You", |ui| {
-        for k in ["Oxygen", "Thirst", "Health"] {
-            cx.row_fixed(ui, k, &format!("/Player/{k}"), 120.0, 90.0);
-        }
+        // Side by side where there is room, one under the other on a phone.
+        let stats = ["Oxygen", "Thirst", "Health"];
+        super::columns(ui, 300.0, stats.len(), |ui, i| {
+            cx.row_fixed(ui, stats[i], &format!("/Player/{}", stats[i]), 80.0, 90.0);
+        });
     });
     panel(ui, "Game settings", |ui| {
-        for k in [
+        let flags: Vec<&str> = [
             "Free crafting", "Everything unlocked", "Space trading unlocked", "Ore extractors unlocked", "Teleporters unlocked",
             "Drones unlocked", "Autocrafter unlocked",
-        ] {
-            let p = format!("/Settings/{k}");
-            if cx.get(&p).is_some() {
-                cx.row_fixed(ui, k, &p, 200.0, 60.0);
+        ]
+        .into_iter()
+        .filter(|k| cx.get(&format!("/Settings/{k}")).is_some())
+        .collect();
+        // In columns where the window is wide, so the list doesn't leave most of the panel empty.
+        super::row_columns(ui, 340.0, flags.len(), |ui, range, _| {
+            for k in &flags[range] {
+                cx.row_fixed(ui, k, &format!("/Settings/{k}"), 200.0, 60.0);
             }
-        }
-        for k in ["Mode", "When you die", "Start location"] {
-            if let Some(v) = cx.text(&format!("/Settings/{k}")) {
-                fact(ui, k, &v, ACCENT);
+        });
+        ui.horizontal_wrapped(|ui| {
+            for k in ["Mode", "When you die", "Start location"] {
+                if let Some(v) = cx.text(&format!("/Settings/{k}")) {
+                    fact(ui, k, &v, ACCENT);
+                }
             }
-        }
+        });
     });
     panel(ui, "Backpack materials", |ui| {
         let free = cx.get("").map_or(0, free_slots);

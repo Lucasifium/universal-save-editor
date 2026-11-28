@@ -37,6 +37,8 @@ pub struct Settings {
     pub open_with: bool,
     /// The player has answered the one-time question about update checks (or already turned
     /// them on). Kept across versions so the question is never asked twice.
+    /// The start page's first-run pointers were dismissed ("Got it").
+    pub pointers_seen: bool,
     pub update_question_answered: bool,
     /// Also search removable and network drives for saves.
     pub search_removable: bool,
@@ -54,7 +56,7 @@ pub struct Settings {
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, follow_system: false, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, backup_cap_gb: 0, language: None, check_updates: false, open_with: false, update_question_answered: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![], window_size: None }
+        Self { recent: vec![], dark: true, follow_system: false, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, backup_cap_gb: 0, language: None, check_updates: false, open_with: false, update_question_answered: false, pointers_seen: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![], window_size: None }
     }
 }
 
@@ -89,6 +91,8 @@ impl Settings {
         s.check_updates = v["check_updates"].as_bool().unwrap_or(false);
         // Settings from before the question existed: asked once, unless updates are already on.
         s.update_question_answered = v["update_question_answered"].as_bool().unwrap_or(s.check_updates);
+        // Someone who has opened files before needs no pointers.
+        s.pointers_seen = v["pointers_seen"].as_bool().unwrap_or(!s.recent.is_empty());
         s.search_removable = v["search_removable"].as_bool().unwrap_or(false);
         s.dismissed_update = v["dismissed_update"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
         if let Some(r) = v["hidden_notes"].as_array() {
@@ -106,13 +110,9 @@ impl Settings {
         s
     }
 
-    pub fn save(&self) {
-        // Tests never write the player's own settings.
-        if cfg!(test) {
-            return;
-        }
-        let Some(p) = path() else { return };
-        let v = json!({
+    /// The settings as written to settings.json.
+    pub fn to_json(&self) -> Value {
+        json!({
             "recent": self.recent.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
             "dark": self.dark,
             "follow_system": self.follow_system,
@@ -129,13 +129,23 @@ impl Settings {
             "check_updates": self.check_updates,
             "open_with": self.open_with,
             "update_question_answered": self.update_question_answered,
+            "pointers_seen": self.pointers_seen,
             "search_removable": self.search_removable,
             "dismissed_update": self.dismissed_update,
             "hidden_notes": self.hidden_notes,
             "favourites": self.favourites,
             "recent_games": self.recent_games,
             "window_size": self.window_size,
-        });
+        })
+    }
+
+    pub fn save(&self) {
+        // Tests never write the player's own settings.
+        if cfg!(test) {
+            return;
+        }
+        let Some(p) = path() else { return };
+        let v = self.to_json();
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
         }

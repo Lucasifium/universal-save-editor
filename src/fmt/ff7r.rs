@@ -505,7 +505,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     #[test]
@@ -529,7 +529,7 @@ mod tests {
         assert_eq!(u32_at(&out, FIRST + 0x40 + 0x20), Some(12345));
     }
 
-    fn remake_slot() -> Vec<u8> {
+    pub(crate) fn remake_slot() -> Vec<u8> {
         let mut d = vec![0u8; 0x41000];
         d[..4].copy_from_slice(&[0, 0, 1, 0]);
         d[0x10..0x20].copy_from_slice(MARK);

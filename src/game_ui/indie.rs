@@ -12,13 +12,11 @@ fn join(base: &str, key: &str) -> String {
     format!("{base}/{}", pointer_escape(key))
 }
 
-/// Label + editor rows in a two-column grid (rows the save doesn't have are left out).
+/// Label + editor rows in a two-column grid (rows the save doesn't have are left out), split
+/// into columns where the panel is wide.
 fn rows(ui: &mut Ui, cx: &mut GameCtx, id: &str, list: &[(&str, String)], width: f32) {
-    egui::Grid::new(id).num_columns(2).spacing([14.0, 5.0]).show(ui, |ui| {
-        for (label, p) in list {
-            cx.grid_row(ui, label, p, width);
-        }
-    });
+    let rows: Vec<(&str, String, f32)> = list.iter().map(|(l, p)| (*l, p.clone(), width)).collect();
+    cx.value_grid(ui, id, &rows);
 }
 
 /// A filter box remembered under `id`; returns the lowercase query.
@@ -230,7 +228,8 @@ const UT_YELLOW: Color32 = Color32::from_rgb(255, 222, 0);
 /// A black box with a thick white border, like the game's own menus.
 fn ut_box(ui: &mut Ui, add: impl FnOnce(&mut Ui)) {
     egui::Frame::none().fill(Color32::BLACK).stroke(egui::Stroke::new(4.0_f32, Color32::WHITE)).inner_margin(egui::Margin::same(16.0)).show(ui, |ui| {
-        ui.set_width(ui.available_width());
+        // Less the border, which is drawn half outside the frame.
+        ui.set_width(ui.available_width() - 4.0);
         add(ui)
     });
     ui.add_space(10.0);
@@ -250,7 +249,8 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
         ui.label(mono(format!("{name}   LV {lv}"), 26.0, Color32::WHITE));
         ui.horizontal(|ui| {
             ui.label(mono("HP", 16.0, Color32::WHITE));
-            let w = (ui.available_width() - 8.0).clamp(80.0, 260.0);
+            // Room is left for the figures after the bar.
+            let w = (ui.available_width() - 110.0).clamp(60.0, 260.0);
             let (rect, _) = ui.allocate_exact_size(egui::vec2(w, 20.0), egui::Sense::hover());
             // Full: the game refills HP when a save is loaded.
             ui.painter().rect_filled(rect, 0.0, UT_YELLOW);
@@ -276,7 +276,7 @@ pub fn undertale(ui: &mut Ui, cx: &mut GameCtx) {
                 if (1..=19).contains(&lv) && cx.can_edit(&k("Max HP")) && cx.can_edit(&k("AT")) {
                     let (hp, at) = (16 + 4 * lv, 10 + 2 * (lv - 1));
                     let tip = crate::i18n::tr("Max HP 16 + 4 × LV and AT 10 + 2 × (LV − 1), as the game sets them when you level up (LV 1 to 19).");
-                    if ui.button(trf("Match Max HP and AT to LV {0} ({1} HP, {2} AT)", &[&lv, &hp, &at])).on_hover_text(tip).clicked() {
+                    if ui.add(egui::Button::new(trf("Match Max HP and AT to LV {0} ({1} HP, {2} AT)", &[&lv, &hp, &at])).wrap()).on_hover_text(tip).clicked() {
                         cx.set(&k("Max HP"), Value::from(hp));
                         cx.set(&k("AT"), Value::from(at));
                     }
@@ -342,13 +342,10 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     panel(ui, "Party", |ui| {
-        ui.horizontal_wrapped(|ui| {
-            for n in 1..=3 {
-                let p = format!("/Player/Party member {n}");
-                cx.label(ui, &format!("{n}."), &p);
-                cx.editor(ui, &p, 110.0);
-                ui.add_space(10.0);
-            }
+        // Side by side where there is room, one under the other on a phone.
+        columns(ui, 220.0, 3, |ui, i| {
+            let n = i + 1;
+            cx.row_fixed(ui, &format!("{n}."), &format!("/Player/Party member {n}"), 24.0, 110.0);
         });
     });
     let members: Vec<String> = match cx.get("/Party") {
@@ -374,19 +371,22 @@ pub fn deltarune(ui: &mut Ui, cx: &mut GameCtx) {
     if ch1 {
         panel(ui, "Inventory", |ui| {
             let kinds = [crate::i18n::tx("Items"), crate::i18n::tx("Key items"), crate::i18n::tx("Weapons"), crate::i18n::tx("Armor")];
-            egui::Grid::new("dr_inv").num_columns(5).striped(true).spacing([10.0, 3.0]).show(ui, |ui| {
-                ui.label("");
-                for kind in kinds {
-                    ui.strong(crate::i18n::tr_any(kind));
-                }
-                ui.end_row();
-                for n in 1..=13 {
-                    ui.weak(n.to_string());
+            // The slots in two halves side by side where there is room.
+            super::row_columns(ui, 300.0, 13, |ui, range, col| {
+                egui::Grid::new(("dr_inv", col)).num_columns(5).striped(true).spacing([10.0, 3.0]).show(ui, |ui| {
+                    ui.label("");
                     for kind in kinds {
-                        cx.compact(ui, &format!("/Inventory/{kind}/Slot {n}"), 56.0);
+                        ui.strong(crate::i18n::tr_any(kind));
                     }
                     ui.end_row();
-                }
+                    for n in range.start + 1..=range.end {
+                        ui.weak(n.to_string());
+                        for kind in kinds {
+                            cx.compact(ui, &format!("/Inventory/{kind}/Slot {n}"), 56.0);
+                        }
+                        ui.end_row();
+                    }
+                });
             });
             ui.weak(tr("Game item numbers; 0 is an empty slot."));
         });
@@ -488,7 +488,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                         ui.add(egui::Label::new(RichText::new(name).color(c)).truncate()).on_hover_text(id);
                     });
                     ui.add_enabled_ui(editable, |ui| {
-                        if ui.small_button("\u{2212}").clicked() && n > 0 {
+                        if crate::widgets::small_button(ui, "\u{2212}").clicked() && n > 0 {
                             let mut v = ids.clone();
                             if let Some(at) = v.iter().rposition(|x| x == id) {
                                 v.remove(at);
@@ -496,7 +496,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                             new = Some(v);
                         }
                         ui.label(RichText::new(n.to_string()).strong());
-                        if ui.small_button("+").clicked() && max.is_none_or(|m| n < m) {
+                        if crate::widgets::small_button(ui, "+").clicked() && max.is_none_or(|m| n < m) {
                             let mut v = ids.clone();
                             v.push(id.clone());
                             new = Some(v);

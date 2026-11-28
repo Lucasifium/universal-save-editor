@@ -32498,6 +32498,59 @@ Look through all the usual places on this computer again, for games added since.
 What can it open?
 = Que peut-il ouvrir ?
 
+# Header card and first-run pointers
+Last saved
+= Dernier enregistrement
+
+{0} min
+= {0} min
+
+{0} h {1} min
+= {0} h {1} min
+
+Good to know
+= Bon à savoir
+
+Find my game's saves looks in the places each game keeps them, so you don't have to.
+= « Trouver les sauvegardes de mon jeu » cherche là où chaque jeu les range, pour que vous n'ayez pas à le faire.
+
+Every save is backed up first: the file as it was is kept each time you save over it.
+= Chaque sauvegarde est d'abord copiée : à chaque enregistrement par-dessus, le fichier tel qu'il était est conservé.
+
+Backups › Save manager… lists the backups of the open save, to restore or compare.
+= Copies de secours › Gestionnaire de sauvegardes… liste les copies de la sauvegarde ouverte, pour restaurer ou comparer.
+
+Got it
+= Compris
+
+Hide these pointers for good
+= Masquer ces indications définitivement
+
+# Search everything
+Search everything…
+= Tout rechercher…
+
+Search everything
+= Tout rechercher
+
+Search everything: commands, games, recent files and values
+= Tout rechercher : commandes, jeux, fichiers récents et valeurs
+
+Commands
+= Commandes
+
+Games
+= Jeux
+
+Values on this save
+= Valeurs de cette sauvegarde
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= Trouvez une commande des menus, un jeu, un fichier récent ou une valeur de la sauvegarde ouverte. Haut et Bas choisissent une ligne, Entrée l’exécute, Échap ferme.
+
+Nothing found.
+= Rien trouvé.
+
 # changes button
 Changes ({0})
 = Modifications ({0})

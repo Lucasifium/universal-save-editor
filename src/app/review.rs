@@ -199,10 +199,10 @@ impl App {
             if droppable {
                 ui.horizontal_wrapped(|ui| {
                     ui.weak(tr("Untick a change to leave it out of this save."));
-                    if kept < r.lines.len() && ui.small_button(tr("Tick all")).clicked() {
+                    if kept < r.lines.len() && crate::widgets::small_button(ui, tr("Tick all")).clicked() {
                         all = true;
                     }
-                    if kept > 0 && r.lines.len() > 1 && ui.small_button(tr("Untick all")).clicked() {
+                    if kept > 0 && r.lines.len() > 1 && crate::widgets::small_button(ui, tr("Untick all")).clicked() {
                         none = true;
                     }
                 });

@@ -147,7 +147,7 @@ fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, list: &str, cols: usize) {
         ui.set_width(ui.available_width());
         ui.horizontal(|ui| {
             ui.label(RichText::new(keys[i].as_str()).strong());
-            if ui.small_button(tr("Close")).clicked() {
+            if crate::widgets::small_button(ui, tr("Close")).clicked() {
                 select(ui, id, None);
             }
         });

@@ -47,11 +47,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     let mut rest: Vec<String> = keys(cx, "/Trainer").into_iter().filter(|k| !matches!(k.as_str(), "Name" | "Trainer ID" | "Gender" | "Money" | "Coins")).collect();
     rest.insert(0, "Name".into());
     panel(ui, "Trainer", |ui| {
-        egui::Grid::new("pk_trainer").num_columns(2).spacing([16.0, 6.0]).show(ui, |ui| {
-            for k in ["Name", "Gender"].iter().map(|s| s.to_string()).chain(rest.into_iter().skip(1)) {
-                cx.grid_row(ui, &k, &join("/Trainer", &k), 160.0);
-            }
-        });
+        let names = ["Name", "Gender"];
+        let rows: Vec<(String, String, f32)> = names.iter().map(|s| s.to_string()).chain(rest.into_iter().skip(1)).map(|k| { let p = join("/Trainer", &k); (k, p, 160.0) }).collect();
+        cx.value_grid(ui, "pk_trainer", &rows);
     });
 
     let badges = keys(cx, "/Badges");
@@ -140,7 +138,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
             return;
         }
         ui.horizontal_wrapped(|ui| {
-            ui.style_mut().override_font_id = Some(egui::FontId::proportional(16.0));
+            ui.style_mut().override_font_id = Some(crate::theme::font(crate::theme::size::PANEL));
             cx.editor(ui, &sub("Species"), 170.0);
             ui.label(crate::i18n::tr("Lv"));
             cx.editor(ui, &sub("Level"), 44.0);
@@ -154,7 +152,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
             for k in ["Gender", "Type", "Nature", "Ability"] {
                 if let Some(v) = cx.text(&sub(k)) {
                     if !cx.can_edit(&sub(k)) {
-                        ui.label(RichText::new(v).size(12.5).color(ui.visuals().weak_text_color()));
+                        ui.label(RichText::new(v).size(crate::theme::size::CAPTION).color(ui.visuals().weak_text_color()));
                     }
                 }
             }
@@ -240,19 +238,24 @@ fn bag_pocket(ui: &mut Ui, cx: &mut GameCtx, p: &str, t: usize) {
     }
     // The games keep pockets gap-free, so show the filled slots and the first free one.
     let filled = slots.iter().take_while(|k| cx.text(&format!("{}/Item", join(p, k))).is_some_and(|i| i != NONE)).count();
-    egui::Grid::new(("pk_bag", t)).num_columns(3).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
-        for k in slots.iter().take(filled + 1) {
-            let sp = join(p, k);
-            ui.weak(k.as_str());
-            cx.editor(ui, &format!("{sp}/Item"), 200.0);
-            ui.horizontal(|ui| {
-                if cx.get(&format!("{sp}/Quantity")).is_some() {
-                    ui.weak("\u{00D7}");
-                    cx.editor(ui, &format!("{sp}/Quantity"), 50.0);
-                }
-            });
-            ui.end_row();
-        }
+    let shown: Vec<&&String> = slots.iter().take(filled + 1).collect();
+    // In two columns where the window is wide; on a phone the item box gives up some width.
+    super::row_columns(ui, 520.0, shown.len(), |ui, range, col| {
+        let item_w = (ui.available_width() - 170.0).clamp(120.0, 200.0);
+        egui::Grid::new(("pk_bag", t, col)).num_columns(3).striped(true).spacing([10.0, 4.0]).show(ui, |ui| {
+            for k in &shown[range] {
+                let sp = join(p, k);
+                ui.weak(k.as_str());
+                cx.editor(ui, &format!("{sp}/Item"), item_w);
+                ui.horizontal(|ui| {
+                    if cx.get(&format!("{sp}/Quantity")).is_some() {
+                        ui.weak("\u{00D7}");
+                        cx.editor(ui, &format!("{sp}/Quantity"), 50.0);
+                    }
+                });
+                ui.end_row();
+            }
+        });
     });
     ui.weak(trf("{1} of {0} slots used. Pick an item in the free slot to add one.", &[&(slots.len()), &filled]));
 }

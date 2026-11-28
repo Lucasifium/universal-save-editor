@@ -527,7 +527,7 @@ fn bg3_carried(b: &mut Builder, plain: &[u8]) -> bool {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use crate::fmt::lsf::tests::build as lsf_build;
     use crate::fmt::lspk::tests::build as pkg_build;
@@ -545,7 +545,7 @@ mod tests {
     }
 
     /// A small DOS2 world: one player (made-up "Testa") with a coin stack, one NPC.
-    fn dos2_save() -> Vec<u8> {
+    pub(crate) fn dos2_save() -> Vec<u8> {
         let mut nodes: Vec<(&str, i32, Vec<(&str, u32, Vec<u8>)>)> = vec![
             ("Characters", -1, vec![]),
             ("CharacterFactory", 0, vec![]),

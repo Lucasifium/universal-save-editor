@@ -129,7 +129,7 @@ pub(super) fn slots(ui: &mut Ui, cx: &mut GameCtx, id: &str, base: &str, keys: &
         ui.set_width(ui.available_width());
         ui.horizontal(|ui| {
             ui.label(RichText::new(slot_label(present[i])).strong());
-            if ui.small_button(tr("Close")).clicked() {
+            if crate::widgets::small_button(ui, tr("Close")).clicked() {
                 select(ui, id, None);
             }
         });

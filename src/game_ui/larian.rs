@@ -63,9 +63,8 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.weak(tr("This save doesn't list this character's attributes."));
                     return;
                 }
-                for a in ATTRIBUTES {
-                    cx.attribute_open(ui, a, &format!("{base}/Attributes/{a}"));
-                }
+                let rows: Vec<(&str, String)> = ATTRIBUTES.iter().map(|a| (*a, format!("{base}/Attributes/{a}"))).collect();
+                cx.open_attributes(ui, &rows);
                 ui.weak(tr("Base points (10 is the starting value), before items and talents."));
             });
         } else {
@@ -87,10 +86,12 @@ pub fn dos2(ui: &mut Ui, cx: &mut GameCtx) {
             ui.weak(tr("This character carries no gold."));
             return;
         }
-        egui::Grid::new(("dos2_gold", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
-            for k in &piles {
-                cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
-            }
+        super::row_columns(ui, 380.0, piles.len(), |ui, range, col| {
+            egui::Grid::new(("dos2_gold", t, col)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
+                for k in &piles[range] {
+                    cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
+                }
+            });
         });
         ui.label(RichText::new(trf("{0} gold on {1}", &[&fmt_num(gold_of(cx, &base) as f64), &members[t]])).color(theme_fg(ui, gold)));
         ui.weak(tr("Each line is a stack of coins in this character's inventory (named by its stats entry)."));
@@ -210,10 +211,12 @@ fn bg3_carried(ui: &mut Ui, cx: &mut GameCtx, gold: Color32) {
             ui.weak(tr("No coins on this character."));
             return;
         }
-        egui::Grid::new(("bg3_gold", t)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
-            for k in &piles {
-                cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
-            }
+        super::row_columns(ui, 380.0, piles.len(), |ui, range, col| {
+            egui::Grid::new(("bg3_gold", t, col)).num_columns(2).spacing([14.0, 6.0]).show(ui, |ui| {
+                for k in &piles[range] {
+                    cx.grid_row(ui, k, &format!("{base}/Gold/{}", esc(k)), 120.0);
+                }
+            });
         });
         ui.weak(tr("Each line is one stack of coins in this character's inventory."));
     });

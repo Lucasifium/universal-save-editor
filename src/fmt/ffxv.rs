@@ -427,7 +427,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn s(v: &mut Vec<u8>, t: &str) {
@@ -444,7 +444,7 @@ mod tests {
     }
 
     /// A tiny gameplay save: header, party data, one character, items and the schema.
-    fn synthetic() -> Vec<u8> {
+    pub(crate) fn synthetic() -> Vec<u8> {
         const PARTY: [u8; 8] = *b"PARTYDAT";
         const PLAYER: [u8; 8] = *b"PLAYERST";
         const STATUS: [u8; 8] = *b"STATUSST";

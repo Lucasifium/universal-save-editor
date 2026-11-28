@@ -35,7 +35,7 @@ fn subtitle(cx: &GameCtx) -> String {
 fn notice(ui: &mut Ui, text: &str) {
     egui::Frame::none().fill(super::blend(ui.visuals().faint_bg_color, GOLD, 0.25)).rounding(8.0).inner_margin(egui::Margin::same(12.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
-        ui.label(RichText::new(text).size(14.0).color(ui.visuals().strong_text_color()));
+        ui.label(RichText::new(text).size(crate::theme::size::BODY).color(ui.visuals().strong_text_color()));
     });
     ui.add_space(8.0);
 }

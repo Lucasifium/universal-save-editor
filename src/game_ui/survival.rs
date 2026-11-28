@@ -203,16 +203,17 @@ pub fn valheim(ui: &mut Ui, cx: &mut GameCtx) {
             });
         } else {
             panel(ui, "Record", |ui| {
-                egui::Grid::new("vh_stats").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                    for k in ["Kills", "Deaths", "Crafts", "Builds"] {
-                        cx.grid_row(ui, k, &join("/Stats", k), 90.0);
+                let names = ["Kills", "Deaths", "Crafts", "Builds"];
+                let rows: Vec<(&str, String, f32)> = names.into_iter().map(|k| (k, join("/Stats", k), 90.0)).collect();
+                cx.value_grid(ui, "vh_stats", &rows);
+                ui.add_space(4.0);
+                ui.horizontal_wrapped(|ui| {
+                    for k in ["Known recipes", "Known materials", "Trophies", "Biomes found"] {
+                        if let Some(n) = cx.int(&join("/Progress", k)) {
+                            fact(ui, k, &n.to_string(), accent);
+                        }
                     }
                 });
-                for k in ["Known recipes", "Known materials", "Trophies", "Biomes found"] {
-                    if let Some(n) = cx.int(&join("/Progress", k)) {
-                        ui.label(format!("{k}: {n}"));
-                    }
-                }
             });
         }
     });

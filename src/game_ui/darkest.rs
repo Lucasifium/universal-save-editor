@@ -33,7 +33,7 @@ fn rule(ui: &mut Ui, accent: Color32) {
 }
 
 fn title(ui: &mut Ui, text: &str, accent: Color32) {
-    ui.label(RichText::new(text).family(theme::semibold_family()).size(17.0).color(theme::fg(ui, accent)));
+    ui.label(crate::theme::panel_title(text).color(theme::fg(ui, accent)));
 }
 
 fn object_keys(v: Option<&Value>) -> Vec<String> {

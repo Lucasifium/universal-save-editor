@@ -41,9 +41,9 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Ability scores", |ui| {
-                for k in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"] {
-                    cx.attribute_open(ui, k, &join("/Character/Attributes", k));
-                }
+                let names = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+                let rows: Vec<(&str, String)> = names.into_iter().map(|k| (k, join("/Character/Attributes", k))).collect();
+                cx.open_attributes(ui, &rows);
             });
         } else {
             panel(ui, "Hit points and alignment", |ui| {
@@ -88,7 +88,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if stacks.is_empty() {
             ui.horizontal_wrapped(|ui| {
                 for it in &items {
-                    ui.label(RichText::new(it).monospace().size(12.0));
+                    ui.label(RichText::new(it).monospace().size(crate::theme::size::CAPTION));
                     ui.add_space(8.0);
                 }
             });

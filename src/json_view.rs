@@ -108,7 +108,7 @@ impl TreeCtx<'_> {
 
 fn label_job(ui: &Ui, main: &str, raw: Option<&str>, suffix: &str, color: Color32) -> LayoutJob {
     let font = TextStyle::Body.resolve(ui.style());
-    let small = FontId::new(font.size * 0.85, font.family.clone());
+    let small = FontId::new(crate::theme::size::CAPTION, font.family.clone());
     let mut job = LayoutJob::default();
     job.append(main, 0.0, TextFormat::simple(font, color));
     if !suffix.is_empty() {

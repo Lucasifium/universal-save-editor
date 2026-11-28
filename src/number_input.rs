@@ -19,18 +19,18 @@ pub struct NumLocale {
     pub decimal: char,
 }
 
-/// "1,234,567.5": English, Japanese, Chinese.
+/// "1,234,567.5": English, Japanese, Korean, Chinese.
 pub const POINT: NumLocale = NumLocale { group: ',', decimal: '.' };
-/// "1.234.567,5": German, Spanish, Portuguese.
+/// "1.234.567,5": German, Spanish, Portuguese, Italian, Turkish.
 pub const COMMA: NumLocale = NumLocale { group: '.', decimal: ',' };
-/// "1 234 567,5": French (a no-break space, so a number never splits over two lines).
+/// "1 234 567,5": French, Polish, Russian (a no-break space, so a number never splits over two lines).
 pub const SPACE: NumLocale = NumLocale { group: '\u{00A0}', decimal: ',' };
 
 /// The number style of a language code.
 pub fn locale_for(code: &str) -> NumLocale {
     match code {
-        "de" | "es" | "pt-BR" => COMMA,
-        "fr" => SPACE,
+        "de" | "es" | "pt-BR" | "it" | "tr" => COMMA,
+        "fr" | "pl" | "ru" => SPACE,
         _ => POINT,
     }
 }
@@ -346,6 +346,12 @@ mod tests {
         assert_eq!(locale_for("es"), COMMA);
         assert_eq!(locale_for("pt-BR"), COMMA);
         assert_eq!(locale_for("fr"), SPACE);
+        assert_eq!(locale_for("it"), COMMA);
+        assert_eq!(locale_for("tr"), COMMA);
+        assert_eq!(locale_for("pl"), SPACE);
+        assert_eq!(locale_for("ru"), SPACE);
+        assert_eq!(locale_for("ko"), POINT);
+        assert_eq!(locale_for("zh-TW"), POINT);
     }
 
     #[test]

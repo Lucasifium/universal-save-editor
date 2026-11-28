@@ -32542,6 +32542,59 @@ Look through all the usual places on this computer again, for games added since.
 What can it open?
 = 能打开哪些文件？
 
+# Header card and first-run pointers
+Last saved
+= 上次保存
+
+{0} min
+= {0} 分钟
+
+{0} h {1} min
+= {0} 小时 {1} 分钟
+
+Good to know
+= 小贴士
+
+Find my game's saves looks in the places each game keeps them, so you don't have to.
+= “查找我的游戏存档”会在每款游戏存放存档的位置查找，你无需自己找。
+
+Every save is backed up first: the file as it was is kept each time you save over it.
+= 每个存档都会先备份：每次覆盖保存时，都会保留原来的文件。
+
+Backups › Save manager… lists the backups of the open save, to restore or compare.
+= 备份 › 存档管理器… 列出已打开存档的备份，可恢复或比较。
+
+Got it
+= 知道了
+
+Hide these pointers for good
+= 不再显示这些提示
+
+# Search everything
+Search everything…
+= 搜索全部…
+
+Search everything
+= 搜索全部
+
+Search everything: commands, games, recent files and values
+= 搜索全部：命令、游戏、最近的文件和数值
+
+Commands
+= 命令
+
+Games
+= 游戏
+
+Values on this save
+= 此存档中的数值
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= 查找菜单命令、游戏、最近的文件或打开的存档中的数值。上下方向键选择一行，Enter 执行，Esc 关闭。
+
+Nothing found.
+= 什么也没找到。
+
 # changes button
 Changes ({0})
 = 更改 ({0})

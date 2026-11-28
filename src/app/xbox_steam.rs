@@ -30,13 +30,26 @@ impl App {
             .clicked()
         {
             ui.close_menu();
-            if self.dirty {
-                return self.fail(tr("Save or revert your changes first. Copying works on the file as it is on disk."));
-            }
-            let folders = crate::games::other_save_folders(src.game);
-            let name = xbox_steam::suggested_name(&src);
-            self.xbox_steam = Some(XboxSteam { src, folders, dir: 0, name, replace: false });
+            self.start_xbox_steam(src);
         }
+    }
+
+    /// The Game Pass save open now, when it can be copied to the game's Steam version.
+    pub(super) fn xbox_steam_source(&self) -> Option<Source> {
+        if cfg!(target_arch = "wasm32") {
+            return None;
+        }
+        xbox_steam::source(&self.doc.as_ref()?.path)
+    }
+
+    /// Opens the "copy to the Steam version" dialog for `src` (refused with unsaved changes).
+    pub(super) fn start_xbox_steam(&mut self, src: Source) {
+        if self.dirty {
+            return self.fail(tr("Save or revert your changes first. Copying works on the file as it is on disk."));
+        }
+        let folders = crate::games::other_save_folders(src.game);
+        let name = xbox_steam::suggested_name(&src);
+        self.xbox_steam = Some(XboxSteam { src, folders, dir: 0, name, replace: false });
     }
 
     pub(super) fn xbox_steam_dialog(&mut self, ctx: &egui::Context) {

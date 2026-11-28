@@ -549,8 +549,8 @@ fn header_row(ui: &mut Ui, full_w: f32, title: &str, right: &str, open: bool, ha
         };
         painter.add(egui::Shape::convex_polygon(pts, c, egui::Stroke::NONE));
     }
-    painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, title, FontId::new(16.0, theme::semibold_family()), c);
-    painter.text(row_rect.right_center() - egui::vec2(12.0, 0.0), egui::Align2::RIGHT_CENTER, right, FontId::new(13.0, egui::FontFamily::Proportional), ui.visuals().weak_text_color());
+    painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, title, FontId::new(crate::theme::size::PANEL, theme::semibold_family()), c);
+    painter.text(row_rect.right_center() - egui::vec2(12.0, 0.0), egui::Align2::RIGHT_CENTER, right, FontId::new(crate::theme::size::CAPTION, egui::FontFamily::Proportional), ui.visuals().weak_text_color());
     resp
 }
 
@@ -639,7 +639,7 @@ fn value_row(ui: &mut Ui, model: &Model, i: usize, full_w: f32, name_w: f32, ext
             let name_color = if modified { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
             job.append(r.name(), 0.0, TextFormat::simple(font.clone(), name_color));
             if ctx.show_raw_keys && names::raw_differs(r.raw_key(), r.name()) {
-                let small = FontId::new(font.size * 0.82, font.family.clone());
+                let small = FontId::new(crate::theme::size::CAPTION, font.family.clone());
                 job.append(r.raw_key(), 8.0, TextFormat::simple(small, theme::fg(ui, theme::RAW_KEY)));
             }
             let label = ui.add(egui::Label::new(job).truncate().sense(Sense::click()));
