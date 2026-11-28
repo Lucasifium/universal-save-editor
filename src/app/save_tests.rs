@@ -642,6 +642,36 @@ fn a_save_whose_first_backup_cant_be_made_writes_nothing() {
     assert_eq!(value(&app, "/gold"), Some(json!(2)));
 }
 
+/// "Back up and start a new game" backs up the file on disk and closes it: with unsaved
+/// changes on screen it is refused instead of throwing them away without a word.
+#[test]
+fn starting_a_new_game_never_drops_unsaved_changes() {
+    let _l = locks();
+    let s = Scratch::new("new-game");
+    let ctx = window();
+    let path = s.0.join("save.json");
+    std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(500), 0.0);
+    assert!(!app.start_new_game(&path, "first run"));
+    assert!(path.exists(), "the save is still in place");
+    assert!(app.dirty);
+    assert_eq!(value(&app, "/gold"), Some(json!(500)), "the changes are still there");
+    // Saved first, it goes through and the file closes.
+    app.save_to(&path);
+    assert!(app.start_new_game(&path, "first run"), "{}", app.status);
+    assert!(!path.exists() && app.doc.is_none());
+    // Setting aside another file (the save manager's) leaves the file on screen alone.
+    let other = s.0.join("other.json");
+    std::fs::write(&path, br#"{"gold": 2}"#).unwrap();
+    std::fs::write(&other, br#"{"gold": 3}"#).unwrap();
+    let mut app = opened(&ctx, &other);
+    app.apply_edit("/gold".into(), json!(4), 0.0);
+    assert!(app.start_new_game(&path, "second run"), "{}", app.status);
+    assert!(!path.exists());
+    assert!(app.dirty && value(&app, "/gold") == Some(json!(4)), "the other file stays open with its changes");
+}
+
 /// Runs only inside `a_full_disk_never_leaves_a_cut_off_original_backup`, under a file size
 /// limit: opens the save in that test's folder, edits it and tries to save.
 #[cfg(unix)]
