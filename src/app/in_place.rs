@@ -184,7 +184,7 @@ impl App {
         }
         let mut open = true;
         let mut get = None;
-        egui::Window::new(tr("Originals kept in this browser")).open(&mut open).collapsible(false).default_width(fit(ctx, 520.0)).max_width(fit(ctx, 700.0)).show(ctx, |ui| {
+        egui::Window::new(tr("Originals kept in this browser")).open(&mut open).collapsible(false).default_pos(super::modal::start_pos(ctx, fit(ctx, 520.0))).default_width(fit(ctx, 520.0)).max_width(fit(ctx, 700.0)).show(ctx, |ui| {
             ui.label(trf("Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.", &[&KEEP_COUNT, &KEEP_MB]));
             ui.add_space(6.0);
             match crate::web::originals() {

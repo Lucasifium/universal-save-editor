@@ -10818,7 +10818,7 @@ Takes effect the next time you load this slot. Freedom turns off food and water;
 = Zadziała przy następnym wczytaniu tego slotu. Swoboda wyłącza jedzenie i wodę; Kreatywny wyłącza też tlen i koszty budowy. Zmiana trybu może wyłączyć osiągnięcia.
 
 Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
-= Wpływy to to, co zarobiły firmy, a czego jeszcze nie odebrano. Pieniądze sięgają maksymalnie ¥9,999,999,999,999.
+= Wpływy to to, co zarobiły firmy, a czego jeszcze nie odebrano. Pieniądze sięgają maksymalnie ¥9 999 999 999 999.
 
 Talent points
 = Punkty talentów
@@ -12077,7 +12077,7 @@ edition
 = edycja
 
 ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.
-= ff13-NN.dat. Zapis jest odszyfrowywany na czas edycji i szyfrowany ponownie przy zapisie. Gil sięga do 9,999,999.
+= ff13-NN.dat. Zapis jest odszyfrowywany na czas edycji i szyfrowany ponownie przy zapisie. Gil sięga do 9 999 999.
 
 generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.
 = generalprogress.bepis w folderze slotu zapisu. Każdy wariant broni ma wartość 1, gdy jest posiadany, i 0, gdy nie; pliki poziomów (lvlNprogress.bepis) zawierają rangi i sekrety.
@@ -12167,7 +12167,7 @@ tool level
 = poziom narzędzia
 
 userN.dat. Money is stored divided by 10; the game's cap is 99,990.
-= userN.dat. Pieniądze są przechowywane podzielone przez 10; limit gry to 99,990.
+= userN.dat. Pieniądze są przechowywane podzielone przez 10; limit gry to 99 990.
 
 {0}  (level {1})
 = {0}  (poziom {1})
@@ -12251,7 +12251,7 @@ GPData_<slot>.sav in Documents\\My Games\\MortalShell\\Dungeonhaven\\Saved\\Save
 = GPData_<slot>.sav w Documents\My Games\MortalShell\Dungeonhaven\Saved\SaveGames. Smoła jest zapisana jako BoneShards; rozgrywka w Trybie Burzy ma własną kopię. Nazwy przedmiotów w ekwipunku są zapisane jako tekst gry i nie są pokazywane.
 
 HK GameSlot 1 ... or HK Autosave Slot in the game's data folder (Steam: steamapps\\common\\SleepingDogsDefinitiveEdition\\data). The save is unscrambled and scrambled again, with its checksum, on save. Each XP track tops out at 50,000.
-= HK GameSlot 1 ... lub HK Autosave Slot w folderze danych gry (Steam: steamapps\common\SleepingDogsDefinitiveEdition\data). Zapis jest rozszyfrowywany i szyfrowany ponownie, wraz z sumą kontrolną, przy zapisie. Każda ścieżka XP kończy się na 50,000.
+= HK GameSlot 1 ... lub HK Autosave Slot w folderze danych gry (Steam: steamapps\common\SleepingDogsDefinitiveEdition\data). Zapis jest rozszyfrowywany i szyfrowany ponownie, wraz z sumą kontrolną, przy zapisie. Każda ścieżka XP kończy się na 50 000.
 
 RDR2SAVE<n>.SAV (and REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV) in Documents\\Rockstar Games\\Red Dead Redemption\\Profiles\\<id>. The save is decrypted and encrypted again with its CRC-32 when you save. Money, honor, fame, the Dead Eye meter and consumables can be changed; weapons, horses and kit are listed as owned. PS4 and Switch saves of the same release use the same format.
 = RDR2SAVE<n>.SAV (oraz REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV) w Documents\Rockstar Games\Red Dead Redemption\Profiles\<id>. Zapis jest odszyfrowywany i szyfrowany ponownie wraz z sumą CRC-32 podczas zapisywania. Można zmienić pieniądze, honor, sławę, pasek Dead Eye i przedmioty zużywalne; broń, konie i wyposażenie są wymienione jako posiadane. Zapisy PS4 i Switch tego samego wydania używają tego samego formatu.
@@ -12272,7 +12272,7 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 = SaveData.txt z folderu zapisu Daggerfall Unity (LocalLow\Daggerfall Workshop\Daggerfall Unity\Saves\<name>-<n>). Noszone złoto, poziom, zdrowie, osiem atrybutów, wszystkie 35 umiejętności, odporności, reputacje i złoto w banku każdego regionu. Atrybuty i umiejętności mieszczą się w zakresie od 0 do 100.
 
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
-= Saves\0.celeste … 2.celeste. Czasy są podane w tyknięciach po 100 nanosekund (10,000,000 na sekundę).
+= Saves\0.celeste … 2.celeste. Czasy są podane w tyknięciach po 100 nanosekund (10 000 000 na sekundę).
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav w %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>. Nazwy przedmiotów to wewnętrzne identyfikatory gry; suma CRC-32 zapisu jest zapisywana ponownie przy zapisie. Sprawdzono na prawdziwym zapisie z początku gry, jeszcze nie wypróbowano w grze.
@@ -15974,31 +15974,31 @@ Close the emulator first. The tape count of each skater and the save's checksum 
 = Najpierw zamknij emulator. Liczba taśm każdego skatera i suma kontrolna zapisu są zapisywane ponownie.
 
 10,000 Points
-= 10,000 punktów
+= 10 000 punktów
 
 15,000 Points
-= 15,000 punktów
+= 15 000 punktów
 
 20,000 Points
-= 20,000 punktów
+= 20 000 punktów
 
 25,000 Points
-= 25,000 punktów
+= 25 000 punktów
 
 30,000 Points
-= 30,000 punktów
+= 30 000 punktów
 
 40,000 Points
-= 40,000 punktów
+= 40 000 punktów
 
 5,000 Points
-= 5,000 punktów
+= 5 000 punktów
 
 50,000 Points
-= 50,000 punktów
+= 50 000 punktów
 
 7,500 Points
-= 7,500 punktów
+= 7 500 punktów
 
 Allegro Presto
 = Allegro Presto
@@ -32549,3 +32549,9 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 Nothing found.
 = Nic nie znaleziono.
 
+# values that hold other values
+list of {0}
+= lista: {0}
+
+group of {0}
+= grupa: {0}

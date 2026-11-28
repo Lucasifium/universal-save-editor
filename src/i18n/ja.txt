@@ -32625,3 +32625,10 @@ Nothing found.
 # changes button
 Changes ({0})
 = 変更 ({0})
+
+# values that hold other values
+list of {0}
+= {0} 件のリスト
+
+group of {0}
+= {0} 件のグループ

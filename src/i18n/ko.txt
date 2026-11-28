@@ -32549,3 +32549,9 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 Nothing found.
 = 찾은 항목이 없습니다.
 
+# values that hold other values
+list of {0}
+= {0}개 목록
+
+group of {0}
+= {0}개 그룹

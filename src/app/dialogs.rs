@@ -150,7 +150,7 @@ impl App {
         let has_doc = self.doc.is_some();
         let dirty = self.dirty;
         let newest_dir = versions.first().and_then(|v| v.path.parent()).map(Path::to_path_buf);
-        egui::Window::new(tr("Save manager")).open(&mut open).collapsible(false).default_width(fit(ctx, 760.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
+        egui::Window::new(tr("Save manager")).open(&mut open).collapsible(false).default_pos(super::modal::start_pos(ctx, fit(ctx, 760.0))).default_width(fit(ctx, 760.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
             if !path.exists() {
                 ui.label(RichText::new(tr("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.")).color(theme::fg(ui, theme::WARN)));

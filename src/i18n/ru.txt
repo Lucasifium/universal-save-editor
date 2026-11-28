@@ -4575,7 +4575,7 @@ Change to
 = Изменить на
 
 Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
-= Смена уровня не меняет опыт: задайте оба значения. Золота у персонажа может быть не более 10,000 на уровень.
+= Смена уровня не меняет опыт: задайте оба значения. Золота у персонажа может быть не более 10 000 на уровень.
 
 Chapter
 = Глава
@@ -5179,7 +5179,7 @@ The <SteamID>.json in a save's folder under AppData\\LocalLow\\Beam Team Games\\
 = <SteamID>.json в папке сохранения в AppData\LocalLow\Beam Team Games\Stranded Deep\Data. Здоровье, еда, вода и сон, пять навыков и счётчик дней. Закройте игру перед редактированием.
 
 Vitals (10,000 is full)
-= Показатели (10,000 — полная шкала)
+= Показатели (10 000 — полная шкала)
 
 Food (calories)
 = Еда (калории)
@@ -5788,7 +5788,7 @@ Experience is shared by the party; raising it gives level-ups to pick in the gam
 = Опыт общий для отряда; его повышение даёт повышения уровня, которые выбираются в игре.
 
 Experience is what Kiryu has earned and not yet spent in the Abilities menu (99,999,999 at most). Money tops out at ¥9,999,999,999.
-= Опыт — это то, что Кирю заработал и ещё не потратил в меню способностей (максимум 99,999,999). Деньги ограничены суммой ¥9,999,999,999.
+= Опыт — это то, что Кирю заработал и ещё не потратил в меню способностей (максимум 99 999 999). Деньги ограничены суммой ¥9 999 999 999.
 
 Experience is what a character has earned since the last rest; the game banks it, and raises the level, when the party rests at a camp or hotel. Levels, HP, MP and stats are shown as saved.
 = Опыт — это то, что персонаж заработал с последнего отдыха; игра засчитывает его и повышает уровень, когда отряд отдыхает в лагере или отеле. Уровни, HP, MP и характеристики показаны как сохранены.
@@ -6274,7 +6274,7 @@ Fuel range (parsecs)
 = Дальность топлива (парсеки)
 
 Fuel, biological and the three metals to 1,000,000 online and 500,000 local, processed too; the eight medicinal plants to 30,000 online and 6,000 local (the game's own caps)
-= Топливо, биологическое сырьё и три металла до 1,000,000 онлайн и 500,000 локально, включая обработанные; восемь лекарственных растений до 30,000 онлайн и 6,000 локально (собственные лимиты игры)
+= Топливо, биологическое сырьё и три металла до 1 000 000 онлайн и 500 000 локально, включая обработанные; восемь лекарственных растений до 30 000 онлайн и 6 000 локально (собственные лимиты игры)
 
 Full fatigue
 = Полная усталость
@@ -6292,13 +6292,13 @@ Funds (§)
 = Средства (§)
 
 Funds go up to 99,999,999. The game data is stored uncompressed when you save, so the file grows. Sim skills and traits aren't mapped yet. Not yet tried in the game.
-= Средства достигают 99,999,999. При сохранении данные игры хранятся без сжатия, поэтому файл увеличивается. Навыки и черты симов пока не сопоставлены. В игре пока не проверялось.
+= Средства достигают 99 999 999. При сохранении данные игры хранятся без сжатия, поэтому файл увеличивается. Навыки и черты симов пока не сопоставлены. В игре пока не проверялось.
 
 GMP
 = GMP
 
 GMP is capped at 99,999,999 in the game. Close the game and turn Steam Cloud off for it before editing.
-= GMP ограничено 99,999,999 в игре. Закройте игру и отключите для неё Steam Cloud перед редактированием.
+= GMP ограничено 99 999 999 в игре. Закройте игру и отключите для неё Steam Cloud перед редактированием.
 
 GTA3sf*.b. Money is kept in two places; the save's checksum is rewritten.
 = GTA3sf*.b. Деньги хранятся в двух местах; контрольная сумма сохранения перезаписывается.
@@ -10818,7 +10818,7 @@ Takes effect the next time you load this slot. Freedom turns off food and water;
 = Вступит в силу при следующей загрузке этого слота. «Свобода» отключает еду и воду; «Творчество» также отключает кислород и стоимость строительства. Смена режима может отключить достижения.
 
 Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
-= Выручка — это то, что заработали предприятия и что вы ещё не собрали. Максимум денег — ¥9,999,999,999,999.
+= Выручка — это то, что заработали предприятия и что вы ещё не собрали. Максимум денег — ¥9 999 999 999 999.
 
 Talent points
 = Очки талантов
@@ -32549,3 +32549,9 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 Nothing found.
 = Ничего не найдено.
 
+# values that hold other values
+list of {0}
+= список: {0}
+
+group of {0}
+= группа: {0}

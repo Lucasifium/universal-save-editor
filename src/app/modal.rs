@@ -103,3 +103,10 @@ pub(crate) fn safe_choice(r: egui::Response) -> egui::Response {
     }
     r
 }
+
+/// Where a tool window of width `w` first opens: in the middle of the window's width, a little
+/// below the toolbar. From there it is the user's to move.
+pub(super) fn start_pos(ctx: &egui::Context, w: f32) -> egui::Pos2 {
+    let screen = ctx.screen_rect();
+    egui::pos2((screen.center().x - w / 2.0).max(screen.left() + 4.0), screen.top() + (screen.height() * 0.12).min(90.0))
+}

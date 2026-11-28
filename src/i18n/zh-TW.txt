@@ -32600,3 +32600,9 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 Nothing found.
 = 找不到任何結果。
 
+# values that hold other values
+list of {0}
+= {0} 項清單
+
+group of {0}
+= {0} 項群組

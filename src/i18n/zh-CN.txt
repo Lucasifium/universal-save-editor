@@ -32598,3 +32598,10 @@ Nothing found.
 # changes button
 Changes ({0})
 = 更改 ({0})
+
+# values that hold other values
+list of {0}
+= {0} 项列表
+
+group of {0}
+= {0} 项分组
