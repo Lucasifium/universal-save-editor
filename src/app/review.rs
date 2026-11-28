@@ -17,6 +17,9 @@ pub(super) enum Undo {
 /// One line of the dialog.
 pub(super) struct Line {
     pub text: String,
+    /// For a value: where it is, its old and its new value, drawn the way the Changes panel
+    /// draws them (`text` holds the same as plain text).
+    pub change: Option<(String, String, String)>,
     /// A risk note, shown under the first line it applies to.
     pub note: Option<&'static str>,
     /// The section the value is in, for grouping long lists.
@@ -27,6 +30,32 @@ pub(super) struct Line {
     pub keep: bool,
 }
 
+impl Line {
+    /// The line as the dialog shows it: a value's old value struck through, then \u{203A} and the
+    /// new value in the "changed" colour, as in the Changes panel.
+    fn shown(&self, ui: &egui::Ui, lead: &str) -> egui::WidgetText {
+        let Some((at, old, new)) = &self.change else { return format!("{lead}{}", self.text).into() };
+        let font = egui::TextStyle::Body.resolve(ui.style());
+        let plain = egui::TextFormat { font_id: font, color: ui.visuals().text_color(), ..Default::default() };
+        let mut job = egui::text::LayoutJob::default();
+        job.append(&format!("{lead}{at}: "), 0.0, plain.clone());
+        let weak = ui.visuals().weak_text_color();
+        job.append(old, 0.0, egui::TextFormat { color: weak, strikethrough: egui::Stroke::new(1.0_f32, weak), ..plain.clone() });
+        job.append(" \u{203A} ", 0.0, plain.clone());
+        job.append(new, 0.0, egui::TextFormat { color: theme::fg(ui, theme::MODIFIED), ..plain });
+        job.into()
+    }
+
+    /// The line as plain text for pasting: ">" between the parts of a name, "->" from old to new.
+    pub(super) fn plain(&self) -> String {
+        let mut s = self.text.replace('\u{203A}', ">");
+        if let Some(n) = self.note {
+            s.push_str(&format!("  (note: {n})"));
+        }
+        s
+    }
+}
+
 /// Lists longer than this are grouped by section.
 const GROUP_FROM: usize = 8;
 
@@ -34,7 +63,7 @@ impl App {
     /// The unsaved changes, one line each, for the dialog.
     pub(super) fn review_lines(&self) -> Vec<Line> {
         let Some(d) = &self.doc else { return vec![] };
-        let line = |text: String, undo: Undo| Line { text, note: None, group: String::new(), together: None, undo, keep: true };
+        let line = |text: String, undo: Undo| Line { text, change: None, note: None, group: String::new(), together: None, undo, keep: true };
         match (&d.content, &d.baseline) {
             (Content::Binary(a), Content::Binary(b)) => byte_ranges(a, b)
                 .into_iter()
@@ -74,11 +103,12 @@ impl App {
                             }
                             None => (p.clone(), String::new(), String::new()),
                         };
-                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
-                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
                         let at = if context.is_empty() { name } else { format!("{context} \u{203A} {name}") };
                         Line {
                             text: format!("{at}: {old} -> {new}"),
+                            change: Some((at, old, new)),
                             // Each note once, on the first value it applies to.
                             note: crate::risks::note(kind, p).filter(|n| noted.insert(*n)),
                             group,
@@ -199,10 +229,10 @@ impl App {
                         last_group = Some(&l.group);
                     }
                     if l.undo == Undo::Whole || !droppable {
-                        ui.label(format!("\u{2022} {}", l.text));
+                        ui.label(l.shown(ui, "\u{2022} "));
                     } else {
                         let mut on = l.keep;
-                        let resp = widgets::checkbox(ui, &mut on, &l.text);
+                        let resp = widgets::checkbox(ui, &mut on, l.shown(ui, ""));
                         let resp = if l.together.is_some() { resp.on_hover_text(tr("Made by one button together with other values: kept or left out together.")) } else { resp };
                         if resp.clicked() {
                             tick = Some(i);
@@ -297,7 +327,7 @@ pub(super) mod tests {
     use super::*;
 
     fn l(together: Option<u64>) -> Line {
-        Line { text: String::new(), note: None, group: String::new(), together, undo: Undo::Value(String::new()), keep: true }
+        Line { text: String::new(), change: None, note: None, group: String::new(), together, undo: Undo::Value(String::new()), keep: true }
     }
 
     #[test]

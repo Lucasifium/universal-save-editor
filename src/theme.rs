@@ -215,6 +215,27 @@ fn definitions(cjk: bool) -> (FontDefinitions, bool) {
 
 
 pub fn apply(ctx: &egui::Context, dark: bool) {
+    set_style(ctx, dark);
+    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
+    // differs from this setting, draws its own default style instead of this one.
+    ctx.set_theme(if dark { egui::Theme::Dark } else { egui::Theme::Light });
+}
+
+/// The theme the player picked: dark, light, or (`follow_system`) whichever the system uses,
+/// changing with it while the program runs. Where the system says nothing, the last of dark and
+/// light chosen is used.
+pub fn apply_choice(ctx: &egui::Context, dark: bool, follow_system: bool) {
+    if !follow_system {
+        return apply(ctx, dark);
+    }
+    set_style(ctx, true);
+    set_style(ctx, false);
+    ctx.options_mut(|o| o.fallback_theme = if dark { egui::Theme::Dark } else { egui::Theme::Light });
+    ctx.set_theme(egui::ThemePreference::System);
+}
+
+/// Sets this program's style for the dark or the light theme.
+fn set_style(ctx: &egui::Context, dark: bool) {
     let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
     style.text_styles = [
         (TextStyle::Small, FontId::new(12.5, FontFamily::Proportional)),
@@ -229,11 +250,8 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
     style.spacing.interact_size.y = 26.0;
 
     style.visuals = visuals(dark);
-    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
-    // differs from this setting, draws its own default style instead of this one.
     let theme = if dark { egui::Theme::Dark } else { egui::Theme::Light };
     ctx.set_style_of(theme, style);
-    ctx.set_theme(theme);
 }
 
 /// The colours of the light or dark theme. Text keeps at least 4.5:1 against every background it
@@ -444,6 +462,34 @@ mod tests {
                 fails.push(format!("{what} {fg:?} on {name} {bg:?}: {r:.2} < {min}"));
             }
         }
+    }
+
+    /// "Same as the system" follows the system's theme as it changes while the program runs:
+    /// the window reports the theme with every frame's input (egui-winit passes on the
+    /// system's change), and egui picks the matching style, so nothing is done per frame here.
+    /// Where the system reports nothing, the dark or light last chosen stays.
+    #[test]
+    fn same_as_the_system_follows_a_change_of_the_system_theme() {
+        let ctx = egui::Context::default();
+        install_fonts(&ctx);
+        apply_choice(&ctx, true, true);
+        let dark_with = |sys: Option<egui::Theme>| {
+            let mut dark = None;
+            let _ = ctx.run(egui::RawInput { system_theme: sys, ..Default::default() }, |ctx| dark = Some(ctx.style().visuals.dark_mode));
+            dark.unwrap_or_default()
+        };
+        assert!(!dark_with(Some(egui::Theme::Light)));
+        assert!(dark_with(Some(egui::Theme::Dark)));
+        assert!(!dark_with(Some(egui::Theme::Light)), "and back again");
+        assert!(dark_with(None), "the system says nothing: the last choice (dark)");
+        apply_choice(&ctx, false, true);
+        assert!(!dark_with(None), "the last choice (light)");
+        // Both styles are this program's own, not egui's plain ones.
+        assert_eq!(ctx.style_of(egui::Theme::Light).visuals, visuals(false));
+        assert_eq!(ctx.style_of(egui::Theme::Dark).visuals, visuals(true));
+        // Picking dark or light stops following the system.
+        apply_choice(&ctx, false, false);
+        assert!(!dark_with(Some(egui::Theme::Dark)));
     }
 
     #[test]

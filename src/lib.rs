@@ -28,6 +28,8 @@ mod icon;
 mod json_view;
 mod memory;
 mod names;
+mod game_match;
+mod number_input;
 mod oodle;
 mod pickle;
 mod pins;
@@ -74,7 +76,8 @@ pub fn run_desktop(initial: Option<std::path::PathBuf>) -> eframe::Result {
         viewport: eframe::egui::ViewportBuilder::default()
             .with_title(platform::DISPLAY_NAME)
             .with_app_id(APP_NAME)
-            .with_inner_size([1150.0, std::env::var("SAVE_EDITOR_SHOT_HEIGHT").ok().and_then(|h| h.parse::<f32>().ok()).map_or(760.0, |h| h.clamp(400.0, 4000.0))])
+            // The size it had last time (a picture taken at a set height uses the standard size).
+            .with_inner_size(app::window_size::initial(&settings::Settings::load()))
             .with_min_inner_size([700.0, 400.0])
             .with_drag_and_drop(true)
             .with_icon(icon),
