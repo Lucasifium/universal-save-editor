@@ -1404,6 +1404,46 @@ fn look_in(g: &GameInfo, loc: &Located, out: &mut Vec<Found>) {
     }
 }
 
+/// The game a Game Pass save (or user folder) belongs to: the entry that names its Store package.
+pub fn game_pass_game(path: &Path) -> Option<&'static GameInfo> {
+    let parts: Vec<String> = path.components().map(|c| c.as_os_str().to_string_lossy().to_string()).collect();
+    let i = parts.iter().position(|p| p.eq_ignore_ascii_case("SystemAppData"))?;
+    let pkg = parts.get(i.checked_sub(1)?)?;
+    GAMES.iter().find(|g| g.places.iter().any(|(b, _)| matches!(b, GamePass(p) if *p != "*" && p.eq_ignore_ascii_case(pkg))))
+}
+
+/// Where this game's other versions (Steam, or a launcher) keep saves on this computer: the
+/// folders that hold such saves, newest first, then the game's usual folders that exist.
+/// Never a Game Pass folder.
+pub fn other_save_folders(g: &GameInfo) -> Vec<PathBuf> {
+    let home = env("HOME");
+    let mut usual = vec![];
+    let mut saves = vec![];
+    for (base, rel) in g.places {
+        if matches!(base, GamePass(_)) {
+            continue;
+        }
+        let mut roots: Vec<(PathBuf, String)> = bases(*base).into_iter().map(|r| (r, rel.to_string())).collect();
+        roots.extend(extra_places(*base, rel, home.as_deref()));
+        for (root, rel) in roots {
+            for dir in expand(&root, &rel) {
+                walk(&dir, g.depth.saturating_sub(1), g, &mut saves);
+                push_new(&mut usual, dir);
+            }
+        }
+    }
+    let mut out = vec![];
+    for f in finish(saves) {
+        if let Some(p) = f.path.parent() {
+            push_new(&mut out, p.to_path_buf());
+        }
+    }
+    for d in usual {
+        push_new(&mut out, d);
+    }
+    out
+}
+
 /// This game's saves on this computer, newest first.
 #[cfg(test)]
 pub fn find(g: &GameInfo) -> Vec<Found> {

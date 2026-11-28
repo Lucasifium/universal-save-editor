@@ -66,9 +66,6 @@ If the game keeps them somewhere else (another drive, a cloud folder), use Open�
 ‹ All games
 = ‹ Alle Spiele
 
-Copy character
-= Charakter kopieren
-
 Copy
 = Kopieren
 
@@ -299,12 +296,6 @@ Compare with another save…
 
 Open another file in this archive
 = Weitere Datei in diesem Archiv öffnen
-
-Copy character to another slot…
-= Charakter in anderen Slot kopieren…
-
-Duplicate an Elden Ring character, e.g. to try something out on the copy
-= Einen Elden-Ring-Charakter duplizieren, z. B. um etwas an der Kopie auszuprobieren
 
 Save or revert your changes first.
 = Zuerst Änderungen speichern oder zurücksetzen.
@@ -1183,7 +1174,6 @@ Advanced
 
 Opened {0} ({1}) — {2}.
 = {0} geöffnet ({1}) — {2}.
-
 
 Filter the tree by name or value  (Ctrl+F)
 = Baum nach Name oder Wert filtern  (Ctrl+F)
@@ -26909,9 +26899,6 @@ Changed the Steam ID in {0} places. Save to write the file.
 Copied 1 change as text.
 = 1 Änderung als Text kopiert.
 
-Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
-= {0} (Stufe {1}) in Slot {2} kopiert. Der Charakter erscheint im Lademenü des Spiels.
-
 Copied {0} changes as text.
 = {0} Änderungen als Text kopiert.
 
@@ -28997,7 +28984,6 @@ Detected format: {0}
 {0} is running
 = {0} läuft
 
-
 (missing)
 = (fehlt)
 
@@ -29051,9 +29037,6 @@ Couldn't change that backup: {0}
 
 Couldn't check for a new version. Check your internet connection and try again.
 = Die Suche nach einer neuen Version ist fehlgeschlagen. Prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.
-
-Couldn't copy the character: {0}. The save wasn't changed.
-= Der Charakter konnte nicht kopiert werden: {0}. Der Spielstand wurde nicht verändert.
 
 Couldn't delete the backup: {0}. It is still in the list.
 = Die Sicherung konnte nicht gelöscht werden: {0}. Sie ist noch in der Liste.
@@ -29295,9 +29278,6 @@ Signed, will be re-signed
 Slot {0}: empty
 = Slot {0}: leer
 
-Slot {0}: {1} (level {2})
-= Slot {0}: {1} (Stufe {2})
-
 Start over
 = Neu beginnen
 
@@ -29327,9 +29307,6 @@ These checksums hold for the file:
 
 This checksum holds for the file:
 = Diese Prüfsumme passt zur Datei:
-
-This replaces {0} (level {1}) in slot {2}.
-= Das ersetzt {0} (Stufe {1}) in Slot {2}.
 
 Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
 = Geben Sie die neue Zahl neben dem Namen ein und klicken Sie auf Setzen, dann speichern Sie mit Ctrl+S. Laden Sie den Spielstand im Spiel, um es zu prüfen.
@@ -29429,9 +29406,6 @@ type a name for the backup
 
 {0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
 = {0} scheint zu laufen. Beenden Sie es zuerst, sonst überschreibt es womöglich den wiederhergestellten Spielstand. Es wurde nichts wiederhergestellt.
-
-{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
-= {0} scheint zu laufen. Beenden Sie es zuerst, sonst überschreibt es den kopierten Charakter. Es wurde nichts kopiert.
 
 {0} looks like it's running. Quit it first, then try again. The save wasn't changed.
 = {0} scheint zu laufen. Beenden Sie es zuerst und versuchen Sie es dann erneut. Der Spielstand wurde nicht verändert.
@@ -30010,7 +29984,6 @@ Sets every character's Another Mode EXP to 472,000, the most the game holds (eve
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Setzt jedes Herstellungsmaterial auf 999, die Grenze, die das Spiel anzeigt (viele stehen in einem abgeschlossenen Spielstand auf 999), auch solche, die du noch nicht besitzt.
 
-
 Exosuit cargo
 = Exoanzug-Frachtraum
 
@@ -30305,7 +30278,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = Setzt gewöhnliche und ungewöhnliche Ressourcen auf 200, seltene auf 35 und sehr seltene auf 15, die größten Fassungsvermögen des Ressourcenbeutels laut Horizon-Wiki (eine Schätzung: keine Datendatei nennt sie, und mit anderen Werkzeugen erstellte Spielstände enthalten mehr). Legendäre Ressourcen, Nahrung, Munition, Outfits und Schlüsselgegenstände bleiben unberührt.
 
-
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Spielbildschirm: Geld und Fahndungsprämie einer Profildatei (PC- und PlayStation-2-Aufbau); die MD5 der Datei wird beim Speichern neu berechnet. Nach veröffentlichten Offsets gebaut, noch nicht an einem echten Profil getestet
 
@@ -30361,9 +30333,6 @@ Cloud sync: {0}
 This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
 = Dieser Spielstand liegt in einem Ordner, den {0} synchronisiert. Das Spiel vor dem Speichern beenden; fragt {0} danach, welche Kopie behalten werden soll, die lokale wählen.
 
-Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
-= Der Charakter konnte nicht kopiert werden: Die neue Datei wurde nicht wie erwartet gelesen ({0}). Der Spielstand wurde nicht geändert.
-
 # favourites, recent games, reset to original, tab shortcuts
 
 Favourites
@@ -30392,7 +30361,6 @@ Open another save in a new tab
 
 Next / previous tab
 = Nächster / vorheriger Tab
-
 
 Appearances
 = Aussehen
@@ -30512,8 +30480,6 @@ Walker Gear
 
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {0} von {1} entwickelt. Die Gegenstände sind nach Entwicklungsnummer aufgeführt; die Namen der Gegenstände stehen nicht im Spielstand.
-
-
 
 Hotbar
 = Schnellleiste
@@ -30764,7 +30730,6 @@ Zombie kills
 
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = players.db aus Zomboid\Saves\<Modus>\<Spielstandname> (dem Ordner des Spielstands). Stunden, Kills, Gewicht und Todesstatus jeder Figur, ihre Bedürfnisse und Zustände, die Gesundheit jedes Körperteils sowie Stufe und Erfahrung jeder Fertigkeit. Schließe vorher das Spiel. Um eine tote Figur zurückzuholen, entferne das Häkchen bei „Tot“ und erhöhe die Gesundheit der Körperteile.
-
 
 # data/games: Epic Battle Fantasy 5, Road 96
 
@@ -31161,7 +31126,6 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = savegameNN.sav aus Documents\Almost Human\Legend of Grimrock (ein GRIM-Header und zlib-Daten, die für dich entpackt und wieder gepackt werden). Gesundheit und Energie jedes Gruppenmitglieds, die vier Werte, unverteilte Fertigkeitspunkte und Fertigkeitsstufen. Gegenstände, Eigenschaften und das Verlies sind im Baum. Schließe zuerst das Spiel.
-
 
 # data/games: Dead Space 2, Just Cause 2
 
@@ -31836,3 +31800,150 @@ built in
 
 {0} (each): {1}
 = {0} (je): {1}
+
+# slot copy, save details, Xbox app to Steam
+
+{0} more
+= {0} weitere
+
+Copied slot {0} into slot {1}. It shows up in the game's own load menu.
+= Platz {0} wurde nach Platz {1} kopiert. Er erscheint im Lademenü des Spiels.
+
+Copied to {0}. Start the Steam version to load it.
+= Nach {0} kopiert. Starte die Steam-Version, um ihn zu laden.
+
+Copy a slot
+= Platz kopieren
+
+Copy a slot to another slot…
+= Platz auf einen anderen Platz kopieren…
+
+Copy slot
+= Platz kopieren
+
+Copy to the Steam version
+= In die Steam-Version kopieren
+
+Copy to the Steam version…
+= In die Steam-Version kopieren…
+
+Couldn't copy the save: {0}. The Steam version's save wasn't changed.
+= Der Spielstand konnte nicht kopiert werden: {0}. Der Spielstand der Steam-Version wurde nicht geändert.
+
+Couldn't copy the slot: {0}. The save wasn't changed.
+= Der Platz konnte nicht kopiert werden: {0}. Der Spielstand wurde nicht geändert.
+
+Duplicate a {0} save slot, e.g. to try something out on the copy
+= Einen Speicherplatz von {0} verdoppeln, z. B. um etwas an der Kopie auszuprobieren
+
+File name
+= Dateiname
+
+Folder
+= Ordner
+
+If the Steam version says the save belongs to someone else, open the copy here and use Tools › Change Steam account in this save.
+= Wenn die Steam-Version meldet, dass der Spielstand jemand anderem gehört, öffne die Kopie hier und nutze Werkzeuge › Steam-Konto in diesem Spielstand ändern.
+
+No folder of the Steam version was found on this computer. Start the game on Steam once and save, then try again.
+= Auf diesem Computer wurde kein Ordner der Steam-Version gefunden. Starte das Spiel einmal über Steam und speichere, dann versuche es erneut.
+
+Put a copy of this Xbox app save where the game's Steam version looks for its saves. The Xbox app's save is left as it is.
+= Eine Kopie dieses Xbox-App-Spielstands dort ablegen, wo die Steam-Version des Spiels nach Spielständen sucht. Der Spielstand der Xbox-App bleibt, wie er ist.
+
+Replace the save that is there (it is backed up first)
+= Den vorhandenen Spielstand ersetzen (er wird vorher gesichert)
+
+Slot {0}: {1}
+= Platz {0}: {1}
+
+The Xbox app's save is left as it is. If Steam asks which copy to keep, choose the one on this computer.
+= Der Spielstand der Xbox-App bleibt, wie er ist. Wenn Steam fragt, welche Kopie behalten werden soll, wähle die auf diesem Computer.
+
+This replaces slot {0} ({1}).
+= Dies ersetzt Platz {0} ({1}).
+
+couldn't back up {0} first: {1}
+= {0} konnte vorher nicht gesichert werden: {1}
+
+couldn't read the Xbox app's save: {0}
+= der Spielstand der Xbox-App konnte nicht gelesen werden: {0}
+
+pick two different slots
+= wähle zwei verschiedene Plätze
+
+slot {0} can't be read
+= Platz {0} kann nicht gelesen werden
+
+slot {0} doesn't read back as expected
+= Platz {0} liest sich nicht wie erwartet zurück
+
+that folder belongs to the Xbox app; pick the Steam version's folder
+= dieser Ordner gehört der Xbox-App; wähle den Ordner der Steam-Version
+
+that slot is empty
+= dieser Platz ist leer
+
+the character's data is damaged
+= die Daten der Figur sind beschädigt
+
+the file is shorter than its slots
+= die Datei ist kürzer als ihre Plätze
+
+the new file doesn't read as the same kind of save
+= die neue Datei liest sich nicht als dieselbe Art Spielstand
+
+this isn't an Elden Ring save with ten slots
+= dies ist kein Elden-Ring-Spielstand mit zehn Plätzen
+
+this isn't an Ocarina of Time save
+= dies ist kein Ocarina-of-Time-Spielstand
+
+this kind of save has no slots that can be copied
+= diese Art Spielstand hat keine Plätze, die sich kopieren lassen
+
+type a plain file name, without a folder
+= gib einen einfachen Dateinamen ohne Ordner ein
+
+{0} gold
+= {0} Gold
+
+{0} isn't a folder on this computer
+= {0} ist kein Ordner auf diesem Computer
+
+{0} isn't a name {1} uses for its saves ({2})
+= {0} ist kein Name, den {1} für Spielstände verwendet ({2})
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied slot. Nothing was copied.
+= {0} scheint zu laufen. Beende es zuerst, sonst überschreibt es den kopierten Platz. Es wurde nichts kopiert.
+
+{0} looks like it's running. Quit it first. Nothing was copied.
+= {0} scheint zu laufen. Beende es zuerst. Es wurde nichts kopiert.
+
+{0} save slot in use
+= {0} Speicherplatz belegt
+
+{0} save slots in use
+= {0} Speicherplätze belegt
+
+{0} stars
+= {0} Sterne
+
+{0}, level {1}
+= {0}, Stufe {1}
+
+{0}, level {1}, {2}
+= {0}, Stufe {1}, {2}
+
+{0}, {1} energy
+= {0}, {1} Energie
+
+{0}, {1}, level {2}
+= {0}, {1}, Stufe {2}
+
+{0}, {1}:{2}
+= {0}, {1}:{2}
+
+{0}: “{1}” from the Xbox app.
+= {0}: „{1}“ aus der Xbox-App.
+

@@ -11,7 +11,7 @@ use super::retro::{byte_sum, flag};
 use crate::tree::TreeDoc;
 
 pub const KIND: &str = "Super Mario 64 save";
-const SLOT: usize = 0x70;
+pub(crate) const SLOT: usize = 0x70;
 const COPY: usize = 0x38;
 const MENU: usize = 0x1c0;
 const FILES: [&str; 4] = ["File A", "File B", "File C", "File D"];
@@ -34,6 +34,24 @@ const SECRETS: [(&str, usize); 8] = [
     ("Wing Mario Over the Rainbow", 0x22), ("The Secret Aquarium", 0x23),
 ];
 
+/// The stars a file (starting at `s`) has collected.
+pub(crate) fn stars(d: &[u8], s: usize) -> u32 {
+    let mut stars = 0;
+    for (c, _) in COURSES.iter().enumerate() {
+        stars += (d[s + 0xc + c] & 0x7f).count_ones();
+    }
+    for (_, off) in SECRETS {
+        stars += (d[s + off] & 1) as u32;
+    }
+    stars + ((d[s + 0x1e] >> 1) & 1) as u32
+}
+
+/// Whether file `n` has been started.
+pub(crate) fn used(d: &[u8], n: usize) -> bool {
+    let s = n * SLOT;
+    d.len() >= s + SLOT && d[s + 0xb] & 1 != 0 && d[s + 0x34..s + 0x36] == *b"DA"
+}
+
 pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
     if !looks(d) {
         return Err("not a Super Mario 64 save".into());
@@ -51,15 +69,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
             flag(b, path, s + off, bit);
             b.mirror(path, s + COPY + off);
         };
-        let mut stars = 0;
-        for (c, _) in COURSES.iter().enumerate() {
-            stars += (d[s + 0xc + c] & 0x7f).count_ones();
-        }
-        for (_, off) in SECRETS {
-            stars += (d[s + off] & 1) as u32;
-        }
-        stars += ((d[s + 0x1e] >> 1) & 1) as u32;
-        b.info(&[file, "Stars collected"], stars);
+        b.info(&[file, "Stars collected"], stars(d, s));
         for (name, bit) in [("Wing Cap switch", 1), ("Metal Cap switch", 2), ("Vanish Cap switch", 3), ("Basement key", 4), ("Gallery key", 5), ("Basement key door open", 6), ("Gallery key door open", 7)] {
             at(&mut b, &[file, name], 0xb, bit);
         }
