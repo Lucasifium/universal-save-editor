@@ -493,7 +493,7 @@ impl Chrome {
             to_light: "Switch to light theme".into(),
             to_dark: "Switch to dark theme".into(),
             footer: format!(r#"Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{root}whats-new/">What's new</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a>"#),
-            og_alt: "Universal Save Editor: free, offline save editor for 550+ games".into(),
+            og_alt: format!("Universal Save Editor: free, offline save editor for {}+ ({}) games", GAMES.len() / 10 * 10, GAMES.len()),
             dl_windows: "Download for Windows".into(),
             dl_version: "Version {0}:".into(),
             dl_for: "Download for ".into(),
@@ -1898,6 +1898,31 @@ fn translated_pages_are_well_formed_and_linked_inside_the_site() {
             }
         }
     }
+}
+
+#[test]
+fn pages_state_the_current_game_count() {
+    let rows = readme_rows();
+    let mut pages = lang::pages(&[], &rows);
+    pages.push(("save-manager/".into(), page("t", "d", "save-manager/", &save_manager_body(), "{}")));
+    let many = GAMES.len() / 10 * 10;
+    for (path, html) in &pages {
+        // Every "N+" big enough to be a game count is the rounded count of the catalog ("590+").
+        let b = html.as_bytes();
+        for (i, _) in html.match_indices('+') {
+            let start = b[..i].iter().rposition(|c| !c.is_ascii_digit()).map_or(0, |k| k + 1);
+            let n: usize = html[start..i].parse().unwrap_or(0);
+            if n >= 300 {
+                assert_eq!(n, many, "{path}: states an old game count near {:?}", &html[start.saturating_sub(40)..i + 1]);
+            }
+        }
+        let alt = html.split("og:image:alt\" content=\"").nth(1).and_then(|s| s.split('"').next()).unwrap_or("");
+        assert!(alt.contains(&GAMES.len().to_string()), "{path}: the preview picture's text has no game count: {alt:?}");
+    }
+    // A translated home page's description has the count too.
+    let de = &pages.iter().find(|p| p.0 == "de/").unwrap().1;
+    let desc = de.split("name=\"description\" content=\"").nth(1).and_then(|s| s.split('"').next()).unwrap_or("");
+    assert!(desc.contains(&format!("{many}+ ({})", GAMES.len())), "{desc}");
 }
 
 #[test]

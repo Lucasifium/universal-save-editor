@@ -1,7 +1,7 @@
 # Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
 
-Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
-= Kostenloser Offline-Spielstand-Editor für PC-Spiele: Geld, Gegenstände und Werte in den Spielständen von 550+ Spielen ändern. Nichts wird hochgeladen, und jeder Spielstand wird zuerst gesichert.
+Free offline save editor for PC games: change money, items and stats in the saves of {0}+ ({1}) games. Nothing is uploaded, and every save is backed up first.
+= Kostenloser Offline-Spielstand-Editor für PC-Spiele: Geld, Gegenstände und Werte in den Spielständen von {0}+ ({1}) Spielen ändern. Nichts wird hochgeladen, und jeder Spielstand wird zuerst gesichert.
 
 Free offline save editor for {0}+ ({1}) games | Universal Save Editor
 = Kostenloser Offline-Spielstand-Editor für {0}+ ({1}) Spiele | Universal Save Editor
@@ -201,8 +201,8 @@ Source code on GitHub
 Code signing policy
 = Richtlinie zur Code-Signierung
 
-Universal Save Editor: free, offline save editor for 550+ games
-= Universal Save Editor: kostenloser Offline-Spielstand-Editor für über 550 Spiele
+Universal Save Editor: free, offline save editor for {0}+ ({1}) games
+= Universal Save Editor: kostenloser Offline-Spielstand-Editor für {0}+ ({1}) Spiele
 
 Download for Windows
 = Für Windows herunterladen

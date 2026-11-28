@@ -1,7 +1,7 @@
 # Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
 
-Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
-= Editor de partidas sin conexión y gratuito para juegos de PC: cambia dinero, objetos y estadísticas en las partidas de más de 550 juegos. No se sube nada y cada partida se copia antes de guardar.
+Free offline save editor for PC games: change money, items and stats in the saves of {0}+ ({1}) games. Nothing is uploaded, and every save is backed up first.
+= Editor de partidas sin conexión y gratuito para juegos de PC: cambia dinero, objetos y estadísticas en las partidas de {0}+ ({1}) juegos. No se sube nada y cada partida se copia antes de guardar.
 
 Free offline save editor for {0}+ ({1}) games | Universal Save Editor
 = Editor de partidas gratuito y sin conexión para {0}+ ({1}) juegos | Universal Save Editor
@@ -201,8 +201,8 @@ Source code on GitHub
 Code signing policy
 = Política de firma de código
 
-Universal Save Editor: free, offline save editor for 550+ games
-= Universal Save Editor: editor de partidas gratuito y sin conexión para más de 550 juegos
+Universal Save Editor: free, offline save editor for {0}+ ({1}) games
+= Universal Save Editor: editor de partidas gratuito y sin conexión para {0}+ ({1}) juegos
 
 Download for Windows
 = Descargar para Windows
