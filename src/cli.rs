@@ -9,6 +9,11 @@
 //! UniversalSaveEditor encode <save> <edited data> [-o <out>]  pack edited data like <save>
 //! UniversalSaveEditor patch  <save> [<game|file> [<n>[:<k>]...]]  console cheat patches (Apollo)
 //! UniversalSaveEditor games  [--json]                         the games the editor knows
+//! UniversalSaveEditor backup  <save> [--name <n>]             keep a copy of the save as it is now
+//! UniversalSaveEditor backups <save> [--json]                 the kept copies, newest first
+//! UniversalSaveEditor restore <save> <n>                      put copy <n> back
+//! UniversalSaveEditor presets [--json]                        the presets that can be applied
+//! UniversalSaveEditor apply   <save> <preset> [--dry-run]     make a preset's changes
 //! ```
 //!
 //! Writing is as careful as the window: the new file must decode to exactly what was asked
@@ -20,7 +25,7 @@ use crate::formats::{self, Content, Options};
 use serde_json::{json, Value};
 use std::path::{Path, PathBuf};
 
-const COMMANDS: [&str; 11] = ["info", "list", "get", "set", "decode", "encode", "checksum", "steamid", "patch", "games", "help"];
+const COMMANDS: [&str; 16] = ["info", "list", "get", "set", "decode", "encode", "checksum", "steamid", "patch", "games", "backup", "backups", "restore", "presets", "apply", "help"];
 
 /// Runs a command if `args` (without the program name) start with one; `None` means "open the
 /// window", with the first argument as a file to open.
@@ -57,15 +62,21 @@ struct Args {
     no_backup: bool,
     /// --be / --le: byte order for cheat patches.
     big_endian: Option<bool>,
+    /// --name: what to call a backup kept with `backup`.
+    name: Option<String>,
+    /// --dry-run: show what `apply` would change and write nothing.
+    dry_run: bool,
 }
 
 fn parse(args: &[String]) -> Result<Args, String> {
-    let mut a = Args { pos: vec![], json: false, out: None, password: None, entry: None, no_backup: false, big_endian: None };
+    let mut a = Args { pos: vec![], json: false, out: None, password: None, entry: None, no_backup: false, big_endian: None, name: None, dry_run: false };
     let mut it = args.iter();
     while let Some(x) = it.next() {
         match x.as_str() {
             "--json" => a.json = true,
             "--no-backup" => a.no_backup = true,
+            "--dry-run" => a.dry_run = true,
+            "--name" => a.name = Some(it.next().ok_or("usage: --name needs a name for the backup")?.clone()),
             "--be" => a.big_endian = Some(true),
             "--le" => a.big_endian = Some(false),
             "-o" | "--out" => a.out = Some(PathBuf::from(it.next().ok_or("usage: -o needs a file")?)),
@@ -91,7 +102,12 @@ fn help() {
          UniversalSaveEditor checksum <save> [<n>|off]      find a checksum; <n> keeps that one fixed on every save\n  \
          UniversalSaveEditor steamid <save> [<old> <new>]   list the Steam IDs in a save, or change one to another account\n  \
          UniversalSaveEditor patch  <save> [<game> [<n>...]]  console cheat patches: list the patch files for the save,\n                                                    a patch file's codes, or apply codes by number (<n>:<k> picks\n                                                    option k of a code with options; --be/--le sets the byte order)\n  \
-         UniversalSaveEditor games  [--json]                the games the editor knows\n\n\
+         UniversalSaveEditor games  [--json]                the games the editor knows\n  \
+         UniversalSaveEditor backup  <save> [--name <n>]    keep a copy of the save as it is now (a name keeps it for good)\n  \
+         UniversalSaveEditor backups <save> [--json]        the kept copies, newest first, numbered\n  \
+         UniversalSaveEditor restore <save> <n>             put copy <n> back (the save as it is now is backed up first)\n  \
+         UniversalSaveEditor presets [--json]               the presets you can apply: your own and the ready-made ones\n  \
+         UniversalSaveEditor apply   <save> <preset> [--dry-run] [-o <out>]  make a preset's changes (a name or a .json file)\n\n\
          Options: --password <p> (encrypted saves), --entry <name> (one save in an archive or\n\
          memory card, as listed by info), --json (machine-readable output).\n\
          Pointers are JSON pointers as shown by `list` (for example /money or /party/0/hp).\n\
@@ -445,12 +461,111 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 let now = root(&d.content).and_then(|r| r.pointer(ptr)).cloned().unwrap_or(Value::Null);
                 eprintln!("{ptr}: {old} \u{203A} {now}");
             }
-            let bytes = formats::encode(&d.layers, &d.content)?;
-            let check = formats::decode_with(&bytes, &opts);
-            if !formats::same_layers(&check.layers, &d.layers) || !formats::verified(&check.content, &d.content) {
-                return Err("the new file didn't read back identically; nothing was written".into());
+            write_edited(&path, &opts, &d, &a)?;
+        }
+        "backup" => {
+            let f = a.pos.first().ok_or("usage: backup <save> [--name <n>]")?;
+            let path = PathBuf::from(f);
+            if !path.is_file() {
+                return Err(format!("{f}: no such file"));
             }
-            write(&path, a.out.as_deref(), &bytes, a.no_backup)?;
+            match &a.name {
+                Some(n) => println!("kept {} as \u{201C}{n}\u{201D}: {}", f, crate::backups::take_named(&path, n)?.display()),
+                None => match crate::backups::take(&path)? {
+                    Some(b) => println!("backed up {} as {}", f, b.display()),
+                    None => println!("{f}: the newest backup already holds exactly this file"),
+                },
+            }
+        }
+        "backups" => {
+            let f = a.pos.first().ok_or("usage: backups <save> [--json]")?;
+            let list = crate::backups::list(Path::new(f));
+            if a.json {
+                let v: Vec<Value> = list.iter().enumerate().map(|(i, v)| json!({"n": i + 1, "when": v.when, "name": v.name, "size": v.size, "file": v.path.display().to_string()})).collect();
+                println!("{}", serde_json::to_string_pretty(&v).unwrap_or_default());
+            } else if list.is_empty() {
+                println!("{f}: no backups yet");
+            } else {
+                for (i, v) in list.iter().enumerate() {
+                    let name = v.name.as_deref().map(|n| format!("  \u{201C}{n}\u{201D}")).unwrap_or_default();
+                    println!("{:>3}  {}  {} bytes{name}", i + 1, crate::backups::describe(v.when), v.size);
+                }
+            }
+        }
+        "restore" => {
+            let (Some(f), Some(n)) = (a.pos.first(), a.pos.get(1)) else { return Err("usage: restore <save> <n>, with n from `backups`".into()) };
+            let path = PathBuf::from(f);
+            let list = crate::backups::list(&path);
+            let v = n.parse::<usize>().ok().and_then(|i| list.get(i.wrapping_sub(1))).ok_or_else(|| format!("usage: restore <save> <n>: there is no backup {n} (see `backups {f}`)"))?;
+            if let Some(game) = crate::running::game_for(&path) {
+                return Err(format!("{game} looks like it's running; quit it first, or it may overwrite the restored save. Nothing was restored"));
+            }
+            let before = crate::backups::Kept::read(&path).map_err(|e| format!("{f}: {e}"))?;
+            crate::backups::restore(&path, &v.path).map_err(|e| format!("couldn't restore: {e}. The save on disk wasn't changed"))?;
+            let bytes = std::fs::read(&path).map_err(|e| format!("{f}: {e}"))?;
+            crate::backups::write_companions(&before, formats::companion_files(&path, &bytes), true).map_err(|e| format!("{}: {}; the save itself was restored", e.file.display(), e.error))?;
+            println!("restored {f} from backup {n} ({}); the save it replaced was backed up too", crate::backups::describe(v.when));
+        }
+        "presets" => {
+            let all = all_presets();
+            if a.json {
+                let v: Vec<Value> = all.iter().map(|(file, p)| json!({"name": p.name, "changes": p.len(), "built_in": p.built_in, "file": file.as_ref().map(|f| f.display().to_string())})).collect();
+                println!("{}", serde_json::to_string_pretty(&v).unwrap_or_default());
+            } else if all.is_empty() {
+                println!("no presets");
+            } else {
+                for (file, p) in &all {
+                    let kind = if p.built_in { "built in".to_string() } else { file.as_ref().map(|f| f.display().to_string()).unwrap_or_default() };
+                    println!("{}  ({} change{})  {kind}", p.name, p.len(), if p.len() == 1 { "" } else { "s" });
+                }
+            }
+        }
+        "apply" => {
+            let (Some(f), Some(which)) = (a.pos.first(), a.pos.get(1)) else { return Err("usage: apply <save> <preset name or .json file>".into()) };
+            let preset = find_preset(which)?;
+            let (path, opts, mut d) = open(f, &a)?;
+            let (mut changed, mut missing) = (0usize, 0usize);
+            match &mut d.content {
+                Content::Binary(b) => {
+                    for c in &preset.bytes {
+                        if c.offset + c.bytes.len() > b.len() {
+                            missing += 1;
+                            continue;
+                        }
+                        let old = b[c.offset..c.offset + c.bytes.len()].to_vec();
+                        b[c.offset..c.offset + c.bytes.len()].copy_from_slice(&c.bytes);
+                        if old != c.bytes {
+                            changed += 1;
+                            eprintln!("{} (0x{:X}): {:02X?} \u{203A} {:02X?}", c.name, c.offset, old, c.bytes);
+                        }
+                    }
+                    missing += preset.values.len();
+                }
+                c => {
+                    let (todo, gone) = match root(c) {
+                        Some(r) => crate::presets::resolve(&preset.values, r),
+                        None => (vec![], preset.values.len()),
+                    };
+                    missing += gone + preset.bytes.len();
+                    for ch in todo {
+                        let old = root(c).and_then(|r| r.pointer(&ch.path)).cloned().unwrap_or(Value::Null);
+                        set_in(c, &ch.path, ch.value.clone())?;
+                        let now = root(c).and_then(|r| r.pointer(&ch.path)).cloned().unwrap_or(Value::Null);
+                        if now != old {
+                            changed += 1;
+                            eprintln!("{} {}: {old} \u{203A} {now}", ch.name, ch.path);
+                        }
+                    }
+                }
+            }
+            eprintln!("{}: {changed} change{} made{}", preset.name, if changed == 1 { "" } else { "s" }, if missing > 0 { format!(", {missing} not in this save and left out") } else { String::new() });
+            if changed == 0 {
+                println!("{f}: nothing to change; the file was not written");
+            } else if a.dry_run {
+                println!("{f}: dry run, nothing was written");
+            } else {
+                write_edited(&path, &opts, &d, &a)?;
+            }
         }
         "decode" => {
             let f = a.pos.first().ok_or("usage: decode <save> [-o <out>]")?;
@@ -494,6 +609,41 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
 }
 
 /// Sets the value at `ptr` in JSON or Tree content.
+/// Packs the edited data, checks the new file reads back exactly as intended and only then writes it.
+fn write_edited(path: &Path, opts: &Options, d: &formats::Decoded, a: &Args) -> Result<(), String> {
+    let bytes = formats::encode(&d.layers, &d.content)?;
+    let check = formats::decode_with(&bytes, opts);
+    if !formats::same_layers(&check.layers, &d.layers) || !formats::verified(&check.content, &d.content) {
+        return Err("the new file didn't read back identically; nothing was written".into());
+    }
+    write(path, a.out.as_deref(), &bytes, a.no_backup)
+}
+
+/// Every preset the editor can apply: the player's files first, then the ready-made ones.
+fn all_presets() -> Vec<(Option<PathBuf>, crate::presets::Preset)> {
+    let mut v: Vec<_> = crate::presets::list().into_iter().map(|(f, p)| (Some(f), p)).collect();
+    v.extend(crate::presets::built_in().into_iter().map(|p| (None, p)));
+    v
+}
+
+/// A preset named on the command line: a .json file, or the name (or file name) of a kept or
+/// ready-made one, ignoring case.
+fn find_preset(which: &str) -> Result<crate::presets::Preset, String> {
+    let as_file = Path::new(which);
+    if as_file.is_file() {
+        let text = std::fs::read_to_string(as_file).map_err(|e| format!("{which}: {e}"))?;
+        return crate::presets::Preset::from_json(&text).map_err(|e| format!("{which} isn't a preset: {e}"));
+    }
+    let want = which.trim().to_lowercase();
+    let all = all_presets();
+    all.iter()
+        .find(|(f, p)| {
+            p.name.to_lowercase() == want || f.as_ref().and_then(|f| f.file_stem()).is_some_and(|s| s.to_string_lossy().to_lowercase() == want)
+        })
+        .map(|(_, p)| p.clone())
+        .ok_or_else(|| format!("no preset called \u{201C}{which}\u{201D} (see `presets`)"))
+}
+
 fn set_in(c: &mut Content, ptr: &str, v: Value) -> Result<(), String> {
     match c {
         Content::Tree(t) => {
@@ -686,4 +836,65 @@ mod tests {
         let v: Value = serde_json::from_slice(&std::fs::read(&real).unwrap()).unwrap();
         assert_eq!(v["gold"], json!(2));
     }
+
+    fn gold(save: &Path) -> i64 {
+        serde_json::from_slice::<Value>(&std::fs::read(save).unwrap()).unwrap()["gold"].as_i64().unwrap()
+    }
+
+    #[test]
+    fn backup_backups_and_restore_round_trip() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("brr");
+        let save = s.0.join("save.json");
+        std::fs::write(&save, br#"{"gold": 10}"#).unwrap();
+        let p = save.to_string_lossy().to_string();
+        assert_eq!(run(&args(&["backup", &p, "--name", "before the boss"])), Some(0));
+        assert_eq!(run(&args(&["backups", &p])), Some(0));
+        assert_eq!(run(&args(&["backups", &p, "--json"])), Some(0));
+        assert!(crate::backups::list(&save).iter().any(|v| v.name.as_deref() == Some("before the boss")));
+        assert_eq!(run(&args(&["set", &p, "/gold=99"])), Some(0));
+        assert_eq!(gold(&save), 99);
+        let slot = crate::backups::list(&save).iter().position(|v| v.name.is_some()).unwrap() + 1;
+        assert_eq!(run(&args(&["restore", &p, &slot.to_string()])), Some(0));
+        assert_eq!(gold(&save), 10);
+        // The save that was replaced is kept too, so the restore can be undone.
+        assert!(crate::backups::list(&save).iter().any(|v| std::fs::read(&v.path).map(|b| b == br#"{"gold": 99}"#.to_vec() || String::from_utf8_lossy(&b).contains("99")).unwrap_or(false)));
+        // A number that isn't there writes nothing.
+        assert_eq!(run(&args(&["restore", &p, "99"])), Some(2));
+        assert_eq!(run(&args(&["backup", &s.0.join("none.json").to_string_lossy()])), Some(1));
+        assert_eq!(gold(&save), 10);
+    }
+
+    #[test]
+    fn apply_a_preset_file_and_a_ready_made_preset() {
+        let _g = crate::backups::tests::LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::backups::set_root(None);
+        let s = Scratch::new("apply");
+        let save = s.0.join("file1.json");
+        std::fs::write(&save, br#"{"party":{"_gold":10,"_items":{"1":3,"2":120}},"gold":5}"#).unwrap();
+        let p = save.to_string_lossy().to_string();
+        let preset = s.0.join("rich.json");
+        std::fs::write(&preset, r#"{"preset":"Rich","values":[{"path":"/gold","value":500},{"path":"/nope","value":1}]}"#).unwrap();
+        // A dry run changes nothing.
+        assert_eq!(run(&args(&["apply", &p, &preset.to_string_lossy(), "--dry-run"])), Some(0));
+        assert_eq!(gold(&save), 5);
+        assert_eq!(run(&args(&["apply", &p, &preset.to_string_lossy()])), Some(0));
+        assert_eq!(gold(&save), 500);
+        assert_eq!(backed_up(&save).len(), 1, "the old file was backed up first");
+        // Ready-made, by name: items below 99 go up, others and the gold already above stay.
+        assert_eq!(run(&args(&["apply", &p, "carried items to 99 (rpg maker mv / mz)"])), Some(0));
+        let v: Value = serde_json::from_slice(&std::fs::read(&save).unwrap()).unwrap();
+        assert_eq!(v["party"]["_items"]["1"], 99);
+        assert_eq!(v["party"]["_items"]["2"], 120);
+        // Nothing to change: the file isn't rewritten.
+        let before = std::fs::read(&save).unwrap();
+        assert_eq!(run(&args(&["apply", &p, "carried items to 99 (rpg maker mv / mz)"])), Some(0));
+        assert_eq!(std::fs::read(&save).unwrap(), before);
+        // Unknown preset: error, nothing written.
+        assert_eq!(run(&args(&["apply", &p, "no such preset"])), Some(1));
+        assert_eq!(std::fs::read(&save).unwrap(), before);
+        assert_eq!(run(&args(&["presets", "--json"])), Some(0));
+    }
+
 }

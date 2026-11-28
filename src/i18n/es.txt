@@ -31786,3 +31786,46 @@ Yes, tell me
 
 No thanks
 = No, gracias
+
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= Añade el programa a la lista «Abrir con» del Explorador para tipos de archivo propios de una sola familia de juegos (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), solo para tu cuenta. Nunca pasa a ser el programa predeterminado, y al desactivarlo se quita de nuevo.
+
+Carried items to 99 (RPG Maker MV / MZ)
+= Objetos que llevas a 99 (RPG Maker MV / MZ)
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= Armas y armaduras que llevas a 99 (RPG Maker MV / MZ)
+
+Choose a preset file someone shared with you, to look at it and apply it
+= Elige un archivo de preajuste que alguien te haya pasado, para verlo y aplicarlo
+
+Couldn't change the Open with list: {0}
+= No se pudo cambiar la lista «Abrir con»: {0}
+
+List this program under “Open with” for some save file types
+= Mostrar este programa en «Abrir con» para algunos tipos de partida guardada
+
+Max gold (RPG Maker MV / MZ)
+= Oro máximo (RPG Maker MV / MZ)
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= Nada en esta partida coincide con este preajuste, así que aplicarlo no cambia nada.
+
+Opening saves
+= Abrir partidas
+
+Portable mode: settings, templates and presets are kept in {0}
+= Modo portátil: los ajustes, plantillas y preajustes se guardan en {0}
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= Preajuste listo que viene con el programa. Solo sube números que la partida ya tiene.
+
+at least {0}
+= al menos {0}
+
+built in
+= incluido
+
+{0} (each): {1}
+= {0} (cada uno): {1}

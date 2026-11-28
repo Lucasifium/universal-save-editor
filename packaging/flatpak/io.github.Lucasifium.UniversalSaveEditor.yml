@@ -1,0 +1,41 @@
+app-id: io.github.Lucasifium.UniversalSaveEditor
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: UniversalSaveEditor
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Saves live in the Steam folders (native and Proton prefixes), the Flatpak Steam's own
+  # folder, and the usual document and data folders. Files elsewhere open through the
+  # file chooser, which asks the system for access to the one file picked.
+  - --filesystem=~/.local/share/Steam
+  - --filesystem=~/.steam
+  - --filesystem=~/.var/app/com.valvesoftware.Steam
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-data
+  - --filesystem=xdg-config
+modules:
+  - name: universal-save-editor
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 UniversalSaveEditor /app/bin/UniversalSaveEditor
+      - install -Dm644 io.github.Lucasifium.UniversalSaveEditor.desktop /app/share/applications/io.github.Lucasifium.UniversalSaveEditor.desktop
+      - install -Dm644 io.github.Lucasifium.UniversalSaveEditor.metainfo.xml /app/share/metainfo/io.github.Lucasifium.UniversalSaveEditor.metainfo.xml
+      - install -Dm644 io.github.Lucasifium.UniversalSaveEditor.mime.xml /app/share/mime/packages/io.github.Lucasifium.UniversalSaveEditor.xml
+      - install -Dm644 io.github.Lucasifium.UniversalSaveEditor.png /app/share/icons/hicolor/256x256/apps/io.github.Lucasifium.UniversalSaveEditor.png
+    sources:
+      - type: archive
+        url: https://github.com/Lucasifium/universal-save-editor/releases/download/v0.9.3/UniversalSaveEditor-0.9.3-linux-x64.tar.gz
+        sha256: 045e81bb4b3fd88d6a39defd1699e270660e0d52f54b4a52a60c527af5032310
+        only-arches: [x86_64]
+        strip-components: 0
+      - type: archive
+        url: https://github.com/Lucasifium/universal-save-editor/releases/download/v0.9.3/UniversalSaveEditor-0.9.3-linux-arm64.tar.gz
+        sha256: 05864e079d2f0387ca44a8a4365b16a3a8732ec23d871c31425456687d133172
+        only-arches: [aarch64]
+        strip-components: 0
+      - type: dir
+        path: ../linux

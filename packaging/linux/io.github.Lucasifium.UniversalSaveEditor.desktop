@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Universal Save Editor
+GenericName=Save editor
+Comment=Edit game saves safely, offline, with a backup before every save
+Exec=UniversalSaveEditor %f
+Icon=io.github.Lucasifium.UniversalSaveEditor
+Terminal=false
+Categories=Game;Utility;
+Keywords=save;savegame;editor;backup;hex;
+MimeType=application/x-universal-save-editor;
+StartupWMClass=UniversalSaveEditor

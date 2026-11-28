@@ -10,6 +10,10 @@
 //! }
 //! ```
 //!
+//! A value change may end its path in `*` to mean "every entry under here" (for example
+//! `/party/_items/*`), and may say `"min": true` to mean "raise it to at least this, never
+//! lower it", which keeps a ready-made preset from ever making a save worse.
+//!
 //! "values" are for saves the editor reads as a list of values (JSON pointers into the
 //! Values/Tree data), "bytes" for saves shown as hex. A preset can hold either or both.
 
@@ -22,6 +26,8 @@ pub struct ValueChange {
     pub path: String,
     pub name: String,
     pub value: Value,
+    /// Only raise a number to `value`; a value already at or above it is left alone.
+    pub at_least: bool,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -37,6 +43,8 @@ pub struct Preset {
     pub game: String,
     pub values: Vec<ValueChange>,
     pub bytes: Vec<ByteChange>,
+    /// A ready-made preset shipped with the program, not a file of the player's.
+    pub built_in: bool,
 }
 
 fn hex_text(b: &[u8]) -> String {
@@ -77,7 +85,13 @@ impl Preset {
     pub fn to_json(&self) -> String {
         let mut v = json!({ "preset": self.name, "game": self.game });
         if !self.values.is_empty() {
-            v["values"] = self.values.iter().map(|c| json!({ "path": c.path, "name": c.name, "value": c.value })).collect();
+            v["values"] = self.values.iter().map(|c| {
+                let mut o = json!({ "path": c.path, "name": c.name, "value": c.value });
+                if c.at_least {
+                    o["min"] = json!(true);
+                }
+                o
+            }).collect();
         }
         if !self.bytes.is_empty() {
             v["bytes"] =
@@ -100,7 +114,7 @@ impl Preset {
                 return Err(format!("value {}: \"path\" must start with /", i + 1));
             }
             let value = c.get("value").filter(|x| !x.is_object() && !x.is_array() && !x.is_null()).ok_or_else(|| format!("value {} needs a plain \"value\"", i + 1))?;
-            p.values.push(ValueChange { path: path.to_string(), name: c["name"].as_str().unwrap_or(path).to_string(), value: value.clone() });
+            p.values.push(ValueChange { path: path.to_string(), name: c["name"].as_str().unwrap_or(path).to_string(), value: value.clone(), at_least: c["min"].as_bool().unwrap_or(false) });
         }
         for (i, c) in v["bytes"].as_array().into_iter().flatten().enumerate() {
             let offset = offset(&c["offset"]).ok_or_else(|| format!("byte change {} needs an \"offset\"", i + 1))?;
@@ -116,10 +130,84 @@ impl Preset {
 
     /// One line per change, for showing before it is applied.
     pub fn lines(&self) -> Vec<String> {
-        let mut out: Vec<String> = self.values.iter().map(|c| format!("{}: {}", c.name, crate::widgets::display(&c.value))).collect();
+        let mut out: Vec<String> = self
+            .values
+            .iter()
+            .map(|c| {
+                let v = crate::widgets::display(&c.value);
+                let v = if c.at_least { crate::i18n::trf("at least {0}", &[&v]) } else { v };
+                if c.path.ends_with("/*") { crate::i18n::trf("{0} (each): {1}", &[&c.name, &v]) } else { format!("{}: {}", c.name, v) }
+            })
+            .collect();
         out.extend(self.bytes.iter().map(|c| format!("{} (0x{:X}): {}", c.name, c.offset, hex_text(&c.bytes))));
         out
     }
+}
+
+/// The concrete changes to make in `root`: paths ending in `*` become one change per entry
+/// that is there, and "at least" changes are dropped where the number is already high enough
+/// (or isn't a number). Changes whose path isn't in the save are left out; `missing` counts
+/// them.
+pub fn resolve(values: &[ValueChange], root: &Value) -> (Vec<ValueChange>, usize) {
+    let mut out = Vec::new();
+    let mut missing = 0;
+    for c in values {
+        let paths: Vec<String> = match c.path.strip_suffix("/*") {
+            Some(parent) => match root.pointer(parent) {
+                Some(Value::Object(m)) => m.keys().map(|k| format!("{parent}/{}", k.replace('~', "~0").replace('/', "~1"))).collect(),
+                Some(Value::Array(a)) => (0..a.len()).map(|i| format!("{parent}/{i}")).collect(),
+                _ => vec![],
+            },
+            None => vec![c.path.clone()],
+        };
+        if paths.is_empty() || (!c.path.ends_with("/*") && root.pointer(&c.path).is_none()) {
+            missing += 1;
+            continue;
+        }
+        for path in paths {
+            let Some(now) = root.pointer(&path) else { continue };
+            if c.at_least {
+                let (Some(n), Some(want)) = (now.as_f64(), c.value.as_f64()) else { continue };
+                if n >= want {
+                    continue;
+                }
+            } else if c.path.ends_with("/*") && (now.is_object() || now.is_array()) {
+                continue;
+            }
+            out.push(ValueChange { path, name: c.name.clone(), value: c.value.clone(), at_least: c.at_least });
+        }
+    }
+    (out, missing)
+}
+
+impl Preset {
+    /// How many of this preset's value changes are found in `root` (they may still turn out
+    /// to need no change).
+    pub fn found_in(&self, root: &Value) -> usize {
+        self.values
+            .iter()
+            .filter(|c| match c.path.strip_suffix("/*") {
+                Some(p) => root.pointer(p).is_some_and(|v| v.as_object().is_some_and(|m| !m.is_empty()) || v.as_array().is_some_and(|a| !a.is_empty())),
+                None => root.pointer(&c.path).is_some(),
+            })
+            .count()
+    }
+}
+
+/// The ready-made presets shipped with the program. They only raise numbers the save already
+/// holds, so they can't take anything away or add what the game doesn't know.
+pub fn built_in() -> Vec<Preset> {
+    use crate::i18n::tr;
+    let raise = |path: &str, name: &str, value: u64| ValueChange { path: path.into(), name: name.into(), value: json!(value), at_least: true };
+    let mk = |name: &str, values: Vec<ValueChange>| Preset { name: name.into(), game: String::new(), values, bytes: vec![], built_in: true };
+    vec![
+        mk(tr("Max gold (RPG Maker MV / MZ)"), vec![raise("/party/_gold", tr("Gold"), 99_999_999)]),
+        mk(tr("Carried items to 99 (RPG Maker MV / MZ)"), vec![raise("/party/_items/*", tr("Items"), 99)]),
+        mk(
+            tr("Carried weapons and armor to 99 (RPG Maker MV / MZ)"),
+            vec![raise("/party/_weapons/*", tr("Weapons"), 99), raise("/party/_armors/*", tr("Armor"), 99)],
+        ),
+    ]
 }
 
 /// A file name for the preset made from its name: letters, digits, spaces and dashes.
@@ -177,8 +265,9 @@ mod tests {
         let p = Preset {
             name: "Rich".into(),
             game: "Test Quest".into(),
-            values: vec![ValueChange { path: "/hero/gold".into(), name: "Gold".into(), value: json!(9999) }],
+            values: vec![ValueChange { path: "/hero/gold".into(), name: "Gold".into(), value: json!(9999), at_least: true }],
             bytes: vec![ByteChange { offset: 0x40, name: "Ammo".into(), bytes: vec![0x0F, 0x27, 0, 0] }],
+            built_in: false,
         };
         let back = Preset::from_json(&p.to_json()).unwrap();
         assert_eq!(back, p);
@@ -204,4 +293,41 @@ mod tests {
         assert_eq!(file_name("../.."), "preset.json");
         assert_eq!(file_name(""), "preset.json");
     }
+
+    #[test]
+    fn wildcards_and_at_least() {
+        let root = json!({"party": {"_gold": 50, "_items": {"1": 3, "2": 120, "3": "x"}, "_list": [1, 99, 5]}});
+        let up = |path: &str, v: u64| ValueChange { path: path.into(), name: "n".into(), value: json!(v), at_least: true };
+        let (c, missing) = resolve(&[up("/party/_items/*", 99)], &root);
+        let paths: Vec<_> = c.iter().map(|c| c.path.as_str()).collect();
+        assert_eq!(paths, vec!["/party/_items/1"], "only numbers below the target are raised");
+        assert_eq!(missing, 0);
+        let (c, _) = resolve(&[up("/party/_list/*", 99)], &root);
+        assert_eq!(c.iter().map(|c| c.path.as_str()).collect::<Vec<_>>(), vec!["/party/_list/0", "/party/_list/2"]);
+        let (c, missing) = resolve(&[up("/party/_gold", 10), up("/party/_gold", 60), up("/nope", 1), up("/nope/*", 1)], &root);
+        assert_eq!(c.len(), 1);
+        assert_eq!(c[0].value, json!(60));
+        assert_eq!(missing, 2);
+        // Without "at least" the value is set as it is, and a wildcard skips nested containers.
+        let set = ValueChange { path: "/party/*".into(), name: "n".into(), value: json!(0), at_least: false };
+        let (c, _) = resolve(&[set], &root);
+        assert_eq!(c.len(), 1);
+        assert_eq!(c[0].path, "/party/_gold");
+    }
+
+    #[test]
+    fn built_in_presets_only_raise_and_survive_a_round_trip() {
+        let all = built_in();
+        assert!(all.len() >= 3);
+        for p in &all {
+            assert!(p.built_in && !p.name.is_empty());
+            assert!(p.values.iter().all(|c| c.at_least), "{} could lower a value", p.name);
+            let back = Preset::from_json(&p.to_json()).unwrap();
+            assert_eq!((back.values.len(), back.values[0].at_least), (p.values.len(), true));
+        }
+        let root = json!({"party": {"_gold": 1}});
+        assert_eq!(all[0].found_in(&root), 1);
+        assert_eq!(all[1].found_in(&root), 0, "no items carried: nothing matches");
+    }
+
 }
