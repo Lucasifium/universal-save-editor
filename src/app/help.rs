@@ -75,6 +75,29 @@ fn open_url(ctx: &egui::Context, url: &str) {
 }
 
 impl App {
+    /// Dark / Light / Same as the system, in Preferences and the View menu. Returns whether
+    /// the choice changed (the theme is applied at once).
+    pub(super) fn theme_choice(&mut self, ui: &mut egui::Ui) -> bool {
+        let s = &mut self.settings;
+        let now = (s.follow_system, s.dark);
+        let mut pick = now;
+        if ui.radio(!s.follow_system && s.dark, tr("Dark")).clicked() {
+            pick = (false, true);
+        }
+        if ui.radio(!s.follow_system && !s.dark, tr("Light")).clicked() {
+            pick = (false, false);
+        }
+        if ui.radio(s.follow_system, tr("Same as the system")).on_hover_text(tr("Dark or light as your system is set, changing with it.")).clicked() {
+            pick = (true, s.dark);
+        }
+        if pick == now {
+            return false;
+        }
+        (s.follow_system, s.dark) = pick;
+        theme::apply_choice(ui.ctx(), s.dark, s.follow_system);
+        true
+    }
+
     /// The Help menu.
     pub(super) fn help_menu(&mut self, ui: &mut egui::Ui) {
         ui.menu_button(tr("Help"), |ui| {
@@ -197,6 +220,7 @@ impl App {
         let mut open = true;
         let mut changed = false;
         let mut pick_dir = false;
+        let mut open_space = false;
         egui::Window::new(tr("Preferences"))
             .open(&mut open)
             .collapsible(false)
@@ -233,18 +257,9 @@ impl App {
                 })
                 .response
                 .on_hover_text(tr("Menus, buttons and messages. Game screens and value names stay as the game has them."));
-                ui.horizontal(|ui| {
+                ui.horizontal_wrapped(|ui| {
                     ui.label(tr("Theme:"));
-                    if ui.radio(self.settings.dark, tr("Dark")).clicked() && !self.settings.dark {
-                        self.settings.dark = true;
-                        theme::apply(ui.ctx(), true);
-                        changed = true;
-                    }
-                    if ui.radio(!self.settings.dark, tr("Light")).clicked() && self.settings.dark {
-                        self.settings.dark = false;
-                        theme::apply(ui.ctx(), false);
-                        changed = true;
-                    }
+                    changed |= self.theme_choice(ui);
                 });
                 ui.horizontal(|ui| {
                     ui.label(tr("Zoom:"));
@@ -256,7 +271,7 @@ impl App {
                         ui.ctx().set_zoom_factor(1.0);
                     }
                 });
-                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show advanced values")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show rarely needed values")).changed();
                 changed |= crate::widgets::checkbox(ui, &mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
                 changed |= crate::widgets::checkbox(ui, &mut self.settings.hex_guide, tr("Show the find-a-value guide in the hex view")).changed();
                 ui.separator();
@@ -325,6 +340,24 @@ impl App {
                             self.settings.set_backup_dir(None);
                         }
                     });
+                    ui.add_space(4.0);
+                    ui.horizontal_wrapped(|ui| {
+                        ui.label(tr("Limit all backups to"));
+                        let shown = |gb: u64| if gb == 0 { tr("No limit").to_string() } else { trf("{0} GB", &[&gb]) };
+                        egui::ComboBox::from_id_salt("prefs_backup_cap").selected_text(shown(self.settings.backup_cap_gb)).show_ui(ui, |ui| {
+                            for gb in crate::backups::space::CAP_CHOICES_GB {
+                                if ui.selectable_label(self.settings.backup_cap_gb == gb, shown(gb)).clicked() {
+                                    self.settings.backup_cap_gb = gb;
+                                    crate::backups::space::set_cap(gb.saturating_mul(crate::backups::space::GB));
+                                    changed = true;
+                                }
+                            }
+                        });
+                    });
+                    ui.weak(tr("When a new backup passes the limit, the oldest automatic backups of any save are deleted first."));
+                    if ui.button(tr("Backup space\u{2026}")).on_hover_text(tr("How much room all backups take, and ways to free some")).clicked() {
+                        open_space = true;
+                    }
                 }
             });
         if changed {
@@ -335,6 +368,9 @@ impl App {
         }
         if pick_dir {
             self.ask(Ask::BackupDir, self.settings.backup_dir.clone(), None);
+        }
+        if open_space {
+            self.open_backup_space();
         }
     }
 

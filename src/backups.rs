@@ -11,6 +11,10 @@ use std::path::{Path, PathBuf};
 use crate::i18n::{tr, trf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
+pub mod bundle;
+pub mod folders;
+pub mod space;
+
 /// Versions kept per save unless the player chose another number; the oldest go first.
 pub const KEEP: usize = 30;
 /// The fewest automatic backups the player can choose to keep.
@@ -28,6 +32,7 @@ pub fn keep() -> usize {
     KEEP_N.load(std::sync::atomic::Ordering::Relaxed)
 }
 
+#[derive(Debug, Clone)]
 pub struct Version {
     pub path: PathBuf,
     /// The name the player gave this copy; named copies are never pruned.
@@ -73,10 +78,17 @@ pub const BESIDE: &str = "Save Editor Backups";
 /// Where new versions of `save` go: next to it, unless the player chose another folder.
 pub fn folder(save: &Path) -> Option<PathBuf> {
     let custom = ROOT.read().ok().and_then(|r| r.clone());
-    if custom.is_none() {
+    if custom.is_none() && beside_allowed(save) {
         return beside(save);
     }
     elsewhere(save)
+}
+
+/// False for a file inside an Xbox app (PC Game Pass) save container: a folder of our own
+/// there could be taken for part of the container and synced, so its backups go to the app's
+/// own folder (or the chosen one) instead. Older copies already next to it are still listed.
+fn beside_allowed(save: &Path) -> bool {
+    !crate::xgp::is_container_file(save)
 }
 
 /// `<save folder>/Save Editor Backups/<file name>`.
@@ -131,33 +143,56 @@ fn is_future(when: u64, now: u64) -> bool {
 /// backups taken since; their files are left as they are.
 pub fn list(save: &Path) -> Vec<Version> {
     let now = now();
-    let mut out: Vec<_> = dirs(save)
-        .iter()
-        .filter_map(|d| std::fs::read_dir(d).ok())
-        .flat_map(|rd| rd.flatten())
+    let mut out: Vec<_> = dirs(save).iter().flat_map(|d| scan(d, now)).collect();
+    sort(&mut out);
+    out.into_iter().map(|(_, v)| v).collect()
+}
+
+/// How versions sort: real before future-dated, then by second, counter and file time.
+type Order = (bool, u64, u32, Option<SystemTime>);
+
+/// Newest first: the future-dated last, then by second, then by the counter added within a
+/// second, then by the time the file was written.
+fn sort(v: &mut [(Order, Version)]) {
+    v.sort_by(|(a, va), (b, vb)| b.cmp(a).then_with(|| vb.path.cmp(&va.path)));
+}
+
+/// The versions in one backup folder, in no particular order. Anything that isn't a copy this
+/// app made (a half-written copy, a file the player put there, a folder) is left out.
+fn scan(dir: &Path, now: u64) -> Vec<(Order, Version)> {
+    let Ok(rd) = std::fs::read_dir(dir) else { return vec![] };
+    rd.flatten()
         .filter_map(|e| {
             let p = e.path();
             let meta = e.metadata().ok().filter(|m| m.is_file())?;
             let file = p.file_name()?.to_str()?;
-            if file.ends_with(".partial") {
-                return None; // a copy cut off half way, never a version
-            }
-            // "<secs>" or "<secs>-<n>" when two copies land in the same second, then "~<name>",
-            // then the extension. A name may hold dots of its own, so only the last one goes.
-            let (stamp, name) = match file.split_once('~') {
-                Some((t, rest)) => (t, Some(rest.rsplit_once('.').map_or(rest, |(n, _)| n).to_string())),
-                None => (file.split_once('.').map_or(file, |(t, _)| t), None),
-            };
-            let (secs, n) = stamp.split_once('-').unwrap_or((stamp, "0"));
-            let when = secs.parse().ok()?;
-            let order = (!is_future(when, now), when, n.parse::<u32>().ok()?, meta.modified().ok());
+            let (when, n, name) = parse_name(file)?;
+            let order = (!is_future(when, now), when, n, meta.modified().ok());
             Some((order, Version { size: meta.len(), path: p, when, name }))
         })
-        .collect();
-    // Newest first: the future-dated last, then by second, then by the counter added within
-    // a second, then by the time the file was written.
-    out.sort_by(|(a, va), (b, vb)| b.cmp(a).then_with(|| vb.path.cmp(&va.path)));
+        .collect()
+}
+
+/// The versions in one backup folder, newest first.
+pub fn in_folder(dir: &Path) -> Vec<Version> {
+    let mut out = scan(dir, now());
+    sort(&mut out);
     out.into_iter().map(|(_, v)| v).collect()
+}
+
+/// Reads a copy's file name: "<secs>" or "<secs>-<n>" when two copies land in the same second,
+/// then "~<name>", then the extension. A name may hold dots of its own, so only the last one
+/// goes. `None` for anything else, a half-written copy included.
+fn parse_name(file: &str) -> Option<(u64, u32, Option<String>)> {
+    if file.ends_with(".partial") {
+        return None; // a copy cut off half way, never a version
+    }
+    let (stamp, name) = match file.split_once('~') {
+        Some((t, rest)) => (t, Some(rest.rsplit_once('.').map_or(rest, |(n, _)| n).to_string())),
+        None => (file.split_once('.').map_or(file, |(t, _)| t), None),
+    };
+    let (secs, n) = stamp.split_once('-').unwrap_or((stamp, "0"));
+    Some((secs.parse().ok()?, n.parse().ok()?, name))
 }
 
 /// Every folder that may hold versions of `save`: where new ones go first.
@@ -356,7 +391,8 @@ fn copy(save: &Path, name: Option<&str>, keep: Option<&Path>) -> Result<Option<P
     let mut written = None;
     // Next to the save first; if that folder can't be written to (read-only, full, a device
     // that forbids it), the app's own folder.
-    let candidates: Vec<PathBuf> = [folder(save), elsewhere(save), beside(save), legacy(save)].into_iter().flatten().collect();
+    let near = if beside_allowed(save) { beside(save) } else { None };
+    let candidates: Vec<PathBuf> = [folder(save), elsewhere(save), near, legacy(save)].into_iter().flatten().collect();
     for dir in candidates.iter().enumerate().filter(|(i, d)| !candidates[..*i].contains(d)).map(|(_, d)| d) {
         if let Err(e) = std::fs::create_dir_all(dir) {
             errors.push(format!("{}: {e}", dir.display()));
@@ -399,6 +435,12 @@ fn copy(save: &Path, name: Option<&str>, keep: Option<&Path>) -> Result<Option<P
     for old in versions.iter().filter(|v| v.name.is_none() && Some(v.path.as_path()) != keep).skip(self::keep() - 1) {
         let _ = std::fs::remove_file(&old.path);
     }
+    if let Some(dir) = dest.parent() {
+        space::remember(dir);
+    }
+    // A total size limit the player set: the oldest automatic copies of any save go first.
+    let protect: Vec<&Path> = [Some(dest.as_path()), keep].into_iter().flatten().collect();
+    space::enforce_cap(&protect);
     Ok(Some(dest))
 }
 
@@ -1242,6 +1284,38 @@ pub(crate) mod tests {
         std::fs::create_dir_all(s.0.join("one.chk.partial").join("x")).unwrap();
         assert!(write_companions(&before, vec![(c.clone(), b"x".to_vec())], true).unwrap_err().stuck.is_empty());
         assert!(!save.exists() && !c.exists());
+    }
+
+    #[test]
+    fn xbox_app_saves_keep_their_backups_out_of_the_container_folder() {
+        let _g = guard();
+        let s = Scratch::new("xgp");
+        set_root(Some(s.0.join("own")));
+        let user = s.0.join("Packages/Studio.Game_abc123/SystemAppData/wgs/000901F0A1B2C3D4_0000000000000000000000006A7B8C9D");
+        crate::xgp::tests::make(&user, "Slot1", &[("save.sav", b"one")]);
+        let blob = crate::xgp::read_index(&user).unwrap().containers[0].files[0].path.clone();
+        set_root(None);
+        let listing = |d: &Path| -> Vec<std::ffi::OsString> {
+            let mut v: Vec<_> = std::fs::read_dir(d).unwrap().flatten().map(|e| e.file_name()).collect();
+            v.sort();
+            v
+        };
+        let (container, top) = (listing(blob.parent().unwrap()), listing(&user));
+        let p = take(&blob).unwrap().unwrap();
+        assert!(!p.starts_with(&user), "backed up outside the Xbox app's folder: {}", p.display());
+        std::fs::write(&blob, b"two").unwrap();
+        take_named(&blob, "named").unwrap();
+        assert_eq!(listing(blob.parent().unwrap()), container, "nothing added inside the container");
+        assert_eq!(listing(&user), top);
+        assert_eq!(list(&blob).len(), 2);
+        // A copy an older version left next to the blob is still listed.
+        let old = beside(&blob).unwrap();
+        std::fs::create_dir_all(&old).unwrap();
+        std::fs::write(old.join("1700000000.sebak"), b"older").unwrap();
+        assert_eq!(list(&blob).len(), 3);
+        for v in list(&blob) {
+            remove(&v).unwrap();
+        }
     }
 
     #[test]

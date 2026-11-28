@@ -12,6 +12,8 @@ pub const MAX_RECENT_GAMES: usize = 6;
 pub struct Settings {
     pub recent: Vec<PathBuf>,
     pub dark: bool,
+    /// Follow the system's dark or light theme (`dark` is kept for when the system says nothing).
+    pub follow_system: bool,
     pub zoom: f32,
     pub show_raw_keys: bool,
     pub show_advanced: bool,
@@ -25,6 +27,8 @@ pub struct Settings {
     pub hex_guide: bool,
     /// Automatic backups kept per save.
     pub backup_keep: usize,
+    /// A limit on the size of all backups together, in GB (0: no limit).
+    pub backup_cap_gb: u64,
     /// Interface language code ("de"); `None` follows the system.
     pub language: Option<String>,
     /// Check GitHub for a newer release when the program starts (the player is asked once on the first launch).
@@ -44,11 +48,13 @@ pub struct Settings {
     pub favourites: Vec<String>,
     /// The games opened last (catalog names), newest first.
     pub recent_games: Vec<String>,
+    /// The window's size when it was last resized (points), to open at again.
+    pub window_size: Option<[f32; 2]>,
 }
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, open_with: false, update_question_answered: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![] }
+        Self { recent: vec![], dark: true, follow_system: false, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, backup_cap_gb: 0, language: None, check_updates: false, open_with: false, update_question_answered: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![], window_size: None }
     }
 }
 
@@ -66,6 +72,7 @@ impl Settings {
             s.recent = r.iter().filter_map(|x| x.as_str()).map(PathBuf::from).collect();
         }
         s.dark = v["dark"].as_bool().unwrap_or(s.dark);
+        s.follow_system = v["follow_system"].as_bool().unwrap_or(false);
         s.zoom = v["zoom"].as_f64().map(|z| z as f32).filter(|z| (0.5..=3.0).contains(z)).unwrap_or(1.0);
         s.show_raw_keys = v["show_raw_keys"].as_bool().unwrap_or(false);
         s.show_advanced = v["show_advanced"].as_bool().unwrap_or(false);
@@ -76,6 +83,7 @@ impl Settings {
             s.earlier_backup_dirs = r.iter().filter_map(|x| x.as_str()).filter(|d| !d.is_empty()).map(PathBuf::from).collect();
         }
         s.backup_keep = v["backup_keep"].as_u64().map(|n| (n as usize).clamp(crate::backups::KEEP_MIN, crate::backups::KEEP_MAX)).unwrap_or(crate::backups::KEEP);
+        s.backup_cap_gb = v["backup_cap_gb"].as_u64().unwrap_or(0).min(100_000);
         s.language = v["language"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
         s.open_with = v["open_with"].as_bool().unwrap_or(false);
         s.check_updates = v["check_updates"].as_bool().unwrap_or(false);
@@ -92,6 +100,9 @@ impl Settings {
         if let Some(r) = v["recent_games"].as_array() {
             s.recent_games = r.iter().filter_map(|x| x.as_str()).map(str::to_string).take(MAX_RECENT_GAMES).collect();
         }
+        if let Some([w, h]) = v["window_size"].as_array().map(|a| a.iter().filter_map(|x| x.as_f64()).collect::<Vec<_>>()).as_deref() {
+            s.window_size = Some([*w as f32, *h as f32]);
+        }
         s
     }
 
@@ -104,6 +115,7 @@ impl Settings {
         let v = json!({
             "recent": self.recent.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
             "dark": self.dark,
+            "follow_system": self.follow_system,
             "zoom": self.zoom,
             "show_raw_keys": self.show_raw_keys,
             "show_advanced": self.show_advanced,
@@ -112,6 +124,7 @@ impl Settings {
             "backup_dir": self.backup_dir.as_ref().map(|d| d.to_string_lossy().to_string()),
             "earlier_backup_dirs": self.earlier_backup_dirs.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
             "backup_keep": self.backup_keep,
+            "backup_cap_gb": self.backup_cap_gb,
             "language": self.language,
             "check_updates": self.check_updates,
             "open_with": self.open_with,
@@ -121,11 +134,12 @@ impl Settings {
             "hidden_notes": self.hidden_notes,
             "favourites": self.favourites,
             "recent_games": self.recent_games,
+            "window_size": self.window_size,
         });
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
         }
-        let _ = std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default());
+        let _ = write_atomic(&p, serde_json::to_string_pretty(&v).unwrap_or_default().as_bytes());
     }
 
     /// The key a file note is remembered by when dismissed.
@@ -177,6 +191,12 @@ impl Settings {
         self.recent.truncate(MAX_RECENT);
         self.save();
     }
+}
+
+/// Writes the settings file so that a crash part way leaves the old file whole: the new text
+/// goes to a file beside it, is checked, and only then renamed over it.
+fn write_atomic(p: &std::path::Path, bytes: &[u8]) -> Result<(), String> {
+    crate::backups::write_verified(p, bytes, true)
 }
 
 /// Folders where games commonly keep saves, that exist on this machine.
@@ -248,5 +268,19 @@ mod tests {
         assert_eq!(s.recent_games.len(), MAX_RECENT_GAMES);
         assert_eq!(s.recent_games[0], "b");
         assert_eq!(s.recent_games.iter().filter(|g| *g == "b").count(), 1);
+    }
+
+    #[test]
+    fn settings_file_is_replaced_whole() {
+        let d = std::env::temp_dir().join(format!("use-settings-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&d);
+        std::fs::create_dir_all(&d).unwrap();
+        let p = d.join("settings.json");
+        std::fs::write(&p, b"{\"dark\": true}").unwrap();
+        write_atomic(&p, b"{\"dark\": false}").unwrap();
+        assert_eq!(std::fs::read(&p).unwrap(), b"{\"dark\": false}");
+        // Nothing is left beside it.
+        assert_eq!(std::fs::read_dir(&d).unwrap().count(), 1);
+        let _ = std::fs::remove_dir_all(&d);
     }
 }

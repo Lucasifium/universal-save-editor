@@ -3,7 +3,7 @@
 //! where they can't be missed.
 
 use crate::i18n::{tr, trf};
-use super::{file_name, modal, safe_choice, tab_ring, App, StatusKind};
+use super::{file_name, modal, safe_choice, tab_ring, App};
 use crate::formats::Content;
 use crate::theme;
 use eframe::egui::{self, Color32, RichText};
@@ -13,27 +13,168 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::time::SystemTime;
 
-/// What a file looked like on disk: its size and when it was last written.
-#[derive(Clone, Debug, PartialEq, Eq)]
+/// What a file looked like on disk: its size, when it was last written and, when the bytes
+/// were at hand, a hash of them.
+///
+/// Size and time alone miss a rewrite of the same size within the file system's time step
+/// (some keep only whole or even two seconds). The hash closes that gap without slowing big
+/// files down: it is taken from the bytes already in memory (when the file is opened, or the
+/// bytes just written), never by reading the file again. Only when a save is about to be
+/// written and size and time still match is the file read once more, a piece at a time, and
+/// hashed (`changed`; files over `HASH_LIMIT` stay on size and time); the check when the window gets the focus back stays on size and time
+/// (`changed_quick`), so switching windows never reads a large save.
+#[derive(Clone, Debug)]
 pub struct Stamp {
     len: u64,
     modified: Option<SystemTime>,
+    hash: Option<u64>,
 }
 
-/// The file's stamp now (`None`: it isn't there, or this is the browser version).
+/// Two stamps are the same file when size and time match, and the hashes too when both have one.
+impl PartialEq for Stamp {
+    fn eq(&self, o: &Self) -> bool {
+        self.len == o.len && self.modified == o.modified && (self.hash.is_none() || o.hash.is_none() || self.hash == o.hash)
+    }
+}
+impl Eq for Stamp {}
+
+/// A fast hash of a file's bytes (FNV-1a over 8-byte words; not for security, only to tell
+/// two versions of a save apart).
+pub fn hash_bytes(bytes: &[u8]) -> u64 {
+    let mut h = Hasher::new(bytes.len() as u64);
+    h.update(bytes);
+    h.finish()
+}
+
+/// `hash_bytes` fed a piece at a time, so a file can be hashed while it is read without
+/// holding all of it in memory. Gives the same hash as `hash_bytes` over all the pieces.
+struct Hasher {
+    h: u64,
+    carry: [u8; 8],
+    carried: usize,
+}
+
+impl Hasher {
+    const PRIME: u64 = 0x0000_0100_0000_01B3;
+
+    /// For `len` bytes in all (the length is part of the hash).
+    fn new(len: u64) -> Self {
+        Hasher { h: 0xCBF2_9CE4_8422_2325 ^ len, carry: [0; 8], carried: 0 }
+    }
+
+    fn word(&mut self, w: [u8; 8]) {
+        self.h = (self.h ^ u64::from_le_bytes(w)).wrapping_mul(Self::PRIME);
+        self.h ^= self.h >> 29;
+    }
+
+    fn update(&mut self, mut bytes: &[u8]) {
+        // Finish the word left over from the last piece first.
+        if self.carried > 0 {
+            let take = (8 - self.carried).min(bytes.len());
+            self.carry[self.carried..self.carried + take].copy_from_slice(&bytes[..take]);
+            self.carried += take;
+            bytes = &bytes[take..];
+            if self.carried < 8 {
+                return;
+            }
+            let w = self.carry;
+            self.word(w);
+            self.carried = 0;
+        }
+        let mut words = bytes.chunks_exact(8);
+        for w in &mut words {
+            let mut a = [0u8; 8];
+            a.copy_from_slice(w);
+            self.word(a);
+        }
+        let rest = words.remainder();
+        self.carry[..rest.len()].copy_from_slice(rest);
+        self.carried = rest.len();
+    }
+
+    fn finish(mut self) -> u64 {
+        for i in 0..self.carried {
+            self.h = (self.h ^ self.carry[i] as u64).wrapping_mul(Self::PRIME);
+        }
+        self.h
+    }
+}
+
+/// Files up to this size get a hash in their stamp. A bigger one is checked on size and time
+/// only: the check before a save runs on the window's own thread, just before the save is
+/// handed to the background, and reading a very large save once more there would hold the
+/// window up for seconds. Saves that big are rare and are written whole by the game, which
+/// moves their time on.
+const HASH_LIMIT: u64 = 64 << 20;
+
+/// The piece of the file read at a time when it is hashed again.
+const CHUNK: usize = 256 << 10;
+
+/// The file's stamp now (`None`: it isn't there, or this is the browser version). Size and
+/// time only.
 pub fn stamp(path: &Path) -> Option<Stamp> {
     if cfg!(target_arch = "wasm32") {
         return None;
     }
     let m = std::fs::metadata(path).ok()?;
-    m.is_file().then(|| Stamp { len: m.len(), modified: m.modified().ok() })
+    m.is_file().then(|| Stamp { len: m.len(), modified: m.modified().ok(), hash: None })
+}
+
+/// The stamp of a file whose bytes are `bytes` (just read from it, or just written to it).
+/// Size and time are taken from `meta`, the file as it was before it was read; when the
+/// bytes don't have that size the file changed while it was read, and the stamp says so
+/// by not matching what is on disk.
+pub fn stamp_with(meta: Option<Stamp>, bytes: &[u8]) -> Option<Stamp> {
+    meta.map(|m| Stamp { hash: (m.len == bytes.len() as u64 && m.len <= HASH_LIMIT).then(|| hash_bytes(bytes)), ..m })
+}
+
+/// Whether the file at `path` still holds `len` bytes hashing to `want`. The file is read a
+/// piece at a time and never kept whole; reading stops as soon as it is longer than `len`.
+fn same_bytes(path: &Path, len: u64, want: u64) -> bool {
+    use std::io::Read;
+    let Ok(mut f) = std::fs::File::open(path) else { return false };
+    let mut h = Hasher::new(len);
+    let mut buf = vec![0u8; CHUNK];
+    let mut seen = 0u64;
+    loop {
+        match f.read(&mut buf) {
+            Ok(0) => break,
+            Ok(n) => {
+                seen += n as u64;
+                if seen > len {
+                    return false;
+                }
+                h.update(&buf[..n]);
+            }
+            Err(e) if e.kind() == std::io::ErrorKind::Interrupted => continue,
+            Err(_) => return false,
+        }
+    }
+    seen == len && h.finish() == want
 }
 
 /// Whether the file at `path` is no longer the one stamped `was` (written again, or gone).
-/// Files that weren't stamped (the browser version) never count as changed.
+/// Files that weren't stamped (the browser version) never count as changed. When size and
+/// time match and `was` has a hash (files up to `HASH_LIMIT`), the file is read again a piece
+/// at a time and its hash compared.
 pub fn changed(path: &Path, was: Option<&Stamp>) -> bool {
+    let Some(w) = was else { return false };
+    if changed_quick(path, Some(w)) {
+        return true;
+    }
+    match w.hash {
+        Some(h) => !same_bytes(path, w.len, h),
+        None => false,
+    }
+}
+
+/// `changed` on size and time only, without reading the file.
+pub fn changed_quick(path: &Path, was: Option<&Stamp>) -> bool {
     match was {
-        Some(w) => stamp(path).as_ref() != Some(w),
+        Some(w) => match stamp(path) {
+            Some(now) => now.len != w.len || now.modified != w.modified,
+            None => true,
+        },
         None => false,
     }
 }
@@ -58,14 +199,15 @@ pub fn content_has_cjk(c: &Content) -> bool {
 
 impl App {
     /// Reads the open file again, dropping unsaved changes (they can't apply to newer data).
+    /// The changes, and the warnings that the file changed, are only dropped once the file has
+    /// been read: when it can't be (gone, locked, a save under way), everything stays as it was.
     pub(super) fn reload_from_disk(&mut self) {
         let Some(d) = &self.doc else { return };
         let (path, opts) = (d.path.clone(), d.opts.clone());
-        self.dirty = false;
-        self.stale_save = None;
-        self.disk_changed = false;
+        let gen = self.edit_gen;
+        // On success this clears `dirty`, `stale_save` and `disk_changed` itself.
         self.load_with(&path, opts);
-        if self.status_kind != StatusKind::Err {
+        if self.edit_gen != gen {
             self.ok(trf("Reloaded {0} from disk.", &[&file_name(&path)]));
         }
     }
@@ -80,7 +222,7 @@ impl App {
             return;
         }
         if let Some(d) = &self.doc {
-            if changed(&d.path, d.stamp.as_ref()) && (self.disk_seen.is_none() || stamp(&d.path) != self.disk_seen) {
+            if changed_quick(&d.path, d.stamp.as_ref()) && (self.disk_seen.is_none() || stamp(&d.path) != self.disk_seen) {
                 self.disk_changed = true;
             }
         }
@@ -380,6 +522,96 @@ mod tests {
         drop(f);
         assert!(changed(&p, s.as_ref()));
         let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn same_size_same_time_rewrite_is_stale() {
+        let d = dir("same-size");
+        let p = d.join("save.dat");
+        std::fs::write(&p, b"gold=100").unwrap();
+        let s = stamp_with(stamp(&p), b"gold=100");
+        assert!(s.as_ref().is_some_and(|s| s.hash.is_some()));
+        assert!(!changed(&p, s.as_ref()));
+        let when = std::fs::metadata(&p).unwrap().modified().unwrap();
+        // Another program writes as many bytes and the time stays the same.
+        std::fs::write(&p, b"gold=999").unwrap();
+        let f = std::fs::OpenOptions::new().write(true).open(&p).unwrap();
+        f.set_modified(when).unwrap();
+        drop(f);
+        assert!(!changed_quick(&p, s.as_ref()), "size and time alone can't tell");
+        assert!(changed(&p, s.as_ref()), "the hash does");
+        // Put back byte for byte: not a change.
+        std::fs::write(&p, b"gold=100").unwrap();
+        let f = std::fs::OpenOptions::new().write(true).open(&p).unwrap();
+        f.set_modified(when).unwrap();
+        drop(f);
+        assert!(!changed(&p, s.as_ref()));
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn stamp_of_bytes_that_dont_match_the_size_has_no_hash() {
+        let d = dir("short-read");
+        let p = d.join("save.dat");
+        std::fs::write(&p, b"gold=100").unwrap();
+        // The file grew between the stamp and the read.
+        let s = stamp_with(stamp(&p), b"gold=100000");
+        assert!(s.as_ref().is_some_and(|s| s.hash.is_none()));
+        assert_eq!(s, stamp(&p), "a stamp without a hash still compares by size and time");
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn hash_tells_close_bytes_apart() {
+        assert_ne!(hash_bytes(b"gold=100"), hash_bytes(b"gold=101"));
+        assert_ne!(hash_bytes(b""), hash_bytes(b"\0"));
+        assert_ne!(hash_bytes(&[0u8; 16]), hash_bytes(&[0u8; 17]));
+        assert_eq!(hash_bytes(b"same bytes here!"), hash_bytes(b"same bytes here!"));
+    }
+
+    #[test]
+    fn hashing_in_pieces_gives_the_same_hash() {
+        let bytes: Vec<u8> = (0..1000u32).map(|i| (i * 31 % 251) as u8).collect();
+        for cut in [vec![], vec![1], vec![3, 5], vec![7, 8, 9, 17], vec![500], (1..1000).collect::<Vec<_>>()] {
+            let mut h = Hasher::new(bytes.len() as u64);
+            let mut at = 0;
+            for &c in &cut {
+                h.update(&bytes[at..c]);
+                at = c;
+            }
+            h.update(&bytes[at..]);
+            assert_eq!(h.finish(), hash_bytes(&bytes), "cut at {cut:?}");
+        }
+    }
+
+    #[test]
+    fn a_file_bigger_than_a_piece_is_checked_whole_and_one_that_grew_stops_early() {
+        let d = dir("pieces");
+        let p = d.join("save.dat");
+        let mut bytes = vec![7u8; CHUNK * 2 + 13];
+        std::fs::write(&p, &bytes).unwrap();
+        let s = stamp_with(stamp(&p), &bytes);
+        assert!(!changed(&p, s.as_ref()));
+        let when = std::fs::metadata(&p).unwrap().modified().unwrap();
+        // One byte changed in the last piece, same size and time.
+        let last = bytes.len() - 1;
+        bytes[last] = 8;
+        std::fs::write(&p, &bytes).unwrap();
+        std::fs::OpenOptions::new().write(true).open(&p).unwrap().set_modified(when).unwrap();
+        assert!(changed(&p, s.as_ref()));
+        let s = s.unwrap();
+        assert!(!same_bytes(&p, s.len - 1, 0), "longer than expected");
+        assert!(same_bytes(&p, s.len, hash_bytes(&bytes)));
+        let _ = std::fs::remove_dir_all(&d);
+    }
+
+    #[test]
+    fn a_very_large_file_is_stamped_on_size_and_time_only() {
+        let big = vec![0u8; (HASH_LIMIT + 1) as usize];
+        let s = stamp_with(Some(Stamp { len: big.len() as u64, modified: None, hash: None }), &big);
+        assert!(s.is_some_and(|s| s.hash.is_none()));
+        let small = Some(Stamp { len: 3, modified: None, hash: None });
+        assert!(stamp_with(small, b"abc").is_some_and(|s| s.hash.is_some()));
     }
 
     #[test]

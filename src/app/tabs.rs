@@ -47,6 +47,7 @@ parked! {
     rebind: Option<(Vec<u64>, usize, String)>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
+    xbox_steam: Option<XboxSteam>,
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     password_prompt: Option<String>,
     doc_note: String,
@@ -105,6 +106,24 @@ impl App {
         let elsewhere = (0..self.tab_count()).any(|i| i != self.tabs.active && self.tab_path(i) == Some(p));
         let here_unsaved = self.dirty && self.doc.as_ref().is_some_and(|d| d.path == p);
         !elsewhere && !here_unsaved
+    }
+
+    /// Browser version: gives the document that just opened from `p` (after `loads_before`
+    /// files had been read) the handle `id` to save back through. False, and nothing given,
+    /// when what is on screen isn't a fresh read of `p`: it failed to open, it waits behind
+    /// "save changes?", or another tab was shown instead.
+    #[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))]
+    pub(super) fn attach_handle(&mut self, p: &Path, id: u64, loads_before: u64) -> bool {
+        if self.loads == loads_before || self.loading.is_some() || self.pending_open.is_some() || self.dirty {
+            return false;
+        }
+        match self.doc.as_mut() {
+            Some(d) if d.path == p && d.handle.is_none() => {
+                d.handle = Some(super::HandleId(id));
+                true
+            }
+            _ => false,
+        }
     }
 
     /// Any tab, shown or not, with unsaved changes.

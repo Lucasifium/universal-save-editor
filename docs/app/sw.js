@@ -3,12 +3,12 @@
 // kept or answered; everything else goes to the network as usual. web/finish.py fills in the
 // cache name (the app version and a hash of the files) and the files with their SHA-256.
 'use strict';
-const CACHE = "save-editor-app-0.9.3-90f41a8acd25";
+const CACHE = "save-editor-app-0.9.3-1e087c3a5c55";
 const FILES = {
-  "./": "a748f7b2e93bb20c248ce193e2e1c9c83f3c5a3f13da9ffb4b95f596f5ea9906",
-  "universal_save_editor.js": "97c25248b9fe1b0cc3326ee7a69a7a2a39339b508b0eec85eef6fa1693d95597",
-  "universal_save_editor_bg.wasm": "3ce3dd43c616f90870911d320a21cc2dd2f69b3671e5023f9feef69e45f9dc39",
-  "fsa.js": "8d55d5aa67f602cf72c108e541a38de3532e46862d1d2ff13d8f8486313c43cf"
+  "./": "9a482c17f3a60c99eade764b5f8efd23b2ceb165678bc86b17d7318bd14e7024",
+  "universal_save_editor.js": "5099166d804d31a92b8841247965adf2526bcbead96bad036bd1ae2cf669ef05",
+  "universal_save_editor_bg.wasm": "8b65aa75bfc728aade27680c69c683d01dce136def9e6b3f6205618fcc5f103d",
+  "fsa.js": "347474758f938ce80ee165d049fdfda97a7d9f906f6d8d5496dfb95be4b3c003"
 };
 const PREFIX = 'save-editor-app-';
 const BASE = new URL('./', self.location).href;

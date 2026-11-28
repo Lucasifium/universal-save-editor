@@ -123,9 +123,10 @@ impl App {
         open
     }
 
-    /// The "Your games" card. Returns a save to open.
-    pub(super) fn your_games(&mut self, ui: &mut egui::Ui) -> Option<PathBuf> {
-        let search = self.saves_found.clone()?;
+    /// The "Your games" card. Returns a save to open, and whether "Open a file\u{2026}" was clicked.
+    pub(super) fn your_games(&mut self, ui: &mut egui::Ui) -> (Option<PathBuf>, bool) {
+        let Some(search) = self.saves_found.clone() else { return (None, false) };
+        let mut browse = false;
         let found = search.lock().map(|v| v.clone()).unwrap_or_default();
         let done = found.iter().all(Option::is_some);
         if !done {
@@ -149,6 +150,18 @@ impl App {
                 } else {
                     tr("Games whose saves are found will appear here.")
                 });
+                if done {
+                    // The two ways on from here, as buttons rather than only words.
+                    ui.add_space(4.0);
+                    ui.horizontal_wrapped(|ui| {
+                        if ui.button(tr("Search again")).on_hover_text(tr("Look through all the usual places on this computer again, for games added since.")).clicked() {
+                            super::spawn_search(&search, true);
+                        }
+                        if ui.button(tr("Open a file\u{2026}")).clicked() {
+                            browse = true;
+                        }
+                    });
+                }
                 return;
             }
             ui.weak(tr("Click a game to open its newest save."));
@@ -207,7 +220,7 @@ impl App {
             }
             self.game_picker = Some(gp);
         }
-        open
+        (open, browse)
     }
 }
 
