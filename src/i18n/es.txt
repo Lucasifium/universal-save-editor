@@ -32483,3 +32483,32 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = ¿Qué puede abrir?
+
+# Header card and first-run pointers
+Last saved
+= Guardado por última vez
+
+{0} min
+= {0} min
+
+{0} h {1} min
+= {0} h {1} min
+
+Good to know
+= Conviene saber
+
+Find my game's saves looks in the places each game keeps them, so you don't have to.
+= «Buscar las partidas de mi juego» mira en los lugares donde cada juego las guarda, para que no tengas que hacerlo tú.
+
+Every save is backed up first: the file as it was is kept each time you save over it.
+= Cada partida se respalda antes: cada vez que guardas encima, se conserva el archivo tal como estaba.
+
+Backups › Save manager… lists the backups of the open save, to restore or compare.
+= Copias de seguridad › Gestor de partidas… muestra las copias de la partida abierta, para restaurarlas o compararlas.
+
+Got it
+= Entendido
+
+Hide these pointers for good
+= Ocultar estas indicaciones para siempre
+

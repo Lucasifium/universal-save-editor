@@ -550,6 +550,16 @@ pub fn show(game: Game, ui: &mut Ui, cx: &mut GameCtx) {
     // What `columns` remembers about widths belongs to this game's screen only.
     let screen = egui::Id::new(("game_screen", format!("{game:?}")));
     ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(SCREEN_SALT), screen));
+    let family = simple::families::family_accent(game);
+    ui.ctx().data_mut(|d| {
+        d.remove_temp::<Color32>(egui::Id::new(ACCENT_FROM));
+        match family {
+            Some(f) => d.insert_temp(egui::Id::new(FAMILY_ACCENT), f),
+            None => {
+                d.remove_temp::<Color32>(egui::Id::new(FAMILY_ACCENT));
+            }
+        }
+    });
     quick_strip(ui);
     begin_sections(ui.ctx());
     show_screen(game, ui, cx);
@@ -999,10 +1009,11 @@ impl GameCtx<'_> {
 
     /// A compact tile: small caption, big value with its editor.
     pub fn tile(&mut self, ui: &mut Ui, caption: &str, p: &str, accent: Color32) {
-        let caption = tr_any(caption);
         if self.get(p).is_none() {
             return;
         }
+        note_tile(ui, caption);
+        let caption = tr_any(caption);
         let modified = self.modified(p);
         // Long numbers (money in the trillions) get a wider tile instead of being cut off.
         let digits = self.get(p).map(|v| v.to_string().len()).unwrap_or(0) as f32;
@@ -1104,6 +1115,7 @@ impl GameCtx<'_> {
         if modified {
             note_edited(ui);
         }
+        let color = accent_of(ui, color);
         let fill = if on { color.gamma_multiply(0.85) } else { ui.visuals().widgets.inactive.bg_fill };
         let text_c = if on { Color32::WHITE } else { ui.visuals().weak_text_color() };
         let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(crate::theme::size::CAPTION)).fill(fill).rounding(12.0);
@@ -1126,6 +1138,33 @@ impl GameCtx<'_> {
 
 // ------------------------------------------------------------------ layout pieces
 
+/// The colour of the game series the open screen belongs to (see [`family_accent`]).
+const FAMILY_ACCENT: &str = "game_family_accent";
+/// The screen's own colour, as its header card was given it, which the series' colour replaces.
+const ACCENT_FROM: &str = "game_accent_from";
+/// Facts about the open file for the header card: (caption, value, hover text).
+const HEADER_FACTS: &str = "game_header_facts";
+
+/// Facts about the open file the header card shows beside the title (when it was last saved,
+/// play time), set by the window before it draws the screen. They are about the file, so a
+/// screen drawn alone (a test, a dialog) has none.
+pub fn set_header_facts(ctx: &egui::Context, facts: Vec<(String, String, String)>) {
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(HEADER_FACTS), facts));
+}
+
+fn header_facts(ui: &Ui) -> Vec<(String, String, String)> {
+    ui.ctx().data(|d| d.get_temp(egui::Id::new(HEADER_FACTS))).unwrap_or_default()
+}
+
+/// `c`, or the series' colour where `c` is the colour the screen gave its header card.
+pub fn accent_of(ui: &Ui, c: Color32) -> Color32 {
+    let (family, from): (Option<Color32>, Option<Color32>) = ui.ctx().data(|d| (d.get_temp(egui::Id::new(FAMILY_ACCENT)), d.get_temp(egui::Id::new(ACCENT_FROM))));
+    match (family, from) {
+        (Some(f), Some(from)) if from == c => f,
+        _ => c,
+    }
+}
+
 /// The header card: a coloured band with the character's name and a line under it.
 /// A number GameMaker wrote as text: digits, a point and exactly six decimals ("110.000000").
 pub fn gamemaker_number(s: &str) -> Option<f64> {
@@ -1137,21 +1176,74 @@ pub fn gamemaker_number(s: &str) -> Option<f64> {
 
 pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
     let subtitle = tr_any(subtitle);
+    // The game series' colour, when the screen belongs to one: tiles drawn in the screen's own
+    // colour take it too (see `accent_of`).
+    let family: Option<Color32> = ui.ctx().data(|d| d.get_temp(egui::Id::new(FAMILY_ACCENT)));
+    if family.is_some() {
+        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(ACCENT_FROM), accent));
+    }
+    let accent = accent_of(ui, accent);
+    // A screen whose tiles already show the play time doesn't get it twice (known from the
+    // frame before, as the tiles are drawn after the title).
+    let tiles_have_time = ui.ctx().data(|d| d.get_temp::<bool>(egui::Id::new(HERO_TIME))).unwrap_or(false);
+    let play_time = tr("Play time");
+    let facts: Vec<_> = header_facts(ui).into_iter().filter(|(c, _, _)| !(tiles_have_time && c == play_time)).collect();
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
-        let r = ui.label(crate::theme::title(title).color(ui.visuals().strong_text_color()));
-        find_mark(ui, r.rect, title);
-        if !subtitle.is_empty() {
-            ui.label(RichText::new(subtitle).size(crate::theme::size::BODY).color(theme::fg(ui, accent)));
-        }
+        // On a wide window the facts about the file (when it was saved, play time) sit at the
+        // right of the title; on a phone they follow the subtitle as one line.
+        let phone = ui.ctx().screen_rect().width() < 640.0;
+        let measure = |ui: &Ui, t: &str, size: f32| ui.fonts(|f| f.layout_no_wrap(t.to_string(), crate::theme::font(size), Color32::WHITE).size().x);
+        let facts_w: f32 = facts.iter().map(|(c, v, _)| measure(ui, c, crate::theme::size::CAPTION).max(measure(ui, v, crate::theme::size::BODY))).sum::<f32>()
+            + 24.0 * facts.len() as f32;
+        let side = !phone && !facts.is_empty() && facts_w < ui.available_width() * 0.45;
+        ui.horizontal_top(|ui| {
+            let left_w = if side { ui.available_width() - facts_w } else { ui.available_width() };
+            ui.vertical(|ui| {
+                ui.set_max_width(left_w);
+                let r = ui.label(crate::theme::title(title).color(ui.visuals().strong_text_color()));
+                find_mark(ui, r.rect, title);
+                if !subtitle.is_empty() {
+                    ui.label(RichText::new(subtitle).size(crate::theme::size::BODY).color(theme::fg(ui, accent)));
+                }
+                if !side && !facts.is_empty() {
+                    let line: Vec<String> = facts.iter().map(|(c, v, _)| format!("{c}: {v}")).collect();
+                    ui.label(crate::theme::caption(line.join("  \u{00B7}  ")).color(caption_color(ui)));
+                }
+            });
+            if side {
+                ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
+                    ui.spacing_mut().item_spacing.x = 24.0;
+                    for (c, v, tip) in facts.iter().rev() {
+                        let r = ui
+                            .vertical(|ui| {
+                                ui.label(crate::theme::caption(c.as_str()).color(caption_color(ui)));
+                                ui.label(RichText::new(v.as_str()).size(crate::theme::size::BODY).color(ui.visuals().strong_text_color()));
+                            })
+                            .response;
+                        if !tip.is_empty() {
+                            r.on_hover_text(tip.as_str());
+                        }
+                    }
+                });
+            }
+        });
         ui.add_space(6.0);
         // Tiles count themselves, so on a phone the last of an odd number can fill its row
         // (see `tile_frame_min`); the count is known from the frame before.
         let key = ui.id().with("hero_tiles");
         let before = ui.ctx().data(|d| d.get_temp::<usize>(key)).unwrap_or(0);
-        ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(HERO_TILES), (before, 0usize)));
+        ui.ctx().data_mut(|d| {
+            d.insert_temp(egui::Id::new(HERO_TILES), (before, 0usize));
+            d.insert_temp(egui::Id::new(HERO_TIME_NOW), false);
+        });
         ui.horizontal_wrapped(add);
+        let now = ui.ctx().data_mut(|d| d.remove_temp::<bool>(egui::Id::new(HERO_TIME_NOW))).unwrap_or(false);
+        if now != tiles_have_time {
+            ui.ctx().data_mut(|d| d.insert_temp(egui::Id::new(HERO_TIME), now));
+            ui.ctx().request_repaint();
+        }
         let drawn = ui.ctx().data_mut(|d| d.remove_temp::<(usize, usize)>(egui::Id::new(HERO_TILES))).map_or(0, |(_, n)| n);
         if drawn != before {
             ui.ctx().data_mut(|d| d.insert_temp(key, drawn));
@@ -1192,6 +1284,20 @@ const TILE_W: f32 = 196.0;
 
 /// While a header card lays out its tiles: (how many it had last frame, how many so far).
 const HERO_TILES: &str = "game_hero_tiles";
+/// Whether a tile of the header card shows the play time (this frame so far, and last frame).
+const HERO_TIME_NOW: &str = "game_hero_time_now";
+const HERO_TIME: &str = "game_hero_time";
+
+/// Notes that a header tile captioned `caption` (in English) was drawn.
+fn note_tile(ui: &Ui, caption: &str) {
+    if caption.starts_with("Play time") || caption.contains("played") {
+        ui.ctx().data_mut(|d| {
+            if d.get_temp::<bool>(egui::Id::new(HERO_TIME_NOW)).is_some() {
+                d.insert_temp(egui::Id::new(HERO_TIME_NOW), true);
+            }
+        });
+    }
+}
 
 pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce(&mut Ui)) {
     tile_frame_min(ui, accent, modified, 0.0, add)
@@ -1199,6 +1305,7 @@ pub fn tile_frame(ui: &mut Ui, accent: Color32, modified: bool, add: impl FnOnce
 
 /// A tile at least `min` wide inside (when the row has room).
 pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, add: impl FnOnce(&mut Ui)) {
+    let accent = accent_of(ui, accent);
     // At least two tiles per row, even on a phone.
     let row = ui.max_rect().width();
     let half = (row / 2.0 - 30.0).max(110.0);
@@ -1236,6 +1343,7 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
 
 /// A read-only figure in the same style as `tile`.
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
+    note_tile(ui, caption);
     let caption = tr_any(caption);
     tile_frame(ui, accent, false, |ui| {
         let r = ui.add(egui::Label::new(RichText::new(caption).size(crate::theme::size::CAPTION).color(caption_color(ui))).truncate());

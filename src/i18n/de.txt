@@ -32490,3 +32490,32 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = Was kann es öffnen?
+
+# Header card and first-run pointers
+Last saved
+= Zuletzt gespeichert
+
+{0} min
+= {0} Min.
+
+{0} h {1} min
+= {0} Std. {1} Min.
+
+Good to know
+= Gut zu wissen
+
+Find my game's saves looks in the places each game keeps them, so you don't have to.
+= „Spielstände meines Spiels finden“ sucht an den Orten, an denen jedes Spiel sie ablegt, damit du es nicht musst.
+
+Every save is backed up first: the file as it was is kept each time you save over it.
+= Jeder Spielstand wird zuerst gesichert: Bei jedem Überschreiben bleibt die Datei, wie sie war, erhalten.
+
+Backups › Save manager… lists the backups of the open save, to restore or compare.
+= Sicherungen › Spielstand-Verwaltung… listet die Sicherungen des offenen Spielstands auf, zum Wiederherstellen oder Vergleichen.
+
+Got it
+= Verstanden
+
+Hide these pointers for good
+= Diese Hinweise dauerhaft ausblenden
+

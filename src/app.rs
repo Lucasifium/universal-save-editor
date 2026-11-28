@@ -17,6 +17,8 @@ use std::path::{Path, PathBuf};
 
 mod help;
 mod home;
+mod header;
+mod pointers;
 mod safety;
 
 use safety::Stamp;
@@ -2172,7 +2174,7 @@ impl App {
                     self.ask(Ask::Import, None, None);
                 }
             });
-            ui.menu_button(tr("Backups"), |ui| {
+            let backups_menu = ui.menu_button(tr("Backups"), |ui| {
                 let on_disk = !WEB && self.doc.as_ref().is_some_and(|d| d.path.is_file());
                 if !WEB && ui.add_enabled(on_disk, egui::Button::new(tr("Back up now\u{2026}"))).on_hover_text(tr("Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.")).clicked() {
                     ui.close_menu();
@@ -2263,6 +2265,7 @@ impl App {
                     });
                 });
             });
+            self.point_at(ui, backups_menu.response.rect, 3);
             ui.menu_button(tr("Edit"), |ui| {
                 if ui.add_enabled(!self.undo.is_empty(), egui::Button::new(tr("Undo")).shortcut_text("Ctrl+Z")).clicked() {
                     ui.close_menu();
@@ -3318,6 +3321,7 @@ impl App {
                 self.menus(ui);
             })
             .response;
+            self.point_at(ui, m.rect, 3);
             widgets::named(m, egui::WidgetType::Button, tr("Menu")).on_hover_text(tr("Menu"));
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                 self.save_button(ui);
@@ -3787,6 +3791,7 @@ impl App {
                 let w = (ui.available_width() - sb).max(100.0);
                 crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
                 crate::game_ui::set_active_section(ui.ctx(), Some(&self.game_section));
+                crate::game_ui::set_header_facts(ui.ctx(), header::facts(d.stamp.as_ref().and_then(|s| s.modified()), r));
                 ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show_locked(ui, |ui| {
                     ui.set_max_width(w);
                     crate::game_ui::show(game, ui, &mut cx);
@@ -4498,11 +4503,15 @@ impl App {
                     let mut clicks = (false, false);
                     if side_by_side {
                         ui.allocate_ui_with_layout(egui::vec2(w, 40.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                            clicks.0 = ui.add(find).on_hover_text(tr("Pick your game from the list; its saves on this computer are found for you")).clicked();
+                            let r = ui.add(find).on_hover_text(tr("Pick your game from the list; its saves on this computer are found for you"));
+                            self.point_at(ui, r.rect, 1);
+                            clicks.0 = r.clicked();
                             clicks.1 = ui.add(file).clicked();
                         });
                     } else {
-                        clicks.0 = ui.add(find).clicked();
+                        let r = ui.add(find);
+                        self.point_at(ui, r.rect, 1);
+                        clicks.0 = r.clicked();
                         clicks.1 = ui.add(file).clicked();
                     }
                     if clicks.0 {
@@ -4537,6 +4546,7 @@ impl App {
                 let w = ui.available_width().min(680.0);
                 ui.allocate_ui(egui::vec2(w, 0.0), |ui| {
                     ui.with_layout(egui::Layout::top_down(egui::Align::Min), |ui| {
+                        self.pointers_card(ui);
                         if let Some(p) = self.favourites_card(ui) {
                             open = Some(p);
                         }

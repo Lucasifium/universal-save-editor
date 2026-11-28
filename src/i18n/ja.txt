@@ -32568,3 +32568,32 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = 何を開けますか？
+
+# Header card and first-run pointers
+Last saved
+= 最終保存
+
+{0} min
+= {0} 分
+
+{0} h {1} min
+= {0} 時間 {1} 分
+
+Good to know
+= 知っておくと便利
+
+Find my game's saves looks in the places each game keeps them, so you don't have to.
+= 「自分のゲームのセーブデータを探す」は各ゲームがセーブを置く場所を調べるので、自分で探す必要はありません。
+
+Every save is backed up first: the file as it was is kept each time you save over it.
+= 保存の前に必ずバックアップします。上書き保存するたびに、元のファイルが残ります。
+
+Backups › Save manager… lists the backups of the open save, to restore or compare.
+= バックアップ › セーブマネージャー… で開いているセーブのバックアップを一覧し、復元や比較ができます。
+
+Got it
+= 了解
+
+Hide these pointers for good
+= このヒントを今後表示しない
+
