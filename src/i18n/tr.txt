@@ -29957,6 +29957,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = Her karakterin Another Mode EXP'sini oyunun tutabildiği en yüksek değer olan 472.000'e ayarlar (tamamlanmış bir kayıtta her karakter bu değerdedir). Kaydı yüklediğinizde oyun onları kendisi 15. rütbeye yükseltir.
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= Her hediyeyi oyunun üst sınırı olan 99'a çıkarır, henüz sahip olmadıkların da dahil.
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Her üretim malzemesini oyunun gösterdiği sınır olan 999'a çıkarır (tamamlanmış bir kayıtta çoğu 999'dadır), henüz sahip olmadıklarınız da dahil.
 

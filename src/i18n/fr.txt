@@ -29970,6 +29970,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = Met l'EXP du mode Another de chaque personnage à 472 000, le maximum du jeu (tous les personnages y sont dans une sauvegarde terminée). Le jeu les fait monter au rang 15 de lui-même au chargement de la sauvegarde.
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= Porte chaque cadeau à 99, le maximum du jeu, y compris ceux que vous ne possédez pas encore.
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Porte à 999 chaque matériau d'artisanat, la limite affichée par le jeu (beaucoup sont à 999 dans une sauvegarde terminée), y compris ceux que vous ne possédez pas encore.
 
