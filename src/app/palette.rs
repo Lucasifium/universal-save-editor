@@ -857,6 +857,11 @@ impl App {
     /// needed values, when it is one) and scrolls to it.
     pub(super) fn jump_to_row(&mut self, i: usize) {
         let Some(sec) = self.model.rows.get(i).map(|r| r.section) else { return };
+        // Text typed on the Raw JSON tab is applied first, as leaving that tab does; when it
+        // isn't valid the tab stays, with the error shown.
+        if self.tab == Tab::Raw && !self.commit_raw() {
+            return;
+        }
         self.tab = Tab::Values;
         self.search.clear();
         if self.collapsed.remove(&sec) {

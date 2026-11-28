@@ -3794,7 +3794,9 @@ impl App {
                 crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
                 crate::game_ui::set_active_section(ui.ctx(), Some(&self.game_section));
                 // Changes with every edit, undo, revert, load and save (and with the open tab of files).
-                crate::game_ui::set_data_version(ui.ctx(), self.edit_gen.wrapping_mul(1 << 16).wrapping_add(self.tabs.active as u64));
+                // The language too: hidden tabs' quick actions hold translated text.
+                let lang = crate::i18n::current().code.bytes().fold(0u64, |h, b| h.wrapping_mul(31).wrapping_add(b as u64));
+                crate::game_ui::set_data_version(ui.ctx(), self.edit_gen.wrapping_mul(1 << 16).wrapping_add(self.tabs.active as u64) ^ lang.wrapping_mul(0x9E37_79B9_7F4A_7C15));
                 crate::game_ui::set_header_facts(ui.ctx(), header::facts(d.stamp.as_ref().and_then(|s| s.modified()), r));
                 ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show_locked(ui, |ui| {
                     ui.set_max_width(w);
