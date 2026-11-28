@@ -1,0 +1,320 @@
+# Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
+
+Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
+= Kostenloser Offline-Spielstand-Editor für PC-Spiele: Geld, Gegenstände und Werte in den Spielständen von 550+ Spielen ändern. Nichts wird hochgeladen, und jeder Spielstand wird zuerst gesichert.
+
+Free offline save editor for {0}+ ({1}) games | Universal Save Editor
+= Kostenloser Offline-Spielstand-Editor für {0}+ ({1}) Spiele | Universal Save Editor
+
+The {0} screen in Universal Save Editor, with a save open
+= Die Oberfläche von {0} in Universal Save Editor mit einem geöffneten Spielstand
+
+{0} in the editor
+= {0} im Editor
+
+Is it safe to edit a save file?
+= Ist es sicher, einen Spielstand zu bearbeiten?
+
+The downloaded app backs up the old file before every save, then reads the new file back and checks it before replacing anything. If the game doesn't like an edit, restore the backup from <em>Backups</em>. In the browser version, keep a copy of the original yourself (in Chrome and Edge, <em>Open to save in place</em> also keeps one in the browser before the first save).
+= Die heruntergeladene App sichert die alte Datei vor jedem Speichern, liest die neue Datei dann wieder ein und prüft sie, bevor etwas ersetzt wird. Gefällt dem Spiel eine Änderung nicht, stellst du die Sicherung unter <em>Sicherungen</em> wieder her. In der Browser-Version bewahrst du das Original selbst auf (in Chrome und Edge legt <em>Zum Speichern an Ort und Stelle öffnen</em> vor dem ersten Speichern zusätzlich eine Kopie im Browser ab).
+
+Do I have to upload my save?
+= Muss ich meinen Spielstand hochladen?
+
+No. The editor is a program on your own computer and works offline. <a href="{0}">The browser version</a> also runs on your computer, inside the page, and never uploads the save.
+= Nein. Der Editor ist ein Programm auf deinem eigenen Computer und arbeitet offline. <a href="{0}">Die Browser-Version</a> läuft ebenfalls auf deinem Computer, innerhalb der Seite, und lädt den Spielstand nie hoch.
+
+Which games does it work with?
+= Mit welchen Spielen funktioniert es?
+
+{1}+ ({2}) games are <a href="{3}">listed on the English home page</a>, each with a page saying what can be changed and where its saves are. Saves of games that aren't listed often open too: as named values when the format is a common one, or through value search.
+= {1}+ ({2}) Spiele stehen <a href="{3}">auf der englischen Startseite</a>, jeweils mit einer Seite dazu, was sich ändern lässt und wo die Spielstände liegen. Auch Spielstände nicht aufgeführter Spiele lassen sich oft öffnen: als benannte Werte, wenn das Format verbreitet ist, oder über die Wertsuche.
+
+Does it work on Steam Deck, Linux and Mac?
+= Funktioniert es auf Steam Deck, Linux und Mac?
+
+Yes. There are downloads for Windows, Linux and macOS. On Linux and the Steam Deck, <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.
+= Ja. Es gibt Downloads für Windows, Linux und macOS. Unter Linux und auf dem Steam Deck sucht <em>Spielstände meines Spiels finden</em> auch in den Proton- und Wine-Präfixen, in denen Steam Play die Spielstände von Windows-Spielen ablegt.
+
+Can I use edited saves online?
+= Kann ich bearbeitete Spielstände online verwenden?
+
+Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.
+= Bearbeitete Spielstände sind für den Einzelspielermodus gedacht. Verwende sie nicht in Online- oder Mehrspielermodi, wo sie gegen Regeln verstoßen oder zur Markierung eines Kontos führen können.
+
+Does it cost anything?
+= Kostet es etwas?
+
+No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.
+= Nein. Es ist kostenlos und bleibt es: keine Werbung, kein Konto, keine Einschränkungen. Der Code ist Open Source unter der GPL-3.0.
+
+Free offline save editor for {0}+ ({1}) games
+= Kostenloser Offline-Spielstand-Editor für {0}+ ({1}) Spiele
+
+Universal Save Editor is a save editor and save manager for PC games. Open a save file, change money, levels, items and stats, and save it back. It runs on your own computer: no uploads, no accounts, no rate limits, and the downloaded app backs up every save before changing it. It's free, and always will be.
+= Universal Save Editor ist ein Spielstand-Editor und eine Spielstand-Verwaltung für PC-Spiele. Öffne eine Spielstand-Datei, ändere Geld, Level, Gegenstände und Werte und speichere sie wieder. Das Programm läuft auf deinem eigenen Computer: keine Uploads, keine Konten, keine Begrenzungen, und die heruntergeladene App sichert jeden Spielstand, bevor sie ihn ändert. Es ist kostenlos und bleibt es.
+
+Free forever
+= Dauerhaft kostenlos
+
+Offline
+= Offline
+
+Open source
+= Open Source
+
+Browser
+= Browser
+
+Download for free
+= Kostenlos herunterladen
+
+Use it in your browser
+= Im Browser verwenden
+
+Save manager built in
+= Mit Spielstand-Verwaltung
+
+Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.
+= Bei jedem Speichern sichert der Editor die Datei zuerst automatisch. Lege vor einem Bosskampf oder einer wichtigen Entscheidung eine benannte Sicherung an, stelle jede Sicherung mit einem Klick wieder her, vergleiche zwei Sicherungen oder lege einen Spielstand beiseite, um ein neues Spiel zu beginnen und später zu ihm zurückzukehren. Die Sicherungen bleiben neben deinen Spielständen auf deinem Computer.
+
+How the save manager works
+= So funktioniert die Spielstand-Verwaltung
+
+<strong>Don't want to run a program?</strong> <a href="{0}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file (Chrome and Edge can also save back to the same file, keeping the original in the browser first). After the first visit it opens without a connection too.
+= <strong>Du willst kein Programm ausführen?</strong> <a href="{0}">Die Browser-Version</a> ist derselbe Editor, der innerhalb der Webseite auf deinem eigenen Computer läuft: Dein Spielstand wird nie hochgeladen. Sie kann weder deine Ordner nach Spielständen durchsuchen noch sie sichern, also öffne die Datei selbst und behalte eine Kopie; beim Speichern wird die bearbeitete Datei heruntergeladen (Chrome und Edge können auch in dieselbe Datei zurückschreiben und behalten vorher das Original im Browser). Nach dem ersten Besuch öffnet sie sich auch ohne Verbindung.
+
+What is a save editor?
+= Was ist ein Spielstand-Editor?
+
+A save editor opens the file a game writes when you save and lets you change what is stored in it: money, experience, items, stats, unlocks. Games keep their saves in many formats, often compressed, encrypted or guarded by a checksum, so each one needs its own handling. Universal Save Editor does that for {0}+ ({1}) games in one program and writes the file back the way the game expects it.
+= Ein Spielstand-Editor öffnet die Datei, die ein Spiel beim Speichern schreibt, und lässt dich ändern, was darin steht: Geld, Erfahrung, Gegenstände, Werte, Freischaltungen. Spiele speichern in vielen Formaten, oft komprimiert, verschlüsselt oder durch eine Prüfsumme geschützt, daher braucht jedes seine eigene Behandlung. Universal Save Editor übernimmt das für {0}+ ({1}) Spiele in einem Programm und schreibt die Datei so zurück, wie das Spiel sie erwartet.
+
+How to edit a save file
+= So bearbeitest du einen Spielstand
+
+<a href="{0}">Download the editor</a>, or open <a href="{1}">the browser version</a>.
+= <a href="{0}">Lade den Editor herunter</a> oder öffne <a href="{1}">die Browser-Version</a>.
+
+In the downloaded app, choose <em>Find my game's saves</em> and pick your game. In the browser, open the save file yourself.
+= Wähle in der heruntergeladenen App <em>Spielstände meines Spiels finden</em> und dein Spiel. Im Browser öffnest du die Spielstand-Datei selbst.
+
+Change what you want. {0} games open on a screen made for them, with every value named; other saves open as a list of values, or through value search.
+= Ändere, was du möchtest. {0} Spiele öffnen sich auf einer eigens gestalteten Oberfläche, in der jeder Wert einen Namen hat; andere Spielstände öffnen sich als Werteliste oder über die Wertsuche.
+
+Save. The downloaded app backs up the old file first and reads the new one back to check it before replacing anything; the browser version downloads the edited file (or, in Chrome and Edge, can write it back to the same file), so keep a copy of the original. Then load the save in your game.
+= Speichern. Die heruntergeladene App sichert zuerst die alte Datei und liest die neue zur Prüfung wieder ein, bevor etwas ersetzt wird; die Browser-Version lädt die bearbeitete Datei herunter (in Chrome und Edge kann sie auch in dieselbe Datei zurückschreiben), also behalte eine Kopie des Originals. Lade den Spielstand dann in deinem Spiel.
+
+Why download a save editor?
+= Warum einen Spielstand-Editor herunterladen?
+
+<li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
+= <li><strong>Dauerhaft kostenlos.</strong> Kein Preis, keine Werbung, kein Konto, keine Bezahlstufe.</li>
+
+<li><strong>Offline.</strong> Your save never leaves your computer: nothing is uploaded, so there are no file size limits, queues or rate limits.</li>
+= <li><strong>Offline.</strong> Dein Spielstand verlässt deinen Computer nie: Nichts wird hochgeladen, also gibt es keine Dateigrößenlimits, Warteschlangen oder Begrenzungen.</li>
+
+<li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
+= <li><strong>Sicher.</strong> Jeder Spielstand wird vor dem Schreiben durch erneutes Einlesen geprüft, und die alte Datei wird zuerst gesichert (Sicherungen &rsaquo; Spielstand-Verwaltung öffnen).</li>
+
+<li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
+= <li><strong>Funktioniert auch bei unbekannten Spielen.</strong> Die Wertsuche findet eine Zahl, die du kennst, oder eine, die du nicht kennst (eine Lebensanzeige, einen versteckten Zähler): suchen, spielen, speichern und dann behalten, was gestiegen, gesunken, anders oder gleich geblieben ist.</li>
+
+<li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
+= <li><strong>Linux und Steam Deck.</strong> <em>Spielstände meines Spiels finden</em> sucht auch in Proton- und Wine-Präfixen, wo Windows-Spiele über Steam Play ihre Spielstände ablegen.</li>
+
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
+= <li><strong>In deiner Sprache.</strong> Menüs und Meldungen auf Englisch, Deutsch, Spanisch, Französisch, brasilianischem Portugiesisch, Japanisch und vereinfachtem Chinesisch, passend zur Systemsprache.</li>
+
+<li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
+= <li><strong>Spielstand-Verwaltung (Schaltfläche in der Werkzeugleiste).</strong> Automatische und benannte Sicherungen in einem Ordner neben jedem Spielstand, wo kein Spiel sie lädt. Stelle jede Sicherung wieder her (der aktuelle Spielstand wird zuvor gesichert), vergleiche sie, oder sichere und beginne bei einem Spiel mit nur einem Spielstand ein neues Spiel und stelle den alten später wieder her. Jede Sicherung wird auf die Festplatte geschrieben und geprüft, bevor etwas ersetzt wird.</li>
+
+<li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
+= <li><strong>Open Source.</strong> Jeder kann den Code lesen (GPL-3.0).</li>
+
+Questions about save editing
+= Fragen zum Bearbeiten von Spielständen
+
+Popular games
+= Beliebte Spiele
+
+{0} games open on a screen made for them; the rest can be edited value by value. These are some of the most popular. The game pages are in English, apart from the ones that are translated.
+= {0} Spiele öffnen sich auf einer eigens gestalteten Oberfläche; der Rest lässt sich Wert für Wert bearbeiten. Hier sind einige der beliebtesten. Die Spielseiten sind auf Englisch, außer den übersetzten.
+
+Game screen
+= Spieloberfläche
+
+See all {0} supported games (English)
+= Alle {0} unterstützten Spiele ansehen (Englisch)
+
+No game on the list? The editor can still open saves of games that aren't listed: try it, or <a href="{0}">ask for the game</a>.
+= Dein Spiel fehlt in der Liste? Der Editor kann auch Spielstände nicht aufgeführter Spiele öffnen: probiere es aus, oder <a href="{0}">wünsche dir das Spiel</a>.
+
+Download for
+= Herunterladen für
+
+Games
+= Spiele
+
+Save manager
+= Spielstand-Verwaltung
+
+What's new
+= Neuigkeiten
+
+Use in browser
+= Im Browser nutzen
+
+Download
+= Download
+
+Source
+= Quellcode
+
+Light theme
+= Helles Design
+
+Dark theme
+= Dunkles Design
+
+Switch to light theme
+= Zum hellen Design wechseln
+
+Switch to dark theme
+= Zum dunklen Design wechseln
+
+Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.
+= Universal Save Editor ist kostenlos und bleibt es. Open Source unter der GPL-3.0. Keine Verbindung zu Spieleentwicklern oder Publishern; Spielnamen und Marken gehören ihren Eigentümern. Behalte immer eine Sicherung deiner Spielstände.
+
+Questions and ideas
+= Fragen und Ideen
+
+Report a problem
+= Problem melden
+
+All versions and release notes
+= Alle Versionen und Versionshinweise
+
+Source code on GitHub
+= Quellcode auf GitHub
+
+Code signing policy
+= Richtlinie zur Code-Signierung
+
+Universal Save Editor: free, offline save editor for 550+ games
+= Universal Save Editor: kostenloser Offline-Spielstand-Editor für über 550 Spiele
+
+Download for Windows
+= Für Windows herunterladen
+
+Version {0}:
+= Version {0}:
+
+Free, offline {0} save editor for PC. Change your values, with a backup before every save. Nothing is uploaded, no limits.
+= Kostenloser Offline-Spielstand-Editor für {0} auf dem PC. Ändere deine Werte, vor jedem Speichern wird eine Sicherung angelegt. Nichts wird hochgeladen, keine Einschränkungen.
+
+{0} save editor: free and offline | Universal Save Editor
+= {0} Spielstand-Editor: kostenlos und offline | Universal Save Editor
+
+Where is the {0} save file?
+= Wo liegt der Spielstand von {0}?
+
+Usually in <code>{0}</code>, in files named <code>{1}</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick {2}.
+= Meist in <code>{0}</code>, in Dateien namens <code>{1}</code>. Der heruntergeladene Editor findet ihn für dich: Wähle <em>Spielstände meines Spiels finden</em> und dann {2}.
+
+Will {0} still load an edited save?
+= Lädt {0} einen bearbeiteten Spielstand trotzdem?
+
+The editor writes the save back in the same format the game uses and reads the new file back to check it before replacing anything. The original is backed up first, so if anything looks wrong in the game, restore it from <em>Backups</em>.
+= Der Editor schreibt den Spielstand im selben Format zurück, das das Spiel verwendet, und liest die neue Datei zur Prüfung wieder ein, bevor etwas ersetzt wird. Das Original wird zuvor gesichert; sieht im Spiel etwas falsch aus, stellst du es unter <em>Sicherungen</em> wieder her.
+
+Can I edit {0} saves on Steam Deck or Linux?
+= Kann ich Spielstände von {0} auf dem Steam Deck oder unter Linux bearbeiten?
+
+Yes. There's a Linux build, and <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.
+= Ja. Es gibt eine Linux-Version, und <em>Spielstände meines Spiels finden</em> sucht auch in den Proton- und Wine-Präfixen, in denen Steam Play die Spielstände von Windows-Spielen ablegt.
+
+Can I edit my {0} save in the browser?
+= Kann ich meinen {0}-Spielstand im Browser bearbeiten?
+
+Yes. <a href="{0}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one. In Chrome and Edge it can also save back to the same file, keeping the original in the browser first.
+= Ja. <a href="{0}">Die Browser-Version</a> läuft auf deinem eigenen Computer und lädt den Spielstand nie hoch. Öffne die Datei selbst und behalte eine Kopie, denn beim Speichern wird die bearbeitete Datei heruntergeladen, statt die alte zu sichern. In Chrome und Edge kann sie auch in dieselbe Datei zurückschreiben und behält zuvor das Original im Browser.
+
+Is it safe to use with online play?
+= Ist die Nutzung beim Online-Spielen sicher?
+
+{0} save editor screen with a save open
+= Die Oberfläche von {0} mit einem geöffneten Spielstand
+
+The {0} screen in Universal Save Editor, opened on an example save. Select the picture to see it full size.
+= Die Oberfläche von {0} in Universal Save Editor, geöffnet mit einem Beispiel-Spielstand. Klicke auf das Bild, um es in voller Größe zu sehen.
+
+{0} save editor
+= {0} Spielstand-Editor
+
+Edit your {0} save on your own PC with Universal Save Editor, a free, offline save editor and manager for {1}+ ({2}) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.
+= Bearbeite deinen {0}-Spielstand auf deinem eigenen PC mit Universal Save Editor, einem kostenlosen Offline-Spielstand-Editor und -Verwalter für {1}+ ({2}) Spiele. Sichere, stelle wieder her und beginne neue Durchgänge im selben Fenster. Nichts wird hochgeladen, und es gibt keine Einschränkungen.
+
+What you can edit
+= Was du bearbeiten kannst
+
+The editor shows these value names in English.
+= Der Editor zeigt diese Wertnamen auf Englisch an.
+
+Where {0} keeps its saves
+= Wo {0} seine Spielstände ablegt
+
+Folder:
+= Ordner:
+
+Files:
+= Dateien:
+
+You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {0}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)
+= Du musst ihn nicht selbst suchen: Wähle im Editor <em>Spielstände meines Spiels finden</em>, dann {0}, und er listet die gefundenen Spielstände auf. (Die Browser-Version kann deine Ordner nicht durchsuchen: Öffne die Datei aus diesem Ordner selbst.)
+
+How to edit your {0} save
+= So bearbeitest du deinen {0}-Spielstand
+
+<a href="{0}">Download Universal Save Editor</a> for Windows, macOS or Linux; just run it. Rather not install anything? <a href="{1}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file (Chrome and Edge can save back to the same file).
+= <a href="{0}">Lade Universal Save Editor herunter</a> für Windows, macOS oder Linux und starte es einfach. Du willst nichts installieren? <a href="{1}">Nutze es stattdessen im Browser</a>: Es läuft ebenfalls auf deinem Computer, und beim Speichern wird die bearbeitete Datei heruntergeladen (Chrome und Edge können in dieselbe Datei zurückschreiben).
+
+Close the game, so it doesn't write over your changes.
+= Schließe das Spiel, damit es deine Änderungen nicht überschreibt.
+
+Choose <em>Find my game's saves</em>, pick <strong>{0}</strong> and open your save (or drag the save file onto the window).
+= Wähle <em>Spielstände meines Spiels finden</em>, dann <strong>{0}</strong>, und öffne deinen Spielstand (oder ziehe die Spielstand-Datei auf das Fenster).
+
+Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.
+= Ändere, was du möchtest, und wähle dann <em>Speichern</em>. Der Editor prüft die neue Datei und sichert vorher die alte.
+
+Questions about {0} saves
+= Fragen zu Spielständen von {0}
+
+Did it work in your game?
+= Hat es in deinem Spiel funktioniert?
+
+Tried an edit in {0}? <a href="{1}">Tell us whether it worked</a>. It takes a minute, and no save is sent.
+= Hast du eine Änderung in {0} ausprobiert? <a href="{1}">Sag uns, ob sie funktioniert hat</a>. Das dauert eine Minute, und es wird kein Spielstand gesendet.
+
+Why use it
+= Warum ihn verwenden
+
+Edited saves are for single-player play. Don't use them in online or multiplayer modes.
+= Bearbeitete Spielstände sind für den Einzelspielermodus gedacht. Verwende sie nicht in Online- oder Mehrspielermodi.
+
+More save editors
+= Weitere Spielstand-Editoren
+
+This page in English
+= Diese Seite auf Englisch
+
+The editor reads and writes this save correctly on the test saves it was checked with, but loading an edited save in the game itself hasn't been tried yet. The original is backed up before every save, so if the game doesn't accept the edit, restore it from <em>Backups</em>.
+= Der Editor liest und schreibt diesen Spielstand korrekt bei den Test-Spielständen, mit denen er geprüft wurde, aber das Laden eines bearbeiteten Spielstands im Spiel selbst wurde noch nicht ausprobiert. Das Original wird vor jedem Speichern gesichert; akzeptiert das Spiel die Änderung nicht, stellst du es unter <em>Sicherungen</em> wieder her.
+
+Confirmed in game
+= Im Spiel bestätigt
+
+Edited saves of this game have been reported to load and work in the game.
+= Bearbeitete Spielstände dieses Spiels wurden als im Spiel ladbar und funktionsfähig gemeldet.
+

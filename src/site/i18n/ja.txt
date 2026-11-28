@@ -1,0 +1,320 @@
+# Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
+
+Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
+= PCゲーム用の無料のオフラインセーブデータエディター。550本以上のゲームのセーブデータで、お金やアイテム、ステータスを変更できます。アップロードは一切なく、保存前に必ずバックアップを作成します。
+
+Free offline save editor for {0}+ ({1}) games | Universal Save Editor
+= {0}本以上（{1}本）のゲームに対応した無料のオフラインセーブデータエディター | Universal Save Editor
+
+The {0} screen in Universal Save Editor, with a save open
+= セーブデータを開いた Universal Save Editor の {0} 画面
+
+{0} in the editor
+= エディターでの {0}
+
+Is it safe to edit a save file?
+= セーブデータを編集しても安全ですか？
+
+The downloaded app backs up the old file before every save, then reads the new file back and checks it before replacing anything. If the game doesn't like an edit, restore the backup from <em>Backups</em>. In the browser version, keep a copy of the original yourself (in Chrome and Edge, <em>Open to save in place</em> also keeps one in the browser before the first save).
+= ダウンロード版のアプリは、保存のたびに元のファイルをバックアップし、新しいファイルを読み直して確認してから置き換えます。ゲームが変更を受け付けないときは、<em>バックアップ</em>から元に戻せます。ブラウザ版では元のファイルを自分で保管してください（ChromeとEdgeでは、<em>同じファイルに保存できるように開く</em>を使うと、最初の保存の前にブラウザ内にも1つ保管されます）。
+
+Do I have to upload my save?
+= セーブデータをアップロードする必要はありますか？
+
+No. The editor is a program on your own computer and works offline. <a href="{0}">The browser version</a> also runs on your computer, inside the page, and never uploads the save.
+= いいえ。エディターはお使いのパソコン上で動くプログラムで、オフラインで使えます。<a href="{0}">ブラウザ版</a>もページの中でパソコン上で動作し、セーブデータを送信することはありません。
+
+Which games does it work with?
+= どのゲームに対応していますか？
+
+{1}+ ({2}) games are <a href="{3}">listed on the English home page</a>, each with a page saying what can be changed and where its saves are. Saves of games that aren't listed often open too: as named values when the format is a common one, or through value search.
+= {1}本以上（{2}本）のゲームが<a href="{3}">英語のトップページ</a>に載っており、それぞれに、変更できる内容とセーブデータの場所を説明したページがあります。載っていないゲームのセーブデータも、一般的な形式なら名前付きの値として、またはデータ検索で開けることがよくあります。
+
+Does it work on Steam Deck, Linux and Mac?
+= Steam Deck、Linux、Macで使えますか？
+
+Yes. There are downloads for Windows, Linux and macOS. On Linux and the Steam Deck, <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.
+= はい。Windows、Linux、macOS向けのダウンロードがあります。LinuxとSteam Deckでは、<em>自分のゲームのセーブデータを探す</em>が、Steam PlayがWindowsゲームのセーブデータを置くProtonやWineのプレフィックスの中も探します。
+
+Can I use edited saves online?
+= 編集したセーブデータをオンラインで使えますか？
+
+Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.
+= 編集したセーブデータは一人用のプレイ専用です。オンラインやマルチプレイのモードでは、規約違反になったりアカウントが制裁を受けたりするおそれがあるため、使わないでください。
+
+Does it cost anything?
+= 料金はかかりますか？
+
+No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.
+= いいえ。無料で、これからもずっと無料です。広告もアカウントも制限もありません。コードはGPL-3.0のオープンソースです。
+
+Free offline save editor for {0}+ ({1}) games
+= {0}本以上（{1}本）のゲームに対応した無料のオフラインセーブデータエディター
+
+Universal Save Editor is a save editor and save manager for PC games. Open a save file, change money, levels, items and stats, and save it back. It runs on your own computer: no uploads, no accounts, no rate limits, and the downloaded app backs up every save before changing it. It's free, and always will be.
+= Universal Save Editor は、PCゲーム用のセーブデータエディター兼セーブマネージャーです。セーブデータのファイルを開き、お金やレベル、アイテム、ステータスを変更して、保存し直せます。お使いのパソコン上で動作し、アップロードもアカウントも制限もありません。ダウンロード版のアプリは、変更の前に必ずセーブデータをバックアップします。無料で、これからもずっと無料です。
+
+Free forever
+= ずっと無料
+
+Offline
+= オフライン
+
+Open source
+= オープンソース
+
+Browser
+= ブラウザ
+
+Download for free
+= 無料でダウンロード
+
+Use it in your browser
+= ブラウザで使う
+
+Save manager built in
+= セーブマネージャー内蔵
+
+Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.
+= 保存するたびに、エディターが先にファイルを自動でバックアップします。ボス戦や大きな選択の前に名前付きのバックアップを作ったり、ワンクリックで好きなバックアップに戻したり、2つのバックアップを比べたり、セーブデータを脇に置いて新しいゲームを始め、あとで戻ってきたりできます。バックアップはパソコン内のセーブデータの隣に残ります。
+
+How the save manager works
+= セーブマネージャーの仕組み
+
+<strong>Don't want to run a program?</strong> <a href="{0}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file (Chrome and Edge can also save back to the same file, keeping the original in the browser first). After the first visit it opens without a connection too.
+= <strong>プログラムを実行したくない場合は？</strong> <a href="{0}">ブラウザ版</a>は同じエディターが、お使いのパソコン上でウェブページの中で動くものです。セーブデータがアップロードされることはありません。フォルダ内のセーブデータの検索やバックアップはできないので、ファイルを自分で開き、コピーを取っておいてください。保存すると編集後のファイルがダウンロードされます（ChromeとEdgeでは同じファイルへの保存もでき、その前にブラウザ内に元のファイルを保管します）。初回の訪問後は、接続なしでも開けます。
+
+What is a save editor?
+= セーブデータエディターとは？
+
+A save editor opens the file a game writes when you save and lets you change what is stored in it: money, experience, items, stats, unlocks. Games keep their saves in many formats, often compressed, encrypted or guarded by a checksum, so each one needs its own handling. Universal Save Editor does that for {0}+ ({1}) games in one program and writes the file back the way the game expects it.
+= セーブデータエディターは、ゲームが保存時に書き出すファイルを開き、お金や経験値、アイテム、ステータス、アンロックなど、中身を変更できるようにするツールです。ゲームごとに保存形式が異なり、圧縮や暗号化、チェックサムによる保護がされていることも多いため、1本ずつ専用の処理が必要です。Universal Save Editor は、{0}本以上（{1}本）のゲームのそれを1つのプログラムで行い、ゲームが期待する形でファイルを書き戻します。
+
+How to edit a save file
+= セーブデータの編集のしかた
+
+<a href="{0}">Download the editor</a>, or open <a href="{1}">the browser version</a>.
+= <a href="{0}">エディターをダウンロード</a>するか、<a href="{1}">ブラウザ版</a>を開きます。
+
+In the downloaded app, choose <em>Find my game's saves</em> and pick your game. In the browser, open the save file yourself.
+= ダウンロード版のアプリでは<em>自分のゲームのセーブデータを探す</em>を選び、ゲームを選びます。ブラウザ版では、セーブデータのファイルを自分で開きます。
+
+Change what you want. {0} games open on a screen made for them, with every value named; other saves open as a list of values, or through value search.
+= 好きなところを変更します。{0}本のゲームは専用に作られた画面で開き、すべての値に名前が付いています。それ以外のセーブデータは、値の一覧として、またはデータ検索で開きます。
+
+Save. The downloaded app backs up the old file first and reads the new one back to check it before replacing anything; the browser version downloads the edited file (or, in Chrome and Edge, can write it back to the same file), so keep a copy of the original. Then load the save in your game.
+= 保存します。ダウンロード版のアプリは、先に元のファイルをバックアップし、新しいファイルを読み直して確認してから置き換えます。ブラウザ版は編集後のファイルをダウンロードするので（ChromeとEdgeでは同じファイルへの書き戻しもできます）、元のファイルのコピーを取っておいてください。そのあと、ゲームでセーブデータを読み込みます。
+
+Why download a save editor?
+= セーブデータエディターをダウンロードする理由
+
+<li><strong>Free, forever.</strong> No price, no ads, no account, no paid tier.</li>
+= <li><strong>ずっと無料。</strong>料金も広告もアカウントも有料プランもありません。</li>
+
+<li><strong>Offline.</strong> Your save never leaves your computer: nothing is uploaded, so there are no file size limits, queues or rate limits.</li>
+= <li><strong>オフライン。</strong>セーブデータがパソコンの外に出ることはありません。何もアップロードしないので、ファイルサイズの上限も順番待ちも利用制限もありません。</li>
+
+<li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
+= <li><strong>安全。</strong>どのセーブデータも、書き込む前に読み直して確認し、元のファイルを先にバックアップします（バックアップ &rsaquo; セーブマネージャーを開く）。</li>
+
+<li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
+= <li><strong>未対応のゲームでも使えます。</strong>データ検索で、わかっている数値や、わからない数値（体力バーや隠しカウンターなど）を探せます。スキャンして、プレイし、保存して、増えたもの、減ったもの、変わったもの、変わらなかったものに絞り込みます。</li>
+
+<li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
+= <li><strong>LinuxとSteam Deck。</strong><em>自分のゲームのセーブデータを探す</em>は、Steam Playで動くWindowsゲームがセーブデータを置くProtonやWineのプレフィックスの中も探します。</li>
+
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
+= <li><strong>日本語に対応。</strong>メニューとメッセージは、英語、ドイツ語、スペイン語、フランス語、ブラジルポルトガル語、日本語、簡体字中国語で、システムの言語に合わせて表示されます。</li>
+
+<li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
+= <li><strong>セーブマネージャー（ツールバーのボタン）。</strong>自動バックアップと名前付きバックアップを、各セーブデータの隣のフォルダに保存します。ゲームがそこを読み込むことはありません。好きなバックアップに戻したり（現在のセーブデータは先にバックアップされます）、比較したりできます。セーブデータが1つしかないゲームでは、バックアップして新しいゲームを始め、あとで元のセーブデータに戻すこともできます。どのバックアップも、置き換える前にディスクへ書き込み、確認します。</li>
+
+<li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
+= <li><strong>オープンソース。</strong>誰でもコードを読めます（GPL-3.0）。</li>
+
+Questions about save editing
+= セーブデータの編集についてのよくある質問
+
+Popular games
+= 人気のゲーム
+
+{0} games open on a screen made for them; the rest can be edited value by value. These are some of the most popular. The game pages are in English, apart from the ones that are translated.
+= {0}本のゲームは専用画面で開き、それ以外は値を1つずつ編集できます。ここでは特に人気のあるものを挙げています。ゲームのページは、翻訳済みのもの以外は英語です。
+
+Game screen
+= ゲーム専用画面
+
+See all {0} supported games (English)
+= 対応している{0}本のゲームをすべて見る（英語）
+
+No game on the list? The editor can still open saves of games that aren't listed: try it, or <a href="{0}">ask for the game</a>.
+= ゲームが一覧にありませんか？載っていないゲームのセーブデータも開けることがあります。試してみるか、<a href="{0}">ゲームの追加をリクエスト</a>してください。
+
+Download for
+= ダウンロード：
+
+Games
+= ゲーム
+
+Save manager
+= セーブマネージャー
+
+What's new
+= 更新情報
+
+Use in browser
+= ブラウザで使う
+
+Download
+= ダウンロード
+
+Source
+= ソースコード
+
+Light theme
+= ライトテーマ
+
+Dark theme
+= ダークテーマ
+
+Switch to light theme
+= ライトテーマに切り替える
+
+Switch to dark theme
+= ダークテーマに切り替える
+
+Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.
+= Universal Save Editor は無料で、これからもずっと無料です。GPL-3.0のオープンソースです。ゲームの開発元や販売元とは一切関係がなく、ゲーム名や商標はそれぞれの所有者に帰属します。セーブデータのバックアップは必ず取っておいてください。
+
+Questions and ideas
+= 質問とアイデア
+
+Report a problem
+= 問題を報告
+
+All versions and release notes
+= すべてのバージョンとリリースノート
+
+Source code on GitHub
+= GitHubのソースコード
+
+Code signing policy
+= コード署名ポリシー
+
+Universal Save Editor: free, offline save editor for 550+ games
+= Universal Save Editor：550本以上のゲームに対応した無料のオフラインセーブデータエディター
+
+Download for Windows
+= Windows版をダウンロード
+
+Version {0}:
+= バージョン {0}：
+
+Free, offline {0} save editor for PC. Change your values, with a backup before every save. Nothing is uploaded, no limits.
+= {0}用の無料のオフラインセーブデータエディター（PC版）。保存のたびにバックアップを作成して値を変更できます。アップロードなし、制限なし。
+
+{0} save editor: free and offline | Universal Save Editor
+= {0} セーブデータエディター：無料・オフライン | Universal Save Editor
+
+Where is the {0} save file?
+= {0} のセーブデータはどこにありますか？
+
+Usually in <code>{0}</code>, in files named <code>{1}</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick {2}.
+= たいてい <code>{0}</code> にあり、ファイル名は <code>{1}</code> です。ダウンロード版のエディターなら自動で見つけます。<em>自分のゲームのセーブデータを探す</em>を選び、{2} を選んでください。
+
+Will {0} still load an edited save?
+= {0} は編集したセーブデータを読み込めますか？
+
+The editor writes the save back in the same format the game uses and reads the new file back to check it before replacing anything. The original is backed up first, so if anything looks wrong in the game, restore it from <em>Backups</em>.
+= エディターは、ゲームが使うのと同じ形式でセーブデータを書き戻し、置き換える前に新しいファイルを読み直して確認します。元のファイルは先にバックアップされるので、ゲーム内で何かおかしければ<em>バックアップ</em>から元に戻せます。
+
+Can I edit {0} saves on Steam Deck or Linux?
+= Steam DeckやLinuxで {0} のセーブデータを編集できますか？
+
+Yes. There's a Linux build, and <em>Find my game's saves</em> also looks inside the Proton and Wine prefixes where Steam Play keeps Windows games' saves.
+= はい。Linux版があり、<em>自分のゲームのセーブデータを探す</em>は、Steam PlayがWindowsゲームのセーブデータを置くProtonやWineのプレフィックスの中も探します。
+
+Can I edit my {0} save in the browser?
+= ブラウザで {0} のセーブデータを編集できますか？
+
+Yes. <a href="{0}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one. In Chrome and Edge it can also save back to the same file, keeping the original in the browser first.
+= はい。<a href="{0}">ブラウザ版</a>はお使いのパソコン上で動作し、セーブデータをアップロードすることはありません。ファイルは自分で開き、コピーを取っておいてください。保存すると、古いファイルのバックアップではなく編集後のファイルがダウンロードされます。ChromeとEdgeでは同じファイルへの保存もでき、その前にブラウザ内に元のファイルを保管します。
+
+Is it safe to use with online play?
+= オンラインプレイで使っても安全ですか？
+
+{0} save editor screen with a save open
+= セーブデータを開いた {0} のセーブデータエディター画面
+
+The {0} screen in Universal Save Editor, opened on an example save. Select the picture to see it full size.
+= サンプルのセーブデータを開いた Universal Save Editor の {0} 画面です。画像を選ぶと原寸で表示されます。
+
+{0} save editor
+= {0} セーブデータエディター
+
+Edit your {0} save on your own PC with Universal Save Editor, a free, offline save editor and manager for {1}+ ({2}) games. Back up, restore and start new runs from the same window. Nothing is uploaded and there are no limits.
+= Universal Save Editor で、お使いのPC上で {0} のセーブデータを編集できます。{1}本以上（{2}本）のゲームに対応した、無料のオフラインセーブデータエディター兼マネージャーです。バックアップ、復元、新しいプレイの開始も同じウィンドウで行えます。アップロードはなく、制限もありません。
+
+What you can edit
+= 編集できる内容
+
+The editor shows these value names in English.
+= エディターには、これらの値の名前が英語で表示されます。
+
+Where {0} keeps its saves
+= {0} のセーブデータの場所
+
+Folder:
+= フォルダ：
+
+Files:
+= ファイル：
+
+You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {0}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)
+= 自分で探す必要はありません。エディターで<em>自分のゲームのセーブデータを探す</em>を選び、{0} を選ぶと、見つかったセーブデータが一覧表示されます。（ブラウザ版はフォルダの中を調べられないので、このフォルダにあるファイルを自分で開いてください。）
+
+How to edit your {0} save
+= {0} のセーブデータの編集のしかた
+
+<a href="{0}">Download Universal Save Editor</a> for Windows, macOS or Linux; just run it. Rather not install anything? <a href="{1}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file (Chrome and Edge can save back to the same file).
+= Windows、macOS、Linux向けの <a href="{0}">Universal Save Editor をダウンロード</a>して実行するだけです。何もインストールしたくない場合は、<a href="{1}">ブラウザで使う</a>こともできます。こちらもパソコン上で動作し、保存すると編集後のファイルがダウンロードされます（ChromeとEdgeでは同じファイルへの保存もできます）。
+
+Close the game, so it doesn't write over your changes.
+= ゲームを終了してください。起動したままだと、変更が上書きされてしまいます。
+
+Choose <em>Find my game's saves</em>, pick <strong>{0}</strong> and open your save (or drag the save file onto the window).
+= <em>自分のゲームのセーブデータを探す</em>を選び、<strong>{0}</strong> を選んでセーブデータを開きます（セーブデータのファイルをウィンドウにドラッグしても開けます）。
+
+Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.
+= 好きなところを変更して、<em>保存</em>を選びます。エディターは新しいファイルを確認し、先に元のファイルをバックアップします。
+
+Questions about {0} saves
+= {0} のセーブデータについてのよくある質問
+
+Did it work in your game?
+= ゲームで問題なく使えましたか？
+
+Tried an edit in {0}? <a href="{1}">Tell us whether it worked</a>. It takes a minute, and no save is sent.
+= {0} で編集を試しましたか？<a href="{1}">うまくいったかどうかを教えてください</a>。1分ほどで済み、セーブデータは送信されません。
+
+Why use it
+= 選ばれる理由
+
+Edited saves are for single-player play. Don't use them in online or multiplayer modes.
+= 編集したセーブデータは一人用のプレイ専用です。オンラインやマルチプレイのモードでは使わないでください。
+
+More save editors
+= ほかのセーブデータエディター
+
+This page in English
+= このページの英語版
+
+The editor reads and writes this save correctly on the test saves it was checked with, but loading an edited save in the game itself hasn't been tried yet. The original is backed up before every save, so if the game doesn't accept the edit, restore it from <em>Backups</em>.
+= このセーブデータは、確認に使ったテスト用のセーブデータでは正しく読み書きできていますが、編集したセーブデータをゲーム内で読み込む確認はまだ行っていません。保存のたびに元のファイルをバックアップするので、ゲームが変更を受け付けない場合は<em>バックアップ</em>から元に戻せます。
+
+Confirmed in game
+= ゲーム内で動作確認済み
+
+Edited saves of this game have been reported to load and work in the game.
+= このゲームの編集済みセーブデータが、ゲーム内で読み込めて正常に動作したという報告があります。
+
