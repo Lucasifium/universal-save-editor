@@ -225,8 +225,12 @@ impl App {
             if kept < r.lines.len() {
                 ui.weak(if kept == 0 { tr("Nothing is ticked, so saving puts every change back and writes nothing.") } else { tr("Unticked changes are put back before saving. Undo brings them back.") });
             }
+            #[cfg(target_arch = "wasm32")]
+            let web_note = super::in_place::save_note(self.doc.as_ref().is_some_and(|d| d.handle.is_some() && d.path == r.path));
+            #[cfg(not(target_arch = "wasm32"))]
+            let web_note = tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.");
             ui.weak(if WEB {
-                tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.")
+                web_note
             } else {
                 tr("The save on disk now is backed up first. Backups \u{203A} Quick restore brings it back.")
             });

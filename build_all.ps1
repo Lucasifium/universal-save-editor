@@ -95,7 +95,7 @@ if (Want 'web') {
         Run cargo rustc --profile web --lib --crate-type cdylib --target wasm32-unknown-unknown
         Remove-Item -Recurse -Force docs\app -ErrorAction SilentlyContinue
         Run wasm-bindgen --target web --no-typescript --out-dir docs\app target\wasm32-unknown-unknown\web\universal_save_editor.wasm
-        Copy-Item web\index.html docs\app\index.html
+        Run python -I web\finish.py docs\app
         $built += 'docs\app\'
     } else {
         Write-Host '== Browser version skipped: install wasm-bindgen-cli (see README, Builds)' -ForegroundColor Yellow

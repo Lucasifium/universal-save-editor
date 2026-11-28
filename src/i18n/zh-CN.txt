@@ -32388,3 +32388,88 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = 当前超出上限 {0}。
+
+# Saving in place in the browser
+Couldn't open the file: {0}
+= 无法打开文件：{0}
+
+Open to save in place…
+= 打开以保存回原文件…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= 之后保存时，在浏览器中允许后会写回你选择的文件，而不是下载。原来的文件会先保存在此浏览器中。浏览器用这种方式会拒绝某些系统文件夹；这些请用“打开…”。
+
+Originals kept in this browser…
+= 保存在此浏览器中的原文件…
+
+That copy isn't kept in this browser any more.
+= 此浏览器中已不再保存那份副本。
+
+Couldn't hand over the kept copy: {0}
+= 无法提供保存的副本：{0}
+
+Originals kept in this browser
+= 保存在此浏览器中的原文件
+
+Reading the browser's storage…
+= 正在读取浏览器存储…
+
+The browser's storage couldn't be read: {0}
+= 无法读取浏览器存储：{0}
+
+Nothing is kept yet.
+= 还没有保存任何内容。
+
+Your browser downloaded the edited file instead.
+= 你的浏览器改为下载了编辑后的文件。
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} 下载也没有开始（{1}）。你的更改仍在这里。
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= 已写回你电脑上的 {0}。原来的文件保存在此浏览器中：备份 › 保存在此浏览器中的原文件。
+
+Written back to {0} on your computer.
+= 已写回你电脑上的 {0}。
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= 浏览器没有获得修改 {0} 的许可，因此该文件未被修改。
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= 浏览器无法请求修改 {0} 的许可（{1}），因此该文件未被修改。
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} 未被修改：无法先在此浏览器中保存一份副本（{1}）。
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= 无法保存到 {0}：{1}。你电脑上的文件未被修改。你的更改仍在这里：请再次保存，或用“另存副本为”下载。
+
+Download a file as it was before you saved it in place
+= 下载某个文件在保存回原文件之前的样子
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= 浏览器会询问此页面能否修改该文件，然后写回你打开的文件。除非该文件正是此页面上次保存进去的内容，否则会先把它保存在此浏览器中：备份 › 保存在此浏览器中的原文件。
+
+Your browser downloaded the kept copy of {0}.
+= 你的浏览器已下载 {0} 的保存副本。
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= 在写入用“打开以保存回原文件”打开的文件之前，会把文件当时的样子保存在这里，除非它正是此页面上次保存进去的内容。这些副本位于此浏览器自己的存储中，而不是你电脑上的文件夹里：在浏览器中清除此网站的数据会将其删除。最多保留最新的 {0} 份，总计不超过 {1} MB。
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= 无法保存到 {0}：{1}。浏览器无法判断你电脑上的文件是否已更改。你的更改仍在这里，此浏览器中保存的该文件副本位于：备份 › 保存在此浏览器中的原文件。
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= 未保存：自此页面上次读取或写入以来，你电脑上的 {0} 已被更改，因此没有动它。你的更改仍在这里。
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= 未保存：此页面已无法访问 {0}，因此没有动它。你的更改仍在这里；“另存副本为”可以下载它们。
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= 如果仍然保存，会先把文件现在的样子保存在此浏览器中：备份 › 保存在此浏览器中的原文件。
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= 无法从你的电脑重新读取 {0}：{1}。屏幕上的内容没有改变。
+
+Read {0} again from your computer.
+= 已从你的电脑重新读取 {0}。

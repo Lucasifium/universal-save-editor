@@ -19,7 +19,9 @@ first build makes a signing key of your own (kept in `packaging/android/`, never
 installs updates signed with the same key, so keep it.
 
 The browser version is built with `web/build.sh` (needs the `wasm32-unknown-unknown` target and a
-matching `wasm-bindgen-cli`) into `docs/app/`.
+matching `wasm-bindgen-cli`) into `docs/app/`. Its last step, `web/finish.py`, copies the page and
+`web/fsa.js` (saving in place in Chrome and Edge) and writes `sw.js`, the service worker that keeps the
+app's files for offline use, with a cache named after the version and a hash of the files.
 
 ## Adding a simple game
 
