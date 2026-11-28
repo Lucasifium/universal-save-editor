@@ -140,7 +140,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
             return;
         }
         ui.horizontal_wrapped(|ui| {
-            ui.style_mut().override_font_id = Some(egui::FontId::proportional(16.0));
+            ui.style_mut().override_font_id = Some(crate::theme::font(crate::theme::size::PANEL));
             cx.editor(ui, &sub("Species"), 170.0);
             ui.label(crate::i18n::tr("Lv"));
             cx.editor(ui, &sub("Level"), 44.0);
@@ -154,7 +154,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, p: &str, id: &str) {
             for k in ["Gender", "Type", "Nature", "Ability"] {
                 if let Some(v) = cx.text(&sub(k)) {
                     if !cx.can_edit(&sub(k)) {
-                        ui.label(RichText::new(v).size(12.5).color(ui.visuals().weak_text_color()));
+                        ui.label(RichText::new(v).size(crate::theme::size::CAPTION).color(ui.visuals().weak_text_color()));
                     }
                 }
             }

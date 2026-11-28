@@ -115,7 +115,7 @@ fn member(ui: &mut Ui, cx: &mut GameCtx, p: &str, key: &str) {
     let name = cx.text(&at("Name")).filter(|n| !n.is_empty()).unwrap_or_else(|| key.to_string());
     let class = cx.text(&at("Class")).unwrap_or_default();
     ui.horizontal_wrapped(|ui| {
-        ui.label(RichText::new(&name).size(20.0).strong());
+        ui.label(RichText::new(&name).size(crate::theme::size::PANEL).strong());
         ui.label(RichText::new(format!("{class}  \u{00B7}  {}", trf("{0} adept", &[&ELEMENTS[elem]]))).color(crate::theme::fg(ui, color))); // i18n-ok
     });
     ui.horizontal_wrapped(|ui| {
@@ -214,13 +214,13 @@ fn djinn_grid(ui: &mut Ui, cx: &mut GameCtx, party_p: &str, party: &[String], pe
                         None => (ui.visuals().extreme_bg_color, ui.visuals().weak_text_color()),
                     };
                     egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(8.0, 2.0)).show(ui, |ui| {
-                        ui.label(RichText::new(&dn).size(13.0).color(text));
+                        ui.label(RichText::new(&dn).size(crate::theme::size::CAPTION).color(text));
                     });
                     let shown = match holder {
                         Some((i, set)) => format!("{} \u{00B7} {}", names[i], if set { tr("set") } else { tr("standby") }),
                         None => "\u{2014}".to_string(),
                     };
-                    let shown = if changed { RichText::new(shown).size(12.0).color(crate::theme::fg(ui, crate::theme::MODIFIED)) } else { RichText::new(shown).size(12.0) };
+                    let shown = if changed { RichText::new(shown).size(crate::theme::size::CAPTION).color(crate::theme::fg(ui, crate::theme::MODIFIED)) } else { RichText::new(shown).size(crate::theme::size::CAPTION) };
                     egui::ComboBox::from_id_salt(("gs_djinn", e, bit)).selected_text(shown).width(120.0).show_ui(ui, |ui| {
                         ui.selectable_value(&mut pick, None, format!("\u{2014} {}", tr("nobody")));
                         for (i, n) in names.iter().enumerate() {

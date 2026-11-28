@@ -232,7 +232,7 @@ mod tests {
     #[test]
     fn game_screens_print_no_untranslated_literals() {
         const SHOWN: &[&str] = &[
-            "ui.label(", "ui.weak(", "ui.strong(", "ui.heading(", "ui.small(", "ui.monospace(", "ui.button(", "ui.small_button(", "ui.checkbox(",
+            "ui.label(", "ui.weak(", "ui.strong(", "ui.heading(", "ui.small(", "ui.monospace(", "ui.button(", "ui.small_button(", "small_button(ui, ", "ui.checkbox(",
             "ui.colored_label(", "ui.selectable_value(", "RichText::new(", "Label::new(", "Button::new(", "CollapsingHeader::new(", "on_hover_text(",
             "on_disabled_hover_text(", "hint_text(", "sub.push(", "line.push(", "facts.push(", "parts.push(",
         ];
@@ -286,7 +286,7 @@ mod tests {
     /// `// i18n-ok` because it prints a name or value from the save or a text translated earlier.
     #[test]
     fn game_screens_print_no_bare_variables() {
-        const SHOWN: &[&str] = &["ui.label(", "ui.weak(", "ui.strong(", "ui.heading(", "ui.small(", "ui.button(", "ui.small_button("];
+        const SHOWN: &[&str] = &["ui.label(", "ui.weak(", "ui.strong(", "ui.heading(", "ui.small(", "ui.button(", "ui.small_button(", "small_button(ui, "];
         let mut bad = vec![];
         let mut stack = vec![std::path::PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/src/game_ui"))];
         while let Some(d) = stack.pop() {

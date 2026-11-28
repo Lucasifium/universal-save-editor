@@ -88,7 +88,7 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
         if stacks.is_empty() {
             ui.horizontal_wrapped(|ui| {
                 for it in &items {
-                    ui.label(RichText::new(it).monospace().size(12.0));
+                    ui.label(RichText::new(it).monospace().size(crate::theme::size::CAPTION));
                     ui.add_space(8.0);
                 }
             });

@@ -488,7 +488,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                         ui.add(egui::Label::new(RichText::new(name).color(c)).truncate()).on_hover_text(id);
                     });
                     ui.add_enabled_ui(editable, |ui| {
-                        if ui.small_button("\u{2212}").clicked() && n > 0 {
+                        if crate::widgets::small_button(ui, "\u{2212}").clicked() && n > 0 {
                             let mut v = ids.clone();
                             if let Some(at) = v.iter().rposition(|x| x == id) {
                                 v.remove(at);
@@ -496,7 +496,7 @@ pub fn vampire_survivors(ui: &mut Ui, cx: &mut GameCtx) {
                             new = Some(v);
                         }
                         ui.label(RichText::new(n.to_string()).strong());
-                        if ui.small_button("+").clicked() && max.is_none_or(|m| n < m) {
+                        if crate::widgets::small_button(ui, "+").clicked() && max.is_none_or(|m| n < m) {
                             let mut v = ids.clone();
                             v.push(id.clone());
                             new = Some(v);

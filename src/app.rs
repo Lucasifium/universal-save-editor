@@ -2221,10 +2221,10 @@ impl App {
                                     if ui.button(label).on_hover_text(tr("Replaces the current save with this backup. The current save is backed up first, so you can undo it.")).clicked() {
                                         pick = Some((v.path.clone(), trf("the backup from {0}", &[&when])));
                                     }
-                                    if ui.small_button(tr("Compare")).on_hover_text(tr("Shows what differs between this backup and the open save")).clicked() {
+                                    if crate::widgets::small_button(ui, tr("Compare")).on_hover_text(tr("Shows what differs between this backup and the open save")).clicked() {
                                         compare = Some(v.path.clone());
                                     }
-                                    if v.name.is_some() && ui.small_button(tr("Make automatic")).on_hover_text(tr("Stops keeping this backup for good; it is cleared out in time like the automatic ones")).clicked() {
+                                    if v.name.is_some() && crate::widgets::small_button(ui, tr("Make automatic")).on_hover_text(tr("Stops keeping this backup for good; it is cleared out in time like the automatic ones")).clicked() {
                                         unlock = Some(i);
                                     }
                                 });
@@ -2577,10 +2577,10 @@ impl App {
                 }
                 if !WEB && !cfg!(target_os = "android") {
                     ui.horizontal_wrapped(|ui| {
-                        if ui.small_button(tr("Keep backups in another folder\u{2026}")).clicked() {
+                        if ui.button(tr("Keep backups in another folder\u{2026}")).clicked() {
                             change_dir = true;
                         }
-                        if self.settings.backup_dir.is_some() && ui.small_button(tr("Back to the default folder")).clicked() {
+                        if self.settings.backup_dir.is_some() && ui.button(tr("Back to the default folder")).clicked() {
                             reset_dir = true;
                         }
                     });
@@ -2633,16 +2633,16 @@ impl App {
                                     confirm = None;
                                 }
                             } else {
-                                if ui.small_button(tr("Restore this backup")).on_hover_text(tr("Replaces the current save with this backup. The current save is backed up first, so you can undo it.")).clicked() {
+                                if crate::widgets::small_button(ui, tr("Restore this backup")).on_hover_text(tr("Replaces the current save with this backup. The current save is backed up first, so you can undo it.")).clicked() {
                                     confirm = Some((v.path.clone(), true));
                                 }
-                                if has_doc && path.is_file() && ui.small_button(tr("Compare")).on_hover_text(tr("Shows what differs between this backup and the open save")).clicked() {
+                                if has_doc && path.is_file() && crate::widgets::small_button(ui, tr("Compare")).on_hover_text(tr("Shows what differs between this backup and the open save")).clicked() {
                                     compare = Some(v.path.clone());
                                 }
-                                if v.name.is_some() && ui.small_button(tr("Make automatic")).on_hover_text(tr("Stops keeping this backup for good; it is cleared out in time like the automatic ones")).clicked() {
+                                if v.name.is_some() && crate::widgets::small_button(ui, tr("Make automatic")).on_hover_text(tr("Stops keeping this backup for good; it is cleared out in time like the automatic ones")).clicked() {
                                     unname = Some(v.path.clone());
                                 }
-                                if ui.small_button(tr("Delete backup")).on_hover_text(tr("Permanently removes this backup")).clicked() {
+                                if crate::widgets::small_button(ui, tr("Delete backup")).on_hover_text(tr("Permanently removes this backup")).clicked() {
                                     confirm = Some((v.path.clone(), false));
                                 }
                             }
@@ -2973,7 +2973,7 @@ impl App {
                 ui.horizontal_wrapped(|ui| {
                     ui.weak(tr("Accounts on this computer:"));
                     for id in &locals {
-                        if ui.small_button((id - crate::steamid::BASE).to_string()).clicked() {
+                        if crate::widgets::small_button(ui, (id - crate::steamid::BASE).to_string()).clicked() {
                             text = id.to_string();
                         }
                     }
@@ -3126,7 +3126,7 @@ impl App {
 
     fn chip(ui: &mut egui::Ui, text: &str, color: Color32) -> egui::Response {
         // A frame doesn't wrap on its own: start a new line when the chip won't fit.
-        let w = ui.fonts(|f| f.layout_no_wrap(text.to_string(), egui::FontId::proportional(13.0), color).size().x) + 16.0;
+        let w = ui.fonts(|f| f.layout_no_wrap(text.to_string(), crate::theme::font(crate::theme::size::CAPTION), color).size().x) + 16.0;
         if ui.layout().main_wrap && w > ui.available_size_before_wrap().x {
             ui.end_row();
         }
@@ -3134,7 +3134,7 @@ impl App {
             .fill(color.gamma_multiply(0.18))
             .rounding(egui::Rounding::same(10.0))
             .inner_margin(egui::Margin::symmetric(8.0, 2.0))
-            .show(ui, |ui| ui.add(egui::Label::new(RichText::new(text).color(theme::fg(ui, color)).size(13.0)).extend()))
+            .show(ui, |ui| ui.add(egui::Label::new(RichText::new(text).color(theme::fg(ui, color)).size(crate::theme::size::CAPTION)).extend()))
             .response
     }
 
@@ -3165,10 +3165,10 @@ impl App {
                     ui.add(egui::Label::new(text).truncate());
                 }
             });
-            if !fits && ui.small_button(if self.note_open { tr("Less") } else { tr("More") }).clicked() {
+            if !fits && crate::widgets::small_button(ui, if self.note_open { tr("Less") } else { tr("More") }).clicked() {
                 toggle = true;
             }
-            if ui.small_button(tr("Dismiss")).on_hover_text(tr("Hide this note for every file like this one. View \u{203A} Show the note about this file brings it back.")).clicked() {
+            if crate::widgets::small_button(ui, tr("Dismiss")).on_hover_text(tr("Hide this note for every file like this one. View \u{203A} Show the note about this file brings it back.")).clicked() {
                 dismiss = true;
             }
         });
@@ -3291,7 +3291,7 @@ impl App {
             // pushing the toolbar onto a second line.
             let name_w = if wrap { ui.available_width() } else { (ui.available_width() - 220.0).clamp(160.0, 520.0) };
             ui.allocate_ui(egui::vec2(name_w, ui.available_height()), |ui| {
-                ui.add(egui::Label::new(RichText::new(file_name(&doc.path)).family(theme::semibold_family()).size(16.0)).truncate())
+                ui.add(egui::Label::new(crate::theme::panel_title(file_name(&doc.path))).truncate())
                     .on_hover_text(doc.path.display().to_string());
             });
             self.file_chips(ui, true);
@@ -3332,10 +3332,10 @@ impl App {
                     let name = self.doc.as_ref().map(|d| (file_name(&d.path), d.path.display().to_string()));
                     match name {
                         Some((n, full)) => {
-                            ui.add(egui::Label::new(RichText::new(n).family(theme::semibold_family()).size(15.0)).truncate()).on_hover_text(full);
+                            ui.add(egui::Label::new(RichText::new(n).family(theme::semibold_family()).size(crate::theme::size::BODY)).truncate()).on_hover_text(full);
                         }
                         None => {
-                            ui.add(egui::Label::new(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(15.0)).truncate());
+                            ui.add(egui::Label::new(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(crate::theme::size::BODY)).truncate());
                         }
                     }
                 });
@@ -3585,7 +3585,7 @@ impl App {
                 if (r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape)) {
                     self.search.clear();
                 }
-                if !self.search.is_empty() && ui.small_button(tr("Clear")).clicked() {
+                if !self.search.is_empty() && crate::widgets::small_button(ui, tr("Clear")).clicked() {
                     self.search.clear();
                 }
                 let on = self.bulk.is_some();
@@ -3710,20 +3710,20 @@ impl App {
                 ui.weak(trf("{0} of {1}", &[&(self.game_find_idx + 1), &total]));
                 let enter = r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
                 let back = ui.input(|i| i.modifiers.shift);
-                if ui.small_button(tr("Next")).clicked() || (enter && !back) {
+                if crate::widgets::small_button(ui, tr("Next")).clicked() || (enter && !back) {
                     self.game_find_idx = (self.game_find_idx + 1) % total;
                     if enter {
                         r.request_focus();
                     }
                 }
-                if ui.small_button(tr("Prev")).clicked() || (enter && back) {
+                if crate::widgets::small_button(ui, tr("Prev")).clicked() || (enter && back) {
                     self.game_find_idx = (self.game_find_idx + total - 1) % total;
                     if enter {
                         r.request_focus();
                     }
                 }
             }
-            if ui.small_button(tr("Clear")).clicked() || ((r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape))) {
+            if crate::widgets::small_button(ui, tr("Clear")).clicked() || ((r.has_focus() || r.lost_focus()) && ui.input(|i| i.key_pressed(egui::Key::Escape))) {
                 self.game_find.clear();
             }
         }
@@ -3977,7 +3977,7 @@ impl App {
             ui.horizontal(|ui| {
                 ui.heading(tr("Changes"));
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                    if ui.small_button(tr("Close")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Close")).clicked() {
                         close = true;
                     }
                 });
@@ -3986,13 +3986,13 @@ impl App {
             ui.add_space(4.0);
             if self.dirty {
                 ui.horizontal_wrapped(|ui| {
-                    if ui.small_button(tr("Copy as text")).on_hover_text(tr("Copy the list of changes, to paste when asking for help or sharing what you did")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Copy as text")).on_hover_text(tr("Copy the list of changes, to paste when asking for help or sharing what you did")).clicked() {
                         copy = true;
                     }
-                    if ui.small_button(tr("Save as preset\u{2026}")).on_hover_text(tr("Keep these changes to make them again on another save or slot")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Save as preset\u{2026}")).on_hover_text(tr("Keep these changes to make them again on another save or slot")).clicked() {
                         preset = true;
                     }
-                    if ui.small_button(tr("Revert all")).on_hover_text(tr("Put every value back as it was when the file was opened or last saved")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Revert all")).on_hover_text(tr("Put every value back as it was when the file was opened or last saved")).clicked() {
                         revert_all = true;
                     }
                 });
@@ -4017,7 +4017,7 @@ impl App {
                             let hex = |b: &[u8]| b.iter().take(16).map(|x| format!("{x:02X}")).collect::<Vec<_>>().join(" ");
                             ui.label(RichText::new(hex(&base[start..end])).weak().strikethrough().monospace());
                             ui.label(RichText::new(hex(&cur[start..end])).color(theme::fg(ui, theme::MODIFIED)).monospace());
-                            if ui.small_button(tr("Revert")).clicked() {
+                            if crate::widgets::small_button(ui, tr("Revert")).clicked() {
                                 revert_bytes.push((start, base[start..end].to_vec()));
                             }
                         });
@@ -4069,7 +4069,7 @@ impl App {
                                         });
                                     }
                                 });
-                                if ui.small_button(tr("Revert all of these")).clicked() {
+                                if crate::widgets::small_button(ui, tr("Revert all of these")).clicked() {
                                     let group: Vec<(String, Value)> = list.iter().filter_map(|p| bv.pointer(p).map(|o| ((*p).clone(), o.clone()))).collect();
                                     revert_groups.push(group);
                                 }
@@ -4099,7 +4099,7 @@ impl App {
                                     ui.label(RichText::new(new).color(theme::fg(ui, theme::MODIFIED)));
                                 });
                             }
-                            if ui.small_button(tr("Revert")).clicked() {
+                            if crate::widgets::small_button(ui, tr("Revert")).clicked() {
                                 if let Some(orig) = bv.pointer(ptr) {
                                     revert.push((ptr.clone(), orig.clone()));
                                 }
@@ -4180,7 +4180,7 @@ impl App {
                 ui.add_space(6.0);
                 if let Some((current, saves, others)) = &cairn {
                     theme::card(ui, |ui| {
-                        ui.label(RichText::new(tr("Cairn saves in this slot")).family(theme::semibold_family()).size(16.0));
+                        ui.label(crate::theme::panel_title(tr("Cairn saves in this slot")));
                         ui.weak(trf("{0} saves, the dated ones newest first; pick one to open it.", &[&saves.len()]));
                         ScrollArea::vertical().show_list(ui, "cairn_saves", 220.0, |ui| {
                             for (entry, label) in saves {
@@ -4226,7 +4226,7 @@ impl App {
                     Self::guide_card(ui, h, &mut hide_guide);
                 }
                 theme::card(ui, |ui| {
-                    ui.label(RichText::new(tr("Named values")).family(theme::semibold_family()).size(16.0));
+                    ui.label(crate::theme::panel_title(tr("Named values")));
                     if h.labels.is_empty() {
                         ui.weak(tr("Binary saves have no names. Find a value with Value search, click it, then name it here \u{2014} names are remembered for this file."));
                     }
@@ -4289,7 +4289,7 @@ impl App {
                 });
 
                 theme::card(ui, |ui| {
-                    ui.label(RichText::new(tr("Value search")).family(theme::semibold_family()).size(16.0));
+                    ui.label(crate::theme::panel_title(tr("Value search")));
                     if guide {
                         ui.weak(tr("Don't know the number (a health bar, a hidden counter)? Start with \u{201C}Unknown starting value\u{201D}, then refine with Increased, Decreased or Changed after each in-game save."));
                     } else {
@@ -4378,7 +4378,7 @@ impl App {
 
                 theme::card(ui, |ui| {
                     ui.horizontal(|ui| {
-                        ui.label(RichText::new(format!("Selected: 0x{:X}", h.selected)).family(theme::semibold_family()).size(16.0));
+                        ui.label(crate::theme::panel_title(format!("Selected: 0x{:X}", h.selected)));
                         ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                             crate::widgets::checkbox(ui, &mut h.big_endian, tr("Big-endian")).on_hover_text(tr("Most PC games use little-endian (unticked)"));
                         });
@@ -4386,7 +4386,7 @@ impl App {
                     ui.horizontal(|ui| {
                         ui.label(tr("Go to"));
                         let r = ui.add(TextEdit::singleline(&mut h.goto_text).hint_text(tr("hex offset")).desired_width(100.0));
-                        if (r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter))) || ui.small_button(tr("Go")).clicked() {
+                        if (r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter))) || crate::widgets::small_button(ui, tr("Go")).clicked() {
                             match usize::from_str_radix(h.goto_text.trim().trim_start_matches("0x"), 16) {
                                 Ok(o) if o < data.len() => h.jump(o),
                                 _ => status = Some(Err(tr("That offset is outside the file").into())),
@@ -4480,7 +4480,7 @@ impl App {
                 });
                 ui.image((logo.id(), egui::vec2(88.0, 88.0)));
                 ui.add_space(6.0);
-                ui.label(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
+                ui.label(crate::theme::title(platform::DISPLAY_NAME).color(ui.visuals().strong_text_color()));
                 ui.label(if WEB {
                     tr("Edit game saves safely. It runs in your browser and nothing is uploaded.")
                 } else if cfg!(target_os = "android") {
@@ -4528,7 +4528,7 @@ impl App {
                 if crate::web::can_save_in_place() {
                     ui.add_space(2.0);
                     in_place = ui
-                        .small_button(tr("Open to save in place\u{2026}"))
+                        .button(tr("Open to save in place\u{2026}"))
                         .on_hover_text(tr("Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open\u{2026} for those."))
                         .clicked();
                 }
@@ -4554,7 +4554,7 @@ impl App {
                             ui.add_space(8.0);
                         }
                         theme::card(ui, |ui| {
-                            ui.label(RichText::new(tr("Recent files")).family(theme::semibold_family()).size(16.0));
+                            ui.label(crate::theme::panel_title(tr("Recent files")));
                             if self.settings.recent.is_empty() {
                                 ui.weak(tr("Files you open will appear here."));
                             }
@@ -4568,17 +4568,17 @@ impl App {
                                     let folder = p.parent().map(|d| d.display().to_string()).unwrap_or_default();
                                     if !exists && !WEB && !crate::backups::list(p).is_empty() {
                                         // Set aside for a new game (or deleted): its backups can bring it back.
-                                        if ui.small_button(tr("Restore a backup\u{2026}")).on_hover_text(tr("The file isn't there any more, but it has backups")).clicked() {
+                                        if crate::widgets::small_button(ui, tr("Restore a backup\u{2026}")).on_hover_text(tr("The file isn't there any more, but it has backups")).clicked() {
                                             restore_missing = Some(p.clone());
                                         }
                                     }
-                                    ui.add(egui::Label::new(RichText::new(if exists { folder } else { tr("(file no longer exists)").into() }).weak().size(12.5)).truncate());
+                                    ui.add(egui::Label::new(RichText::new(if exists { folder } else { tr("(file no longer exists)").into() }).weak().size(crate::theme::size::CAPTION)).truncate());
                                 });
                             }
                         });
                         ui.add_space(8.0);
                         theme::card(ui, |ui| {
-                            ui.label(RichText::new(tr("Find your saves")).family(theme::semibold_family()).size(16.0));
+                            ui.label(crate::theme::panel_title(tr("Find your saves")));
                             let locations = settings::save_locations();
                             if WEB {
                                 ui.weak(tr("The browser can't look through your folders, so pick the file yourself. On Windows most games keep saves in Documents\\My Games, %APPDATA%, %LOCALAPPDATA% or Steam\\userdata. Type one of these into the file picker's address bar to jump there."));
@@ -4595,7 +4595,7 @@ impl App {
                                     if ui.link(&label).clicked() {
                                         browse = Some(Some(path.clone()));
                                     }
-                                    ui.add(egui::Label::new(RichText::new(path.display().to_string()).weak().size(12.5)).truncate());
+                                    ui.add(egui::Label::new(RichText::new(path.display().to_string()).weak().size(crate::theme::size::CAPTION)).truncate());
                                 });
                             }
                             ui.weak(tr("RPG Maker games usually keep saves in a \u{201C}save\u{201D} folder next to the game."));
@@ -4609,7 +4609,7 @@ impl App {
                                 ui.data_mut(|d| d.insert_temp(what_id, true));
                             }
                         } else { theme::card(ui, |ui| {
-                            ui.label(RichText::new(tr("What it can open")).family(theme::semibold_family()).size(16.0));
+                            ui.label(crate::theme::panel_title(tr("What it can open")));
                             let games = trf("{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {2}",
                                 &[
                                     &crate::games::GAMES.len(),
@@ -5385,7 +5385,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                     crate::games::Level::Hex => theme::WARN,
                                 };
                                 // The name gives way (with the whole text on hover) so the badge always stays beside it.
-                                let chip_w = ui.fonts(|f| f.layout_no_wrap(l.label().to_string(), egui::FontId::proportional(13.0), color).size().x) + 16.0;
+                                let chip_w = ui.fonts(|f| f.layout_no_wrap(l.label().to_string(), crate::theme::font(crate::theme::size::CAPTION), color).size().x) + 16.0;
                                 // The star: starred games are listed first, and on the start page.
                                 let fav = is_fav(i);
                                 let star = ui
@@ -5560,7 +5560,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                                 line.push_str(&format!("  \u{00B7}  {n}"));
                                             }
                                             ui.add(egui::Label::new(RichText::new(line).weak()).truncate());
-                                            ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(12.0)).truncate());
+                                            ui.add(egui::Label::new(RichText::new(s.path.parent().map(|p| p.display().to_string()).unwrap_or_default()).weak().size(crate::theme::size::CAPTION)).truncate());
                                         });
                                     }
                                     if shown < saves.len() && ui.link(trf("Show all {0}", &[&saves.len()])).clicked() {

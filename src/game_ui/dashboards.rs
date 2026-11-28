@@ -690,7 +690,7 @@ pub fn slay_the_spire(ui: &mut Ui, cx: &mut GameCtx) {
                         cx.editor(ui, &ip, 150.0);
                         ui.label("");
                     }
-                    if ui.small_button("\u{00D7}").on_hover_text(tr("Remove")).clicked() {
+                    if crate::widgets::small_button(ui, "\u{00D7}").on_hover_text(tr("Remove")).clicked() {
                         let mut left = items.clone();
                         left.remove(n);
                         change = Some((p.to_string(), Value::Array(left)));
@@ -844,7 +844,7 @@ pub fn rpg_maker(ui: &mut Ui, cx: &mut GameCtx) {
                 for id in ids {
                     ui.label(format!("#{id}"));
                     cx.editor(ui, &format!("{base}/{id}"), 70.0);
-                    if ui.small_button("\u{00D7}").on_hover_text(tr("Remove from the party")).clicked() {
+                    if crate::widgets::small_button(ui, "\u{00D7}").on_hover_text(tr("Remove from the party")).clicked() {
                         let mut left = held.clone();
                         left.remove(id);
                         change = Some((base.clone(), Value::Object(left)));

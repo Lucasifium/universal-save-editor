@@ -12,6 +12,37 @@ pub const ERR: Color32 = Color32::from_rgb(240, 110, 110);
 /// The save's own key, shown small beside a friendlier name (as text: through `fg`).
 pub const RAW_KEY: Color32 = Color32::from_rgb(120, 150, 185);
 
+/// The type scale: every font size in the program is one of these four steps.
+/// Screen titles (the header card's game name, the start page), panel and dialog titles (and
+/// big figures on tiles), body text (labels, buttons, values), and captions (tile captions,
+/// paths, notes under a row). Only icon glyphs set sizes of their own.
+pub mod size {
+    pub const TITLE: f32 = 26.0;
+    pub const PANEL: f32 = 17.0;
+    pub const BODY: f32 = 15.0;
+    pub const CAPTION: f32 = 12.5;
+}
+
+/// A screen title: the header card's name, the start page's name.
+pub fn title(text: impl Into<String>) -> egui::RichText {
+    egui::RichText::new(text).family(semibold_family()).size(size::TITLE)
+}
+
+/// The title of a panel, card or dialog section.
+pub fn panel_title(text: impl Into<String>) -> egui::RichText {
+    egui::RichText::new(text).family(semibold_family()).size(size::PANEL)
+}
+
+/// Caption-sized text: tile captions, paths, notes under a row.
+pub fn caption(text: impl Into<String>) -> egui::RichText {
+    egui::RichText::new(text).size(size::CAPTION)
+}
+
+/// A proportional font at one of the steps of [`size`] (for text painted directly).
+pub fn font(size: f32) -> FontId {
+    FontId::proportional(size)
+}
+
 /// Segoe Fluent Icons / MDL2 code points (only used when the font was found).
 pub mod icon {
     pub const OPEN: &str = "\u{E8E5}";
@@ -208,10 +239,11 @@ pub fn apply_choice(ctx: &egui::Context, dark: bool, follow_system: bool) {
 fn set_style(ctx: &egui::Context, dark: bool) {
     let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
     style.text_styles = [
-        (TextStyle::Small, FontId::new(12.5, FontFamily::Proportional)),
-        (TextStyle::Body, FontId::new(15.0, FontFamily::Proportional)),
-        (TextStyle::Button, FontId::new(15.0, FontFamily::Proportional)),
-        (TextStyle::Heading, FontId::new(22.0, semibold_family())),
+        (TextStyle::Small, FontId::new(size::CAPTION, FontFamily::Proportional)),
+        (TextStyle::Body, FontId::new(size::BODY, FontFamily::Proportional)),
+        (TextStyle::Button, FontId::new(size::BODY, FontFamily::Proportional)),
+        // Window titles and `ui.heading`: the panel step.
+        (TextStyle::Heading, FontId::new(size::PANEL, semibold_family())),
         (TextStyle::Monospace, FontId::new(14.0, FontFamily::Monospace)),
     ]
     .into();
@@ -460,6 +492,43 @@ mod tests {
         // Picking dark or light stops following the system.
         apply_choice(&ctx, false, false);
         assert!(!dark_with(Some(egui::Theme::Dark)));
+    }
+
+    /// Every font size comes from the type scale (`size`): no size written as a number elsewhere,
+    /// except icon glyphs and the item cells' fitted titles.
+    #[test]
+    fn font_sizes_come_from_the_type_scale() {
+        fn walk(dir: &std::path::Path, out: &mut Vec<std::path::PathBuf>) {
+            for e in std::fs::read_dir(dir).into_iter().flatten().flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    walk(&p, out);
+                } else if p.extension().is_some_and(|x| x == "rs") {
+                    out.push(p);
+                }
+            }
+        }
+        let mut files = vec![];
+        walk(&std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src"), &mut files);
+        let literal = |l: &str| {
+            [".size(", "FontId::proportional(", "FontId::new("].iter().any(|pat| {
+                l.match_indices(pat).any(|(i, _)| l[i + pat.len()..].starts_with(|c: char| c.is_ascii_digit()))
+            })
+        };
+        let mut bad = vec![];
+        for f in files {
+            if f.ends_with("theme.rs") {
+                continue;
+            }
+            let text = std::fs::read_to_string(&f).unwrap_or_default();
+            for (n, l) in text.lines().enumerate() {
+                let icon = l.contains("icon(") || l.contains("icons_family") || l.contains("PHONE_MENU");
+                if literal(l) && !icon && !l.contains("proportional(pt)") {
+                    bad.push(format!("{}:{}: {}", f.display(), n + 1, l.trim()));
+                }
+            }
+        }
+        assert!(bad.is_empty(), "font sizes off the type scale (use theme::size, theme::title, panel_title or caption):\n{}", bad.join("\n"));
     }
 
     #[test]

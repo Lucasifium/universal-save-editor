@@ -207,7 +207,7 @@ impl App {
                             let editable = self.model.by_ptr.get(p.as_str()).is_some_and(|&i| self.model.rows[i].editable);
                             let scalar = theirs.as_ref().is_some_and(|t| t.is_number() || t.is_string() || t.is_boolean());
                             if let (true, false, true, Some(t), Some(_)) = (editable, binary, scalar, theirs, mine) {
-                                if ui.small_button(tr("Use theirs")).clicked() {
+                                if crate::widgets::small_button(ui, tr("Use theirs")).clicked() {
                                     take = Some((p.clone(), t.clone()));
                                 }
                             }

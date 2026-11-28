@@ -231,7 +231,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
         let (sp, parts) = species(cx, m);
         let nick = cx.text(&f("@name")).filter(|s| !s.is_empty());
         ui.horizontal_wrapped(|ui| {
-            ui.label(RichText::new(nick.clone().unwrap_or_else(|| sp.clone())).size(16.0).strong());
+            ui.label(RichText::new(nick.clone().unwrap_or_else(|| sp.clone())).size(crate::theme::size::PANEL).strong());
             if nick.is_some() {
                 ui.weak(&sp); // i18n-ok: a name or value from the save, or already translated
             }
@@ -254,7 +254,7 @@ fn mon_card(ui: &mut Ui, cx: &mut GameCtx, m: &str, id: &str) {
             facts.push(crate::i18n::trf("Holds {0}", &[&nice(&it)]));
         }
         if !facts.is_empty() {
-            ui.label(RichText::new(facts.join("  \u{00B7}  ")).size(12.5).color(ui.visuals().weak_text_color()));
+            ui.label(RichText::new(facts.join("  \u{00B7}  ")).size(crate::theme::size::CAPTION).color(ui.visuals().weak_text_color()));
         }
         if let (Some(c), Some(t)) = (cx.num(&f("@hp")), cx.num(&f("@totalhp")).filter(|&t| t > 0.0)) {
             meter(ui, "HP", c, t, Color32::from_rgb(80, 180, 90));

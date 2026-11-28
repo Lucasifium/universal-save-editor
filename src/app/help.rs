@@ -190,7 +190,7 @@ impl App {
                     ui.weak(tr("The interface uses egui and eframe (MIT or Apache-2.0)."));
                 }
                 Window::About => {
-                    ui.label(RichText::new(platform::DISPLAY_NAME).family(theme::semibold_family()).size(20.0));
+                    ui.label(crate::theme::panel_title(platform::DISPLAY_NAME));
                     ui.label(trf("Version {0} \u{00B7} {1}", &[&env!("CARGO_PKG_VERSION"), &os()]));
                     ui.add_space(4.0);
                     ui.label(tr("Edit game saves safely. Everything stays on your device: nothing is uploaded, and every save is backed up before it is written."));
@@ -267,7 +267,7 @@ impl App {
                     if ui.add(egui::Slider::new(&mut z, 0.5..=3.0).step_by(0.05).custom_formatter(|v, _| format!("{:.0}%", v * 100.0))).changed() {
                         ui.ctx().set_zoom_factor(z);
                     }
-                    if ui.small_button(tr("Reset")).clicked() {
+                    if crate::widgets::small_button(ui, tr("Reset")).clicked() {
                         ui.ctx().set_zoom_factor(1.0);
                     }
                 });

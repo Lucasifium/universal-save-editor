@@ -301,7 +301,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
         ui.horizontal(|ui| {
             ui.label(tr("Search every list:"));
             let r = ui.add(egui::TextEdit::singleline(&mut query).hint_text(tr("e.g. Smithing")).desired_width(200.0));
-            if !query.is_empty() && ui.small_button(tr("Clear")).clicked() {
+            if !query.is_empty() && crate::widgets::small_button(ui, tr("Clear")).clicked() {
                 query.clear();
             }
             if r.changed() || query.is_empty() {
@@ -325,7 +325,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
                 ui.horizontal_wrapped(|ui| {
                     for n in a.iter().filter_map(|v| v.as_str()) {
                         egui::Frame::none().fill(inset_fill(ui, accent)).rounding(10.0).inner_margin(egui::Margin::symmetric(8.0, 3.0)).show(ui, |ui| {
-                            ui.label(RichText::new(n).size(13.0));
+                            ui.label(RichText::new(n).size(crate::theme::size::CAPTION));
                         });
                     }
                 });
@@ -427,7 +427,7 @@ fn item_lists(g: Game, ui: &mut Ui, cx: &mut GameCtx, accent: Color32) {
             ui.set_width(ui.available_width());
             ui.horizontal(|ui| {
                 ui.label(RichText::new(if query.is_empty() { k.clone() } else { format!("{l} \u{203A} {k}") }).strong());
-                if ui.small_button(tr("Close")).clicked() {
+                if crate::widgets::small_button(ui, tr("Close")).clicked() {
                     select(ui, &id, None);
                 }
             });

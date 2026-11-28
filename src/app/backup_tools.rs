@@ -197,10 +197,10 @@ impl Tools {
                             }
                         }
                         _ => {
-                            if ui.small_button(tr("Restore this backup")).on_hover_text(tr("Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.")).clicked() {
+                            if crate::widgets::small_button(ui, tr("Restore this backup")).on_hover_text(tr("Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.")).clicked() {
                                 self.folder_confirm = Some((v.path.clone(), true));
                             }
-                            if ui.small_button(tr("Delete backup")).on_hover_text(tr("Permanently removes this backup")).clicked() {
+                            if crate::widgets::small_button(ui, tr("Delete backup")).on_hover_text(tr("Permanently removes this backup")).clicked() {
                                 self.folder_confirm = Some((v.path.clone(), false));
                             }
                         }

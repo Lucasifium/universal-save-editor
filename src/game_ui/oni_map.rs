@@ -426,7 +426,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(t) = &v.tex {
         painter.image(t.id(), Rect::from_min_max(to_screen(0.0, 0.0), to_screen(w, h)), Rect::from_min_max(Pos2::ZERO, Pos2::new(1.0, 1.0)), Color32::WHITE);
     }
-    let font = egui::FontId::proportional(12.0);
+    let font = crate::theme::font(crate::theme::size::CAPTION);
     let mut near: Option<(f32, usize)> = None;
     for (i, poi) in map.pois.iter().enumerate() {
         let (x, y) = (poi.x as usize, poi.y as usize);
@@ -499,7 +499,7 @@ pub fn map_tab(ui: &mut Ui, cx: &mut GameCtx) {
         }
         None => crate::i18n::tr("Scroll or pinch to zoom; drag to move (right-drag while painting).").into(),
     };
-    ui.label(RichText::new(info).size(13.0));
+    ui.label(RichText::new(info).size(crate::theme::size::CAPTION));
     ui.weak(crate::i18n::tr("Painting changes what fills each cell: its element, mass, temperature and germs. Buildings, critters, plants and debris are left alone, and cells with a tile built in them aren't painted. Neutronium is kept unless you tick “Also change Neutronium”. Each stroke is one undo step. Liquids and gases settle when the game runs."));
     poi_panel(ui, &map, v, &world);
     if v.stroke.is_some() || v.dirty {
@@ -544,10 +544,10 @@ fn poi_panel(ui: &mut Ui, map: &OniMap, v: &mut MapView, world: &om::World) {
             });
         });
         ui.horizontal(|ui| {
-            if ui.small_button(tr("Show all")).clicked() {
+            if crate::widgets::small_button(ui, tr("Show all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = true);
             }
-            if ui.small_button(tr("Hide all")).clicked() {
+            if crate::widgets::small_button(ui, tr("Hide all")).clicked() {
                 v.shown.iter_mut().for_each(|s| *s = false);
             }
         });

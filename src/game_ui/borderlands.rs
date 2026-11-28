@@ -39,9 +39,9 @@ fn banner(ui: &mut Ui, title: &str, subtitle: &str, add: impl FnOnce(&mut Ui)) {
         .inner_margin(egui::Margin { left: 22.0, right: 16.0, top: 18.0, bottom: 12.0 })
         .show(ui, |ui| {
             ui.set_width(ui.available_width());
-            ui.label(RichText::new(title.to_uppercase()).family(theme::semibold_family()).size(30.0).color(theme::fg(ui, YELLOW)));
+            ui.label(crate::theme::title(title.to_uppercase()).color(theme::fg(ui, YELLOW)));
             if !subtitle.is_empty() {
-                ui.label(RichText::new(subtitle.to_uppercase()).size(13.5).color(ui.visuals().strong_text_color()));
+                ui.label(RichText::new(subtitle.to_uppercase()).size(crate::theme::size::CAPTION).color(ui.visuals().strong_text_color()));
             }
             ui.add_space(8.0);
             ui.horizontal_wrapped(add);

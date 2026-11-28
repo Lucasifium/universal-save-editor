@@ -1797,7 +1797,7 @@ fn ffx_flags(ui: &mut Ui, cx: &mut GameCtx, base: &str, what: &str, accent: Colo
             let all: Vec<String> = groups.iter().flat_map(|(_, gb)| keys_of(cx, gb).into_iter().map(|k| join(gb, &k)).collect::<Vec<_>>()).collect();
             let on = all.iter().filter(|p| cx.flag(p)).count();
             egui::CollapsingHeader::new(trf("{0}  ({1} of {2})", &[w, &on, &all.len()])).id_salt((base, w)).show(ui, |ui| {
-                if ui.small_button(trf("Learn every {0}", &[&what])).clicked() {
+                if ui.button(trf("Learn every {0}", &[&what])).clicked() {
                     for p in &all {
                         cx.set(p, Value::from(1));
                     }

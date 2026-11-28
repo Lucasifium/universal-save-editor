@@ -65,11 +65,11 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
     if let Some(a) = cx.int("/Character/Age") {
         sub.insert(2, trf("age {0}", &[&a]));
     }
-    ui.label(RichText::new(trf("{0} \u{2014} PERSONNEL RECORD", &[&game])).monospace().size(12.0).color(DIM));
-    ui.label(RichText::new(name.to_uppercase()).monospace().size(28.0).strong());
-    ui.label(RichText::new(sub.join("  \u{00B7}  ")).monospace().size(13.0));
+    ui.label(RichText::new(trf("{0} \u{2014} PERSONNEL RECORD", &[&game])).monospace().size(crate::theme::size::CAPTION).color(DIM));
+    ui.label(RichText::new(name.to_uppercase()).monospace().size(crate::theme::size::TITLE).strong());
+    ui.label(RichText::new(sub.join("  \u{00B7}  ")).monospace().size(crate::theme::size::CAPTION));
     if let Some(d) = cx.text("/Save/Description").filter(|d| !d.is_empty()) {
-        ui.label(RichText::new(format!("\u{201C}{d}\u{201D}")).monospace().size(12.0).color(DIM));
+        ui.label(RichText::new(format!("\u{201C}{d}\u{201D}")).monospace().size(crate::theme::size::CAPTION).color(DIM));
     }
     ui.add_space(8.0);
     ui.horizontal_wrapped(|ui| {
@@ -78,7 +78,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
         }
     });
     if cx.get("/Money/Bottle caps").is_none() {
-        ui.label(RichText::new(tr("No bottle caps in the inventory: there's no stack to change (the game adds one when you pick some up).")).size(12.0).color(DIM));
+        ui.label(RichText::new(tr("No bottle caps in the inventory: there's no stack to change (the game adds one when you pick some up).")).size(crate::theme::size::CAPTION).color(DIM));
     }
     ui.add_space(8.0);
 
@@ -93,7 +93,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.capped_attribute(ui, &label, &p, 10.0, GREEN);
                 }
                 ui.add_space(4.0);
-                ui.label(RichText::new(tr("Base values, 1\u{2013}10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.")).size(12.0).color(DIM));
+                ui.label(RichText::new(tr("Base values, 1\u{2013}10. The bonus in brackets comes from traits, perks, drugs and armour and is kept separately.")).size(crate::theme::size::CAPTION).color(DIM));
             });
             panel(ui, "Status", |ui| {
                 egui::Grid::new("fo_status").num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
@@ -108,7 +108,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                 });
                 ui.label(
                     RichText::new(tr("Derived values (max hit points, action points, carry weight\u{2026}) are stored as their own numbers: changing S.P.E.C.I.A.L. doesn't change them."))
-                        .size(12.0)
+                        .size(crate::theme::size::CAPTION)
                         .color(DIM),
                 );
             });
@@ -121,7 +121,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                     cx.row_fixed(ui, &label, &join("/Skills", &k), 150.0, 70.0);
                 }
                 ui.add_space(4.0);
-                ui.label(RichText::new(tr("Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills \u{2605} count them twice).")).size(12.0).color(DIM));
+                ui.label(RichText::new(tr("Points put into each skill (the sheet adds the starting value from S.P.E.C.I.A.L. on top; tagged skills \u{2605} count them twice).")).size(crate::theme::size::CAPTION).color(DIM));
             });
         }
     });
@@ -136,7 +136,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
                 for k in keys(cx, "/Tagged skill slots") {
                     cx.row_fixed(ui, &k, &join("/Tagged skill slots", &k), 90.0, 180.0);
                 }
-                ui.label(RichText::new(tr("The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.")).size(12.0).color(DIM));
+                ui.label(RichText::new(tr("The fourth tag is the one the Tag! perk gives. Don't pick the same trait or skill twice.")).size(crate::theme::size::CAPTION).color(DIM));
             });
         } else {
             panel(ui, "Perks", |ui| {
@@ -164,7 +164,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
     });
     ui.label(
         RichText::new(tr("Rank 0 means not taken; most perks have one rank, a few two or three. A perk that gives a one-off gain when picked (Gain Strength, Lifegiver, the skill-point perks) doesn't give it when set here, so raise that number yourself."))
-        .size(12.0)
+        .size(crate::theme::size::CAPTION)
         .color(DIM),
     );
     ui.add_space(8.0);
@@ -201,7 +201,7 @@ fn sheet(ui: &mut Ui, cx: &mut GameCtx) {
         });
         ui.label(
             RichText::new(tr("Item names come from a short list the game's own code refers to; other items show their prototype number (the names are in the game's data files). \u{203A} marks items inside a container above."))
-            .size(12.0)
+            .size(crate::theme::size::CAPTION)
             .color(DIM),
         );
     });
@@ -224,7 +224,7 @@ fn chips(ui: &mut Ui, list: &[String], empty: &str) {
     ui.horizontal_wrapped(|ui| {
         for t in list {
             egui::Frame::none().fill(Color32::from_rgb(20, 64, 26)).rounding(10.0).inner_margin(egui::Margin::symmetric(8.0, 3.0)).show(ui, |ui| {
-                ui.label(RichText::new(t).size(13.0));
+                ui.label(RichText::new(t).size(crate::theme::size::CAPTION));
             });
         }
     });

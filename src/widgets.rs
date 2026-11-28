@@ -46,6 +46,19 @@ pub fn icon_button(ui: &mut Ui, glyph: RichText, name: &str, tip: &str) -> Respo
     named(ui.add(btn), egui::WidgetType::Button, name).on_hover_text(tip)
 }
 
+/// Buttons come in two sizes. The normal one (`ui.button`, `interact_size` tall) is for an
+/// action that stands on its own. This small one is for an action that belongs to a row or a
+/// header beside it (Revert on a change, Close and Copy as text over the Changes list, Dismiss
+/// on the note strip): body text, [`MIN_TARGET`] tall, narrower padding.
+pub fn small_button(ui: &mut Ui, text: impl Into<WidgetText>) -> Response {
+    ui.add(small(text))
+}
+
+/// The small button of [`small_button`], to add with `add_enabled` and the like.
+pub fn small(text: impl Into<WidgetText>) -> egui::Button<'static> {
+    egui::Button::new(text).small().min_size(egui::vec2(0.0, MIN_TARGET))
+}
+
 /// The smallest a pointer target should be (WCAG 2.5.8).
 pub const MIN_TARGET: f32 = 24.0;
 

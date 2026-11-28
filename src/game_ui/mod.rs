@@ -1012,10 +1012,10 @@ impl GameCtx<'_> {
         let steps = self.get(p).is_some_and(widgets::steps) && self.can_edit(p);
         let whole = self.get(p).is_some_and(|v| v.as_i64().is_some() || v.as_u64().is_some());
         tile_frame_min(ui, accent, modified, need + if steps { 76.0 } else { 8.0 }, |ui| {
-            let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(caption_color(ui))).truncate());
+            let r = ui.add(egui::Label::new(RichText::new(caption).size(crate::theme::size::CAPTION).color(caption_color(ui))).truncate());
             find_mark(ui, r.rect, caption);
             ui.horizontal(|ui| {
-                ui.style_mut().override_font_id = Some(FontId::proportional(18.0));
+                ui.style_mut().override_font_id = Some(crate::theme::font(crate::theme::size::PANEL));
                 let w = if steps {
                     (ui.available_width() - 76.0).clamp(50.0, 104.0f32.max(need))
                 } else if whole {
@@ -1106,7 +1106,7 @@ impl GameCtx<'_> {
         }
         let fill = if on { color.gamma_multiply(0.85) } else { ui.visuals().widgets.inactive.bg_fill };
         let text_c = if on { Color32::WHITE } else { ui.visuals().weak_text_color() };
-        let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(13.0)).fill(fill).rounding(12.0);
+        let mut btn = egui::Button::new(RichText::new(label).color(text_c).size(crate::theme::size::CAPTION)).fill(fill).rounding(12.0);
         if modified {
             btn = btn.stroke(egui::Stroke::new(1.5_f32, theme::fg(ui, theme::MODIFIED)));
         }
@@ -1140,10 +1140,10 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
     let fill = blend(ui.visuals().faint_bg_color, accent, 0.18);
     let resp = egui::Frame::none().fill(fill).rounding(10.0).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
         ui.set_width(ui.available_width());
-        let r = ui.label(RichText::new(title).family(theme::semibold_family()).size(26.0).color(ui.visuals().strong_text_color()));
+        let r = ui.label(crate::theme::title(title).color(ui.visuals().strong_text_color()));
         find_mark(ui, r.rect, title);
         if !subtitle.is_empty() {
-            ui.label(RichText::new(subtitle).size(14.0).color(theme::fg(ui, accent)));
+            ui.label(RichText::new(subtitle).size(crate::theme::size::BODY).color(theme::fg(ui, accent)));
         }
         ui.add_space(6.0);
         // Tiles count themselves, so on a phone the last of an odd number can fill its row
@@ -1168,7 +1168,7 @@ pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
     let title = tr_any(title);
     tab_body(ui, title, |ui| {
         theme::card(ui, |ui| {
-            let r = ui.add(egui::Label::new(RichText::new(title).family(theme::semibold_family()).size(16.0)).truncate());
+            let r = ui.add(egui::Label::new(crate::theme::panel_title(title)).truncate());
             find_mark(ui, r.rect, title);
             ui.add_space(4.0);
             add(ui);
@@ -1238,9 +1238,9 @@ pub fn tile_frame_min(ui: &mut Ui, accent: Color32, modified: bool, min: f32, ad
 pub fn fact(ui: &mut Ui, caption: &str, value: &str, accent: Color32) {
     let caption = tr_any(caption);
     tile_frame(ui, accent, false, |ui| {
-        let r = ui.add(egui::Label::new(RichText::new(caption).size(12.5).color(caption_color(ui))).truncate());
+        let r = ui.add(egui::Label::new(RichText::new(caption).size(crate::theme::size::CAPTION).color(caption_color(ui))).truncate());
         find_mark(ui, r.rect, caption);
-        ui.label(RichText::new(value).size(18.0).color(ui.visuals().strong_text_color()));
+        ui.label(RichText::new(value).size(crate::theme::size::PANEL).color(ui.visuals().strong_text_color()));
     });
 }
 
@@ -1258,9 +1258,9 @@ pub fn bar(ui: &mut Ui, width: f32, frac: f32, color: Color32, text: Option<&str
         // A dark copy underneath keeps the white figures readable where they lie on a light
         // fill (green health) or straddle the end of the fill.
         for d in [egui::vec2(1.0, 1.0), egui::vec2(-1.0, 1.0), egui::vec2(1.0, -1.0), egui::vec2(-1.0, -1.0)] {
-            p.text(rect.center() + d, egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::from_black_alpha(150));
+            p.text(rect.center() + d, egui::Align2::CENTER_CENTER, t, crate::theme::font(crate::theme::size::CAPTION), Color32::from_black_alpha(150));
         }
-        p.text(rect.center(), egui::Align2::CENTER_CENTER, t, FontId::proportional(12.0), Color32::WHITE);
+        p.text(rect.center(), egui::Align2::CENTER_CENTER, t, crate::theme::font(crate::theme::size::CAPTION), Color32::WHITE);
     }
 }
 
@@ -1429,7 +1429,7 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
                     let pos = rect.center() - galley.size() / 2.0 - egui::vec2(0.0, 4.0);
                     ui.painter().with_clip_rect(rect.shrink(2.0)).galley(pos, galley, Color32::WHITE);
                     if let Some(n) = cell.count.filter(|&n| n > 1) {
-                        ui.painter().text(rect.right_bottom() - egui::vec2(4.0, 3.0), egui::Align2::RIGHT_BOTTOM, fmt_num(n as f64), FontId::proportional(11.0), theme::fg(ui, accent));
+                        ui.painter().text(rect.right_bottom() - egui::vec2(4.0, 3.0), egui::Align2::RIGHT_BOTTOM, fmt_num(n as f64), crate::theme::font(crate::theme::size::CAPTION), theme::fg(ui, accent));
                     }
                 }
                 if !cell.empty {
@@ -1446,7 +1446,8 @@ pub fn cell_grid(ui: &mut Ui, cells: &[Cell], cols: usize, selected: Option<usiz
     clicked
 }
 
-/// A cell's title, in the largest size (11 down to 8) where every word fits on a line and
+/// A cell's title, in the largest size (11 down to 8; the one place off the type scale, as
+/// item names must fit cells 52 px wide) where every word fits on a line and
 /// the text leaves room for the count below it.
 fn fit_title(ui: &Ui, title: &str, size: f32) -> std::sync::Arc<egui::Galley> {
     let color = ui.visuals().strong_text_color();
