@@ -31858,3 +31858,12 @@ Rarely needed values are hidden — turn on Rarely needed to search them too.
 
 (note: {0})
 = （注意：{0}）
+
+Dark or light as your system is set, changing with it.
+= 按系统设置使用深色或浅色，并随系统切换。
+
+(none)
+= （无）
+
+{0} save ({1})
+= {0} 存档（{1}）

@@ -75,6 +75,29 @@ fn open_url(ctx: &egui::Context, url: &str) {
 }
 
 impl App {
+    /// Dark / Light / Same as the system, in Preferences and the View menu. Returns whether
+    /// the choice changed (the theme is applied at once).
+    pub(super) fn theme_choice(&mut self, ui: &mut egui::Ui) -> bool {
+        let s = &mut self.settings;
+        let now = (s.follow_system, s.dark);
+        let mut pick = now;
+        if ui.radio(!s.follow_system && s.dark, tr("Dark")).clicked() {
+            pick = (false, true);
+        }
+        if ui.radio(!s.follow_system && !s.dark, tr("Light")).clicked() {
+            pick = (false, false);
+        }
+        if ui.radio(s.follow_system, tr("Same as the system")).on_hover_text(tr("Dark or light as your system is set, changing with it.")).clicked() {
+            pick = (true, s.dark);
+        }
+        if pick == now {
+            return false;
+        }
+        (s.follow_system, s.dark) = pick;
+        theme::apply_choice(ui.ctx(), s.dark, s.follow_system);
+        true
+    }
+
     /// The Help menu.
     pub(super) fn help_menu(&mut self, ui: &mut egui::Ui) {
         ui.menu_button(tr("Help"), |ui| {
@@ -229,18 +252,9 @@ impl App {
                 })
                 .response
                 .on_hover_text(tr("Menus, buttons and messages. Game screens and value names stay as the game has them."));
-                ui.horizontal(|ui| {
+                ui.horizontal_wrapped(|ui| {
                     ui.label(tr("Theme:"));
-                    if ui.radio(self.settings.dark, tr("Dark")).clicked() && !self.settings.dark {
-                        self.settings.dark = true;
-                        theme::apply(ui.ctx(), true);
-                        changed = true;
-                    }
-                    if ui.radio(!self.settings.dark, tr("Light")).clicked() && self.settings.dark {
-                        self.settings.dark = false;
-                        theme::apply(ui.ctx(), false);
-                        changed = true;
-                    }
+                    changed |= self.theme_choice(ui);
                 });
                 ui.horizontal(|ui| {
                     ui.label(tr("Zoom:"));

@@ -27,6 +27,7 @@ mod compare;
 use compare::Compare;
 mod change_line;
 use change_line::ChangeLine;
+pub(crate) mod window_size;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -670,7 +671,7 @@ impl App {
         crate::backups::set_earlier_roots(settings.earlier_backup_dirs.clone());
         crate::backups::set_keep(settings.backup_keep);
         let has_icons = theme::install_fonts(&cc.egui_ctx);
-        theme::apply(&cc.egui_ctx, settings.dark);
+        theme::apply_choice(&cc.egui_ctx, settings.dark, settings.follow_system);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
         crate::drives::set_include_removable(settings.search_removable);
         let mut app = Self::with(&cc.egui_ctx, settings, has_icons);
@@ -1180,7 +1181,12 @@ impl App {
         self.settings.push_recent(path);
         self.running = running;
         self.doc_note = note.trim().to_string();
-        self.info(crate::i18n::trf("Opened {0} ({1}) \u{2014} {2}.", &[&file_name(path), &human_size(raw_len), &kind_label(&desc)]));
+        // A save without a game screen names its game when its folder and name give it away.
+        let what = match game.is_none().then(|| crate::game_match::by_path(path)).flatten().filter(|g| !desc.contains(g.name)) {
+            Some(g) => trf("{0} save ({1})", &[&g.name, &kind_label(&desc)]),
+            None => kind_label(&desc),
+        };
+        self.info(crate::i18n::trf("Opened {0} ({1}) \u{2014} {2}.", &[&file_name(path), &human_size(raw_len), &what]));
     }
 
     fn rebuild_model(&mut self) {
@@ -1820,8 +1826,8 @@ impl App {
                             Some(&i) => (self.model.rows[i].name().to_string(), self.model.rows[i].context().to_string()),
                             None => (p.clone(), String::new()),
                         };
-                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
-                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
                         let at = if context.is_empty() { name } else { format!("{context} \u{203A} {name}") };
                         let kind = match &d.content {
                             Content::Tree(t) => t.kind_name.as_str(),
@@ -2401,16 +2407,8 @@ impl App {
                     .on_hover_text(tr("Lists what changed and checks whether the game is running each time you save."))
                     .changed();
                 ui.separator();
-                if ui.radio(self.settings.dark, "Dark theme").clicked() && !self.settings.dark {
-                    self.settings.dark = true;
-                    theme::apply(ui.ctx(), true);
-                    changed = true;
-                }
-                if ui.radio(!self.settings.dark, "Light theme").clicked() && self.settings.dark {
-                    self.settings.dark = false;
-                    theme::apply(ui.ctx(), false);
-                    changed = true;
-                }
+                ui.label(tr("Theme:"));
+                changed |= self.theme_choice(ui);
                 ui.separator();
                 ui.weak(tr("Zoom: Ctrl + / Ctrl \u{2212} / Ctrl 0"));
                 ui.separator();
@@ -3478,7 +3476,9 @@ impl App {
                 Content::Tree(t) => ["/Save/Game", "/Game"].iter().find_map(|p| t.view.pointer(p).and_then(|v| v.as_str()).filter(|g| !g.is_empty()).map(str::to_string)),
                 _ => None,
             };
-            let named = in_save.or_else(|| doc.game.and_then(|g| g.name()).map(str::to_string)).filter(|n| !kind.contains(n.as_str()) && n != "Source engine game");
+            // No game screen: the catalog game whose save folder and file name this is.
+            let by_path = || if doc.game.is_none() { crate::game_match::name_for(ui.ctx(), &doc.path).map(str::to_string) } else { None };
+            let named = in_save.or_else(|| doc.game.and_then(|g| g.name()).map(str::to_string)).or_else(by_path).filter(|n| !kind.contains(n.as_str()) && n != "Source engine game");
             let chip_text = match &named {
                 Some(n) => trf("{0} save", &[&n]),
                 None => kind_label(&kind),
@@ -4143,8 +4143,8 @@ impl App {
                                 egui::CollapsingHeader::new(tr("Show values")).id_source(("change_group", gid)).show(ui, |ui| {
                                     for p in list.iter().take(CHANGES_SHOWN) {
                                         let name = self.model.by_ptr.get(p.as_str()).map(|&i| self.model.rows[i].name().to_string()).unwrap_or_else(|| (*p).clone());
-                                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
-                                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
                                         ui.horizontal_wrapped(|ui| {
                                             ui.label(name);
                                             ui.label(RichText::new(old).weak().strikethrough());
@@ -4175,8 +4175,8 @@ impl App {
                                 if !context.is_empty() {
                                     ui.weak(context);
                                 }
-                                let old = bv.pointer(ptr).map(widgets::display).unwrap_or_else(|| "(none)".into());
-                                let new = cv.pointer(ptr).map(widgets::display).unwrap_or_else(|| "(none)".into());
+                                let old = bv.pointer(ptr).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                                let new = cv.pointer(ptr).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
                                 ui.horizontal_wrapped(|ui| {
                                     ui.label(RichText::new(old).weak().strikethrough());
                                     ui.label("\u{203A}");
@@ -4894,6 +4894,7 @@ impl App {
         #[cfg(not(target_os = "android"))]
         self_shot(ctx);
         theme::fit_window_margin(ctx);
+        window_size::remember(ctx, &mut self.settings);
         self.refresh_changes();
 
         // Files dropped on the window.

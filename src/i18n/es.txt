@@ -31800,3 +31800,12 @@ Rarely needed values are hidden — turn on Rarely needed to search them too.
 
 (note: {0})
 = (nota: {0})
+
+Dark or light as your system is set, changing with it.
+= Oscuro o claro según tu sistema, y cambia con él.
+
+(none)
+= (ninguno)
+
+{0} save ({1})
+= Partida de {0} ({1})

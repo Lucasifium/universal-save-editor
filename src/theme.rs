@@ -185,6 +185,26 @@ fn definitions(cjk: bool) -> (FontDefinitions, bool) {
 
 
 pub fn apply(ctx: &egui::Context, dark: bool) {
+    set_style(ctx, dark);
+    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
+    // differs from this setting, draws its own default style instead of this one.
+    ctx.set_theme(if dark { egui::Theme::Dark } else { egui::Theme::Light });
+}
+
+/// The theme the player picked: dark, light, or (`follow_system`) whichever the system uses,
+/// changing with it while the program runs. Where the system says nothing, egui falls back to
+/// dark.
+pub fn apply_choice(ctx: &egui::Context, dark: bool, follow_system: bool) {
+    if !follow_system {
+        return apply(ctx, dark);
+    }
+    set_style(ctx, true);
+    set_style(ctx, false);
+    ctx.set_theme(egui::ThemePreference::System);
+}
+
+/// Sets this program's style for the dark or the light theme.
+fn set_style(ctx: &egui::Context, dark: bool) {
     let mut style = (*ctx.style_of(if dark { egui::Theme::Dark } else { egui::Theme::Light })).clone();
     style.text_styles = [
         (TextStyle::Small, FontId::new(12.5, FontFamily::Proportional)),
@@ -199,11 +219,8 @@ pub fn apply(ctx: &egui::Context, dark: bool) {
     style.spacing.interact_size.y = 26.0;
 
     style.visuals = visuals(dark);
-    // Pin the theme: otherwise egui follows the system (or browser) theme and, where that
-    // differs from this setting, draws its own default style instead of this one.
     let theme = if dark { egui::Theme::Dark } else { egui::Theme::Light };
     ctx.set_style_of(theme, style);
-    ctx.set_theme(theme);
 }
 
 /// The colours of the light or dark theme. Text keeps at least 4.5:1 against every background it
