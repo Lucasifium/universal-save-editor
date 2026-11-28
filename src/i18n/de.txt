@@ -31947,3 +31947,9 @@ type a plain file name, without a folder
 {0}: “{1}” from the Xbox app.
 = {0}: „{1}“ aus der Xbox-App.
 
+the slot's data is damaged
+= die Daten des Platzes sind beschädigt
+
+only its backup copy reads
+= nur die Sicherungskopie ist lesbar
+

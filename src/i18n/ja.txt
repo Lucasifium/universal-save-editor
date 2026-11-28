@@ -32025,3 +32025,9 @@ type a plain file name, without a folder
 {0}: “{1}” from the Xbox app.
 = {0}: Xboxアプリの「{1}」。
 
+the slot's data is damaged
+= スロットのデータが壊れています
+
+only its backup copy reads
+= バックアップのコピーだけが読み込めます
+

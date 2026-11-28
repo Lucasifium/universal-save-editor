@@ -272,7 +272,7 @@ fn oot_slots(d: &[u8]) -> Vec<Slot> {
         .map(|n| {
             let b = n * oot::FILE;
             if !oot::file_ok(&s, b) {
-                return unused();
+                return if oot::file_ok(&s, b + oot::BACKUP) { Slot { used: true, label: tr("only its backup copy reads").into() } } else { unused() };
             }
             // Max health is in sixteenths of a heart.
             Slot { used: true, label: trf("{0} hearts", &[&(u16be(&s, b + 0x4e) / 16)]) }
@@ -288,6 +288,9 @@ fn oot_block(d: &[u8], n: usize) -> Option<Vec<u8>> {
 /// Like the game's own copy: the file goes to the target and to the target's backup.
 fn oot_copy(d: &[u8], from: usize, to: usize) -> Result<Vec<u8>, String> {
     let (_, s) = oot::find(d).ok_or_else(|| tr("this isn't an Ocarina of Time save").to_string())?;
+    if !oot::file_ok(&s, from * oot::FILE) {
+        return Err(tr("the slot's data is damaged").into());
+    }
     let mut s = moved(&s, oot_at(from), oot_at(to), oot::FILE)?;
     s.copy_within(oot_at(from)..oot_at(from) + oot::FILE, oot_at(to) + oot::BACKUP);
     Ok(oot::put(d, &s))
@@ -302,9 +305,26 @@ fn lttp_used(d: &[u8], n: usize) -> bool {
     d.len() >= 0x2000 && d[n * lttp::SLOT + 0x36c] != 0 && lttp::valid(d, n)
 }
 
+/// The spare copy of slot `n` is in use and passes its own check.
+fn lttp_spare_used(d: &[u8], n: usize) -> bool {
+    let s = n * lttp::SLOT + LTTP_SPARE;
+    d.len() >= 0x2000 && d[s + 0x36c] != 0 && {
+        let sum = d[s..s + 0x4fe].chunks(2).fold(0u16, |a, w| a.wrapping_add(u16::from_le_bytes([w[0], w[1]])));
+        sum.wrapping_add(u16::from_le_bytes([d[s + 0x4fe], d[s + 0x4ff]])) == 0x5a5a
+    }
+}
+
 fn lttp_slots(d: &[u8]) -> Vec<Slot> {
     (0..3)
-        .map(|n| if lttp_used(d, n) { Slot { used: true, label: trf("{0} hearts", &[&(d[n * lttp::SLOT + 0x36c] / 8)]) } } else { unused() })
+        .map(|n| {
+            if lttp_used(d, n) {
+                Slot { used: true, label: trf("{0} hearts", &[&(d[n * lttp::SLOT + 0x36c] / 8)]) }
+            } else if lttp_spare_used(d, n) {
+                Slot { used: true, label: tr("only its backup copy reads").into() }
+            } else {
+                unused()
+            }
+        })
         .collect()
 }
 
@@ -314,6 +334,9 @@ fn lttp_block(d: &[u8], n: usize) -> Option<Vec<u8>> {
 
 /// The slot (with its own sum) goes to the target and to the target's spare, as the game copies.
 fn lttp_copy(d: &[u8], from: usize, to: usize) -> Result<Vec<u8>, String> {
+    if !lttp::valid(d, from) {
+        return Err(tr("the slot's data is damaged").into());
+    }
     let mut out = moved(d, from * lttp::SLOT, to * lttp::SLOT, lttp::SLOT)?;
     out.copy_within(from * lttp::SLOT..(from + 1) * lttp::SLOT, to * lttp::SLOT + LTTP_SPARE);
     Ok(out)

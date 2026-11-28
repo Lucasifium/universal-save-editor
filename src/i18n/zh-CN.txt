@@ -31998,3 +31998,9 @@ type a plain file name, without a folder
 {0}: “{1}” from the Xbox app.
 = {0}:来自 Xbox 应用的“{1}”。
 
+the slot's data is damaged
+= 槽位数据已损坏
+
+only its backup copy reads
+= 只有备份副本可以读取
+

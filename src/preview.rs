@@ -141,6 +141,8 @@ mod worker {
     static DONE: Mutex<Option<HashMap<Key, Option<String>>>> = Mutex::new(None);
     static QUEUE: Mutex<VecDeque<Key>> = Mutex::new(VecDeque::new());
     static RUNNING: AtomicBool = AtomicBool::new(false);
+    /// The file the worker is reading now (not queued again meanwhile).
+    static IN_HAND: Mutex<Option<Key>> = Mutex::new(None);
 
     /// `Some(details)` once worked out; `None` while waiting (the file is queued).
     pub fn cached(path: &std::path::Path, modified: Option<SystemTime>) -> Option<Option<String>> {
@@ -149,7 +151,7 @@ mod worker {
             return Some(hit.clone());
         }
         let mut q = QUEUE.lock().ok()?;
-        if !q.contains(&key) {
+        if !q.contains(&key) && IN_HAND.lock().ok().is_none_or(|h| h.as_ref() != Some(&key)) {
             q.push_back(key);
         }
         drop(q);
@@ -164,9 +166,19 @@ mod worker {
                     }
                     continue;
                 };
+                // Asked again while it was being read: already done.
+                if DONE.lock().ok().is_some_and(|mut d| d.get_or_insert_with(HashMap::new).contains_key(&key)) {
+                    continue;
+                }
+                if let Ok(mut h) = IN_HAND.lock() {
+                    *h = Some(key.clone());
+                }
                 let found = super::details(&key.0);
                 if let Ok(mut d) = DONE.lock() {
                     d.get_or_insert_with(HashMap::new).insert(key, found);
+                }
+                if let Ok(mut h) = IN_HAND.lock() {
+                    *h = None;
                 }
             });
             if spawned.is_err() {

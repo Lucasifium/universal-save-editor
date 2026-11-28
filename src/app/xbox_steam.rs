@@ -92,7 +92,7 @@ impl App {
             Some(true) => {
                 if let Some(x) = self.xbox_steam.take() {
                     let Some(dir) = x.folders.get(x.dir) else { return };
-                    if let Some(game) = crate::running::game_for(&x.src.blob) {
+                    if let Some(game) = crate::running::game_for(&dir.join(x.name.trim())).or_else(|| crate::running::game_for(&x.src.blob)) {
                         return self.fail(trf("{0} looks like it's running. Quit it first. Nothing was copied.", &[&game]));
                     }
                     match xbox_steam::copy(&x.src, dir, &x.name, x.replace) {
