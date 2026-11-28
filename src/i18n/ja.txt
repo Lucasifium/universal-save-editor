@@ -32597,3 +32597,27 @@ Got it
 Hide these pointers for good
 = このヒントを今後表示しない
 
+# Search everything
+Search everything…
+= すべてを検索…
+
+Search everything
+= すべてを検索
+
+Search everything: commands, games, recent files and values
+= すべてを検索：コマンド、ゲーム、最近使ったファイル、値
+
+Commands
+= コマンド
+
+Games
+= ゲーム
+
+Values on this save
+= このセーブの値
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= メニューのコマンド、ゲーム、最近使ったファイル、開いているセーブの値を探します。上下キーで行を選び、Enter で実行、Esc で閉じます。
+
+Nothing found.
+= 見つかりませんでした。

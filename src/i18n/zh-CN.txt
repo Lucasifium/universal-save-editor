@@ -32570,3 +32570,27 @@ Got it
 Hide these pointers for good
 = 不再显示这些提示
 
+# Search everything
+Search everything…
+= 搜索全部…
+
+Search everything
+= 搜索全部
+
+Search everything: commands, games, recent files and values
+= 搜索全部：命令、游戏、最近的文件和数值
+
+Commands
+= 命令
+
+Games
+= 游戏
+
+Values on this save
+= 此存档中的数值
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= 查找菜单命令、游戏、最近的文件或打开的存档中的数值。上下方向键选择一行，Enter 执行，Esc 关闭。
+
+Nothing found.
+= 什么也没找到。

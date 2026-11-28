@@ -32519,3 +32519,27 @@ Got it
 Hide these pointers for good
 = Diese Hinweise dauerhaft ausblenden
 
+# Search everything
+Search everything…
+= Alles durchsuchen…
+
+Search everything
+= Alles durchsuchen
+
+Search everything: commands, games, recent files and values
+= Alles durchsuchen: Befehle, Spiele, zuletzt geöffnete Dateien und Werte
+
+Commands
+= Befehle
+
+Games
+= Spiele
+
+Values on this save
+= Werte in diesem Spielstand
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= Finde einen Menübefehl, ein Spiel, eine zuletzt geöffnete Datei oder einen Wert im offenen Spielstand. Mit Auf und Ab wählst du eine Zeile, Enter führt sie aus, Esc schließt.
+
+Nothing found.
+= Nichts gefunden.

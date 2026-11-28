@@ -32486,3 +32486,27 @@ Got it
 Hide these pointers for good
 = Ocultar estas dicas de vez
 
+# Search everything
+Search everything…
+= Buscar em tudo…
+
+Search everything
+= Buscar em tudo
+
+Search everything: commands, games, recent files and values
+= Buscar em tudo: comandos, jogos, arquivos recentes e valores
+
+Commands
+= Comandos
+
+Games
+= Jogos
+
+Values on this save
+= Valores deste save
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= Encontre um comando do menu, um jogo, um arquivo recente ou um valor do save aberto. Cima e Baixo escolhem uma linha, Enter a executa e Esc fecha.
+
+Nothing found.
+= Nada encontrado.

@@ -28,37 +28,42 @@ fn label(i: usize, s: &Slot) -> String {
 
 impl App {
     /// The open file's slots, if it is a multi-slot save; worked out once per file version.
-    fn file_slots(&self, ui: &egui::Ui) -> Option<(&'static str, Vec<Slot>)> {
+    pub(super) fn file_slots(&self, ctx: &egui::Context) -> Option<(&'static str, Vec<Slot>)> {
         let d = self.doc.as_ref()?;
         let kind = match &d.content {
             crate::formats::Content::Tree(t) => t.kind_name.clone(),
             _ => return None,
         };
         let id = egui::Id::new(("file_slots", d.path.clone(), format!("{:?}", d.stamp)));
-        if let Some(hit) = ui.data(|m| m.get_temp::<Option<(&'static str, Vec<Slot>)>>(id)) {
+        if let Some(hit) = ctx.data(|m| m.get_temp::<Option<(&'static str, Vec<Slot>)>>(id)) {
             return hit;
         }
         let found = crate::vfs::read(&d.path).ok().filter(|raw| raw.len() <= MAX_SIZE).and_then(|raw| slot_copy::slots(&raw)).filter(|(f, _)| f.kind == kind).map(|(f, s)| (f.game, s));
-        ui.data_mut(|m| m.insert_temp(id, found.clone()));
+        ctx.data_mut(|m| m.insert_temp(id, found.clone()));
         found
     }
 
     /// The Tools menu entry (shown only for multi-slot saves).
     pub(super) fn copy_slot_button(&mut self, ui: &mut egui::Ui) {
-        let Some((game, slots)) = self.file_slots(ui) else { return };
+        let Some((game, slots)) = self.file_slots(ui.ctx()) else { return };
         if ui
             .button(tr("Copy a slot to another slot\u{2026}"))
             .on_hover_text(trf("Duplicate a {0} save slot, e.g. to try something out on the copy", &[&game]))
             .clicked()
         {
             ui.close_menu();
-            if self.dirty {
-                self.fail(tr("Save or revert your changes first. Copying works on the file as it is on disk."));
-            } else {
-                let from = slots.iter().position(|s| s.used).unwrap_or(0);
-                let to = slots.iter().position(|s| !s.used).unwrap_or(if from == 0 { 1 } else { 0 });
-                self.copy_slots = Some(CopySlots { game, slots, from, to });
-            }
+            self.start_copy_slot(game, slots);
+        }
+    }
+
+    /// Opens the "copy a slot" dialog for the open file's slots (refused with unsaved changes).
+    pub(super) fn start_copy_slot(&mut self, game: &'static str, slots: Vec<Slot>) {
+        if self.dirty {
+            self.fail(tr("Save or revert your changes first. Copying works on the file as it is on disk."));
+        } else {
+            let from = slots.iter().position(|s| s.used).unwrap_or(0);
+            let to = slots.iter().position(|s| !s.used).unwrap_or(if from == 0 { 1 } else { 0 });
+            self.copy_slots = Some(CopySlots { game, slots, from, to });
         }
     }
 
