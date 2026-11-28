@@ -22,6 +22,38 @@ fn folders(base: Base, sub: &'static str) -> Option<Vec<&'static str>> {
     (named > 0 && v.iter().any(|s| !s.contains('*') && !generic(s))).then_some(v)
 }
 
+/// The folders a place's base is known by at the end of a path, any of which may come right
+/// before the place's own folders (`AppData\Local` for %LOCALAPPDATA%, `userdata\<account>`
+/// for Steam). Empty where a path can't show it.
+fn base_folders(base: Base) -> &'static [&'static [&'static str]] {
+    match base {
+        Base::AppData => &[&["AppData", "Roaming"], &["Application Data"]],
+        Base::LocalAppData => &[&["AppData", "Local"], &["Local Settings", "Application Data"]],
+        Base::LocalLow => &[&["AppData", "LocalLow"]],
+        Base::Documents => &[&["Documents"], &["My Documents"]],
+        Base::SavedGames => &[&["Saved Games"]],
+        Base::UserProfile => &[&["Users", "*"], &["home", "*"]],
+        Base::SteamUser(_) => &[&["userdata", "*"]],
+        Base::SteamGame(_) => &[&["common"]],
+        Base::ProgramFilesX86 => &[&["Program Files (x86)"], &["Program Files"]],
+        Base::ProgramData => &[&["ProgramData"]],
+        Base::UnityPrefs | Base::GamePass(_) => &[],
+    }
+}
+
+/// The folder runs a file of this place may sit under: its own folders with the base's in
+/// front, and its own folders alone when there are at least two that name something (a copy
+/// of the save folder moved elsewhere). A single folder of its own ("Hades") with no base in
+/// front is too common a name to go by.
+fn wanted(base: Base, sub: &'static str) -> Vec<Vec<&'static str>> {
+    let Some(own) = folders(base, sub) else { return vec![] };
+    let mut out: Vec<Vec<&'static str>> = base_folders(base).iter().map(|pre| pre.iter().copied().chain(own.iter().copied()).collect()).collect();
+    if own.iter().filter(|s| **s != "*").count() >= 2 {
+        out.push(own);
+    }
+    out
+}
+
 /// Whether `dirs` (the file's folders, outermost first) hold `want` one after another, with the
 /// file at most `depth` folders below its end. Returns how many folder names matched.
 fn match_at(dirs: &[String], want: &[&str], depth: usize) -> Option<usize> {
@@ -46,7 +78,7 @@ pub fn by_path(path: &Path) -> Option<&'static GameInfo> {
         if crate::games::many_games(g) || !g.patterns.iter().any(|p| wildcard(p, &name)) {
             continue;
         }
-        let score = g.places.iter().filter_map(|(b, s)| folders(*b, s)).filter_map(|want| match_at(&dirs, &want, g.depth)).max();
+        let score = g.places.iter().flat_map(|(b, s)| wanted(*b, s)).filter_map(|want| match_at(&dirs, &want, g.depth)).max();
         let Some(score) = score else { continue };
         match best {
             Some((_, s)) if s > score => {}
@@ -102,6 +134,31 @@ mod tests {
         assert!(by_path(&p("/c/Users/u/AppData/Local/BloodstainedRotN/Saved/SaveGames/notes.txt")).is_none(), "not a save file name");
         assert!(by_path(&p("/home/u/.steam/steam/userdata/1/999999999/remote/save.dat")).is_none());
         assert!(by_path(&p("save.sav")).is_none());
+    }
+
+    #[test]
+    fn a_game_name_as_a_lone_folder_is_not_enough() {
+        // A folder that happens to be called after a game, with nothing around it that says
+        // where saves live.
+        assert!(by_path(&p("/home/u/Hades/Profile1.sav")).is_none());
+        assert!(by_path(&p("/c/Users/u/Desktop/Hades/Profile1.sav")).is_none());
+        // Where the game really keeps it.
+        let g = by_path(&p("/c/Users/u/Saved Games/Hades/Profile1.sav"));
+        assert_eq!(g.map(|g| g.name), Some("Hades"));
+        let g = by_path(&p("/c/Users/u/Documents/Saved Games/Hades/Profile2.sav"));
+        assert_eq!(g.map(|g| g.name), Some("Hades"));
+        // The game's own folders, two or more, still find it after the folder was copied.
+        let g = by_path(&p("/home/u/backup/BloodstainedRotN/Saved/SaveGames/Story_Slot0.sav"));
+        assert_eq!(g.map(|g| g.name), Some("Bloodstained: Ritual of the Night"));
+    }
+
+    #[test]
+    fn bases_come_before_the_place_folders() {
+        assert!(wanted(Base::LocalAppData, "BloodstainedRotN").contains(&vec!["AppData", "Local", "BloodstainedRotN"]));
+        assert!(!wanted(Base::SavedGames, "Hades").contains(&vec!["Hades"]), "one folder alone is never enough");
+        assert!(wanted(Base::SteamUser("1718570"), "remote").contains(&vec!["1718570", "remote"]));
+        assert!(wanted(Base::SteamUser("1718570"), "remote").contains(&vec!["userdata", "*", "1718570", "remote"]));
+        assert!(wanted(Base::UnityPrefs, "Foo").is_empty());
     }
 
     #[test]
