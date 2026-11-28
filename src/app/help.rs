@@ -197,6 +197,7 @@ impl App {
         let mut open = true;
         let mut changed = false;
         let mut pick_dir = false;
+        let mut open_space = false;
         egui::Window::new(tr("Preferences"))
             .open(&mut open)
             .collapsible(false)
@@ -325,6 +326,24 @@ impl App {
                             self.settings.set_backup_dir(None);
                         }
                     });
+                    ui.add_space(4.0);
+                    ui.horizontal_wrapped(|ui| {
+                        ui.label(tr("Limit all backups to"));
+                        let shown = |gb: u64| if gb == 0 { tr("No limit").to_string() } else { trf("{0} GB", &[&gb]) };
+                        egui::ComboBox::from_id_salt("prefs_backup_cap").selected_text(shown(self.settings.backup_cap_gb)).show_ui(ui, |ui| {
+                            for gb in crate::backups::space::CAP_CHOICES_GB {
+                                if ui.selectable_label(self.settings.backup_cap_gb == gb, shown(gb)).clicked() {
+                                    self.settings.backup_cap_gb = gb;
+                                    crate::backups::space::set_cap(gb.saturating_mul(crate::backups::space::GB));
+                                    changed = true;
+                                }
+                            }
+                        });
+                    });
+                    ui.weak(tr("When a new backup passes the limit, the oldest automatic backups of any save are deleted first."));
+                    if ui.button(tr("Backup space\u{2026}")).on_hover_text(tr("How much room all backups take, and ways to free some")).clicked() {
+                        open_space = true;
+                    }
                 }
             });
         if changed {
@@ -335,6 +354,9 @@ impl App {
         }
         if pick_dir {
             self.ask(Ask::BackupDir, self.settings.backup_dir.clone(), None);
+        }
+        if open_space {
+            self.open_backup_space();
         }
     }
 

@@ -198,6 +198,18 @@ pub fn logical_name(path: &Path) -> Option<String> {
     found
 }
 
+/// True for any file inside an Xbox app save folder: a blob or `container.<n>` in a container
+/// folder, or `containers.index` itself. Nothing of the editor's own (such as a backups folder)
+/// may be added there, since the Xbox app owns and syncs that whole folder.
+pub fn is_container_file(path: &Path) -> bool {
+    let Some(parent) = path.parent() else { return false };
+    if parent.join("containers.index").is_file() {
+        return true;
+    }
+    let guid_folder = parent.file_name().is_some_and(|n| is_guid_name(&n.to_string_lossy()));
+    guid_folder && parent.parent().is_some_and(|user| user.join("containers.index").is_file())
+}
+
 /// Every Game Pass user folder (`wgs\<user>_<title>`) for `package` (`*` for every package).
 pub fn user_dirs(packages_root: &Path, package: &str) -> Vec<PathBuf> {
     let pkgs: Vec<PathBuf> = if package == "*" {
@@ -293,6 +305,22 @@ pub(crate) mod tests {
         assert_eq!(logical_name(&idx.containers[0].files[0].path).as_deref(), Some("Slot1/save.sav"));
         assert_eq!(package_of(&idx.containers[0].files[0].path).as_deref(), Some("Game"));
         assert_eq!(user_dirs(&tmp.join("Packages"), "*"), vec![user.clone()]);
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    #[test]
+    fn knows_files_inside_a_container_folder() {
+        let tmp = std::env::temp_dir().join(format!("use_xgp_inside_{}", std::process::id()));
+        let user = tmp.join("Packages/Studio.Game_abc123/SystemAppData/wgs/000901F0A1B2C3D4_0000000000000000000000006A7B8C9D");
+        make(&user, "Slot1", &[("save.sav", b"hello")]);
+        let blob = &read_index(&user).unwrap().containers[0].files[0].path;
+        assert!(is_container_file(blob));
+        assert!(is_container_file(&user.join("containers.index")));
+        assert!(is_container_file(&blob.with_file_name("container.3")));
+        // A save in an ordinary folder, even one named like a GUID, is not.
+        let plain = tmp.join("0123456789ABCDEF0123456789ABCDEF").join("save.sav");
+        assert!(!is_container_file(&plain));
+        assert!(!is_container_file(&tmp.join("save.sav")));
         let _ = std::fs::remove_dir_all(&tmp);
     }
 }

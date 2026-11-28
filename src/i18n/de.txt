@@ -32083,3 +32083,257 @@ Values you pinned. They stay at the top for every save of this game.
 
 You can pin up to {0} values per game. Unpin one first.
 = Du kannst bis zu {0} Werte pro Spiel anheften. Löse zuerst einen.
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= Fügt die Sicherungen aus einer mit „Sicherungen exportieren“ erstellten ZIP-Datei hinzu. Nichts wird ersetzt, und der Spielstand selbst bleibt unverändert.
+
+Apply the limit now…
+= Grenze jetzt anwenden …
+
+Back up the whole folder
+= Ganzen Ordner sichern
+
+Backed up the whole folder as “{0}”.
+= Der ganze Ordner wurde als „{0}“ gesichert.
+
+Backup space
+= Speicherplatz der Sicherungen
+
+Backup space…
+= Speicherplatz der Sicherungen …
+
+Backups take {0} in all: {1} backups of {2} saves.
+= Sicherungen belegen insgesamt {0}: {1} Sicherungen von {2} Spielständen.
+
+Can't be read: {0}
+= Nicht lesbar: {0}
+
+Check backups
+= Sicherungen prüfen
+
+Check this one
+= Bitte prüfen
+
+Checked {0} backups: every one reads fine.
+= {0} Sicherungen geprüft: Alle lassen sich einwandfrei lesen.
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= {0} Sicherungen geprüft: {1} beschädigt, {2} lesen sich anders als der geöffnete Spielstand. Sie sind in der Spielstand-Verwaltung markiert.
+
+Checking backups…
+= Sicherungen werden geprüft …
+
+Checking… {0} of {1}
+= Prüfung … {0} von {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= Der Ordner konnte nicht gesichert werden: {0}. Darin wurde nichts geändert.
+
+Couldn't be read as a save.
+= Ließ sich nicht als Spielstand lesen.
+
+Couldn't export the backups: {0}.
+= Die Sicherungen konnten nicht exportiert werden: {0}.
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= Die Sicherungen konnten nicht importiert werden: {0}. Der Spielstand wurde nicht geändert.
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= Der Ordner konnte nicht wiederhergestellt werden: {0}. Darin wurde nichts geändert.
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= Der Ordner konnte nicht wiederhergestellt werden: {0}. Einige Dateien wurden womöglich geändert und ließen sich nicht zurücksetzen; der Ordner, wie er vorher war, liegt in {1}.
+
+Count again
+= Neu zählen
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= Gezählt werden: jeder Sicherungsordner, in den dieses Programm geschrieben hat, die Sicherungen zuletzt geöffneter Dateien und der eigene Sicherungsordner des Editors.
+
+Damaged
+= Beschädigt
+
+Delete automatic backups older than
+= Automatische Sicherungen löschen, die älter sind als
+
+Delete them
+= Löschen
+
+Deleted {0} automatic backups and freed {1}.
+= {0} automatische Sicherungen gelöscht und {1} freigegeben.
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= {0} von {1} automatischen Sicherungen gelöscht und {2} freigegeben. Die übrigen ließen sich nicht löschen und sind noch vorhanden.
+
+Delete…
+= Löschen …
+
+Export backups…
+= Sicherungen exportieren …
+
+Export the backups to
+= Sicherungen exportieren nach
+
+Exported {0} backups ({1}) to {2}.
+= {0} Sicherungen ({1}) nach {2} exportiert.
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= Für Spiele, die einen Spielstand in mehreren Dateien ablegen: sichert jede Datei in {0} als eine Sicherung ({1} Dateien, {2}). Beim Wiederherstellen wird der Ordner genau so zurückgesetzt, wie er war.
+
+Free up room
+= Platz freigeben
+
+How much room all backups take, and ways to free some
+= Wie viel Platz alle Sicherungen belegen und wie sich Platz freigeben lässt
+
+Import backups from which file?
+= Sicherungen aus welcher Datei importieren?
+
+Import backups…
+= Sicherungen importieren …
+
+Imported {0} backups ({1} were already here).
+= {0} Sicherungen importiert ({1} waren schon vorhanden).
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= {0} Sicherungen importiert ({1} waren schon vorhanden). Sie wurden aus {2} exportiert.
+
+Limit all backups to
+= Alle Sicherungen begrenzen auf
+
+No automatic backups are that old.
+= Keine automatische Sicherung ist so alt.
+
+No backups yet. One is made automatically each time you save.
+= Noch keine Sicherungen. Bei jedem Speichern wird automatisch eine angelegt.
+
+No limit
+= Keine Grenze
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= Es werden nur automatische Sicherungen gelöscht. Benannte Sicherungen und die neueste automatische Sicherung jedes Spielstands bleiben immer erhalten.
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= Legt alle Sicherungen dieses Spielstands in eine ZIP-Datei, um eine Kopie anderswo aufzubewahren oder sie auf einen anderen Computer zu bringen
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= Setzt den ganzen Ordner auf den Stand dieser Sicherung zurück. Der Ordner wird vorher in seinem jetzigen Zustand gesichert, sodass Sie es rückgängig machen können.
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= Liest sich anders als der geöffnete Spielstand. Sie ist womöglich beschädigt oder stammt aus einer anderen Version des Spiels.
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= Liest jede Sicherung dieses Spielstands, um sicherzugehen, dass sie sich noch wiederherstellen lässt. Es wird nichts geändert.
+
+Reads fine
+= Einwandfrei lesbar
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= Der ganze Ordner wurde wiederhergestellt ({0} Dateien geschrieben, {1} entfernt). Der vorherige Ordner wurde ebenfalls gesichert, sodass Sie zurückwechseln können.
+
+The file is empty.
+= Die Datei ist leer.
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= Diese Sicherungen liegen im eigenen Sicherungsordner des Editors, nie im Spielstandordner.
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= Damit werden {0} automatische Sicherungen ({1}) gelöscht. Sie lassen sich nicht zurückholen.
+
+This folder can't be backed up as a whole: {0}.
+= Dieser Ordner lässt sich nicht als Ganzes sichern: {0}.
+
+This save's backups take {0} ({1} backups).
+= Die Sicherungen dieses Spielstands belegen {0} ({1} Sicherungen).
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= Überschreitet eine neue Sicherung die Grenze, werden zuerst die ältesten automatischen Sicherungen aller Spielstände gelöscht.
+
+Whole save folder
+= Ganzer Spielstandordner
+
+Whole save folder ({0} backups)
+= Ganzer Spielstandordner ({0} Sicherungen)
+
+a whole drive can't be backed up as one save folder
+= ein ganzes Laufwerk kann nicht als ein Spielstandordner gesichert werden
+
+backup name, e.g. before the boss
+= Name der Sicherung, z. B. vor dem Boss
+
+choose another file name: that one is the save or one of its backups
+= wählen Sie einen anderen Dateinamen: Dieser ist der Spielstand oder eine seiner Sicherungen
+
+couldn't back up the folder first: {0}
+= der Ordner konnte vorher nicht gesichert werden: {0}
+
+that file isn't a backups file made by Export backups
+= diese Datei wurde nicht mit „Sicherungen exportieren“ erstellt
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= die Sicherung enthält eine Datei, die außerhalb des Ordners landen würde ({0}), daher wurde sie nicht verwendet
+
+the backup is damaged: {0}
+= die Sicherung ist beschädigt: {0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= die Sicherung ist größer als jede Ordnersicherung, die dieses Programm anlegt, daher wurde sie nicht verwendet
+
+the backups file is damaged: {0}
+= die Sicherungsdatei ist beschädigt: {0}
+
+the folder holds more than {0} files, too many for a save folder
+= der Ordner enthält mehr als {0} Dateien, zu viele für einen Spielstandordner
+
+the folder holds more than {0}, too much for a save folder
+= der Ordner enthält mehr als {0}, zu viel für einen Spielstandordner
+
+the folder is nested too deep to be a save folder
+= der Ordner ist zu tief verschachtelt für einen Spielstandordner
+
+there are no backups of this save to export
+= es gibt keine Sicherungen dieses Spielstands zum Exportieren
+
+this folder holds the editor's own backups
+= dieser Ordner enthält die eigenen Sicherungen des Editors
+
+this is your home folder, not a save folder
+= das ist Ihr Benutzerordner, kein Spielstandordner
+
+{0} (click to show the backups folder)
+= {0} (klicken, um den Sicherungsordner zu zeigen)
+
+{0} (the {1} backups added before this stay)
+= {0} (die {1} zuvor hinzugefügten Sicherungen bleiben erhalten)
+
+{0} (whole folder)
+= {0} (ganzer Ordner)
+
+{0} GB
+= {0} GB
+
+{0} automatic, {1} named
+= {0} automatisch, {1} benannt
+
+{0} backups.zip
+= {0} Sicherungen.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= {0} hat sich beim Kopieren geändert (das Spiel speichert womöglich gerade). Versuchen Sie es gleich noch einmal.
+
+{0} days
+= {0} Tage
+
+{0} files, all readable
+= {0} Dateien, alle lesbar
+
+{0} is too large to import
+= {0} ist zu groß zum Importieren
+
+{0} isn't a folder
+= {0} ist kein Ordner
+
+{0} over the limit now.
+= Derzeit {0} über der Grenze.

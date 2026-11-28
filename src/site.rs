@@ -589,9 +589,13 @@ fn save_manager_body() -> String {
 <li><strong>Compare.</strong> See what changed between a backup and the current save, byte by byte or value by value.</li>
 <li><strong>Start a new game, keep the old one.</strong> Many games only have one save. <em>Back up and start a new game…</em> makes a named backup and then moves the current save out of the way, so the game starts fresh. Restore the backup whenever you want your old game back.</li>
 <li><strong>Save gone?</strong> <em>Recent files</em> offers <em>Restore a backup…</em> even when the save itself no longer exists.</li>
+<li><strong>Whole save folders.</strong> For games that keep one save as several files or a folder, <em>Whole save folder</em> in the save manager backs up every file in the save's folder as one backup, and restoring puts the folder back exactly as it was (the folder as it is now is backed up first). These backups are kept in the editor's own folder, never in the game's save folder.</li>
+<li><strong>Check my backups.</strong> <em>Check backups</em> reads every backup of the open save and marks any that are damaged or read differently from the save, so you know they can still be restored.</li>
+<li><strong>Move them to a new PC.</strong> <em>Export backups…</em> puts every backup of a save into one zip file, and <em>Import backups…</em> adds them back on another computer. Importing never replaces a backup or touches the save.</li>
+<li><strong>See and limit the space.</strong> <em>Backups › Backup space…</em> shows how much room the backups of every save take, deletes automatic backups older than an age you pick, and can keep all backups under a size limit. Named backups and the newest automatic backup of each save are always kept.</li>
 </ul>
 <h2>Where the backups are kept</h2>
-<div class="card"><p>Next to each save, in a folder of its own: <code>Save Editor Backups/&lt;file name&gt;/</code>. The backups have a <code>.sebak</code> extension, so no game loads them or writes over them. If the save's folder can't be written to, they go to the editor's own folder instead. You can also choose another folder, such as a synced folder or another drive.</p></div>
+<div class="card"><p>Next to each save, in a folder of its own: <code>Save Editor Backups/&lt;file name&gt;/</code>. The backups have a <code>.sebak</code> extension, so no game loads them or writes over them. If the save's folder can't be written to, they go to the editor's own folder instead. Saves from the Xbox app (PC Game Pass) are backed up in the editor's own folder, so nothing is added to the folder the Xbox app syncs. You can also choose another folder, such as a synced folder or another drive.</p></div>
 <h2>Why you can trust it with your saves</h2>
 <ul>
 <li>Every backup and every restore is written to a temporary file, flushed to disk, read back and compared before it replaces anything.</li>

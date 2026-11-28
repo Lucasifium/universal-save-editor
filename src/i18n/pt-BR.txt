@@ -32050,3 +32050,257 @@ Values you pinned. They stay at the top for every save of this game.
 
 You can pin up to {0} values per game. Unpin one first.
 = Você pode fixar até {0} valores por jogo. Desafixe um primeiro.
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= Adiciona os backups de um zip criado com "Exportar backups". Nada é substituído, e o save em si não é alterado.
+
+Apply the limit now…
+= Aplicar o limite agora…
+
+Back up the whole folder
+= Fazer backup da pasta inteira
+
+Backed up the whole folder as “{0}”.
+= Backup da pasta inteira feito como “{0}”.
+
+Backup space
+= Espaço dos backups
+
+Backup space…
+= Espaço dos backups…
+
+Backups take {0} in all: {1} backups of {2} saves.
+= Os backups ocupam {0} no total: {1} backups de {2} saves.
+
+Can't be read: {0}
+= Não pode ser lido: {0}
+
+Check backups
+= Verificar backups
+
+Check this one
+= Verifique este
+
+Checked {0} backups: every one reads fine.
+= {0} backups verificados: todos são lidos sem problemas.
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= {0} backups verificados: {1} danificados, {2} que são lidos de forma diferente do save aberto. Eles estão marcados no Gerenciador de saves.
+
+Checking backups…
+= Verificando backups…
+
+Checking… {0} of {1}
+= Verificando… {0} de {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= Não foi possível fazer backup da pasta: {0}. Nada nela foi alterado.
+
+Couldn't be read as a save.
+= Não pôde ser lido como save.
+
+Couldn't export the backups: {0}.
+= Não foi possível exportar os backups: {0}.
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= Não foi possível importar os backups: {0}. O save não foi alterado.
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= Não foi possível restaurar a pasta: {0}. Nada nela foi alterado.
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= Não foi possível restaurar a pasta: {0}. Alguns arquivos podem ter mudado e não puderam ser revertidos; a pasta como estava antes está guardada em {1}.
+
+Count again
+= Contar de novo
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= Contados: toda pasta de backups em que este programa gravou, os backups dos arquivos recentes e a pasta de backups do próprio editor.
+
+Damaged
+= Danificado
+
+Delete automatic backups older than
+= Excluir backups automáticos com mais de
+
+Delete them
+= Excluí-los
+
+Deleted {0} automatic backups and freed {1}.
+= {0} backups automáticos excluídos e {1} liberados.
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= {0} de {1} backups automáticos excluídos e {2} liberados. Os outros não puderam ser excluídos e continuam lá.
+
+Delete…
+= Excluir…
+
+Export backups…
+= Exportar backups…
+
+Export the backups to
+= Exportar os backups para
+
+Exported {0} backups ({1}) to {2}.
+= {0} backups ({1}) exportados para {2}.
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= Para jogos que guardam um save em vários arquivos: faz backup de todos os arquivos de {0} como um só backup ({1} arquivos, {2}). Restaurar deixa a pasta exatamente como estava.
+
+Free up room
+= Liberar espaço
+
+How much room all backups take, and ways to free some
+= Quanto espaço todos os backups ocupam, e formas de liberar parte dele
+
+Import backups from which file?
+= Importar backups de qual arquivo?
+
+Import backups…
+= Importar backups…
+
+Imported {0} backups ({1} were already here).
+= {0} backups importados ({1} já estavam aqui).
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= {0} backups importados ({1} já estavam aqui). Eles foram exportados de {2}.
+
+Limit all backups to
+= Limitar todos os backups a
+
+No automatic backups are that old.
+= Nenhum backup automático é tão antigo.
+
+No backups yet. One is made automatically each time you save.
+= Ainda não há backups. Um é feito automaticamente cada vez que você salva.
+
+No limit
+= Sem limite
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= Só backups automáticos são excluídos. Backups com nome, e o backup automático mais recente de cada save, são sempre mantidos.
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= Coloca todos os backups deste save em um arquivo zip, para guardar uma cópia em outro lugar ou levá-los para outro computador
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= Devolve a pasta inteira ao estado deste backup. Antes é feito um backup da pasta como está agora, então você pode desfazer.
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= É lido de forma diferente do save aberto. Pode estar danificado ou ser de outra versão do jogo.
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= Lê cada backup deste save para ter certeza de que ainda pode ser restaurado. Nada é alterado.
+
+Reads fine
+= Lido sem problemas
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= Pasta inteira restaurada ({0} arquivos gravados, {1} removidos). Também foi feito backup da pasta como estava, então você pode voltar.
+
+The file is empty.
+= O arquivo está vazio.
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= Estes backups ficam na pasta de backups do próprio editor, nunca na pasta do save.
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= Isto exclui {0} backups automáticos ({1}). Eles não podem ser recuperados.
+
+This folder can't be backed up as a whole: {0}.
+= Não é possível fazer backup desta pasta inteira: {0}.
+
+This save's backups take {0} ({1} backups).
+= Os backups deste save ocupam {0} ({1} backups).
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= Quando um novo backup passa do limite, os backups automáticos mais antigos de qualquer save são excluídos primeiro.
+
+Whole save folder
+= Pasta do save inteira
+
+Whole save folder ({0} backups)
+= Pasta do save inteira ({0} backups)
+
+a whole drive can't be backed up as one save folder
+= não é possível fazer backup de uma unidade inteira como pasta de save
+
+backup name, e.g. before the boss
+= nome do backup, p. ex. antes do chefe
+
+choose another file name: that one is the save or one of its backups
+= escolha outro nome de arquivo: esse é o save ou um dos seus backups
+
+couldn't back up the folder first: {0}
+= não foi possível fazer backup da pasta antes: {0}
+
+that file isn't a backups file made by Export backups
+= esse arquivo não foi criado com "Exportar backups"
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= o backup contém um arquivo que iria parar fora da pasta ({0}), então não foi usado
+
+the backup is damaged: {0}
+= o backup está danificado: {0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= o backup é maior que qualquer backup de pasta que este programa cria, então não foi usado
+
+the backups file is damaged: {0}
+= o arquivo de backups está danificado: {0}
+
+the folder holds more than {0} files, too many for a save folder
+= a pasta tem mais de {0} arquivos, demais para uma pasta de save
+
+the folder holds more than {0}, too much for a save folder
+= a pasta tem mais de {0}, demais para uma pasta de save
+
+the folder is nested too deep to be a save folder
+= a pasta tem níveis demais para ser uma pasta de save
+
+there are no backups of this save to export
+= não há backups deste save para exportar
+
+this folder holds the editor's own backups
+= esta pasta contém os backups do próprio editor
+
+this is your home folder, not a save folder
+= esta é a sua pasta pessoal, não uma pasta de save
+
+{0} (click to show the backups folder)
+= {0} (clique para mostrar a pasta de backups)
+
+{0} (the {1} backups added before this stay)
+= {0} (os {1} backups adicionados antes continuam)
+
+{0} (whole folder)
+= {0} (pasta inteira)
+
+{0} GB
+= {0} GB
+
+{0} automatic, {1} named
+= {0} automáticos, {1} com nome
+
+{0} backups.zip
+= {0} backups.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= {0} mudou enquanto era copiado (o jogo pode estar salvando). Tente de novo daqui a pouco.
+
+{0} days
+= {0} dias
+
+{0} files, all readable
+= {0} arquivos, todos legíveis
+
+{0} is too large to import
+= {0} é grande demais para importar
+
+{0} isn't a folder
+= {0} não é uma pasta
+
+{0} over the limit now.
+= {0} acima do limite agora.

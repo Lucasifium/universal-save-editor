@@ -32090,3 +32090,257 @@ Values you pinned. They stay at the top for every save of this game.
 
 You can pin up to {0} values per game. Unpin one first.
 = Vous pouvez épingler jusqu'à {0} valeurs par jeu. Désépinglez-en une d'abord.
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= Ajoute les copies d’un zip créé avec « Exporter les copies ». Rien n’est remplacé et la sauvegarde elle-même n’est pas modifiée.
+
+Apply the limit now…
+= Appliquer la limite maintenant…
+
+Back up the whole folder
+= Copier tout le dossier
+
+Backed up the whole folder as “{0}”.
+= Tout le dossier a été copié sous « {0} ».
+
+Backup space
+= Espace des copies
+
+Backup space…
+= Espace des copies…
+
+Backups take {0} in all: {1} backups of {2} saves.
+= Les copies occupent {0} au total : {1} copies de {2} sauvegardes.
+
+Can't be read: {0}
+= Illisible : {0}
+
+Check backups
+= Vérifier les copies
+
+Check this one
+= À vérifier
+
+Checked {0} backups: every one reads fine.
+= {0} copies vérifiées : toutes se lisent correctement.
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= {0} copies vérifiées : {1} endommagées, {2} qui se lisent autrement que la sauvegarde ouverte. Elles sont signalées dans le gestionnaire de sauvegardes.
+
+Checking backups…
+= Vérification des copies…
+
+Checking… {0} of {1}
+= Vérification… {0} sur {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= Impossible de copier le dossier : {0}. Rien n’y a été modifié.
+
+Couldn't be read as a save.
+= Impossible de la lire comme une sauvegarde.
+
+Couldn't export the backups: {0}.
+= Impossible d’exporter les copies : {0}.
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= Impossible d’importer les copies : {0}. La sauvegarde n’a pas été modifiée.
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= Impossible de restaurer le dossier : {0}. Rien n’y a été modifié.
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= Impossible de restaurer le dossier : {0}. Certains fichiers ont pu changer sans pouvoir être remis ; le dossier tel qu’il était avant est conservé dans {1}.
+
+Count again
+= Recompter
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= Sont comptés : chaque dossier de copies où ce programme a écrit, les copies des fichiers récents et le dossier de copies propre à l’éditeur.
+
+Damaged
+= Endommagée
+
+Delete automatic backups older than
+= Supprimer les copies automatiques de plus de
+
+Delete them
+= Les supprimer
+
+Deleted {0} automatic backups and freed {1}.
+= {0} copies automatiques supprimées, {1} libérés.
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= {0} copies automatiques sur {1} supprimées, {2} libérés. Les autres n’ont pas pu être supprimées et sont toujours là.
+
+Delete…
+= Supprimer…
+
+Export backups…
+= Exporter les copies…
+
+Export the backups to
+= Exporter les copies vers
+
+Exported {0} backups ({1}) to {2}.
+= {0} copies ({1}) exportées vers {2}.
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= Pour les jeux qui gardent une sauvegarde en plusieurs fichiers : copie tous les fichiers de {0} en une seule copie ({1} fichiers, {2}). La restauration remet le dossier exactement comme il était.
+
+Free up room
+= Libérer de la place
+
+How much room all backups take, and ways to free some
+= La place occupée par toutes les copies, et comment en libérer
+
+Import backups from which file?
+= Importer les copies depuis quel fichier ?
+
+Import backups…
+= Importer des copies…
+
+Imported {0} backups ({1} were already here).
+= {0} copies importées ({1} étaient déjà là).
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= {0} copies importées ({1} étaient déjà là). Elles ont été exportées depuis {2}.
+
+Limit all backups to
+= Limiter l’ensemble des copies à
+
+No automatic backups are that old.
+= Aucune copie automatique n’est aussi ancienne.
+
+No backups yet. One is made automatically each time you save.
+= Pas encore de copies. Une copie est créée automatiquement à chaque enregistrement.
+
+No limit
+= Sans limite
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= Seules les copies automatiques sont supprimées. Les copies nommées, et la copie automatique la plus récente de chaque sauvegarde, sont toujours conservées.
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= Place toutes les copies de cette sauvegarde dans un seul fichier zip, pour en garder un double ailleurs ou les transférer sur un autre ordinateur
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= Remet tout le dossier comme il était dans cette copie. Le dossier est d’abord copié tel qu’il est maintenant, vous pouvez donc annuler.
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= Se lit autrement que la sauvegarde ouverte. Elle est peut-être endommagée ou provient d’une autre version du jeu.
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= Lit chaque copie de cette sauvegarde pour s’assurer qu’elle peut encore être restaurée. Rien n’est modifié.
+
+Reads fine
+= Se lit correctement
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= Tout le dossier a été restauré ({0} fichiers écrits, {1} supprimés). Le dossier tel qu’il était a aussi été copié, vous pouvez donc revenir en arrière.
+
+The file is empty.
+= Le fichier est vide.
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= Ces copies sont gardées dans le dossier de copies propre à l’éditeur, jamais dans le dossier de sauvegarde.
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= Cela supprime {0} copies automatiques ({1}). Elles ne pourront pas être récupérées.
+
+This folder can't be backed up as a whole: {0}.
+= Ce dossier ne peut pas être copié en entier : {0}.
+
+This save's backups take {0} ({1} backups).
+= Les copies de cette sauvegarde occupent {0} ({1} copies).
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= Quand une nouvelle copie dépasse la limite, les copies automatiques les plus anciennes, toutes sauvegardes confondues, sont supprimées en premier.
+
+Whole save folder
+= Dossier de sauvegarde entier
+
+Whole save folder ({0} backups)
+= Dossier de sauvegarde entier ({0} copies)
+
+a whole drive can't be backed up as one save folder
+= un lecteur entier ne peut pas être copié comme un dossier de sauvegarde
+
+backup name, e.g. before the boss
+= nom de la copie, p. ex. avant le boss
+
+choose another file name: that one is the save or one of its backups
+= choisissez un autre nom de fichier : celui-ci est la sauvegarde ou l’une de ses copies
+
+couldn't back up the folder first: {0}
+= impossible de copier d’abord le dossier : {0}
+
+that file isn't a backups file made by Export backups
+= ce fichier n’a pas été créé avec « Exporter les copies »
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= la copie contient un fichier qui atterrirait hors du dossier ({0}), elle n’a donc pas été utilisée
+
+the backup is damaged: {0}
+= la copie est endommagée : {0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= la copie est plus grande que toute copie de dossier créée par ce programme, elle n’a donc pas été utilisée
+
+the backups file is damaged: {0}
+= le fichier de copies est endommagé : {0}
+
+the folder holds more than {0} files, too many for a save folder
+= le dossier contient plus de {0} fichiers, trop pour un dossier de sauvegarde
+
+the folder holds more than {0}, too much for a save folder
+= le dossier contient plus de {0}, trop pour un dossier de sauvegarde
+
+the folder is nested too deep to be a save folder
+= le dossier est trop profondément imbriqué pour être un dossier de sauvegarde
+
+there are no backups of this save to export
+= il n’y a aucune copie de cette sauvegarde à exporter
+
+this folder holds the editor's own backups
+= ce dossier contient les copies propres à l’éditeur
+
+this is your home folder, not a save folder
+= c’est votre dossier personnel, pas un dossier de sauvegarde
+
+{0} (click to show the backups folder)
+= {0} (cliquez pour afficher le dossier des copies)
+
+{0} (the {1} backups added before this stay)
+= {0} (les {1} copies ajoutées avant restent)
+
+{0} (whole folder)
+= {0} (dossier entier)
+
+{0} GB
+= {0} Go
+
+{0} automatic, {1} named
+= {0} automatiques, {1} nommées
+
+{0} backups.zip
+= {0} copies.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= {0} a changé pendant la copie (le jeu est peut-être en train d’enregistrer). Réessayez dans un instant.
+
+{0} days
+= {0} jours
+
+{0} files, all readable
+= {0} fichiers, tous lisibles
+
+{0} is too large to import
+= {0} est trop volumineux pour être importé
+
+{0} isn't a folder
+= {0} n’est pas un dossier
+
+{0} over the limit now.
+= {0} au-dessus de la limite actuellement.

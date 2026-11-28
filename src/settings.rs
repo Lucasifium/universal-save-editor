@@ -25,6 +25,8 @@ pub struct Settings {
     pub hex_guide: bool,
     /// Automatic backups kept per save.
     pub backup_keep: usize,
+    /// A limit on the size of all backups together, in GB (0: no limit).
+    pub backup_cap_gb: u64,
     /// Interface language code ("de"); `None` follows the system.
     pub language: Option<String>,
     /// Check GitHub for a newer release when the program starts (the player is asked once on the first launch).
@@ -48,7 +50,7 @@ pub struct Settings {
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, language: None, check_updates: false, open_with: false, update_question_answered: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![] }
+        Self { recent: vec![], dark: true, zoom: 1.0, show_raw_keys: false, show_advanced: false, confirm_save: true, backup_dir: None, earlier_backup_dirs: vec![], hex_guide: true, backup_keep: crate::backups::KEEP, backup_cap_gb: 0, language: None, check_updates: false, open_with: false, update_question_answered: false, search_removable: false, dismissed_update: None, hidden_notes: vec![], favourites: vec![], recent_games: vec![] }
     }
 }
 
@@ -76,6 +78,7 @@ impl Settings {
             s.earlier_backup_dirs = r.iter().filter_map(|x| x.as_str()).filter(|d| !d.is_empty()).map(PathBuf::from).collect();
         }
         s.backup_keep = v["backup_keep"].as_u64().map(|n| (n as usize).clamp(crate::backups::KEEP_MIN, crate::backups::KEEP_MAX)).unwrap_or(crate::backups::KEEP);
+        s.backup_cap_gb = v["backup_cap_gb"].as_u64().unwrap_or(0).min(100_000);
         s.language = v["language"].as_str().filter(|l| !l.is_empty()).map(str::to_string);
         s.open_with = v["open_with"].as_bool().unwrap_or(false);
         s.check_updates = v["check_updates"].as_bool().unwrap_or(false);
@@ -112,6 +115,7 @@ impl Settings {
             "backup_dir": self.backup_dir.as_ref().map(|d| d.to_string_lossy().to_string()),
             "earlier_backup_dirs": self.earlier_backup_dirs.iter().map(|p| p.to_string_lossy()).collect::<Vec<_>>(),
             "backup_keep": self.backup_keep,
+            "backup_cap_gb": self.backup_cap_gb,
             "language": self.language,
             "check_updates": self.check_updates,
             "open_with": self.open_with,

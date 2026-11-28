@@ -32076,3 +32076,257 @@ Values you pinned. They stay at the top for every save of this game.
 
 You can pin up to {0} values per game. Unpin one first.
 = Puedes anclar hasta {0} valores por juego. Desancla uno primero.
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= Añade las copias de un zip creado con «Exportar copias». No se reemplaza nada y la partida no se modifica.
+
+Apply the limit now…
+= Aplicar el límite ahora…
+
+Back up the whole folder
+= Copiar la carpeta entera
+
+Backed up the whole folder as “{0}”.
+= Se ha copiado la carpeta entera como «{0}».
+
+Backup space
+= Espacio de las copias
+
+Backup space…
+= Espacio de las copias…
+
+Backups take {0} in all: {1} backups of {2} saves.
+= Las copias ocupan {0} en total: {1} copias de {2} partidas.
+
+Can't be read: {0}
+= No se puede leer: {0}
+
+Check backups
+= Comprobar copias
+
+Check this one
+= Revisa esta
+
+Checked {0} backups: every one reads fine.
+= Se han comprobado {0} copias: todas se leen bien.
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= Se han comprobado {0} copias: {1} dañadas y {2} que se leen distinto de la partida abierta. Están marcadas en el gestor de partidas.
+
+Checking backups…
+= Comprobando copias…
+
+Checking… {0} of {1}
+= Comprobando… {0} de {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= No se pudo copiar la carpeta: {0}. No se cambió nada en ella.
+
+Couldn't be read as a save.
+= No se pudo leer como partida.
+
+Couldn't export the backups: {0}.
+= No se pudieron exportar las copias: {0}.
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= No se pudieron importar las copias: {0}. La partida no se modificó.
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= No se pudo restaurar la carpeta: {0}. No se cambió nada en ella.
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= No se pudo restaurar la carpeta: {0}. Puede que algunos archivos hayan cambiado y no se pudieran devolver; la carpeta tal como estaba se guarda en {1}.
+
+Count again
+= Contar de nuevo
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= Se cuentan: cada carpeta de copias en la que ha escrito este programa, las copias de los archivos recientes y la carpeta de copias propia del editor.
+
+Damaged
+= Dañada
+
+Delete automatic backups older than
+= Borrar las copias automáticas de más de
+
+Delete them
+= Borrarlas
+
+Deleted {0} automatic backups and freed {1}.
+= Se han borrado {0} copias automáticas y liberado {1}.
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= Se han borrado {0} de {1} copias automáticas y liberado {2}. Las demás no se pudieron borrar y siguen ahí.
+
+Delete…
+= Borrar…
+
+Export backups…
+= Exportar copias…
+
+Export the backups to
+= Exportar las copias a
+
+Exported {0} backups ({1}) to {2}.
+= Se han exportado {0} copias ({1}) a {2}.
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= Para juegos que guardan una partida en varios archivos: copia todos los archivos de {0} como una sola copia ({1} archivos, {2}). Al restaurar, la carpeta vuelve a estar exactamente como estaba.
+
+Free up room
+= Liberar espacio
+
+How much room all backups take, and ways to free some
+= Cuánto espacio ocupan todas las copias y cómo liberar parte
+
+Import backups from which file?
+= ¿Importar copias de qué archivo?
+
+Import backups…
+= Importar copias…
+
+Imported {0} backups ({1} were already here).
+= Se han importado {0} copias ({1} ya estaban aquí).
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= Se han importado {0} copias ({1} ya estaban aquí). Se exportaron desde {2}.
+
+Limit all backups to
+= Limitar todas las copias a
+
+No automatic backups are that old.
+= Ninguna copia automática es tan antigua.
+
+No backups yet. One is made automatically each time you save.
+= Aún no hay copias. Se crea una automáticamente cada vez que guardas.
+
+No limit
+= Sin límite
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= Solo se borran copias automáticas. Las copias con nombre y la copia automática más reciente de cada partida se conservan siempre.
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= Pone todas las copias de esta partida en un archivo zip, para guardar una copia en otro sitio o llevarlas a otro ordenador
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= Devuelve la carpeta entera al estado de esta copia. Antes se copia la carpeta tal como está ahora, así que puedes deshacerlo.
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= Se lee distinto de la partida abierta. Puede estar dañada o ser de otra versión del juego.
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= Lee cada copia de esta partida para asegurarse de que todavía se puede restaurar. No se cambia nada.
+
+Reads fine
+= Se lee bien
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= Se ha restaurado la carpeta entera ({0} archivos escritos, {1} quitados). La carpeta tal como estaba también se ha copiado, así que puedes volver atrás.
+
+The file is empty.
+= El archivo está vacío.
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= Estas copias se guardan en la carpeta de copias propia del editor, nunca en la carpeta de la partida.
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= Esto borra {0} copias automáticas ({1}). No se pueden recuperar.
+
+This folder can't be backed up as a whole: {0}.
+= Esta carpeta no se puede copiar entera: {0}.
+
+This save's backups take {0} ({1} backups).
+= Las copias de esta partida ocupan {0} ({1} copias).
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= Cuando una copia nueva supera el límite, se borran primero las copias automáticas más antiguas de cualquier partida.
+
+Whole save folder
+= Carpeta de la partida entera
+
+Whole save folder ({0} backups)
+= Carpeta de la partida entera ({0} copias)
+
+a whole drive can't be backed up as one save folder
+= no se puede copiar una unidad entera como carpeta de partida
+
+backup name, e.g. before the boss
+= nombre de la copia, p. ej. antes del jefe
+
+choose another file name: that one is the save or one of its backups
+= elige otro nombre de archivo: ese es la partida o una de sus copias
+
+couldn't back up the folder first: {0}
+= no se pudo copiar antes la carpeta: {0}
+
+that file isn't a backups file made by Export backups
+= ese archivo no se creó con «Exportar copias»
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= la copia contiene un archivo que acabaría fuera de la carpeta ({0}), así que no se usó
+
+the backup is damaged: {0}
+= la copia está dañada: {0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= la copia es más grande que cualquier copia de carpeta que crea este programa, así que no se usó
+
+the backups file is damaged: {0}
+= el archivo de copias está dañado: {0}
+
+the folder holds more than {0} files, too many for a save folder
+= la carpeta tiene más de {0} archivos, demasiados para una carpeta de partida
+
+the folder holds more than {0}, too much for a save folder
+= la carpeta tiene más de {0}, demasiado para una carpeta de partida
+
+the folder is nested too deep to be a save folder
+= la carpeta tiene demasiados niveles para ser una carpeta de partida
+
+there are no backups of this save to export
+= no hay copias de esta partida que exportar
+
+this folder holds the editor's own backups
+= esta carpeta contiene las copias propias del editor
+
+this is your home folder, not a save folder
+= esta es tu carpeta personal, no una carpeta de partida
+
+{0} (click to show the backups folder)
+= {0} (haz clic para mostrar la carpeta de copias)
+
+{0} (the {1} backups added before this stay)
+= {0} (las {1} copias añadidas antes se quedan)
+
+{0} (whole folder)
+= {0} (carpeta entera)
+
+{0} GB
+= {0} GB
+
+{0} automatic, {1} named
+= {0} automáticas, {1} con nombre
+
+{0} backups.zip
+= {0} copias.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= {0} cambió mientras se copiaba (puede que el juego esté guardando). Vuelve a intentarlo en un momento.
+
+{0} days
+= {0} días
+
+{0} files, all readable
+= {0} archivos, todos legibles
+
+{0} is too large to import
+= {0} es demasiado grande para importarlo
+
+{0} isn't a folder
+= {0} no es una carpeta
+
+{0} over the limit now.
+= Ahora hay {0} por encima del límite.
