@@ -12,6 +12,7 @@
 <link rel="icon" type="image/png" href="/favicon-96.png" sizes="96x96">
 <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0d111f">
 <style>
 :root{--bg:#0d111f;--card:#161d36;--line:#27304d;--text:#eaeefb;--muted:#9ba6c6;--accent:#ffc247;--focus:#ffc247;--accent2:#9fb0ff;--track:#232c4b;--head:ui-rounded,"SF Pro Rounded","Hiragino Maru Gothic ProN","Arial Rounded MT Bold","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif}
@@ -33,25 +34,68 @@ canvas:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
 .bar::after{content:"";position:absolute;inset:0 auto 0 0;width:40%;background:var(--accent);border-radius:99px;animation:s 1.2s ease-in-out infinite alternate}
 @keyframes s{to{transform:translateX(150%)}}
 @media (prefers-reduced-motion:reduce){.bar::after{animation:none;width:100%}}
+.bar.known::after{animation:none;transform:none;width:var(--p,0%);transition:width .2s linear}
+#got{color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums;min-height:1.4em}
 </style>
 </head>
-<body>
+<body data-wasm-size="">
 <nav id="top" aria-label="Site"><a class="brand" href="/"><img src="../favicon-32.png" alt="">&#8203;<span><span class="full">Universal </span>Save Editor</span></a><a class="home" href="/#games" data-t="games">All games</a><a class="dl" href="/#download" data-t="dl">Download the app</a></nav>
 <div id="wrap"><canvas id="app"></canvas></div>
 <div id="status" role="status">
-  <div class="bar" role="progressbar" aria-label="Loading"></div>
+  <div class="bar" id="bar" role="progressbar" aria-label="Loading"></div>
   <div class="t">Loading Universal Save Editor&hellip;</div>
+  <div id="got" aria-hidden="true"></div>
   <small>It runs entirely in this tab: your save is read and edited on your own computer and is never uploaded.</small>
   <noscript>This page needs JavaScript and WebAssembly. You can also <a href="/#download">download the app</a>.</noscript>
 </div>
 <script>(function(){var t={de:["Alle Spiele","App herunterladen"],es:["Todos los juegos","Descargar la app"],fr:["Tous les jeux","Télécharger l’app"],pt:["Todos os jogos","Baixar o app"],ja:["すべてのゲーム","アプリをダウンロード"],zh:["所有游戏","下载应用"]};var l=(navigator.language||"en").toLowerCase().slice(0,2),v=t[l];if(!v)return;document.querySelector('[data-t="games"]').textContent=v[0];document.querySelector('[data-t="dl"]').textContent=v[1];document.documentElement.lang=navigator.language})()</script>
+<script src="fsa.js"></script>
 <script type="module">
 import init, { start } from './universal_save_editor.js';
 const status = document.getElementById('status');
+// The program file, read with its progress on the bar. web/finish.py writes its size here, as
+// the length the server sends can be the compressed one.
+const built = Number(document.body.dataset.wasmSize) || 0;
+function mb(n) { return (n / 1048576).toFixed(1); }
+async function program() {
+  const r = await fetch('universal_save_editor_bg.wasm');
+  const sent = r.headers.get('Content-Encoding') ? 0 : Number(r.headers.get('Content-Length')) || 0;
+  const total = built || sent;
+  if (!r.ok || !r.body || !total) return r;
+  const bar = document.getElementById('bar'), got = document.getElementById('got');
+  bar.classList.add('known');
+  bar.setAttribute('aria-valuemin', '0');
+  bar.setAttribute('aria-valuemax', '100');
+  let n = 0;
+  const show = () => {
+    const p = Math.min(100, (n / total) * 100);
+    bar.style.setProperty('--p', p.toFixed(1) + '%');
+    bar.setAttribute('aria-valuenow', p.toFixed(0));
+    got.textContent = mb(Math.min(n, total)) + ' / ' + mb(total) + ' MB';
+  };
+  show();
+  const reader = r.body.getReader();
+  const body = new ReadableStream({
+    async pull(c) {
+      const { done, value } = await reader.read();
+      if (done) { c.close(); return; }
+      n += value.byteLength;
+      show();
+      c.enqueue(value);
+    },
+    cancel(why) { return reader.cancel(why); },
+  });
+  return new Response(body, { status: r.status, statusText: r.statusText, headers: { 'Content-Type': 'application/wasm' } });
+}
 try {
-  await init();
+  await init({ module_or_path: program() });
   await start('app');
   status.remove();
+  // Keeps the page and the program for offline use (sw.js; only files under /app/). Set up
+  // once the app runs, so the copy it keeps comes from the browser's cache, not a second download.
+  if ('serviceWorker' in navigator && window.isSecureContext) {
+    navigator.serviceWorker.register('sw.js', { scope: './', updateViaCache: 'none' }).catch((e) => console.warn('offline copy not set up:', e));
+  }
 } catch (e) {
   console.error(e);
   status.innerHTML = '<div class="t">The editor couldn’t start in this browser.</div>' +
