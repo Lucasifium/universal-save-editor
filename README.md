@@ -336,11 +336,12 @@ another one (e.g. before and after you earned gold), with how much each number c
 
 ## Languages
 
-Menus, buttons and messages are in English, German, Spanish, French, Brazilian Portuguese,
-Japanese and Simplified Chinese. The app follows the system language; *Edit › Preferences ›
-Language* changes it. Game screens and value names stay as the game has them. Japanese and Chinese
-need a system font with those characters (Windows, macOS and most Linux desktops have one), so the
-browser version offers the other languages only.
+Menus, buttons and messages are in English, German, Spanish, French, Italian, Polish, Turkish,
+Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese. The app
+follows the system language; *Edit › Preferences › Language* changes it. Game screens and value
+names stay as the game has them. Japanese, Korean and Chinese need a system font with those
+characters (Windows, macOS and most Linux desktops have one), so the browser version offers the
+other languages only.
 
 ## Several saves at once
 

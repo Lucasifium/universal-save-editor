@@ -6871,7 +6871,7 @@ pub(crate) mod layout_tests {
         picks.push(0);
         let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let mut problems = vec![];
-        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        for lang in crate::i18n::LANGS.iter().map(|l| l.code) {
         crate::i18n::set(Some(lang));
         for dark in [true, false] {
             for (w, h) in [(1280.0, 800.0), (1000.0, 700.0), (820.0, 600.0), (640.0, 480.0), (380.0, 760.0)] {
@@ -6956,7 +6956,7 @@ pub(crate) mod layout_tests {
         }
         let found: SaveSearch = std::sync::Arc::new(std::sync::Mutex::new(v));
         let mut problems = vec![];
-        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        for lang in crate::i18n::LANGS.iter().map(|l| l.code) {
             crate::i18n::set(Some(lang));
             for (w, h) in [(1280.0, 800.0), (820.0, 600.0), (380.0, 760.0)] {
                 let ctx = window();
@@ -7010,7 +7010,7 @@ pub(crate) mod layout_tests {
         let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let path = knight_save("chips");
         let mut problems = vec![];
-        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        for lang in crate::i18n::LANGS.iter().map(|l| l.code) {
             crate::i18n::set(Some(lang));
             for (w, h) in [(360.0, 740.0), (412.0, 900.0), (600.0, 900.0)] {
                 let ctx = window();

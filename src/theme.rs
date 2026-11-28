@@ -46,7 +46,8 @@ pub fn install_fonts(ctx: &egui::Context) -> bool {
     has_icons
 }
 
-static CJK_ON: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+/// The language (index in `i18n::LANGS`, plus one) the CJK fonts were last installed for; 0 = not yet.
+static CJK_ON: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
 
 /// Whether `s` has Japanese, Chinese or Korean characters, which the main fonts don't have.
 pub fn has_cjk(s: &str) -> bool {
@@ -62,13 +63,16 @@ pub fn has_cjk(s: &str) -> bool {
 /// when none was found (always, in the browser version).
 pub fn enable_cjk(ctx: &egui::Context) -> bool {
     use std::sync::atomic::Ordering;
-    if CJK_ON.load(Ordering::Relaxed) {
+    // The fonts are ordered by the interface language (a Traditional Chinese interface wants
+    // Traditional glyph shapes first), so a language change installs them again.
+    let want = crate::i18n::current_index() + 1;
+    if CJK_ON.load(Ordering::Relaxed) == want {
         return true;
     }
     if cjk_fonts().is_empty() {
         return false;
     }
-    CJK_ON.store(true, Ordering::Relaxed);
+    CJK_ON.store(want, Ordering::Relaxed);
     let (fonts, _) = definitions(true);
     ctx.set_fonts(fonts);
     true
@@ -87,41 +91,67 @@ pub fn cjk_available() -> bool {
 }
 
 /// Font files with Japanese, Chinese and Korean characters on this computer, one per script
-/// where the system splits them, most complete first.
+/// where the system splits them. The script of the interface language comes first, so shared
+/// Han characters take that language's glyph shapes; the rest keep a fixed order.
 fn cjk_fonts() -> Vec<String> {
     if cfg!(target_arch = "wasm32") {
         return vec![];
     }
     let win = std::env::var("WINDIR").unwrap_or_else(|_| "C:\\Windows".into());
     let w = |name: &str| format!("{win}\\Fonts\\{name}");
-    let groups: Vec<Vec<String>> = if cfg!(windows) {
+    // (script, candidate files); the first file that exists in a group is used.
+    let mut groups: Vec<(&str, Vec<String>)> = if cfg!(windows) {
         vec![
-            // Japanese (kana and kanji), then Simplified Chinese, then Korean (hangul).
-            vec![w("YuGothM.ttc"), w("YuGothR.ttc"), w("meiryo.ttc"), w("msgothic.ttc")],
-            vec![w("msyh.ttc"), w("msyh.ttf"), w("simsun.ttc")],
-            vec![w("malgun.ttf"), w("gulim.ttc")],
+            ("ja", vec![w("YuGothM.ttc"), w("YuGothR.ttc"), w("meiryo.ttc"), w("msgothic.ttc")]),
+            ("sc", vec![w("msyh.ttc"), w("msyh.ttf"), w("simsun.ttc")]),
+            ("tc", vec![w("msjh.ttc"), w("msjh.ttf"), w("mingliu.ttc")]),
+            ("ko", vec![w("malgun.ttf"), w("gulim.ttc")]),
         ]
     } else if cfg!(target_os = "macos") {
         vec![
-            vec!["/System/Library/Fonts/Hiragino Sans GB.ttc".into(), "/System/Library/Fonts/STHeiti Light.ttc".into(), "/System/Library/Fonts/Supplemental/Arial Unicode.ttf".into(), "/Library/Fonts/Arial Unicode.ttf".into()],
-            vec!["/System/Library/Fonts/AppleSDGothicNeo.ttc".into()],
+            ("ja", vec!["/System/Library/Fonts/Hiragino Sans GB.ttc".into(), "/System/Library/Fonts/STHeiti Light.ttc".into(), "/System/Library/Fonts/Supplemental/Arial Unicode.ttf".into(), "/Library/Fonts/Arial Unicode.ttf".into()]),
+            ("tc", vec!["/System/Library/Fonts/STHeiti Medium.ttc".into(), "/System/Library/Fonts/PingFang.ttc".into()]),
+            ("ko", vec!["/System/Library/Fonts/AppleSDGothicNeo.ttc".into()]),
         ]
     } else if cfg!(target_os = "android") {
-        vec![vec!["/system/fonts/NotoSansCJK-Regular.ttc".into(), "/system/fonts/NotoSansSC-Regular.otf".into(), "/system/fonts/DroidSansFallback.ttf".into()]]
+        vec![("ja", vec!["/system/fonts/NotoSansCJK-Regular.ttc".into(), "/system/fonts/NotoSansSC-Regular.otf".into(), "/system/fonts/DroidSansFallback.ttf".into()])]
     } else {
-        vec![vec![
-            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc".into(),
-            "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc".into(),
-            "/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc".into(),
-            "/usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc".into(),
-            "/usr/share/fonts/noto-cjk/NotoSansCJKsc-Regular.otf".into(),
-            "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc".into(),
-            "/usr/share/fonts/wenquanyi/wqy-microhei/wqy-microhei.ttc".into(),
-            "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf".into(),
-            "/usr/share/fonts/google-droid/DroidSansFallbackFull.ttf".into(),
-        ]]
+        let dirs = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/noto-cjk", "/usr/share/fonts/google-noto-cjk"];
+        // Per-script Noto files, where the distribution splits them, give the right glyph shapes.
+        let per = |s: &str| dirs.iter().map(|d| format!("{d}/NotoSansCJK{s}-Regular.otf")).collect::<Vec<_>>();
+        vec![
+            ("sc", per("sc")),
+            ("tc", per("tc")),
+            ("ko", per("kr")),
+            (
+                "ja",
+                vec![
+                    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc".into(),
+                    "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc".into(),
+                    "/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc".into(),
+                    "/usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc".into(),
+                    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc".into(),
+                    "/usr/share/fonts/wenquanyi/wqy-microhei/wqy-microhei.ttc".into(),
+                    "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf".into(),
+                    "/usr/share/fonts/google-droid/DroidSansFallbackFull.ttf".into(),
+                ],
+            ),
+        ]
     };
-    groups.into_iter().filter_map(|g| g.into_iter().find(|p| std::path::Path::new(p).is_file())).collect()
+    let first = match crate::i18n::current().code {
+        "zh-CN" => "sc",
+        "zh-TW" => "tc",
+        "ko" => "ko",
+        _ => "ja",
+    };
+    // Stable: the language's own script first, the others as listed.
+    groups.sort_by_key(|(script, _)| *script != first);
+    let found: Vec<String> = groups.into_iter().filter_map(|(_, g)| g.into_iter().find(|p| std::path::Path::new(p).is_file())).collect();
+    // The Linux per-script files and the all-in-one collection overlap: the first two suffice.
+    if cfg!(all(unix, not(target_os = "macos"), not(target_os = "android"))) {
+        return found.into_iter().take(2).collect();
+    }
+    found
 }
 
 fn definitions(cjk: bool) -> (FontDefinitions, bool) {
