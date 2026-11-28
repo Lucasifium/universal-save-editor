@@ -1756,6 +1756,13 @@ pub fn name_matches(name: &str, typed: &str) -> bool {
     short.chars().count() >= 2 && initials(&lower).iter().any(|i| i.contains(&short))
 }
 
+/// The short names `name_matches` accepts for a game ("gtav" and "gta5"), for search boxes
+/// outside the app (the website's game list, built by the tests in `site.rs`).
+#[cfg(test)]
+pub fn short_names(name: &str) -> [String; 2] {
+    initials(&name.to_lowercase())
+}
+
 /// The initials of a lower-case game name, with numbers kept whole: once with Roman numerals
 /// as written ("gtav") and once with them as digits ("gta5").
 fn initials(lower: &str) -> [String; 2] {
