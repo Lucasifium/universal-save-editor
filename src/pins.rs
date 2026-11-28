@@ -172,7 +172,7 @@ mod tests {
     fn games_are_told_apart_by_format_and_folder() {
         let k = |p: &str| game_key(Path::new(p), "JSON");
         assert_eq!(k("/home/p/.local/share/Hollow Game/Saves/slot1.json"), "JSON | Hollow Game");
-        assert_eq!(k("C:/Users/p/AppData/LocalLow/Studio/Some Game/Profiles/76561198000000000/save.json"), "JSON | Some Game");
+        assert_eq!(k("C:/Users/user/AppData/LocalLow/Studio/Some Game/Profiles/76561198000000000/save.json"), "JSON | Some Game");
         assert_eq!(k("/a/Steam/userdata/12345678/987650/remote/save.dat"), "JSON | 987650");
         assert_eq!(k("/r/RenPy/MyStory-1617263540/1-1-LT1.save"), "JSON | MyStory");
         assert_eq!(k("save.json"), "JSON | ");
