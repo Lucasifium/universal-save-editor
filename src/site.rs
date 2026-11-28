@@ -496,7 +496,7 @@ fn save_manager_body() -> String {
 <li>A save in a Steam Cloud, OneDrive, Dropbox, Google Drive, iCloud or Ubisoft Connect folder is labelled, with a reminder to choose the local copy if the service asks.</li>
 <li>Everything stays on your computer. Nothing is uploaded.</li>
 </ul>
-<p>The save manager is part of the downloaded app for Windows and Linux. <a href="../{WEB_APP}">The browser version</a> can edit saves but can't keep backups, so keep your own copy when you use it.</p>
+<p>The save manager is part of the downloaded app for Windows and Linux. <a href="../{WEB_APP}">The browser version</a> can edit saves but has no save manager (in Chrome and Edge it keeps only the original of a file it saves in place), so keep your own copy when you use it.</p>
 <p><a href="../#games">See all {n} supported games</a></p>
 "#,
         n = GAMES.len(),
@@ -554,7 +554,7 @@ fn home_questions() -> Vec<(String, String)> {
     vec![
         (
             "Is it safe to edit a save file?".to_string(),
-            "The downloaded app backs up the old file before every save, then reads the new file back and checks it before replacing anything. If the game doesn't like an edit, restore the backup from <em>Backups</em>. In the browser version, keep a copy of the original yourself.".to_string(),
+            "The downloaded app backs up the old file before every save, then reads the new file back and checks it before replacing anything. If the game doesn't like an edit, restore the backup from <em>Backups</em>. In the browser version, keep a copy of the original yourself (in Chrome and Edge, <em>Open to save in place</em> also keeps one in the browser before the first save).".to_string(),
         ),
         (
             "Do I have to upload my save?".to_string(),
@@ -771,7 +771,7 @@ fn faq_html(g: &GameInfo, what: Option<&str>) -> String {
         if needs_app(g) {
             "Not this one: the browser version can't open this game's saves. Use the downloaded app for Windows or Linux.".to_string()
         } else {
-            format!(r#"Yes. <a href="../{WEB_APP}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one."#)
+            format!(r#"Yes. <a href="../{WEB_APP}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one. In Chrome and Edge it can also save back to the same file, keeping the original in the browser first."#)
         },
     );
     q(
@@ -931,7 +931,9 @@ fn build_site() {
         serde_json::json!({
             "name": "Universal Save Editor",
             "short_name": "Save Editor",
+            "id": "./app/",
             "start_url": "./app/",
+            "scope": "./app/",
             "display": "standalone",
             "background_color": "#0d111f",
             "theme_color": "#0d111f",
@@ -1053,7 +1055,7 @@ fn build_site() {
 <div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p>{browser}</div>
 <h2>How to edit your {n} save</h2>
 <ol>
-<li><a href=#download>Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
+<li><a href=#download>Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file (Chrome and Edge can save back to the same file).</li>
 <li>Close the game, so it doesn't write over your changes.</li>
 <li>Choose <em>Find my game's saves</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
@@ -1128,7 +1130,7 @@ fn build_site() {
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · macOS · Browser</span></div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a></div><div class="mock" aria-hidden="true"><div class="bar"><i></i><i></i><i></i></div><div class="row"><div class="k"><span>Gold</span><b>99,999</b></div><div class="t" style="--w:92%"></div></div><div class="row"><div class="k"><span>Level</span><b>60</b></div><div class="t" style="--w:60%"></div></div><div class="row"><div class="k"><span>Crafting materials</span><b>Max</b></div><div class="t" style="--w:100%"></div></div></div></section>
 <section class="feature"><div><h2>Save manager built in</h2><p>Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.</p><a class="btn alt" href="save-manager/">How the save manager works</a></div></section>
-<div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
+<div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file (Chrome and Edge can also save back to the same file, keeping the original in the browser first). After the first visit it opens without a connection too. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
 <p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-&lt;version&gt;-linux-x64.tar.gz</code> (Linux) or <code>certutil -hashfile UniversalSaveEditor-&lt;version&gt;-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here. If Windows shows "Windows protected your PC", the file is new and unsigned, not harmful: click <em>More info</em>, then <em>Run anyway</em>.</p>
 <p><strong>Install with Scoop (Windows):</strong> <code>scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json</code> installs it with a Start menu shortcut and checks the download for you; <code>scoop update universal-save-editor</code> gets new releases.</p>
 <figure class="shot"><picture><source media="(max-width: 600px)" type="image/webp" srcset="screenshot-phone.webp" width="780" height="1500"><source media="(max-width: 600px)" srcset="screenshot-phone.png" width="780" height="1500"><source type="image/webp" srcset="screenshot.webp"><img src="screenshot.png" width="2000" height="1322" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy" decoding="async"></picture><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
@@ -1139,7 +1141,7 @@ fn build_site() {
 <li><a href="{DOWNLOAD}">Download the editor</a>, or open <a href="{WEB_APP}">the browser version</a>.</li>
 <li>In the downloaded app, choose <em>Find my game's saves</em> and pick your game. In the browser, open the save file yourself.</li>
 <li>Change what you want. {full} games open on a screen made for them, with every value named; other saves open as a list of values, or through value search.</li>
-<li>Save. The downloaded app backs up the old file first and reads the new one back to check it before replacing anything; the browser version downloads the edited file, so keep a copy of the original. Then load the save in your game.</li>
+<li>Save. The downloaded app backs up the old file first and reads the new one back to check it before replacing anything; the browser version downloads the edited file (or, in Chrome and Edge, can write it back to the same file), so keep a copy of the original. Then load the save in your game.</li>
 </ol>
 <h2>Why download a save editor?</h2>
 {WHY}
