@@ -173,7 +173,7 @@ impl App {
 
     /// The unsaved changes as plain text, for pasting into a message or a forum post.
     pub(super) fn copy_changes(&mut self, ctx: &egui::Context) {
-        let lines = self.change_lines();
+        let lines = self.review_lines();
         if lines.is_empty() {
             return self.info(tr("No changes to copy yet."));
         }
@@ -209,7 +209,7 @@ impl App {
                         Some(&i) => self.model.rows[i].name().to_string(),
                         None => ptr.clone(),
                     };
-                    p.values.push(ValueChange { path: ptr.clone(), name, value: v.clone() });
+                    p.values.push(ValueChange { path: ptr.clone(), name, value: v.clone(), at_least: false });
                 }
             }
         }
@@ -279,12 +279,29 @@ impl App {
     }
 
     pub(super) fn start_preset_apply(&mut self) {
-        let list = crate::presets::list();
+        let mut list = crate::presets::list();
+        list.extend(crate::presets::built_in().into_iter().map(|p| (PathBuf::new(), p)));
         let picked = (!list.is_empty()).then_some(0);
         self.preset_apply = Some(PresetApply { list, picked, opened: None, confirm_delete: None });
         if WEB {
             self.ask(Ask::PresetFile, None, None);
         }
+    }
+
+    /// Tools › Presets › Open a preset file: choose a file, then see what it holds in the
+    /// Apply dialog.
+    pub(super) fn start_preset_open(&mut self) {
+        if self.preset_apply.is_none() {
+            self.start_preset_apply();
+            if WEB {
+                return;
+            }
+        }
+        #[cfg(not(target_arch = "wasm32"))]
+        let dir = crate::presets::dir().filter(|d| d.is_dir());
+        #[cfg(target_arch = "wasm32")]
+        let dir = None;
+        self.ask(Ask::PresetFile, dir, None);
     }
 
     /// A preset file picked with "Open a preset file".
@@ -327,12 +344,19 @@ impl App {
                     for (i, (_, p)) in pa.list.iter().enumerate() {
                         ui.horizontal(|ui| {
                             let text = if p.len() == 1 { trf("{0}  ({1} change)", &[&p.name, &p.len()]) } else { trf("{0}  ({1} changes)", &[&p.name, &p.len()]) };
-                            if ui.selectable_label(pa.picked == Some(i) && pa.opened.is_none(), text).on_hover_text(trf("Made on a {0} save", &[&p.game])).clicked() {
+                            let hover = if p.built_in {
+                                tr("Ready-made preset that comes with the program. It only raises numbers the save already has.").to_string()
+                            } else {
+                                trf("Made on a {0} save", &[&p.game])
+                            };
+                            if ui.selectable_label(pa.picked == Some(i) && pa.opened.is_none(), text).on_hover_text(hover).clicked() {
                                 pa.picked = Some(i);
                                 pa.opened = None;
                             }
                             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                                if ui.small_button(tr("Delete preset")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
+                                if p.built_in {
+                                    ui.weak(tr("built in"));
+                                } else if ui.small_button(tr("Delete preset")).on_hover_text(tr("Delete this preset (saves are not changed)")).clicked() {
                                     ask_delete = Some(i);
                                 }
                             });
@@ -344,6 +368,11 @@ impl App {
             if let Some(p) = chosen {
                 ui.separator();
                 ui.label(RichText::new(&p.name).strong());
+                if let Some(r) = self.doc.as_ref().and_then(|d| root(&d.content)).filter(|_| p.built_in || p.bytes.is_empty()) {
+                    if p.found_in(r) == 0 && !p.values.is_empty() {
+                        ui.colored_label(theme::fg(ui, theme::ERR), tr("Nothing in this save matches this preset, so applying it changes nothing."));
+                    }
+                }
                 if !p.game.is_empty() && p.game != kind {
                     ui.colored_label(theme::fg(ui, theme::ERR), trf("Made on a {0} save; this one is a {1} save. Only the values found here are changed.", &[&p.game, &kind]));
                 }
@@ -451,12 +480,12 @@ impl App {
             }
             missing += p.values.len();
         } else {
-            for c in &p.values {
-                let exists = self.doc.as_ref().and_then(|d| root(&d.content)).is_some_and(|r| r.pointer(&c.path).is_some());
-                if !exists {
-                    missing += 1;
-                    continue;
-                }
+            let (todo, gone) = match self.doc.as_ref().and_then(|d| root(&d.content)) {
+                Some(r) => crate::presets::resolve(&p.values, r),
+                None => (vec![], p.values.len()),
+            };
+            missing += gone;
+            for c in todo {
                 match self.try_edit(c.path.clone(), c.value.clone(), now) {
                     Ok(true) => changed += 1,
                     Ok(false) => {}

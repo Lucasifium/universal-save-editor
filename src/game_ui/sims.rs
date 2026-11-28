@@ -63,10 +63,10 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx, two: bool) {
         });
     }
     if two {
-        ui.weak(tr("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game."));
+        ui.weak(tr("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game."));
         return;
     }
-    ui.weak(tr("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game."));
+    ui.weak(tr("Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game."));
 }
 
 /// The Sims 4: one tab per household with its funds and the Sims in it.

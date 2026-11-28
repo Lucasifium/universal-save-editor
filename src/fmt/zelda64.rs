@@ -11,12 +11,12 @@ use crate::tree::TreeDoc;
 
 pub const KIND: &str = "Ocarina of Time save";
 const SRAM: usize = 0x8000;
-const FILE: usize = 0x1450;
-const BACKUP: usize = 3 * FILE;
+pub(crate) const FILE: usize = 0x1450;
+pub(crate) const BACKUP: usize = 3 * FILE;
 
 /// Where the SRAM sits in the file and how it is stored.
 #[derive(Clone, Copy, PartialEq, Debug)]
-enum Src {
+pub(crate) enum Src {
     Plain(usize),
     Swapped(usize),
     Gci(usize),
@@ -30,7 +30,7 @@ fn sum_of(s: &[u8], b: usize) -> u16 {
     s[b + 0x20..b + 0x1372].chunks(2).fold(0u16, |a, c| a.wrapping_add(u16::from_be_bytes([c[0], c[1]])))
 }
 
-fn file_ok(s: &[u8], b: usize) -> bool {
+pub(crate) fn file_ok(s: &[u8], b: usize) -> bool {
     s[b + 0x3c] == 0x5a && s[b + 0x1372..b + 0x1374] == sum_of(s, b).to_be_bytes()
 }
 
@@ -62,7 +62,7 @@ fn into_gci(d: &mut [u8], off: usize, s: &[u8]) {
     }
 }
 
-fn find(d: &[u8]) -> Option<(Src, Vec<u8>)> {
+pub(crate) fn find(d: &[u8]) -> Option<(Src, Vec<u8>)> {
     let gci = |off: usize| from_gci(d, off).filter(|s| valid(s)).map(|s| (Src::Gci(off), s));
     match d.len() {
         73_792 | 122_944 if d.get(0x30f0..0x30f6) == Some(b"ZELDA\0") => gci(0x6044),
@@ -85,7 +85,7 @@ pub fn looks(d: &[u8]) -> bool {
     find(d).is_some()
 }
 
-fn put(outer: &[u8], inner: &[u8]) -> Vec<u8> {
+pub(crate) fn put(outer: &[u8], inner: &[u8]) -> Vec<u8> {
     let mut o = outer.to_vec();
     match find(outer).map(|x| x.0) {
         Some(Src::Plain(b)) => o[b..b + SRAM].copy_from_slice(inner),

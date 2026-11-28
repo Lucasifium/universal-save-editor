@@ -29,6 +29,24 @@ pub struct Options {
     pub path: Option<std::path::PathBuf>,
     /// A checksum the player chose to keep fixed (Tools › Find checksum).
     pub sum: Option<fmt::sumfind::Sum>,
+    /// How the player chose to open the file (File › Open as), when not as detected.
+    pub read_as: ReadAs,
+}
+
+/// File › Open as: another way to read a file than the one the editor picked.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum ReadAs {
+    /// As the editor reads it on its own.
+    #[default]
+    Detected,
+    /// As detected, but without a game screen (for a screen meant for another game).
+    NoScreen,
+    /// Unpacked as usual, then the data inside shown as bytes.
+    Unpacked,
+    /// The whole file as text (as bytes when it isn't text).
+    Text,
+    /// The file's own bytes, nothing unpacked.
+    Bytes,
 }
 
 impl Options {
@@ -639,6 +657,17 @@ pub fn decode(raw: &[u8]) -> Decoded {
 }
 
 pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
+    let plain = |content| Decoded { layers: vec![], content, zip_entries: vec![], hint: None };
+    match opts.read_as {
+        ReadAs::Bytes => return plain(Content::Binary(raw.to_vec())),
+        ReadAs::Text => {
+            return plain(match std::str::from_utf8(raw) {
+                Ok(t) => Content::Text(t.to_string()),
+                Err(_) => Content::Binary(raw.to_vec()),
+            })
+        }
+        _ => {}
+    }
     let mut ctx = Ctx { opts, zip_entries: vec![], hint: None };
     let mut layers = Vec::new();
     let mut data = raw.to_vec();
@@ -679,6 +708,9 @@ pub fn decode_with(raw: &[u8], opts: &Options) -> Decoded {
                 break;
             }
         }
+    }
+    if opts.read_as == ReadAs::Unpacked {
+        return Decoded { layers, content: Content::Binary(data), zip_entries: ctx.zip_entries, hint: None };
     }
     // Cyberpunk 2077 keeps its table of sections in the file's tail, outside the packed data.
     let cyberpunk = match layers.last() {

@@ -197,6 +197,10 @@ impl App {
                     ui.add_space(6.0);
                     ui.hyperlink_to(tr("Website"), SITE);
                     ui.hyperlink_to(tr("Source code and releases"), REPO);
+                    if let Some(d) = platform::portable_dir() {
+                        ui.add_space(6.0);
+                        ui.weak(trf("Portable mode: settings, templates and presets are kept in {0}", &[&d.display()]));
+                    }
                     if WEB {
                         ui.add_space(6.0);
                         ui.weak(tr("In the browser, Japanese, Chinese and Korean names may show as boxes. The downloadable app uses your computer's fonts for them."));
@@ -216,6 +220,7 @@ impl App {
         let mut open = true;
         let mut changed = false;
         let mut pick_dir = false;
+        let mut open_space = false;
         egui::Window::new(tr("Preferences"))
             .open(&mut open)
             .collapsible(false)
@@ -292,6 +297,22 @@ impl App {
                         changed = true;
                     }
                 }
+                if cfg!(windows) && !WEB {
+                    ui.separator();
+                    ui.label(RichText::new(tr("Opening saves")).strong());
+                    let r = crate::widgets::checkbox(ui, &mut self.settings.open_with, tr("List this program under \u{201C}Open with\u{201D} for some save file types"))
+                        .on_hover_text(tr("Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again."));
+                    if r.changed() {
+                        let result = if self.settings.open_with { crate::openwith::register() } else { crate::openwith::unregister() };
+                        match result {
+                            Ok(()) => changed = true,
+                            Err(e) => {
+                                self.settings.open_with = !self.settings.open_with;
+                                self.fail(trf("Couldn't change the Open with list: {0}", &[&e]));
+                            }
+                        }
+                    }
+                }
                 if !WEB {
                     ui.separator();
                     ui.label(RichText::new(tr("Backups")).strong());
@@ -319,6 +340,24 @@ impl App {
                             self.settings.set_backup_dir(None);
                         }
                     });
+                    ui.add_space(4.0);
+                    ui.horizontal_wrapped(|ui| {
+                        ui.label(tr("Limit all backups to"));
+                        let shown = |gb: u64| if gb == 0 { tr("No limit").to_string() } else { trf("{0} GB", &[&gb]) };
+                        egui::ComboBox::from_id_salt("prefs_backup_cap").selected_text(shown(self.settings.backup_cap_gb)).show_ui(ui, |ui| {
+                            for gb in crate::backups::space::CAP_CHOICES_GB {
+                                if ui.selectable_label(self.settings.backup_cap_gb == gb, shown(gb)).clicked() {
+                                    self.settings.backup_cap_gb = gb;
+                                    crate::backups::space::set_cap(gb.saturating_mul(crate::backups::space::GB));
+                                    changed = true;
+                                }
+                            }
+                        });
+                    });
+                    ui.weak(tr("When a new backup passes the limit, the oldest automatic backups of any save are deleted first."));
+                    if ui.button(tr("Backup space\u{2026}")).on_hover_text(tr("How much room all backups take, and ways to free some")).clicked() {
+                        open_space = true;
+                    }
                 }
             });
         if changed {
@@ -329,6 +368,9 @@ impl App {
         }
         if pick_dir {
             self.ask(Ask::BackupDir, self.settings.backup_dir.clone(), None);
+        }
+        if open_space {
+            self.open_backup_space();
         }
     }
 

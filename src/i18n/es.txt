@@ -60,9 +60,6 @@ If the game keeps them somewhere else (another drive, a cloud folder), use Open�
 ‹ All games
 = ‹ Todos los juegos
 
-Copy character
-= Copiar personaje
-
 Copy
 = Copiar
 
@@ -290,12 +287,6 @@ Compare with another save…
 
 Open another file in this archive
 = Abrir otro archivo de este paquete
-
-Copy character to another slot…
-= Copiar personaje a otra ranura…
-
-Duplicate an Elden Ring character, e.g. to try something out on the copy
-= Duplica un personaje de Elden Ring, p. ej. para probar algo en la copia
 
 Save or revert your changes first.
 = Guarda o revierte los cambios antes.
@@ -1168,7 +1159,6 @@ Advanced
 
 Opened {0} ({1}) — {2}.
 = Abierto {0} ({1}) — {2}.
-
 
 Filter the tree by name or value  (Ctrl+F)
 = Filtrar el árbol por nombre o valor  (Ctrl+F)
@@ -9949,8 +9939,8 @@ Skill test modifier (%)
 Skill trees
 = Árboles de habilidades
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims se listan por su ID (sus nombres están en los archivos de personajes). Los habitantes y las familias predeterminadas están en Otros sims, en la pestaña Valores, con Avanzado activado. Aún no probado en el juego.
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims se listan por su ID (sus nombres están en los archivos de personajes). Los habitantes y las familias predeterminadas están en Otros sims, en la pestaña Valores, con Poco usados activado. Aún no probado en el juego.
 
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = Las habilidades van de 0 a 6; ADR son las seis clases de mercancías peligrosas como bits (63 = todas). La experiencia fija el nivel de conductor; el juego lo calcula al cargar.
@@ -12318,8 +12308,8 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste. Los tiempos están en ticks de 100 nanosegundos (10 000 000 por segundo).
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims llevan el nombre de su archivo (user00012 es Characters\User00012.iff). Los habitantes y los visitantes están en Otros sims, en la pestaña Valores, con Avanzado activado. Aún no probado en el juego.
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims llevan el nombre de su archivo (user00012 es Characters\User00012.iff). Los habitantes y los visitantes están en Otros sims, en la pestaña Valores, con Poco usados activado. Aún no probado en el juego.
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav en %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>. Los nombres de objeto son los ids internos del juego; el CRC-32 de la partida se vuelve a escribir al guardar. Comprobado con una partida real del inicio del juego, aún no probado en el juego.
@@ -26893,9 +26883,6 @@ Changed the Steam ID in {0} places. Save to write the file.
 Copied 1 change as text.
 = Se copió 1 cambio como texto.
 
-Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
-= Se copió a {0} (nivel {1}) en la ranura {2}. Aparece en la pantalla de cargar partida del juego.
-
 Copied {0} changes as text.
 = Se copiaron {0} cambios como texto.
 
@@ -28978,7 +28965,6 @@ Detected format: {0}
 {0} is running
 = {0} está en ejecución
 
-
 (missing)
 = (falta)
 
@@ -29032,9 +29018,6 @@ Couldn't change that backup: {0}
 
 Couldn't check for a new version. Check your internet connection and try again.
 = No se pudo buscar una versión nueva. Comprueba tu conexión a internet y vuelve a intentarlo.
-
-Couldn't copy the character: {0}. The save wasn't changed.
-= No se pudo copiar el personaje: {0}. La partida no se modificó.
 
 Couldn't delete the backup: {0}. It is still in the list.
 = No se pudo borrar la copia: {0}. Sigue en la lista.
@@ -29276,9 +29259,6 @@ Signed, will be re-signed
 Slot {0}: empty
 = Ranura {0}: vacía
 
-Slot {0}: {1} (level {2})
-= Ranura {0}: {1} (nivel {2})
-
 Start over
 = Empezar de nuevo
 
@@ -29308,9 +29288,6 @@ These checksums hold for the file:
 
 This checksum holds for the file:
 = Esta suma de comprobación coincide con el archivo:
-
-This replaces {0} (level {1}) in slot {2}.
-= Esto reemplaza a {0} (nivel {1}) en la ranura {2}.
 
 Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
 = Escribe el número nuevo junto a su nombre y pulsa Fijar; luego guarda con Ctrl+S. Carga la partida en el juego para comprobarlo.
@@ -29410,9 +29387,6 @@ type a name for the backup
 
 {0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
 = {0} parece estar abierto. Ciérralo primero o podría sobrescribir la partida restaurada. No se restauró nada.
-
-{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
-= {0} parece estar abierto. Ciérralo primero o sobrescribirá el personaje copiado. No se copió nada.
 
 {0} looks like it's running. Quit it first, then try again. The save wasn't changed.
 = {0} parece estar abierto. Ciérralo primero y vuelve a intentarlo. La partida no se modificó.
@@ -29985,7 +29959,6 @@ Sets every character's Another Mode EXP to 472,000, the most the game holds (eve
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Sube a 999 cada material de fabricación, el límite que muestra el juego (muchos están en 999 en una partida completada), incluidos los que aún no tienes.
 
-
 Exosuit cargo
 = Carga del exotraje
 
@@ -30280,7 +30253,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = Sube los recursos comunes y poco comunes a 200, los raros a 35 y los muy raros a 15, las mayores capacidades de la bolsa de recursos que indica la wiki de Horizon (una estimación: ningún archivo de datos las indica y las partidas hechas con otras herramientas tienen más). Los recursos legendarios, la comida, la munición, los trajes y los objetos clave no se tocan.
 
-
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Pantalla del juego: dinero y recompensa de persecución de un archivo de perfil (formatos de PC y PlayStation 2); el MD5 del archivo se recalcula al guardar. Creada con offsets publicados, aún no probada con un perfil real
 
@@ -30336,9 +30308,6 @@ Cloud sync: {0}
 This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
 = Esta partida está en una carpeta que {0} sincroniza. Cierra el juego antes de guardar; si después {0} pregunta qué copia conservar, elige la local.
 
-Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
-= No se pudo copiar el personaje: el archivo nuevo no se leyó como se esperaba ({0}). La partida no se modificó.
-
 # favourites, recent games, reset to original, tab shortcuts
 
 Favourites
@@ -30367,7 +30336,6 @@ Open another save in a new tab
 
 Next / previous tab
 = Pestaña siguiente / anterior
-
 
 Appearances
 = Apariencias
@@ -30487,8 +30455,6 @@ Walker Gear
 
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {0} de {1} desarrollados. Los objetos se listan por su número de desarrollo; los nombres de los objetos no están en la partida.
-
-
 
 Hotbar
 = Barra rápida
@@ -30739,7 +30705,6 @@ Zombie kills
 
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = players.db de Zomboid\Saves\<modo>\<nombre de la partida> (la carpeta de la partida). Horas sobrevividas, bajas, peso y estado de muerte de cada personaje, sus necesidades y estados, la salud de cada parte del cuerpo y el nivel y la experiencia de cada habilidad. Cierra el juego antes. Para devolver a la vida a un personaje muerto, desmarca «Muerto» y sube la salud de las partes del cuerpo.
-
 
 # data/games: Epic Battle Fantasy 5, Road 96
 
@@ -31136,7 +31101,6 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = savegameNN.sav de Documents\Almost Human\Legend of Grimrock (una cabecera GRIM y datos zlib, desempaquetados y vueltos a empaquetar por ti). La salud y la energía de cada miembro del grupo, las cuatro estadísticas, los puntos de habilidad sin usar y los niveles de habilidad. Los objetos, rasgos y la mazmorra están en el Árbol. Cierra el juego primero.
-
 
 # data/games: Dead Space 2, Just Cause 2
 
@@ -31769,6 +31733,586 @@ Yes, tell me
 No thanks
 = No, gracias
 
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= Añade el programa a la lista «Abrir con» del Explorador para tipos de archivo propios de una sola familia de juegos (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), solo para tu cuenta. Nunca pasa a ser el programa predeterminado, y al desactivarlo se quita de nuevo.
+
+Carried items to 99 (RPG Maker MV / MZ)
+= Objetos que llevas a 99 (RPG Maker MV / MZ)
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= Armas y armaduras que llevas a 99 (RPG Maker MV / MZ)
+
+Choose a preset file someone shared with you, to look at it and apply it
+= Elige un archivo de preajuste que alguien te haya pasado, para verlo y aplicarlo
+
+Couldn't change the Open with list: {0}
+= No se pudo cambiar la lista «Abrir con»: {0}
+
+List this program under “Open with” for some save file types
+= Mostrar este programa en «Abrir con» para algunos tipos de partida guardada
+
+Max gold (RPG Maker MV / MZ)
+= Oro máximo (RPG Maker MV / MZ)
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= Nada en esta partida coincide con este preajuste, así que aplicarlo no cambia nada.
+
+Opening saves
+= Abrir partidas
+
+Portable mode: settings, templates and presets are kept in {0}
+= Modo portátil: los ajustes, plantillas y preajustes se guardan en {0}
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= Preajuste listo que viene con el programa. Solo sube números que la partida ya tiene.
+
+at least {0}
+= al menos {0}
+
+built in
+= incluido
+
+{0} (each): {1}
+= {0} (cada uno): {1}
+
+# slot copy, save details, Xbox app to Steam
+
+{0} more
+= {0} más
+
+Copied slot {0} into slot {1}. It shows up in the game's own load menu.
+= Se copió la ranura {0} en la ranura {1}. Aparece en el menú de carga del juego.
+
+Copied to {0}. Start the Steam version to load it.
+= Copiado en {0}. Inicia la versión de Steam para cargarlo.
+
+Copy a slot
+= Copiar una ranura
+
+Copy a slot to another slot…
+= Copiar una ranura en otra…
+
+Copy slot
+= Copiar ranura
+
+Copy to the Steam version
+= Copiar a la versión de Steam
+
+Copy to the Steam version…
+= Copiar a la versión de Steam…
+
+Couldn't copy the save: {0}. The Steam version's save wasn't changed.
+= No se pudo copiar la partida: {0}. La partida de la versión de Steam no se cambió.
+
+Couldn't copy the slot: {0}. The save wasn't changed.
+= No se pudo copiar la ranura: {0}. La partida no se cambió.
+
+Duplicate a {0} save slot, e.g. to try something out on the copy
+= Duplica una ranura de guardado de {0}, p. ej. para probar algo en la copia
+
+File name
+= Nombre del archivo
+
+Folder
+= Carpeta
+
+If the Steam version says the save belongs to someone else, open the copy here and use Tools › Change Steam account in this save.
+= Si la versión de Steam dice que la partida es de otra persona, abre la copia aquí y usa Herramientas › Cambiar la cuenta de Steam en esta partida.
+
+No folder of the Steam version was found on this computer. Start the game on Steam once and save, then try again.
+= No se encontró ninguna carpeta de la versión de Steam en este equipo. Inicia el juego una vez en Steam y guarda, y vuelve a intentarlo.
+
+Put a copy of this Xbox app save where the game's Steam version looks for its saves. The Xbox app's save is left as it is.
+= Pon una copia de esta partida de la app de Xbox donde la versión de Steam del juego busca sus partidas. La partida de la app de Xbox no se toca.
+
+Replace the save that is there (it is backed up first)
+= Reemplazar la partida que hay (antes se hace una copia de seguridad)
+
+Slot {0}: {1}
+= Ranura {0}: {1}
+
+The Xbox app's save is left as it is. If Steam asks which copy to keep, choose the one on this computer.
+= La partida de la app de Xbox no se toca. Si Steam pregunta qué copia conservar, elige la de este equipo.
+
+This replaces slot {0} ({1}).
+= Esto reemplaza la ranura {0} ({1}).
+
+couldn't back up {0} first: {1}
+= no se pudo hacer antes una copia de seguridad de {0}: {1}
+
+couldn't read the Xbox app's save: {0}
+= no se pudo leer la partida de la app de Xbox: {0}
+
+pick two different slots
+= elige dos ranuras distintas
+
+slot {0} can't be read
+= no se puede leer la ranura {0}
+
+slot {0} doesn't read back as expected
+= la ranura {0} no se lee como se esperaba
+
+that folder belongs to the Xbox app; pick the Steam version's folder
+= esa carpeta es de la app de Xbox; elige la carpeta de la versión de Steam
+
+that slot is empty
+= esa ranura está vacía
+
+the character's data is damaged
+= los datos del personaje están dañados
+
+the file is shorter than its slots
+= el archivo es más corto que sus ranuras
+
+the new file doesn't read as the same kind of save
+= el archivo nuevo no se lee como el mismo tipo de partida
+
+this isn't an Elden Ring save with ten slots
+= esta no es una partida de Elden Ring con diez ranuras
+
+this isn't an Ocarina of Time save
+= esta no es una partida de Ocarina of Time
+
+this kind of save has no slots that can be copied
+= este tipo de partida no tiene ranuras que se puedan copiar
+
+type a plain file name, without a folder
+= escribe un nombre de archivo simple, sin carpeta
+
+{0} gold
+= {0} de oro
+
+{0} isn't a folder on this computer
+= {0} no es una carpeta de este equipo
+
+{0} isn't a name {1} uses for its saves ({2})
+= {0} no es un nombre que {1} use para sus partidas ({2})
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied slot. Nothing was copied.
+= Parece que {0} está abierto. Ciérralo primero o sobrescribirá la ranura copiada. No se copió nada.
+
+{0} looks like it's running. Quit it first. Nothing was copied.
+= Parece que {0} está abierto. Ciérralo primero. No se copió nada.
+
+{0} save slot in use
+= {0} ranura de guardado en uso
+
+{0} save slots in use
+= {0} ranuras de guardado en uso
+
+{0} stars
+= {0} estrellas
+
+{0}, level {1}
+= {0}, nivel {1}
+
+{0}, level {1}, {2}
+= {0}, nivel {1}, {2}
+
+{0}, {1} energy
+= {0}, {1} de energía
+
+{0}, {1}, level {2}
+= {0}, {1}, nivel {2}
+
+{0}, {1}:{2}
+= {0}, {1}:{2}
+
+{0}: “{1}” from the Xbox app.
+= {0}: «{1}» de la app de Xbox.
+
+the slot's data is damaged
+= los datos de la ranura están dañados
+
+only its backup copy reads
+= solo se lee su copia de seguridad
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 cambio sin marcar se ha deshecho y no se ha guardado; Deshacer lo recupera.
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} cambios sin marcar se han deshecho y no se han guardado; Deshacer los recupera.
+
+As detected
+= Como se detectó
+
+Click to open it another way (Open as).
+= Haz clic para abrirlo de otra forma (Abrir como).
+
+Common edits
+= Ediciones habituales
+
+Couldn't keep the pin: {0}
+= No se pudo guardar el anclaje: {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= Exactamente lo que hay en el disco, sin desempaquetar nada. Al guardar se escriben los bytes tal cual.
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= Para cuando la pantalla del juego es de otro juego: los mismos datos, como lista de valores.
+
+Made by one button together with other values: kept or left out together.
+= Hecho con un botón junto con otros valores: se mantienen o se omiten juntos.
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= No hay nada marcado, así que se deshacen todos los cambios y no se escribe nada.
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= No queda nada que guardar: se deshicieron los cambios sin marcar y el archivo no se modificó. Deshacer los recupera.
+
+Open as
+= Abrir como
+
+Opened as text
+= Abierto como texto
+
+Opened as the file's bytes
+= Abierto como los bytes del archivo
+
+Opened as unpacked bytes
+= Abierto como bytes desempaquetados
+
+Opened without the game screen
+= Abierto sin la pantalla del juego
+
+Pin
+= Anclar
+
+Pin to the top
+= Anclar arriba
+
+Pin: show this value at the top of the list for every save of this game
+= Anclar: mostrar este valor arriba de la lista en cada partida guardada de este juego
+
+Pinned
+= Anclados
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} anclado. Se queda arriba de la lista en cada partida guardada de este juego.
+
+Put them back
+= Deshacerlos
+
+Read this file another way, for when the editor guessed wrong
+= Leer este archivo de otra forma, por si el editor se equivocó
+
+Read this file another way, for when the editor guessed wrong.
+= Leer este archivo de otra forma, por si el editor se equivocó.
+
+Save or revert your changes before opening the file another way.
+= Guarda o deshaz tus cambios antes de abrir el archivo de otra forma.
+
+Save ticked
+= Guardar marcados
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= Los datos que hay dentro del empaquetado del archivo (compresión, cifrado, archivo comprimido) como bytes. Al guardar se vuelve a empaquetar igual.
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= El archivo como texto sin formato, sin desempaquetar nada. Al guardar se escribe el texto tal cual.
+
+The file's own bytes in the hex view
+= Los bytes del propio archivo en la vista hexadecimal
+
+The way the editor reads this file on its own.
+= Como el editor lee este archivo por sí mismo.
+
+The whole file as text
+= Todo el archivo como texto
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= Este archivo no es texto sin formato, así que se muestra como bytes en la vista hexadecimal.
+
+Tick all
+= Marcar todos
+
+Unpacked data in the hex view
+= Datos desempaquetados en la vista hexadecimal
+
+Unpin
+= Desanclar
+
+Unpin: stop showing this value at the top for this game's saves
+= Desanclar: dejar de mostrar este valor arriba en las partidas de este juego
+
+Unpinned {0}.
+= {0} desanclado.
+
+Untick a change to leave it out of this save.
+= Desmarca un cambio para dejarlo fuera de este guardado.
+
+Unticked changes are put back before saving. Undo brings them back.
+= Los cambios sin marcar se deshacen antes de guardar. Deshacer los recupera.
+
+Values only, without the game screen
+= Solo valores, sin la pantalla del juego
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= Valores cuyos nombres parecen dinero, niveles, experiencia, salud, puntos o cantidades de objetos. Cada uno también aparece en su propia sección.
+
+Values you pinned. They stay at the top for every save of this game.
+= Valores que anclaste. Se quedan arriba en cada partida guardada de este juego.
+
+You can pin up to {0} values per game. Unpin one first.
+= Puedes anclar hasta {0} valores por juego. Desancla uno primero.
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= Añade las copias de un zip creado con «Exportar copias». No se reemplaza nada y la partida no se modifica.
+
+Apply the limit now…
+= Aplicar el límite ahora…
+
+Back up the whole folder
+= Copiar la carpeta entera
+
+Backed up the whole folder as “{0}”.
+= Se ha copiado la carpeta entera como «{0}».
+
+Backup space
+= Espacio de las copias
+
+Backup space…
+= Espacio de las copias…
+
+Backups take {0} in all: {1} backups of {2} saves.
+= Las copias ocupan {0} en total: {1} copias de {2} partidas.
+
+Can't be read: {0}
+= No se puede leer: {0}
+
+Check backups
+= Comprobar copias
+
+Check this one
+= Revisa esta
+
+Checked {0} backups: every one reads fine.
+= Se han comprobado {0} copias: todas se leen bien.
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= Se han comprobado {0} copias: {1} dañadas y {2} que se leen distinto de la partida abierta. Están marcadas en el gestor de partidas.
+
+Checking backups…
+= Comprobando copias…
+
+Checking… {0} of {1}
+= Comprobando… {0} de {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= No se pudo copiar la carpeta: {0}. No se cambió nada en ella.
+
+Couldn't be read as a save.
+= No se pudo leer como partida.
+
+Couldn't export the backups: {0}.
+= No se pudieron exportar las copias: {0}.
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= No se pudieron importar las copias: {0}. La partida no se modificó.
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= No se pudo restaurar la carpeta: {0}. No se cambió nada en ella.
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= No se pudo restaurar la carpeta: {0}. Puede que algunos archivos hayan cambiado y no se pudieran devolver; la carpeta tal como estaba se guarda en {1}.
+
+Count again
+= Contar de nuevo
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= Se cuentan: cada carpeta de copias en la que ha escrito este programa, las copias de los archivos recientes y la carpeta de copias propia del editor.
+
+Damaged
+= Dañada
+
+Delete automatic backups older than
+= Borrar las copias automáticas de más de
+
+Delete them
+= Borrarlas
+
+Deleted {0} automatic backups and freed {1}.
+= Se han borrado {0} copias automáticas y liberado {1}.
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= Se han borrado {0} de {1} copias automáticas y liberado {2}. Las demás no se pudieron borrar y siguen ahí.
+
+Delete…
+= Borrar…
+
+Export backups…
+= Exportar copias…
+
+Export the backups to
+= Exportar las copias a
+
+Exported {0} backups ({1}) to {2}.
+= Se han exportado {0} copias ({1}) a {2}.
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= Para juegos que guardan una partida en varios archivos: copia todos los archivos de {0} como una sola copia ({1} archivos, {2}). Al restaurar, la carpeta vuelve a estar exactamente como estaba.
+
+Free up room
+= Liberar espacio
+
+How much room all backups take, and ways to free some
+= Cuánto espacio ocupan todas las copias y cómo liberar parte
+
+Import backups from which file?
+= ¿Importar copias de qué archivo?
+
+Import backups…
+= Importar copias…
+
+Imported {0} backups ({1} were already here).
+= Se han importado {0} copias ({1} ya estaban aquí).
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= Se han importado {0} copias ({1} ya estaban aquí). Se exportaron desde {2}.
+
+Limit all backups to
+= Limitar todas las copias a
+
+No automatic backups are that old.
+= Ninguna copia automática es tan antigua.
+
+No backups yet. One is made automatically each time you save.
+= Aún no hay copias. Se crea una automáticamente cada vez que guardas.
+
+No limit
+= Sin límite
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= Solo se borran copias automáticas. Las copias con nombre y la copia automática más reciente de cada partida se conservan siempre.
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= Pone todas las copias de esta partida en un archivo zip, para guardar una copia en otro sitio o llevarlas a otro ordenador
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= Devuelve la carpeta entera al estado de esta copia. Antes se copia la carpeta tal como está ahora, así que puedes deshacerlo.
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= Se lee distinto de la partida abierta. Puede estar dañada o ser de otra versión del juego.
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= Lee cada copia de esta partida para asegurarse de que todavía se puede restaurar. No se cambia nada.
+
+Reads fine
+= Se lee bien
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= Se ha restaurado la carpeta entera ({0} archivos escritos, {1} quitados). La carpeta tal como estaba también se ha copiado, así que puedes volver atrás.
+
+The file is empty.
+= El archivo está vacío.
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= Estas copias se guardan en la carpeta de copias propia del editor, nunca en la carpeta de la partida.
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= Esto borra {0} copias automáticas ({1}). No se pueden recuperar.
+
+This folder can't be backed up as a whole: {0}.
+= Esta carpeta no se puede copiar entera: {0}.
+
+This save's backups take {0} ({1} backups).
+= Las copias de esta partida ocupan {0} ({1} copias).
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= Cuando una copia nueva supera el límite, se borran primero las copias automáticas más antiguas de cualquier partida.
+
+Whole save folder
+= Carpeta de la partida entera
+
+Whole save folder ({0} backups)
+= Carpeta de la partida entera ({0} copias)
+
+a whole drive can't be backed up as one save folder
+= no se puede copiar una unidad entera como carpeta de partida
+
+backup name, e.g. before the boss
+= nombre de la copia, p. ej. antes del jefe
+
+choose another file name: that one is the save or one of its backups
+= elige otro nombre de archivo: ese es la partida o una de sus copias
+
+couldn't back up the folder first: {0}
+= no se pudo copiar antes la carpeta: {0}
+
+that file isn't a backups file made by Export backups
+= ese archivo no se creó con «Exportar copias»
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= la copia contiene un archivo que acabaría fuera de la carpeta ({0}), así que no se usó
+
+the backup is damaged: {0}
+= la copia está dañada: {0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= la copia es más grande que cualquier copia de carpeta que crea este programa, así que no se usó
+
+the backups file is damaged: {0}
+= el archivo de copias está dañado: {0}
+
+the folder holds more than {0} files, too many for a save folder
+= la carpeta tiene más de {0} archivos, demasiados para una carpeta de partida
+
+the folder holds more than {0}, too much for a save folder
+= la carpeta tiene más de {0}, demasiado para una carpeta de partida
+
+the folder is nested too deep to be a save folder
+= la carpeta tiene demasiados niveles para ser una carpeta de partida
+
+there are no backups of this save to export
+= no hay copias de esta partida que exportar
+
+this folder holds the editor's own backups
+= esta carpeta contiene las copias propias del editor
+
+this is your home folder, not a save folder
+= esta es tu carpeta personal, no una carpeta de partida
+
+{0} (click to show the backups folder)
+= {0} (haz clic para mostrar la carpeta de copias)
+
+{0} (the {1} backups added before this stay)
+= {0} (las {1} copias añadidas antes se quedan)
+
+{0} (whole folder)
+= {0} (carpeta entera)
+
+{0} GB
+= {0} GB
+
+{0} automatic, {1} named
+= {0} automáticas, {1} con nombre
+
+{0} backups.zip
+= {0} copias.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= {0} cambió mientras se copiaba (puede que el juego esté guardando). Vuelve a intentarlo en un momento.
+
+{0} days
+= {0} días
+
+{0} files, all readable
+= {0} archivos, todos legibles
+
+{0} is too large to import
+= {0} es demasiado grande para importarlo
+
+{0} isn't a folder
+= {0} no es una carpeta
+
+{0} over the limit now.
+= Ahora hay {0} por encima del límite.
+
 # Number boxes, game list, theme and window
 
 Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
@@ -31791,9 +32335,6 @@ No editable values here. Try turning on Rarely needed, or use the Tree view.
 
 Rarely needed values are hidden — turn on Rarely needed to search them too.
 = Los valores poco usados están ocultos — activa Poco usados para buscar también en ellos.
-
-(note: {0})
-= (nota: {0})
 
 Dark or light as your system is set, changing with it.
 = Oscuro o claro según tu sistema, y cambia con él.

@@ -22,12 +22,19 @@ fn esc(s: &str) -> String {
 /// README cell text (a little Markdown) to HTML.
 fn md(s: &str) -> String {
     let mut out = String::new();
-    let (mut em, mut code) = (false, false);
-    for c in esc(s).chars() {
+    let (mut em, mut strong, mut code) = (false, false, false);
+    let escaped = esc(s);
+    let mut chars = escaped.chars().peekable();
+    while let Some(c) = chars.next() {
         match c {
             '`' => {
                 out.push_str(if code { "</code>" } else { "<code>" });
                 code = !code;
+            }
+            '*' if !code && chars.peek() == Some(&'*') => {
+                chars.next();
+                out.push_str(if strong { "</strong>" } else { "<strong>" });
+                strong = !strong;
             }
             '*' if !code => {
                 out.push_str(if em { "</em>" } else { "<em>" });
@@ -203,6 +210,90 @@ fn card_blurb(what: &str) -> String {
     out
 }
 
+/// Splits README cell text (a little Markdown) at semicolons, or with `sentences` after the full
+/// stops that end a sentence, but never inside brackets, `code` or *emphasis*. Pieces are trimmed;
+/// empty ones are left out.
+fn split_top(s: &str, sentences: bool) -> Vec<&str> {
+    const ABBREVIATIONS: [&str; 14] = ["vs", "inc", "dr", "mr", "mrs", "ms", "st", "no", "e.g", "i.e", "etc", "jr", "vol", "approx"];
+    let mut out = vec![];
+    let (mut depth, mut code, mut em, mut strong) = (0i32, false, false, false);
+    let mut start = 0;
+    let b = s.as_bytes();
+    let mut i = 0;
+    while i < b.len() {
+        match b[i] {
+            b'`' => code = !code,
+            b'*' if !code && b.get(i + 1) == Some(&b'*') => {
+                strong = !strong;
+                i += 1;
+            }
+            b'*' if !code => em = !em,
+            b'(' | b'[' if !code => depth += 1,
+            b')' | b']' if !code => depth = (depth - 1).max(0),
+            c if depth == 0 && !code && !em && !strong => {
+                if !sentences && c == b';' {
+                    out.push(&s[start..i]);
+                    start = i + 1;
+                } else if sentences && c == b'.' && b.get(i + 1) == Some(&b' ') && b.get(i + 2).is_some_and(|n| n.is_ascii_uppercase() || *n == b'*' || *n == b'`') {
+                    let word = s[start..i].rsplit(' ').next().unwrap_or("").to_lowercase();
+                    let short = word.chars().count() == 1 || ABBREVIATIONS.contains(&word.as_str());
+                    if !short {
+                        out.push(&s[start..=i]);
+                        start = i + 2;
+                    }
+                }
+            }
+            _ => {}
+        }
+        i += 1;
+    }
+    out.push(&s[start..]);
+    out.into_iter().map(str::trim).filter(|p| !p.is_empty()).collect()
+}
+
+/// "*Party*: …" -> ("*Party*", "…"): a short label before the first colon, with no list or aside in it.
+fn item_label(item: &str) -> Option<(&str, &str)> {
+    let (label, rest) = item.split_once(": ")?;
+    (label.chars().count() < 30 && !label.contains([',', '(', ';', '.']) && !rest.trim().is_empty()).then_some((label, rest.trim()))
+}
+
+/// What a game page says can be edited, as HTML: the first sentence's semicolon-separated parts as
+/// a list (with a label they all share, such as "*Party*:", above it), and any sentences after it
+/// as a note. Text with a single part stays a paragraph.
+fn what_html(what: &str) -> String {
+    // Notes end in a full stop like the sentences before them.
+    let stop = |t: String| if t.ends_with(|c: char| c.is_alphanumeric() || c == ')') { t + "." } else { t };
+    let sentences = split_top(what, true);
+    let Some(first) = sentences.first() else { return String::new() };
+    let first = first.strip_suffix('.').unwrap_or(first);
+    let mut items = split_top(first, false);
+    if items.len() < 2 {
+        return format!("<p>{}</p>", md(&stop(what.trim().to_string())));
+    }
+    let mut lead = String::new();
+    if let Some((label, rest)) = item_label(items[0]).filter(|_| items[1..].iter().all(|i| item_label(i).is_none())) {
+        lead = format!("<p>{}:</p>\n", md(label));
+        items[0] = rest;
+    }
+    let cap = |t: &str| -> String {
+        let word = t.split([' ', ',']).next().unwrap_or("");
+        match t.chars().next() {
+            Some(c) if c.is_ascii_lowercase() && (word.len() > 2 || word == "a" || word == "an") && word.chars().all(|c| c.is_ascii_lowercase()) => c.to_ascii_uppercase().to_string() + &t[1..],
+            _ => t.to_string(),
+        }
+    };
+    let list: String = items.iter().map(|t| format!("<li>{}</li>\n", md(&cap(t.strip_suffix('.').unwrap_or(t))))).collect();
+    let note = stop(sentences[1..].join(" "));
+    let note = if note.is_empty() { String::new() } else { format!("<p>{}</p>", md(&note)) };
+    format!("{lead}<ul>\n{list}</ul>{note}")
+}
+
+/// The short names the app's game search accepts for a game ("gtav gta5"), for the home page's search.
+fn search_keys(name: &str) -> String {
+    let [plain, digits] = crate::games::short_names(name);
+    esc(&if plain == digits { plain } else { format!("{plain} {digits}") })
+}
+
 fn level(g: &GameInfo) -> (&'static str, &'static str) {
     if has_screen(g) {
         ("Game screen", "A screen laid out for this game, with names for its items and values.")
@@ -245,10 +336,12 @@ p,li{max-width:70ch}
 .mock .bar{display:flex;gap:6px;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--line)}.mock .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
 .mock .row{padding:14px 18px;border-bottom:1px solid var(--line)}.mock .row:last-child{border:0}
 .mock .k{display:flex;justify-content:space-between;font-size:.92rem;color:var(--muted)}.mock .k b{color:var(--text);font-weight:700}
-.mock .t{height:8px;border-radius:99px;background:var(--track);margin-top:10px;position:relative;overflow:hidden}
-.mock .t::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--accent);border-radius:99px;animation:fill 1.1s .15s cubic-bezier(.2,.8,.2,1) both}
-@keyframes fill{from{width:0}}
-@media (prefers-reduced-motion:reduce){.mock .t::after{animation:none}html{scroll-behavior:auto}.btn{transition:none}}
+.hero-shot{margin:0;min-width:0}.hero-shot .frame{position:relative;aspect-ratio:640/540;overflow:hidden;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);background:var(--bg2)}
+.hero-shot .slide{position:absolute;inset:0;display:block;opacity:0;visibility:hidden;transition:opacity .6s,visibility 0s .6s}.hero-shot .slide.on{opacity:1;visibility:visible;transition:opacity .6s}
+.hero-shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}.hero-shot .slide:focus-visible{outline:3px solid var(--focus);outline-offset:-3px;border-radius:var(--r)}
+.hero-shot figcaption{margin-top:10px;color:var(--muted);font-size:.9rem}.hero-shot .picks{display:flex;flex-wrap:wrap;gap:6px}.hero-shot [hidden]{display:none}
+.hero-shot button{font:600 .85rem/1 system-ui,sans-serif;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 14px;min-height:36px;cursor:pointer}.hero-shot button:hover{color:var(--text);border-color:var(--accent)}.hero-shot button[aria-pressed="true"]{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}.hero-shot button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.hero-shot .slide,.hero-shot .slide.on{transition:none}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 22px;margin:16px 0}
 code{background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.88em;word-break:break-all}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;padding:0;list-style:none}
@@ -263,13 +356,18 @@ details#all[open]>summary::before{transform:rotate(90deg)}details#all>summary:ho
 details.letter{margin:10px 0;border-top:1px solid var(--line)}details.letter>summary{cursor:pointer;font:800 1.2rem var(--head);padding:12px 0;list-style:none}details.letter>summary::before{content:"\25B8";display:inline-block;width:1.2em;color:var(--accent);transition:transform .15s}details.letter[open]>summary::before{transform:rotate(90deg)}details.letter>summary span{color:var(--muted);font:400 .95rem system-ui}
 #q{width:100%;max-width:440px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:1rem}
 ol li,ul li{margin:6px 0}
+.what>:first-child{margin-top:0}.what>:last-child{margin-bottom:0}.what>p{margin:0 0 6px}.what ul{margin:0;padding-left:1.3em}.what li{margin:5px 0}.what li::marker{color:var(--accent)}.what ul+p{margin:14px 0 0;color:var(--muted);font-size:.95rem}
+h2 .ver{display:block;font:600 .85rem/1.4 system-ui,sans-serif;color:var(--muted);letter-spacing:.02em;margin-bottom:4px}
+h1,h2,h3,[id]{scroll-margin-top:84px}
+@media (min-width:761px) and (max-width:1100px){h1,h2,h3,[id]{scroll-margin-top:112px}}
 @media (max-width:600px){.shot{max-width:340px}}
 .feature{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:8px 24px 16px;margin:8px 0 24px}.feature h2{margin-top:16px}
 .dl-more{margin:4px 0 0;font-size:.92rem;color:var(--muted);line-height:1.9}.dl-more span{font-weight:600;margin-right:4px}.dl-more a{white-space:nowrap}
 .shot{margin:32px auto;max-width:760px}.shot img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 .gshot{margin:24px 0}.gshot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.gshot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-size:.9rem}footer .in{padding:24px 20px}
-@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}}
+@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}h1,h2,h3,[id]{scroll-margin-top:12px}}
+@media (min-width:360px) and (max-width:760px){header .in{position:relative}header .theme-btn{position:absolute;top:8px;right:20px}}
 "#;
 
 const DOWNLOAD_BUTTON: &str = r#"<a class="btn" href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download for free</a>"#;
@@ -372,11 +470,11 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a><button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">Light theme</button></nav></div></header>
+<header><div class="in"><a class="brand" href="{root}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}whats-new/">What's new</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a><button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">Light theme</button></nav></div></header>
 <main>
 {body}
 </main>
-<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a></div></footer>
+<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{root}whats-new/">What's new</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a></div></footer>
 {script}
 <script>(function(){{var b=document.getElementById("theme-toggle"),h=document.documentElement,m=document.querySelector('meta[name="theme-color"]');if(!b)return;function paint(){{var l=h.getAttribute("data-theme")==="light";b.textContent=l?"Dark theme":"Light theme";b.setAttribute("aria-label",l?"Switch to dark theme":"Switch to light theme");if(m)m.setAttribute("content",l?"#eef1f8":"#0d111f")}}b.addEventListener("click",function(){{var l=h.getAttribute("data-theme")==="light";if(l)h.removeAttribute("data-theme");else h.setAttribute("data-theme","light");try{{localStorage.setItem("use-theme",l?"dark":"light")}}catch(e){{}}paint()}});paint()}})();</script>
 </body>
@@ -443,7 +541,9 @@ const WHY: &str = r#"<ul>
 <li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
-<li><strong>Xbox app and PC Game Pass.</strong> Saves hidden in the Xbox app's container are listed under the names the game gave them and open with the same screens as the Steam saves.</li>
+<li><strong>Xbox app and PC Game Pass.</strong> Saves hidden in the Xbox app's container are listed under the names the game gave them and open with the same screens as the Steam saves. <em>Copy to the Steam version</em> puts a copy where the same game's Steam version looks for it, backing up any Steam save it replaces.</li>
+<li><strong>Who is in each save.</strong> <em>Find my game's saves</em> shows the characters and levels of Souls games and Diablo II, a Pokémon trainer's name and play time, and what each slot of a multi-slot save holds.</li>
+<li><strong>Copy a slot.</strong> Duplicate an Elden Ring character or a slot of Final Fantasy VII, Super Mario 64, Ocarina of Time, A Link to the Past, Super Metroid, Chrono Trigger or Final Fantasy VI, read back and backed up before it's written.</li>
 <li><strong>Unity PlayerPrefs.</strong> Coins and unlocks that Unity games keep in the Windows registry (or prefs files on Linux and macOS) open by name and are written back on save.</li>
 <li><strong>Flash and Haxe saves.</strong> Flash and AIR <code>.sol</code> files and the Haxe saves of OpenFL and HaxeFlixel games (Friday Night Funkin' among them) open with every value by name.</li>
 <li><strong>Emulator memory cards.</strong> PlayStation and PlayStation 2 memory card images open one save at a time and are written back into the card, with the PS2 card's error-correction codes made again. Single saves exported by cheat devices and PC tools (.mcs, .psu, .max, .cbs, .xps and PS3 .psv) open too and are packed back in their own format.</li>
@@ -451,7 +551,10 @@ const WHY: &str = r#"<ul>
 <li><strong>Find a value, step by step.</strong> On a game it doesn't know, a short guide walks you through finding a number and changing it, and the search can refine by itself each time the game saves.</li>
 <li><strong>Your own templates.</strong> Name the values you found and press <em>Use for every save</em>, or write a small JSON file saying where each value is; matching saves then open as a list of those values, with the checksum kept right. Names and templates are easy to share.</li>
 <li><strong>Made for phones too.</strong> On a phone-size screen the toolbar is one line, and a game screen's sections are tabs that wrap onto extra lines, marked where you made changes.</li>
-<li><strong>Bulk edit and presets.</strong> Tick many values and set, add to or multiply them all at once; keep a set of changes as a preset and make it again on another save or slot.</li>
+<li><strong>Pinned values.</strong> Pin the values you change most and they stay at the top of the list for every save of that game; saves without a game screen also get a <em>Common edits</em> group with the money, level, experience and item counts it finds by name.</li>
+<li><strong>Your call when it guesses wrong.</strong> <em>File &rsaquo; Open as</em> opens a file again without the game screen, as the unpacked data, as text or as its own bytes.</li>
+<li><strong>Choose what gets saved.</strong> The <em>Save changes?</em> list has a tick box on each change: untick one to leave it out of this save, and Undo brings it back.</li>
+<li><strong>Bulk edit and presets.</strong> Tick many values and set, add to or multiply them all at once; keep a set of changes as a preset and make it again on another save or slot. A few ready-made presets (such as max gold for RPG Maker MV / MZ) come with the program and only ever raise numbers.</li>
 <li><strong>Console cheat patches.</strong> About 2,400 PlayStation 1 to 4, PSP, Vita and Dreamcast games have ready-made cheats from the Apollo patch collection built in: pick the codes and apply them. Encrypted saves from about 80 PS3, PS4, PSP and Vita games open already decrypted, and are encrypted again on save.</li>
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
 <li><strong>Sega Saturn saves.</strong> Single <code>.bup</code>, <code>.sro</code>, <code>.xml</code>, <code>.b64</code> and <code>.cms</code> saves, and whole backup RAM images from Mednafen, Beetle, Yabause, Kronos and SAROO, one save at a time.</li>
@@ -463,7 +566,8 @@ const WHY: &str = r#"<ul>
 <li><strong>Never writes over a newer save.</strong> If the game or a cloud sync saved the file after you opened it (even with the same size and time), saving stops and asks (reload, or save anyway with the newer file backed up first).</li>
 <li><strong>Japanese, Chinese and Korean names.</strong> Shown with your computer's own fonts in the downloaded app.</li>
 <li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
-<li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code> and <code>encode</code> work from scripts, with the same checks and backups as the window.</li>
+<li><strong>Command line too.</strong> <code>info</code>, <code>list</code>, <code>get</code>, <code>set</code>, <code>decode</code>, <code>encode</code>, <code>backup</code>, <code>restore</code> and <code>apply</code> (a preset) work from scripts and Steam Deck launch options, with the same checks and backups as the window.</li>
+<li><strong>Portable mode.</strong> An empty <code>portable</code> file next to the program keeps settings, templates and presets in a folder beside it, for a USB stick or a games drive.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>"#;
 
@@ -485,9 +589,13 @@ fn save_manager_body() -> String {
 <li><strong>Compare.</strong> See what changed between a backup and the current save, byte by byte or value by value.</li>
 <li><strong>Start a new game, keep the old one.</strong> Many games only have one save. <em>Back up and start a new game…</em> makes a named backup and then moves the current save out of the way, so the game starts fresh. Restore the backup whenever you want your old game back.</li>
 <li><strong>Save gone?</strong> <em>Recent files</em> offers <em>Restore a backup…</em> even when the save itself no longer exists.</li>
+<li><strong>Whole save folders.</strong> For games that keep one save as several files or a folder, <em>Whole save folder</em> in the save manager backs up every file in the save's folder as one backup, and restoring puts the folder back exactly as it was (the folder as it is now is backed up first). These backups are kept in the editor's own folder, never in the game's save folder.</li>
+<li><strong>Check my backups.</strong> <em>Check backups</em> reads every backup of the open save and marks any that are damaged or read differently from the save, so you know they can still be restored.</li>
+<li><strong>Move them to a new PC.</strong> <em>Export backups…</em> puts every backup of a save into one zip file, and <em>Import backups…</em> adds them back on another computer. Importing never replaces a backup or touches the save.</li>
+<li><strong>See and limit the space.</strong> <em>Backups › Backup space…</em> shows how much room the backups of every save take, deletes automatic backups older than an age you pick, and can keep all backups under a size limit. Named backups and the newest automatic backup of each save are always kept.</li>
 </ul>
 <h2>Where the backups are kept</h2>
-<div class="card"><p>Next to each save, in a folder of its own: <code>Save Editor Backups/&lt;file name&gt;/</code>. The backups have a <code>.sebak</code> extension, so no game loads them or writes over them. If the save's folder can't be written to, they go to the editor's own folder instead. You can also choose another folder, such as a synced folder or another drive.</p></div>
+<div class="card"><p>Next to each save, in a folder of its own: <code>Save Editor Backups/&lt;file name&gt;/</code>. The backups have a <code>.sebak</code> extension, so no game loads them or writes over them. If the save's folder can't be written to, they go to the editor's own folder instead. Saves from the Xbox app (PC Game Pass) are backed up in the editor's own folder, so nothing is added to the folder the Xbox app syncs. You can also choose another folder, such as a synced folder or another drive.</p></div>
 <h2>Why you can trust it with your saves</h2>
 <ul>
 <li>Every backup and every restore is written to a temporary file, flushed to disk, read back and compared before it replaces anything.</li>
@@ -496,11 +604,70 @@ fn save_manager_body() -> String {
 <li>A save in a Steam Cloud, OneDrive, Dropbox, Google Drive, iCloud or Ubisoft Connect folder is labelled, with a reminder to choose the local copy if the service asks.</li>
 <li>Everything stays on your computer. Nothing is uploaded.</li>
 </ul>
-<p>The save manager is part of the downloaded app for Windows and Linux. <a href="../{WEB_APP}">The browser version</a> can edit saves but can't keep backups, so keep your own copy when you use it.</p>
+<p>The save manager is part of the downloaded app for Windows, macOS and Linux. <a href="../{WEB_APP}">The browser version</a> can edit saves but can't keep backups, so keep your own copy when you use it.</p>
 <p><a href="../#games">See all {n} supported games</a></p>
 "#,
         n = GAMES.len(),
     )
+}
+
+const WHATS_NEW_DESC: &str = "What changed in each version of Universal Save Editor, the free, offline save editor: new game screens, features and fixes, newest first.";
+
+/// The "What's new" page, from CHANGELOG.md: one section per version, headed by its one-line
+/// summary (the `> ` line) where it has one, with its list of changes.
+fn whats_new_body(log: &str) -> String {
+    let mut out = format!(
+        r#"<section class="hero game"><div><h1>What's new</h1>
+<p class="lead">What changed in each version of Universal Save Editor, newest first. Every version is free, and the downloads and full release notes are on the <a href="{RELEASES}">releases page</a>.</p>
+<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
+"#
+    );
+    for block in log.split("\n## ").skip(1) {
+        let mut lines = block.lines();
+        let version = lines.next().unwrap_or("").trim();
+        if version.is_empty() {
+            continue;
+        }
+        let rest: Vec<&str> = lines.collect();
+        let id = format!("v{}", version.replace(|c: char| !c.is_ascii_alphanumeric(), "-"));
+        match rest.iter().find_map(|l| l.strip_prefix("> ")) {
+            Some(summary) => {
+                let _ = writeln!(out, r#"<h2 id="{id}"><span class="ver">Version {}</span>{}</h2>"#, esc(version), md(summary.trim()));
+            }
+            None => {
+                let _ = writeln!(out, r#"<h2 id="{id}">Version {}</h2>"#, esc(version));
+            }
+        }
+        let mut open = false;
+        for l in rest.iter().map(|l| l.trim_end()) {
+            if let Some(item) = l.strip_prefix("- ") {
+                if !open {
+                    out.push_str("<ul>\n");
+                    open = true;
+                }
+                let _ = writeln!(out, "<li>{}</li>", md(item.trim()));
+                continue;
+            }
+            if l.starts_with("> ") || (l.is_empty() && open) {
+                continue;
+            }
+            if open {
+                out.push_str("</ul>\n");
+                open = false;
+            }
+            if let Some(h) = l.strip_prefix("### ") {
+                let _ = writeln!(out, "<h3>{}</h3>", md(h.trim()));
+            } else if !l.is_empty() {
+                let _ = writeln!(out, "<p>{}</p>", md(l.trim()));
+            }
+        }
+        if open {
+            out.push_str("</ul>\n");
+        }
+    }
+    let _ = write!(out, r#"<p><a href="{RELEASES}">All versions and release notes</a> · <a href="../#games">See all {} supported games</a></p>
+"#, GAMES.len());
+    out
 }
 
 const POKEMON_ITEM: &str = r#"<li><a href="pokemon-save-editor/"><span>Pokémon (Gen 1-9)</span><small>Every mainline game, Red and Blue to Scarlet and Violet: trainer, money, badges, bag, party and PC boxes</small><span class="tag screen">Game screen</span></a></li>"#;
@@ -739,6 +906,41 @@ fn shot_html(slug_dir: &str, game: &str, what: Option<&str>) -> String {
     )
 }
 
+/// Game screens shown in turn beside the home page's heading: (picture name, game, page slug).
+const HERO_SHOTS: &[(&str, &str, &str)] = &[
+    ("elden-ring", "Elden Ring", "elden-ring-save-editor"),
+    ("stardew-valley", "Stardew Valley", "stardew-valley-save-editor"),
+    ("the-witcher-3", "The Witcher 3", "the-witcher-3-save-editor"),
+];
+
+/// The home page's hero pictures: real game screens from `docs/shots/`, cut to one frame size so
+/// nothing moves while they load. Without the script only the first shows; the others are fetched
+/// once the page has loaded, and turn every few seconds unless the visitor prefers less motion.
+fn hero_shots_html() -> String {
+    let heights = shot_heights();
+    let mut slides = String::new();
+    let mut picks = String::new();
+    for (i, (shot, game, page)) in HERO_SHOTS.iter().enumerate() {
+        let h = heights.get(*shot).copied().unwrap_or(SHOT_W) * 640 / SHOT_W;
+        let first = i == 0;
+        let _ = write!(
+            slides,
+            r#"<a href="{page}/" class="slide{on}"{hide}><img {src}="shots/{shot}-640.webp" {set}="shots/{shot}-640.webp 640w, shots/{shot}-{SHOT_W}.webp {SHOT_W}w" sizes="(min-width: 1040px) 420px, (min-width: 761px) 42vw, calc(100vw - 40px)" width="640" height="{h}" alt="The {game} screen in Universal Save Editor, with a save open" decoding="async"{prio}></a>"#,
+            on = if first { " on" } else { "" },
+            hide = if first { "" } else { r#" tabindex="-1" aria-hidden="true""# },
+            src = if first { "src" } else { "data-src" },
+            set = if first { "srcset" } else { "data-srcset" },
+            prio = if first { r#" fetchpriority="high""# } else { "" },
+        );
+        let _ = write!(picks, r#"<button type="button" aria-pressed="{first}">{game}</button>"#);
+    }
+    format!(
+        r#"<figure class="hero-shot" id="hero-shot"><div class="frame">{slides}</div><figcaption><span class="now">{name} in the editor</span><span class="picks" hidden>{picks}</span></figcaption></figure>
+<script>(function(){{var f=document.getElementById('hero-shot');if(!f)return;var s=f.querySelectorAll('.slide'),b=f.querySelectorAll('.picks button'),at=0,timer=null;f.querySelector('.picks').hidden=false;f.querySelector('.now').hidden=true;function load(){{s.forEach(function(a){{var i=a.querySelector('img');if(i.dataset.src){{i.srcset=i.dataset.srcset;i.src=i.dataset.src;i.removeAttribute('data-src')}}}})}}function show(k){{at=k;s.forEach(function(a,j){{var on=j===k;a.classList.toggle('on',on);if(on){{a.removeAttribute('tabindex');a.removeAttribute('aria-hidden')}}else{{a.setAttribute('tabindex','-1');a.setAttribute('aria-hidden','true')}}}});b.forEach(function(x,j){{x.setAttribute('aria-pressed',j===k?'true':'false')}})}}b.forEach(function(x,j){{x.addEventListener('click',function(){{load();clearInterval(timer);timer=null;show(j)}})}});var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;function start(){{load();if(still)return;timer=setInterval(function(){{if(!f.matches(':hover,:focus-within'))show((at+1)%s.length)}},6000)}}if(document.readyState==='complete')start();else window.addEventListener('load',start)}})()</script>"#,
+        name = HERO_SHOTS[0].1,
+    )
+}
+
 /// Common questions about one game's saves, answered only from what the catalog and the
 /// supported-games list say about that game.
 fn faq_html(g: &GameInfo, what: Option<&str>) -> String {
@@ -769,7 +971,7 @@ fn faq_html(g: &GameInfo, what: Option<&str>) -> String {
     q(
         format!("Can I edit my {n} save in the browser?"),
         if needs_app(g) {
-            "Not this one: the browser version can't open this game's saves. Use the downloaded app for Windows or Linux.".to_string()
+            "Not this one: the browser version can't open this game's saves. Use the downloaded app for Windows, macOS or Linux.".to_string()
         } else {
             format!(r#"Yes. <a href="../{WEB_APP}">The browser version</a> runs on your own computer and never uploads the save. Open the file yourself and keep a copy, because saving downloads the edited file instead of backing up the old one."#)
         },
@@ -972,7 +1174,7 @@ fn build_site() {
             let blurb = description(g, &rows).as_deref().map(card_blurb).unwrap_or_default();
             let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
             let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
-            let item = format!(r#"<li><div><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></div></li>"#, esc(g.name));
+            let item = format!(r#"<li data-k="{}"><div><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></div></li>"#, search_keys(g.name), esc(g.name));
             for c in consoles {
                 let at = crate::games::CONSOLES.iter().position(|(n, _)| *n == c).unwrap_or(usize::MAX);
                 let (count, cards) = console_cards.entry(at).or_default();
@@ -1048,12 +1250,12 @@ fn build_site() {
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">{lvl}</span>{confirmed}</div>
 <a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
 <h2>What you can edit</h2>
-<div class="card">{what}</div>
+<div class="card what">{what}</div>
 {shot}<h2>Where {n} keeps its saves</h2>
 <div class="card"><p>Folder: <code>{folder}</code></p><p>Files: <code>{files}</code></p><p>You don't need to find it yourself: choose <em>Find my game's saves</em> in the editor, pick {n}, and it lists the saves it finds. (The browser version can't look through your folders: open the file from this folder yourself.)</p>{browser}</div>
 <h2>How to edit your {n} save</h2>
 <ol>
-<li><a href=#download>Download Universal Save Editor</a> for Windows or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
+<li><a href=#download>Download Universal Save Editor</a> for Windows, macOS or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
 <li>Close the game, so it doesn't write over your changes.</li>
 <li>Choose <em>Find my game's saves</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
@@ -1072,7 +1274,7 @@ fn build_site() {
             many = GAMES.len() / 10 * 10,
             total = GAMES.len(),
             n = esc(g.name),
-            what = what.as_deref().map(md).unwrap_or_else(|| esc(lvl_note)),
+            what = what.as_deref().map(what_html).unwrap_or_else(|| format!("<p>{}</p>", esc(lvl_note))),
             folder = esc(g.folder),
             browser = if needs_app(g) { "<p><strong>Use the downloaded app for this game:</strong> the browser version can't open its saves.</p>" } else { "" },
             files = esc(g.files),
@@ -1086,7 +1288,7 @@ fn build_site() {
         let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
         let blurb_html = if blurb.is_empty() { String::new() } else { format!("<small>{}</small>", esc(&blurb)) };
         let first = g.name.chars().next().and_then(|c| c.to_uppercase().next()).filter(|c| c.is_alphabetic());
-        let item = format!(r#"<li><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, esc(g.name));
+        let item = format!(r#"<li data-k="{}"><a href="{s}/"><span>{}</span>{blurb_html}<span class="{tag_class}">{lvl}</span></a></li>"#, search_keys(g.name), esc(g.name));
         if let Some(gen) = genre_of(g.name) {
             genre_items.entry(gen.0).or_default().push((g.name.to_lowercase(), item.replace(r#"<a href=""#, r#"<a href="../"#)));
         }
@@ -1126,10 +1328,10 @@ fn build_site() {
         r#"<section class="hero"><div><h1>Free offline save editor for {many}+ ({n}) games</h1>
 <p class="lead">Universal Save Editor is a save editor and save manager for PC games. Open a save file, change money, levels, items and stats, and save it back. It runs on your own computer: no uploads, no accounts, no rate limits, and the downloaded app backs up every save before changing it. It's free, and always will be.</p>
 <div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span><span class="badge">Windows · Linux · macOS · Browser</span></div>
-<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a></div><div class="mock" aria-hidden="true"><div class="bar"><i></i><i></i><i></i></div><div class="row"><div class="k"><span>Gold</span><b>99,999</b></div><div class="t" style="--w:92%"></div></div><div class="row"><div class="k"><span>Level</span><b>60</b></div><div class="t" style="--w:60%"></div></div><div class="row"><div class="k"><span>Crafting materials</span><b>Max</b></div><div class="t" style="--w:100%"></div></div></div></section>
+<a class="btn" href="{DOWNLOAD}">Download for free</a><a class="btn alt" href="{WEB_APP}">Use it in your browser</a></div>{hero_shots}</section>
 <section class="feature"><div><h2>Save manager built in</h2><p>Every time you save, the editor backs up the file first, automatically. Make a named backup before a boss or a big choice, restore any backup with one click, compare two of them, or put a save aside to start a new game and come back to it later. Backups stay next to your saves, on your computer.</p><a class="btn alt" href="save-manager/">How the save manager works</a></div></section>
 <div class="card"><strong>Don't want to run a program?</strong> <a href="{WEB_APP}">The browser version</a> is the same editor, running inside the web page on your own computer: your save is never uploaded. It can't search your folders for saves or back them up for you, so open the file yourself and keep a copy; saving downloads the edited file. A few saves need the downloaded app (SQLite saves, and Palworld or Hogwarts Legacy saves).</div>
-<p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-&lt;version&gt;-linux-x64.tar.gz</code> (Linux) or <code>certutil -hashfile UniversalSaveEditor-&lt;version&gt;-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here. If Windows shows "Windows protected your PC", the file is new and unsigned, not harmful: click <em>More info</em>, then <em>Run anyway</em>.</p>
+<p><strong>Verify your download:</strong> every release has a <code>SHA256SUMS.txt</code>. Compare it with <code>sha256sum UniversalSaveEditor-&lt;version&gt;-linux-x64.tar.gz</code> (Linux), <code>shasum -a 256 UniversalSaveEditor-&lt;version&gt;-macos.zip</code> (macOS) or <code>certutil -hashfile UniversalSaveEditor-&lt;version&gt;-windows-x64.exe SHA256</code> (Windows). The builds are not code-signed, so Windows may warn about a new file; a matching checksum shows it is the one published here. If Windows shows "Windows protected your PC", the file is new and unsigned, not harmful: click <em>More info</em>, then <em>Run anyway</em>.</p>
 <p><strong>Install with Scoop (Windows):</strong> <code>scoop install https://raw.githubusercontent.com/Lucasifium/universal-save-editor/main/packaging/scoop/universal-save-editor.json</code> installs it with a Start menu shortcut and checks the download for you; <code>scoop update universal-save-editor</code> gets new releases.</p>
 <figure class="shot"><picture><source media="(max-width: 600px)" type="image/webp" srcset="screenshot-phone.webp" width="780" height="1500"><source media="(max-width: 600px)" srcset="screenshot-phone.png" width="780" height="1500"><source type="image/webp" srcset="screenshot.webp"><img src="screenshot.png" width="2000" height="1322" alt="The editor with a save open: named values in groups, with number fields, text fields and switches" loading="lazy" decoding="async"></picture><figcaption>A save open in the editor: every value has a name, and numbers, text and switches are edited in place.</figcaption></figure>
 <h2>What is a save editor?</h2>
@@ -1153,10 +1355,11 @@ fn build_site() {
 <div id="list">{cards}</div>
 </details>
 <p class="empty" id="none">No game matches. The editor can still open saves of games that aren't listed: try it, or <a href="{REPO}/issues">ask for the game</a>.</p>
-<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});document.getElementById('q').addEventListener('input',function(){{var q=this.value.toLowerCase().trim(),n=0;if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var hit=li.querySelector('span').textContent.toLowerCase().indexOf(q)>=0;li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block'}})</script>
+<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});function fold(s){{s=s.toLowerCase();return s.normalize?s.normalize('NFD').replace(/[̀-ͯ]/g,''):s}}document.getElementById('q').addEventListener('input',function(){{var q=fold(this.value).trim(),n=0,words=q.split(/\s+/),short=q.replace(/[^a-z0-9]/g,'');if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var name=fold(li.querySelector('span').textContent),keys=fold(li.getAttribute('data-k')||'').split(' ');var hit=words.every(function(w){{return name.indexOf(w)>=0}})||(short.length>=2&&keys.some(function(k){{return k.indexOf(short)>=0}}));li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block'}})</script>
 "#,
         n = GAMES.len(),
         newest = newest_html(&newest_games(&skip, 10)),
+        hero_shots = hero_shots_html(),
         genre_links = GENRES.iter().filter(|g| genre_items.contains_key(g.0)).map(|g| format!(r#"<li><a href="{}/"><span>{}</span><small>{} games</small></a></li>"#, g.1, g.2, genre_items[g.0].len())).collect::<String>(),
     );
     std::fs::write(out.join("index.html"), page(&format!("Free Offline Save Editor for {many}+ ({}) Games | Universal Save Editor", GAMES.len()), &desc, "", &body, &home_schema(&desc, &questions))).unwrap();
@@ -1165,6 +1368,7 @@ fn build_site() {
     for (path, title, desc, body, crumb) in [
         ("save-manager/", "Save Manager for PC Game Saves | Universal Save Editor", SAVE_MANAGER_DESC.to_string(), save_manager_body(), "Save manager"),
         ("pokemon-save-editor/", "Pokémon Save Editor (Gen 1-9) | Universal Save Editor", POKEMON_DESC.to_string(), pokemon_body(&rows, &pages), "Pokémon save editor"),
+        ("whats-new/", "What's New in Universal Save Editor", WHATS_NEW_DESC.to_string(), whats_new_body(include_str!("../CHANGELOG.md")), "What's new"),
     ] {
         let dir = out.join(path.trim_end_matches('/'));
         std::fs::create_dir_all(&dir).unwrap();
@@ -1296,4 +1500,89 @@ fn game_pictures_stay_small() {
 fn newest_games_come_from_added_registry_lines() {
     let log = "@@commit\n+    game!(\"B\", \"x\"),\n+    game!(\"A\", \"y\"),\n-    game!(\"C\", \"old\"),\n+    game!(\"C\", \"new\"),\n@@commit\n+    game!(\"A\", \"y\"),\n+    game!(\"D\", \"z\"),\n";
     assert_eq!(added_names(log), ["A", "B", "D"]);
+}
+
+/// Tags in `html` open and close in order (only the inline ones the README text produces).
+#[cfg(test)]
+fn tags_balanced(html: &str) -> bool {
+    let mut stack: Vec<&str> = vec![];
+    for part in html.split('<').skip(1) {
+        const TRACKED: [&str; 6] = ["em", "strong", "code", "p", "ul", "li"];
+        let tag = part.split(['>', ' ']).next().unwrap_or("");
+        if let Some(close) = tag.strip_prefix('/').filter(|c| TRACKED.contains(c)) {
+            if stack.pop() != Some(close) {
+                return false;
+            }
+        } else if TRACKED.contains(&tag) {
+            stack.push(tag);
+        }
+    }
+    stack.is_empty()
+}
+
+/// Every game page's "What you can edit" comes out whole: each list item has text, closes its
+/// brackets and tags, and a text with one part stays a paragraph.
+#[test]
+fn what_lists_are_well_formed() {
+    let rows = readme_rows();
+    let mut lists = 0;
+    for g in GAMES.iter().filter(|g| crate::games::consoles_of(g.name).is_empty()) {
+        let Some(what) = description(g, &rows) else { continue };
+        let html = what_html(&what);
+        assert!(tags_balanced(&html), "{}: tags don't close in {html}", g.name);
+        if html.contains("<ul>") {
+            lists += 1;
+            let items: Vec<&str> = html.split("<li>").skip(1).map(|i| i.split("</li>").next().unwrap_or("")).collect();
+            assert!(items.len() >= 2, "{}: a list of one item", g.name);
+            for i in items {
+                let text: String = i.split('<').enumerate().map(|(k, p)| if k == 0 { p } else { p.split_once('>').map_or("", |x| x.1) }).collect();
+                assert!(text.chars().any(char::is_alphanumeric), "{}: empty list item in {html}", g.name);
+                assert_eq!(text.matches('(').count(), text.matches(')').count(), "{}: brackets don't close in {i:?}", g.name);
+                assert!(tags_balanced(i), "{}: tags don't close in {i:?}", g.name);
+                assert!(!i.starts_with([' ', ';', ',', '.']) && !i.ends_with([';', ',']), "{}: item {i:?}", g.name);
+            }
+        } else {
+            let first = split_top(&what, true);
+            assert!(first.first().is_none_or(|f| split_top(f, false).len() < 2), "{}: semicolons but no list", g.name);
+        }
+    }
+    assert!(lists > 100, "only {lists} pages have a list");
+}
+
+#[test]
+fn what_text_splits_at_top_level_only() {
+    let html = what_html("*Party*: gold (and gems; rubies); *Bag*: *level* and `a;b` codes; vs. mode. The save is packed again (checked)");
+    // Each part keeps its own label when there are several.
+    assert_eq!(html, "<ul>\n<li><em>Party</em>: gold (and gems; rubies)</li>\n<li><em>Bag</em>: <em>level</em> and <code>a;b</code> codes</li>\n<li>vs. mode</li>\n</ul><p>The save is packed again (checked).</p>");
+    // A label every item falls under is shown once, above the list.
+    assert_eq!(what_html("*Party*: gold; levels"), "<p><em>Party</em>:</p>\n<ul>\n<li>Gold</li>\n<li>Levels</li>\n</ul>");
+    assert_eq!(what_html("Gold and levels (all of them)"), "<p>Gold and levels (all of them).</p>");
+    assert_eq!(what_html("gold; a key"), "<ul>\n<li>Gold</li>\n<li>A key</li>\n</ul>");
+    assert_eq!(md("a **Max** button and *this*"), "a <strong>Max</strong> button and <em>this</em>");
+}
+
+#[test]
+fn whats_new_has_each_version() {
+    let log = "# Changelog\n\nIntro.\n\n## 1.1.0\n\n> Faster *saving*\n\n- One\n- Two `x`\n\n- Three\n\n### Fixed\n- Four\n\n## 1.0.0\nEarlier release.\n";
+    let html = whats_new_body(log);
+    assert!(html.contains(r#"<h2 id="v1-1-0"><span class="ver">Version 1.1.0</span>Faster <em>saving</em></h2>"#), "{html}");
+    assert!(html.contains("<ul>\n<li>One</li>\n<li>Two <code>x</code></li>\n<li>Three</li>\n</ul>\n<h3>Fixed</h3>\n<ul>\n<li>Four</li>\n</ul>"), "{html}");
+    assert!(html.contains("<h2 id=\"v1-0-0\">Version 1.0.0</h2>\n<p>Earlier release.</p>"), "{html}");
+    assert!(!html.contains("Intro."));
+    let real = whats_new_body(include_str!("../CHANGELOG.md"));
+    for l in real.lines() {
+        assert!(tags_balanced(l) || !(l.starts_with("<li>") || l.starts_with("<p>") || l.starts_with("<h")), "{l}");
+    }
+    assert!(tags_balanced(&real));
+    assert!(real.contains(&format!("Version {}", env!("CARGO_PKG_VERSION"))), "CHANGELOG.md has no section for this version");
+}
+
+#[test]
+fn home_search_keys_are_the_apps_short_names() {
+    assert_eq!(search_keys("Grand Theft Auto V"), "gtav gta5");
+    assert_eq!(search_keys("Baldur's Gate 3"), "bg3");
+    for (shot, game, page) in HERO_SHOTS {
+        assert!(shot_heights().contains_key(*shot), "no picture for {shot}");
+        assert!(GAMES.iter().any(|g| format!("{}-save-editor", slug(&search_name(g.name))) == *page && g.name.starts_with(game)), "no page {page} for {game}");
+    }
 }

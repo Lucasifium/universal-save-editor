@@ -60,9 +60,6 @@ If the game keeps them somewhere else (another drive, a cloud folder), use Open�
 ‹ All games
 = ‹ すべてのゲーム
 
-Copy character
-= キャラクターをコピー
-
 Copy
 = コピー
 
@@ -290,12 +287,6 @@ Compare with another save…
 
 Open another file in this archive
 = このアーカイブ内の別のファイルを開く
-
-Copy character to another slot…
-= キャラクターを別のスロットにコピー…
-
-Duplicate an Elden Ring character, e.g. to try something out on the copy
-= Elden Ring のキャラクターを複製します。コピーで試したいときなどに。
 
 Save or revert your changes first.
 = 先に変更を保存するか破棄してください。
@@ -1168,7 +1159,6 @@ Advanced
 
 Opened {0} ({1}) — {2}.
 = {0} を開きました（{1}）— {2}。
-
 
 Filter the tree by name or value  (Ctrl+F)
 = 名前または値でツリーを絞り込み  (Ctrl+F)
@@ -9986,8 +9976,8 @@ Skill test modifier (%)
 Skill trees
 = スキルツリー
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= スキルと性格は0～1000で、100ごとにゲームのバーの1目盛りになります。SimはIDで表示されます（名前はキャラクターファイルにあります）。タウニーと初期ファミリーは、「値」タブで「詳細」をオンにした際の「その他のSim」にあります。ゲームでは未検証です。
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= スキルと性格は0～1000で、100ごとにゲームのバーの1目盛りになります。SimはIDで表示されます（名前はキャラクターファイルにあります）。タウニーと初期ファミリーは、「値」タブで「めったに使わない値」をオンにした際の「その他のSim」にあります。ゲームでは未検証です。
 
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = スキルは0～6です。ADRは6種類の危険物クラスをビットで表します（63＝すべて）。経験値でドライバーレベルが決まり、ゲームがロード時に計算します。
@@ -12382,8 +12372,8 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste。時間は100ナノ秒単位のティックで表します(1秒=10,000,000)。
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= スキルと性格は0～1000で、100ごとにゲームのバーの1目盛りになります。Simにはファイル名が付きます（user00012はCharacters\User00012.iff）。タウニーと訪問者は、「値」タブで「詳細」をオンにした際の「その他のSim」にあります。ゲームでは未検証です。
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= スキルと性格は0～1000で、100ごとにゲームのバーの1目盛りになります。Simにはファイル名が付きます（user00012はCharacters\User00012.iff）。タウニーと訪問者は、「値」タブで「めったに使わない値」をオンにした際の「その他のSim」にあります。ゲームでは未検証です。
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav(%LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>)。アイテム名はゲーム内部のIDです。セーブのCRC-32は保存時に書き直されます。序盤の実際のセーブで確認済みで、ゲーム内ではまだ試していません。
@@ -26978,9 +26968,6 @@ Changed the Steam ID in {0} places. Save to write the file.
 Copied 1 change as text.
 = 1 件の変更をテキストとしてコピーしました。
 
-Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
-= {0}（レベル {1}）をスロット {2} にコピーしました。ゲームのロード画面に表示されます。
-
 Copied {0} changes as text.
 = {0} 件の変更をテキストとしてコピーしました。
 
@@ -29063,7 +29050,6 @@ Detected format: {0}
 {0} is running
 = {0} が起動中
 
-
 (missing)
 = （なし）
 
@@ -29117,9 +29103,6 @@ Couldn't change that backup: {0}
 
 Couldn't check for a new version. Check your internet connection and try again.
 = 新しいバージョンを確認できませんでした。インターネット接続を確認して、もう一度お試しください。
-
-Couldn't copy the character: {0}. The save wasn't changed.
-= キャラクターをコピーできませんでした：{0}。セーブデータは変更されていません。
 
 Couldn't delete the backup: {0}. It is still in the list.
 = バックアップを削除できませんでした：{0}。一覧に残っています。
@@ -29361,9 +29344,6 @@ Signed, will be re-signed
 Slot {0}: empty
 = スロット {0}：空き
 
-Slot {0}: {1} (level {2})
-= スロット {0}：{1}（レベル {2}）
-
 Start over
 = 最初からやり直す
 
@@ -29393,9 +29373,6 @@ These checksums hold for the file:
 
 This checksum holds for the file:
 = このチェックサムがファイルに一致します：
-
-This replaces {0} (level {1}) in slot {2}.
-= スロット {2} の {0}（レベル {1}）を置き換えます。
 
 Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
 = 名前の横に新しい数値を入力して「設定」を押し、Ctrl+S で保存します。ゲームでセーブデータを読み込んで確認してください。
@@ -29495,9 +29472,6 @@ type a name for the backup
 
 {0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
 = {0} が起動中のようです。先に終了してください。復元したセーブデータが上書きされるおそれがあります。何も復元していません。
-
-{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
-= {0} が起動中のようです。先に終了してください。コピーしたキャラクターが上書きされます。何もコピーしていません。
 
 {0} looks like it's running. Quit it first, then try again. The save wasn't changed.
 = {0} が起動中のようです。先に終了してから、もう一度お試しください。セーブデータは変更されていません。
@@ -30070,7 +30044,6 @@ Sets every character's Another Mode EXP to 472,000, the most the game holds (eve
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = まだ所持していないものも含め、すべての素材をゲームが表示する上限の999にします（クリア済みセーブでは多くが999です）。
 
-
 Exosuit cargo
 = エクソスーツの貨物
 
@@ -30365,7 +30338,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = 一般リソースと準レアリソースを 200、レア（希少）を 35、超レアを 15 にします。Horizon Wiki に載っているリソースポーチの最大容量です（推定値: データファイルには記載がなく、他のツールで作ったセーブにはこれより多く入っています）。伝説級のリソース、食料、弾薬、衣装、キーアイテムは変更しません。
 
-
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = ゲーム画面：プロフィールファイルの所持金と手配報奨金（PC版とPlayStation 2版の形式）。保存時にファイルのMD5を再計算します。公開されているオフセットから作成したもので、実際のプロフィールではまだ試していません
 
@@ -30421,9 +30393,6 @@ Cloud sync: {0}
 This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
 = このセーブは {0} が同期するフォルダーにあります。保存前にゲームを終了し、その後 {0} がどちらを残すか尋ねたら、ローカルのコピーを選んでください。
 
-Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
-= キャラクターをコピーできませんでした。新しいファイルが想定どおりに読み戻せませんでした（{0}）。セーブは変更されていません。
-
 # favourites, recent games, reset to original, tab shortcuts
 
 Favourites
@@ -30452,7 +30421,6 @@ Open another save in a new tab
 
 Next / previous tab
 = 次 / 前のタブ
-
 
 Appearances
 = 外観
@@ -30572,8 +30540,6 @@ Walker Gear
 
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {1}件中{0}件が開発済み。アイテムは開発番号で表示されます（アイテム名はセーブデータに含まれません）。
-
-
 
 Hotbar
 = ホットバー
@@ -30824,7 +30790,6 @@ Zombie kills
 
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = Zomboid\Saves\<モード>\<セーブ名> にある players.db(そのセーブのフォルダ)。各キャラクターの生存時間、撃破数、体重、死亡の有無、欲求と状態、体の各部位の体力、各スキルのレベルと経験値。先にゲームを終了してください。死亡したキャラクターを戻すには「死亡」のチェックを外し、各部位の体力を上げます。
-
 
 # data/games: Epic Battle Fantasy 5, Road 96
 
@@ -31221,7 +31186,6 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = Documents\Almost Human\Legend of GrimrockのsavegameNN.sav(GRIMヘッダーとzlibデータで、自動で展開され、再び圧縮されます)。各パーティメンバーの体力とエネルギー、4つのステータス、未使用のスキルポイント、スキルレベル。アイテム、特性、ダンジョンはツリーにあります。先にゲームを終了してください。
-
 
 # data/games: Dead Space 2, Just Cause 2
 
@@ -31854,6 +31818,586 @@ Yes, tell me
 No thanks
 = いいえ
 
+# presets, command line, portable mode, open with
+Adds the program to Explorer's Open with list for file types that belong to one game family (.sl2, .rpgsave, .rmmzsave, .rxdata, .lsv, .ess, .fos, .d2s, .es3, .sii), for your account only. It never becomes the default program, and turning this off removes it again.
+= 1つのゲームシリーズに固有のファイル形式（.sl2、.rpgsave、.rmmzsave、.rxdata、.lsv、.ess、.fos、.d2s、.es3、.sii）について、エクスプローラーの「プログラムから開く」にこのプログラムを追加します（あなたのアカウントのみ）。既定のプログラムにはならず、オフにすると削除されます。
+
+Carried items to 99 (RPG Maker MV / MZ)
+= 所持アイテムを99にする（RPG Maker MV / MZ）
+
+Carried weapons and armor to 99 (RPG Maker MV / MZ)
+= 所持している武器と防具を99にする（RPG Maker MV / MZ）
+
+Choose a preset file someone shared with you, to look at it and apply it
+= 共有されたプリセットファイルを選んで、内容を確認して適用します
+
+Couldn't change the Open with list: {0}
+= 「プログラムから開く」の一覧を変更できませんでした: {0}
+
+List this program under “Open with” for some save file types
+= 一部のセーブファイル形式で「プログラムから開く」に表示する
+
+Max gold (RPG Maker MV / MZ)
+= 所持金を最大にする（RPG Maker MV / MZ）
+
+Nothing in this save matches this preset, so applying it changes nothing.
+= このセーブにはこのプリセットに該当するものがないため、適用しても何も変わりません。
+
+Opening saves
+= セーブを開く
+
+Portable mode: settings, templates and presets are kept in {0}
+= ポータブルモード: 設定、テンプレート、プリセットは {0} に保存されます
+
+Ready-made preset that comes with the program. It only raises numbers the save already has.
+= プログラムに付属の既製プリセットです。セーブにすでにある数値を引き上げるだけです。
+
+at least {0}
+= {0} 以上
+
+built in
+= 内蔵
+
+{0} (each): {1}
+= {0}（各）: {1}
+
+# slot copy, save details, Xbox app to Steam
+
+{0} more
+= ほか{0}件
+
+Copied slot {0} into slot {1}. It shows up in the game's own load menu.
+= スロット{0}をスロット{1}にコピーしました。ゲームのロード画面に表示されます。
+
+Copied to {0}. Start the Steam version to load it.
+= {0} にコピーしました。Steam版を起動して読み込んでください。
+
+Copy a slot
+= スロットをコピー
+
+Copy a slot to another slot…
+= スロットを別のスロットにコピー…
+
+Copy slot
+= スロットをコピー
+
+Copy to the Steam version
+= Steam版にコピー
+
+Copy to the Steam version…
+= Steam版にコピー…
+
+Couldn't copy the save: {0}. The Steam version's save wasn't changed.
+= セーブをコピーできませんでした: {0}。Steam版のセーブは変更されていません。
+
+Couldn't copy the slot: {0}. The save wasn't changed.
+= スロットをコピーできませんでした: {0}。セーブは変更されていません。
+
+Duplicate a {0} save slot, e.g. to try something out on the copy
+= {0} のセーブスロットを複製します(コピーで何かを試すときなど)
+
+File name
+= ファイル名
+
+Folder
+= フォルダー
+
+If the Steam version says the save belongs to someone else, open the copy here and use Tools › Change Steam account in this save.
+= Steam版がセーブを他人のものだと表示したら、ここでコピーを開き、ツール › このセーブのSteamアカウントを変更 を使ってください。
+
+No folder of the Steam version was found on this computer. Start the game on Steam once and save, then try again.
+= このコンピューターにSteam版のフォルダーが見つかりませんでした。Steamでゲームを一度起動してセーブしてから、もう一度お試しください。
+
+Put a copy of this Xbox app save where the game's Steam version looks for its saves. The Xbox app's save is left as it is.
+= このXboxアプリのセーブのコピーを、ゲームのSteam版がセーブを探す場所に置きます。Xboxアプリのセーブはそのまま残ります。
+
+Replace the save that is there (it is backed up first)
+= そこにあるセーブを置き換える(先にバックアップされます)
+
+Slot {0}: {1}
+= スロット{0}: {1}
+
+The Xbox app's save is left as it is. If Steam asks which copy to keep, choose the one on this computer.
+= Xboxアプリのセーブはそのまま残ります。Steamがどちらのコピーを残すか尋ねたら、このコンピューターのものを選んでください。
+
+This replaces slot {0} ({1}).
+= スロット{0}({1})を置き換えます。
+
+couldn't back up {0} first: {1}
+= 先に {0} をバックアップできませんでした: {1}
+
+couldn't read the Xbox app's save: {0}
+= Xboxアプリのセーブを読み込めませんでした: {0}
+
+pick two different slots
+= 異なる2つのスロットを選んでください
+
+slot {0} can't be read
+= スロット{0}を読み込めません
+
+slot {0} doesn't read back as expected
+= スロット{0}が想定どおりに読み戻せません
+
+that folder belongs to the Xbox app; pick the Steam version's folder
+= そのフォルダーはXboxアプリのものです。Steam版のフォルダーを選んでください
+
+that slot is empty
+= そのスロットは空です
+
+the character's data is damaged
+= キャラクターのデータが壊れています
+
+the file is shorter than its slots
+= ファイルがスロットより短いです
+
+the new file doesn't read as the same kind of save
+= 新しいファイルが同じ種類のセーブとして読み込めません
+
+this isn't an Elden Ring save with ten slots
+= 10スロットのエルデンリングのセーブではありません
+
+this isn't an Ocarina of Time save
+= 時のオカリナのセーブではありません
+
+this kind of save has no slots that can be copied
+= この種類のセーブにはコピーできるスロットがありません
+
+type a plain file name, without a folder
+= フォルダーを含まないファイル名を入力してください
+
+{0} gold
+= {0} ゴールド
+
+{0} isn't a folder on this computer
+= {0} はこのコンピューターのフォルダーではありません
+
+{0} isn't a name {1} uses for its saves ({2})
+= {0} は {1} がセーブに使う名前ではありません({2})
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied slot. Nothing was copied.
+= {0} が実行中のようです。先に終了してください。そうしないとコピーしたスロットが上書きされます。何もコピーしていません。
+
+{0} looks like it's running. Quit it first. Nothing was copied.
+= {0} が実行中のようです。先に終了してください。何もコピーしていません。
+
+{0} save slot in use
+= 使用中のセーブスロット {0} 個
+
+{0} save slots in use
+= 使用中のセーブスロット {0} 個
+
+{0} stars
+= スター {0} 枚
+
+{0}, level {1}
+= {0}、レベル {1}
+
+{0}, level {1}, {2}
+= {0}、レベル {1}、{2}
+
+{0}, {1} energy
+= {0}、エネルギー {1}
+
+{0}, {1}, level {2}
+= {0}、{1}、レベル {2}
+
+{0}, {1}:{2}
+= {0}、{1}:{2}
+
+{0}: “{1}” from the Xbox app.
+= {0}: Xboxアプリの「{1}」。
+
+the slot's data is damaged
+= スロットのデータが壊れています
+
+only its backup copy reads
+= バックアップのコピーだけが読み込めます
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= チェックを外した変更 1 件は元に戻され、保存されませんでした。「元に戻す」で戻せます。
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= チェックを外した変更 {0} 件は元に戻され、保存されませんでした。「元に戻す」で戻せます。
+
+As detected
+= 検出されたとおり
+
+Click to open it another way (Open as).
+= クリックすると別の方法で開けます（形式を指定して開く）。
+
+Common edits
+= よく変更する値
+
+Couldn't keep the pin: {0}
+= ピン留めを保存できませんでした: {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= ディスク上の内容そのままで、何も展開しません。保存するとバイトがそのまま書き込まれます。
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= ゲーム画面が別のゲームのものだった場合に：同じデータを値の一覧で表示します。
+
+Made by one button together with other values: kept or left out together.
+= 1 つのボタンで他の値と一緒に変更されました：まとめて残すか外します。
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= 何もチェックされていないため、すべての変更を元に戻し、何も書き込みません。
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= 保存するものがありません：チェックを外した変更は元に戻され、ファイルは変更されていません。「元に戻す」で戻せます。
+
+Open as
+= 形式を指定して開く
+
+Opened as text
+= テキストとして開いています
+
+Opened as the file's bytes
+= ファイルのバイトとして開いています
+
+Opened as unpacked bytes
+= 展開したバイトとして開いています
+
+Opened without the game screen
+= ゲーム画面なしで開いています
+
+Pin
+= ピン留め
+
+Pin to the top
+= 上にピン留め
+
+Pin: show this value at the top of the list for every save of this game
+= ピン留め：このゲームのすべてのセーブで、この値を一覧の一番上に表示します
+
+Pinned
+= ピン留め
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} をピン留めしました。このゲームのすべてのセーブで一覧の一番上に表示されます。
+
+Put them back
+= 元に戻す
+
+Read this file another way, for when the editor guessed wrong
+= エディターの判定が間違っていたときに、このファイルを別の方法で読み込みます
+
+Read this file another way, for when the editor guessed wrong.
+= エディターの判定が間違っていたときに、このファイルを別の方法で読み込みます。
+
+Save or revert your changes before opening the file another way.
+= 別の方法で開く前に、変更を保存するか元に戻してください。
+
+Save ticked
+= チェックした変更を保存
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= ファイルのパッケージ（圧縮、暗号化、アーカイブ）の中のデータをバイトで表示します。保存すると同じ方法でもう一度パッケージします。
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= ファイルをそのままテキストとして表示し、何も展開しません。保存するとテキストがそのまま書き込まれます。
+
+The file's own bytes in the hex view
+= ファイルそのもののバイトを16進表示で
+
+The way the editor reads this file on its own.
+= エディターが自動で判定した読み込み方です。
+
+The whole file as text
+= ファイル全体をテキストとして
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= このファイルはテキストではないため、16進表示でバイトとして表示します。
+
+Tick all
+= すべてチェック
+
+Unpacked data in the hex view
+= 展開したデータを16進表示で
+
+Unpin
+= ピン留めを外す
+
+Unpin: stop showing this value at the top for this game's saves
+= ピン留めを外す：このゲームのセーブでこの値を一番上に表示しなくなります
+
+Unpinned {0}.
+= {0} のピン留めを外しました。
+
+Untick a change to leave it out of this save.
+= チェックを外した変更は、今回の保存から除外されます。
+
+Unticked changes are put back before saving. Undo brings them back.
+= チェックを外した変更は保存前に元に戻されます。「元に戻す」で戻せます。
+
+Values only, without the game screen
+= 値のみ（ゲーム画面なし）
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= 名前がお金、レベル、経験値、体力、ポイント、アイテム数に見える値です。それぞれ元のセクションにも表示されます。
+
+Values you pinned. They stay at the top for every save of this game.
+= ピン留めした値です。このゲームのすべてのセーブで一番上に表示されます。
+
+You can pin up to {0} values per game. Unpin one first.
+= ピン留めできる値は 1 ゲームにつき {0} 個までです。先にどれかを外してください。
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= 「バックアップをエクスポート」で作った zip からバックアップを追加します。何も置き換えず、セーブ自体も変更しません。
+
+Apply the limit now…
+= 今すぐ上限を適用…
+
+Back up the whole folder
+= フォルダー全体をバックアップ
+
+Backed up the whole folder as “{0}”.
+= フォルダー全体を「{0}」としてバックアップしました。
+
+Backup space
+= バックアップの容量
+
+Backup space…
+= バックアップの容量…
+
+Backups take {0} in all: {1} backups of {2} saves.
+= バックアップの合計は {0} です（{2} 件のセーブのバックアップ {1} 件）。
+
+Can't be read: {0}
+= 読み込めません：{0}
+
+Check backups
+= バックアップを確認
+
+Check this one
+= 要確認
+
+Checked {0} backups: every one reads fine.
+= {0} 件のバックアップを確認しました。すべて正常に読み込めます。
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= {0} 件のバックアップを確認しました。破損 {1} 件、開いているセーブと読み込み結果が異なるもの {2} 件。セーブマネージャーに印が付いています。
+
+Checking backups…
+= バックアップを確認しています…
+
+Checking… {0} of {1}
+= 確認中… {0} / {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= フォルダーをバックアップできませんでした：{0}。フォルダー内は何も変更されていません。
+
+Couldn't be read as a save.
+= セーブとして読み込めませんでした。
+
+Couldn't export the backups: {0}.
+= バックアップをエクスポートできませんでした：{0}。
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= バックアップをインポートできませんでした：{0}。セーブは変更されていません。
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= フォルダーを復元できませんでした：{0}。フォルダー内は何も変更されていません。
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= フォルダーを復元できませんでした：{0}。一部のファイルが変更され、元に戻せなかった可能性があります。復元前のフォルダーは {1} に保存されています。
+
+Count again
+= 再集計
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= 集計対象：このアプリが書き込んだすべてのバックアップフォルダー、最近使ったファイルのバックアップ、エディター自身のバックアップフォルダー。
+
+Damaged
+= 破損
+
+Delete automatic backups older than
+= 次より古い自動バックアップを削除：
+
+Delete them
+= 削除する
+
+Deleted {0} automatic backups and freed {1}.
+= 自動バックアップを {0} 件削除し、{1} を空けました。
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= 自動バックアップ {1} 件のうち {0} 件を削除し、{2} を空けました。残りは削除できず、そのまま残っています。
+
+Delete…
+= 削除…
+
+Export backups…
+= バックアップをエクスポート…
+
+Export the backups to
+= バックアップのエクスポート先
+
+Exported {0} backups ({1}) to {2}.
+= バックアップ {0} 件（{1}）を {2} にエクスポートしました。
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= 1 つのセーブを複数のファイルで保存するゲーム向け：{0} 内のすべてのファイルを 1 つのバックアップにします（{1} ファイル、{2}）。復元するとフォルダーはそのときの状態にそのまま戻ります。
+
+Free up room
+= 空き容量を増やす
+
+How much room all backups take, and ways to free some
+= すべてのバックアップの使用容量と、容量を空ける方法
+
+Import backups from which file?
+= どのファイルからバックアップをインポートしますか？
+
+Import backups…
+= バックアップをインポート…
+
+Imported {0} backups ({1} were already here).
+= バックアップを {0} 件インポートしました（{1} 件はすでにありました）。
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= バックアップを {0} 件インポートしました（{1} 件はすでにありました）。{2} からエクスポートされたものです。
+
+Limit all backups to
+= すべてのバックアップの上限：
+
+No automatic backups are that old.
+= それほど古い自動バックアップはありません。
+
+No backups yet. One is made automatically each time you save.
+= まだバックアップはありません。保存するたびに自動で作成されます。
+
+No limit
+= 上限なし
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= 削除されるのは自動バックアップだけです。名前付きのバックアップと、各セーブの最新の自動バックアップは常に残ります。
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= このセーブのすべてのバックアップを 1 つの zip ファイルにまとめます。別の場所に保管したり、別のコンピューターに移したりできます
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= フォルダー全体をこのバックアップの状態に戻します。現在のフォルダーを先にバックアップするので、元に戻せます。
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= 開いているセーブと読み込み結果が異なります。破損しているか、別のバージョンのゲームのものかもしれません。
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= このセーブのすべてのバックアップを読み込み、まだ復元できるか確かめます。何も変更しません。
+
+Reads fine
+= 正常
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= フォルダー全体を復元しました（{0} ファイルを書き込み、{1} ファイルを削除）。復元前のフォルダーもバックアップしたので、元に戻せます。
+
+The file is empty.
+= ファイルが空です。
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= これらのバックアップはエディター自身のバックアップフォルダーに保存され、セーブフォルダーには置かれません。
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= 自動バックアップ {0} 件（{1}）を削除します。元には戻せません。
+
+This folder can't be backed up as a whole: {0}.
+= このフォルダーは丸ごとバックアップできません：{0}。
+
+This save's backups take {0} ({1} backups).
+= このセーブのバックアップは {0} です（{1} 件）。
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= 新しいバックアップで上限を超えると、すべてのセーブの中で最も古い自動バックアップから削除されます。
+
+Whole save folder
+= セーブフォルダー全体
+
+Whole save folder ({0} backups)
+= セーブフォルダー全体（バックアップ {0} 件）
+
+a whole drive can't be backed up as one save folder
+= ドライブ全体をセーブフォルダーとしてバックアップすることはできません
+
+backup name, e.g. before the boss
+= バックアップ名（例：ボス戦の前）
+
+choose another file name: that one is the save or one of its backups
+= 別のファイル名を選んでください。その名前はセーブ本体かそのバックアップです
+
+couldn't back up the folder first: {0}
+= 先にフォルダーをバックアップできませんでした：{0}
+
+that file isn't a backups file made by Export backups
+= そのファイルは「バックアップをエクスポート」で作られたものではありません
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= バックアップにフォルダーの外に出てしまうファイル（{0}）が含まれているため、使用しませんでした
+
+the backup is damaged: {0}
+= バックアップが破損しています：{0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= このアプリが作るフォルダーのバックアップより大きいため、使用しませんでした
+
+the backups file is damaged: {0}
+= バックアップファイルが破損しています：{0}
+
+the folder holds more than {0} files, too many for a save folder
+= フォルダー内のファイルが {0} 個を超えており、セーブフォルダーとしては多すぎます
+
+the folder holds more than {0}, too much for a save folder
+= フォルダーの中身が {0} を超えており、セーブフォルダーとしては大きすぎます
+
+the folder is nested too deep to be a save folder
+= フォルダーの階層が深すぎてセーブフォルダーとは思えません
+
+there are no backups of this save to export
+= エクスポートするこのセーブのバックアップがありません
+
+this folder holds the editor's own backups
+= このフォルダーにはエディター自身のバックアップが入っています
+
+this is your home folder, not a save folder
+= これはホームフォルダーで、セーブフォルダーではありません
+
+{0} (click to show the backups folder)
+= {0}（クリックでバックアップフォルダーを表示）
+
+{0} (the {1} backups added before this stay)
+= {0}（それまでに追加した {1} 件のバックアップは残ります）
+
+{0} (whole folder)
+= {0}（フォルダー全体）
+
+{0} GB
+= {0} GB
+
+{0} automatic, {1} named
+= 自動 {0} 件、名前付き {1} 件
+
+{0} backups.zip
+= {0} バックアップ.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= コピー中に {0} が変更されました（ゲームが保存中かもしれません）。少し待ってからもう一度お試しください。
+
+{0} days
+= {0} 日
+
+{0} files, all readable
+= {0} ファイル、すべて読み込み可能
+
+{0} is too large to import
+= {0} は大きすぎてインポートできません
+
+{0} isn't a folder
+= {0} はフォルダーではありません
+
+{0} over the limit now.
+= 現在、上限を {0} 超えています。
+
 # Number boxes, game list, theme and window
 
 Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
@@ -31876,9 +32420,6 @@ No editable values here. Try turning on Rarely needed, or use the Tree view.
 
 Rarely needed values are hidden — turn on Rarely needed to search them too.
 = めったに使わない値は非表示です。「めったに使わない値」をオンにするとそれらも検索できます。
-
-(note: {0})
-= （注意：{0}）
 
 Dark or light as your system is set, changing with it.
 = システムの設定に合わせてダークかライトになり、設定が変わると切り替わります。

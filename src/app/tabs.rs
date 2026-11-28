@@ -47,6 +47,7 @@ parked! {
     rebind: Option<(Vec<u64>, usize, String)>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
+    xbox_steam: Option<XboxSteam>,
     sum_hits: Option<Vec<crate::fmt::sumfind::Sum>>,
     password_prompt: Option<String>,
     doc_note: String,

@@ -5,6 +5,7 @@
 With no arguments it uses the version in Cargo.toml and downloads that release's SHA256SUMS.txt.
 Output:
   packaging/scoop/universal-save-editor.json      Scoop (install straight from its raw URL)
+  packaging/flatpak/<app id>.yml                  Flatpak (build with flatpak-builder from this folder, see BUILDING.md)
   packaging/winget/<version>/*.yaml               winget (copy into a pull request to
                                                   microsoft/winget-pkgs under
                                                   manifests/l/Lucasifium/UniversalSaveEditor/<version>/)
@@ -118,6 +119,66 @@ def winget(version, hashes):
             f.write(text)
 
 
+APP_ID = "io.github.Lucasifium.UniversalSaveEditor"
+FLATPAK_ARCHES = [("x86_64", "x64"), ("aarch64", "arm64")]
+
+
+def flatpak(version, hashes):
+    """The Flatpak manifest: installs the release's Linux binary plus the desktop files in packaging/linux."""
+    def tar(a):
+        return f"UniversalSaveEditor-{version}-linux-{a}.tar.gz"
+
+    sources = "".join(
+        f"      - type: archive\n        url: {REPO}/releases/download/v{version}/{tar(a)}\n"
+        f"        sha256: {hashes[tar(a)]}\n        only-arches: [{fa}]\n        strip-components: 0\n"
+        for fa, a in FLATPAK_ARCHES
+    )
+    text = f"""app-id: {APP_ID}
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: UniversalSaveEditor
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Saves live in the Steam folders (native and Proton prefixes), the Flatpak Steam's own
+  # folder, and the usual document and data folders. Files elsewhere open through the
+  # file chooser, which asks the system for access to the one file picked.
+  - --filesystem=~/.local/share/Steam
+  - --filesystem=~/.steam
+  - --filesystem=~/.var/app/com.valvesoftware.Steam
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-data
+  - --filesystem=xdg-config
+modules:
+  - name: universal-save-editor
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 UniversalSaveEditor /app/bin/UniversalSaveEditor
+      - install -Dm644 {APP_ID}.desktop /app/share/applications/{APP_ID}.desktop
+      - install -Dm644 {APP_ID}.metainfo.xml /app/share/metainfo/{APP_ID}.metainfo.xml
+      - install -Dm644 {APP_ID}.mime.xml /app/share/mime/packages/{APP_ID}.xml
+      - install -Dm644 {APP_ID}.png /app/share/icons/hicolor/256x256/apps/{APP_ID}.png
+    sources:
+{sources}      - type: dir
+        path: ../linux
+"""
+    d = os.path.join(HERE, "flatpak")
+    os.makedirs(d, exist_ok=True)
+    with open(os.path.join(d, f"{APP_ID}.yml"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
+    # The release the store listing shows.
+    info = os.path.join(HERE, "linux", f"{APP_ID}.metainfo.xml")
+    with open(info, encoding="utf-8") as f:
+        xml = f.read()
+    rel = f'<releases>\n    <release version="{version}" date="{datetime.date.today().isoformat()}"/>\n  </releases>'
+    xml = re.sub(r"<releases>.*?</releases>|<!-- RELEASES -->", lambda _: rel, xml, flags=re.S)
+    with open(info, "w", encoding="utf-8", newline="\n") as f:
+        f.write(xml)
+
+
 def main():
     version = sys.argv[1] if len(sys.argv) > 1 else cargo_version()
     hashes = sums(version, sys.argv[2] if len(sys.argv) > 2 else None)
@@ -126,6 +187,9 @@ def main():
         sys.exit(f"SHA256SUMS.txt has no line for {', '.join(missing)}")
     scoop(version, hashes)
     winget(version, hashes)
+    # Flatpak needs the Linux archives; older releases without them just skip it.
+    if all(f"UniversalSaveEditor-{version}-linux-{a}.tar.gz" in hashes for _, a in FLATPAK_ARCHES):
+        flatpak(version, hashes)
     print(f"manifests written for {version}")
 
 

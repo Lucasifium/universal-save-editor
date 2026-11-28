@@ -76,6 +76,20 @@ pub fn looks(d: &[u8]) -> bool {
     d.len() > 790 && u32_at(d, 0) == Some(MAGIC) && u32_at(d, 8) == Some(d.len() as u32) && layout(d).is_some()
 }
 
+/// The character's name, class and level, read from the header.
+pub fn summary(d: &[u8]) -> Option<(String, &'static str, u8)> {
+    if !looks(d) {
+        return None;
+    }
+    let l = layout(d)?;
+    let (at, len) = l.name?;
+    let raw = d.get(at..at + len)?;
+    let name = String::from_utf8_lossy(&raw[..raw.iter().position(|&b| b == 0).unwrap_or(len)]).trim().to_string();
+    let class = CLASSES.get(*d.get(l.class)? as usize).copied()?;
+    let level = *d.get(l.level)?;
+    (!name.is_empty() && (1..=99).contains(&level)).then_some((name, class, level))
+}
+
 pub fn checksum(d: &[u8]) -> u32 {
     let mut c: u32 = 0;
     for (i, &b) in d.iter().enumerate() {
@@ -315,7 +329,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     /// A synthetic v99 character: header, empty blocks, stats, skills, an empty item list.
