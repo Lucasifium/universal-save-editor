@@ -123,8 +123,8 @@ Why download a save editor?
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
 = <li><strong>Linux y Steam Deck.</strong> <em>Buscar las partidas de mi juego</em> también busca dentro de los prefijos de Proton y Wine, donde guardan sus partidas los juegos de Windows que se ejecutan con Steam Play.</li>
 
-<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
-= <li><strong>En tu idioma.</strong> Menús y mensajes en inglés, alemán, español, francés, portugués de Brasil, japonés y chino simplificado, según el idioma del sistema.</li>
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Italian, Polish, Turkish, Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese, following the system language.</li>
+= <li><strong>En tu idioma.</strong> Menús y mensajes en inglés, alemán, español, francés, italiano, polaco, turco, ruso, portugués de Brasil, japonés, coreano, chino simplificado y chino tradicional, según el idioma del sistema.</li>
 
 <li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 = <li><strong>Gestor de partidas (botón de la barra de herramientas).</strong> Copias automáticas y con nombre guardadas en una carpeta junto a cada partida, donde ningún juego las carga. Restaura cualquier copia (la partida actual se copia antes), compárala, o haz una copia y empieza un juego nuevo en un juego de una sola partida y restaura la antigua más tarde. Cada copia se vuelca al disco y se comprueba antes de reemplazar nada.</li>
