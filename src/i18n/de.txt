@@ -31793,3 +31793,11 @@ Yes, tell me
 
 No thanks
 = Nein danke
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= Rechnen geht auch: +500, *2, /2, 250k, 1.5m, max oder min, ausgerechnet beim Drücken der Eingabetaste.
+
+The most this field takes. Click to set it to {0}.
+= Der Höchstwert dieses Felds. Klicken, um es auf {0} zu setzen.

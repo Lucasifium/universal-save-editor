@@ -31800,3 +31800,11 @@ Yes, tell me
 
 No thanks
 = Non merci
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= Les calculs rapides marchent aussi : +500, *2, /2, 250k, 1.5m, max ou min, calculés quand vous appuyez sur Entrée.
+
+The most this field takes. Click to set it to {0}.
+= Le maximum accepté par ce champ. Cliquez pour le mettre à {0}.

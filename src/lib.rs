@@ -28,6 +28,7 @@ mod icon;
 mod json_view;
 mod memory;
 mod names;
+mod number_input;
 mod oodle;
 mod pickle;
 mod par;

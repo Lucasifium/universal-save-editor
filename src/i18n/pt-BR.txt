@@ -31760,3 +31760,11 @@ Yes, tell me
 
 No thanks
 = Não, obrigado
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= Contas rápidas também funcionam: +500, *2, /2, 250k, 1.5m, max ou min, calculadas ao apertar Enter.
+
+The most this field takes. Click to set it to {0}.
+= O máximo que este campo aceita. Clique para definir como {0}.

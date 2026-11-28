@@ -31871,3 +31871,11 @@ Yes, tell me
 
 No thanks
 = いいえ
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= 簡単な計算もできます：+500、*2、/2、250k、1.5m、max、min。Enter を押すと計算されます。
+
+The most this field takes. Click to set it to {0}.
+= この項目の上限です。クリックすると {0} にします。

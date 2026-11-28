@@ -31844,3 +31844,11 @@ Yes, tell me
 
 No thanks
 = 不用了
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= 也可以快速计算：+500、*2、/2、250k、1.5m、max 或 min，按 Enter 时算出结果。
+
+The most this field takes. Click to set it to {0}.
+= 此项的上限。点击设为 {0}。
