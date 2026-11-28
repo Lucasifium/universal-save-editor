@@ -514,7 +514,7 @@ fn a_save_never_silently_writes_over_a_file_the_game_changed() {
     std::fs::write(&path, newer).unwrap();
     app.save_to(&path);
     assert_eq!(std::fs::read(&path).unwrap(), newer, "the game's newer save is left alone");
-    assert_eq!(app.stale_save.as_deref(), Some(path.as_path()), "the player is asked first");
+    assert_eq!(app.stale_save.as_ref().map(|s| s.0.as_path()), Some(path.as_path()), "the player is asked first");
     assert!(app.dirty);
     // "Save anyway": the newer file is backed up before the player's version goes over it.
     app.stale_save = None;
@@ -534,6 +534,36 @@ fn a_save_never_silently_writes_over_a_file_the_game_changed() {
     app.stale_ok = true;
     app.save_to(&path);
     assert_eq!(gold_on_disk(&path), json!(3));
+}
+
+/// "Save and quit" (or close, or open another file) that runs into "The save changed on
+/// disk": Save anyway saves and then still quits, instead of leaving the window open.
+#[test]
+fn save_anyway_still_does_what_the_save_was_for() {
+    let _l = locks();
+    let s = Scratch::new("stale-then");
+    let ctx = window();
+    let path = s.0.join("save.json");
+    std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(2), 0.0);
+    std::fs::write(&path, br#"{"gold": 50, "new": true}"#).unwrap();
+    app.save_then(AfterSave::Quit);
+    let (p, then) = app.stale_save.clone().expect("asked first");
+    assert_eq!(then, AfterSave::Quit);
+    app.stale_answer(&p, then, 1);
+    assert_eq!(gold_on_disk(&path), json!(2), "{}", app.status);
+    assert!(app.close_now && app.allow_close, "the window closes as asked");
+    // Cancel leaves everything as it is, and does nothing else either.
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(3), 0.0);
+    std::fs::write(&path, br#"{"gold": 60, "newer": true}"#).unwrap();
+    app.save_then(AfterSave::CloseFile);
+    let (p, then) = app.stale_save.clone().expect("asked first");
+    assert_eq!(then, AfterSave::CloseFile);
+    app.stale_answer(&p, then, 2);
+    assert!(app.doc.is_some() && app.dirty && !app.close_now);
+    assert_eq!(gold_on_disk(&path), json!(60));
 }
 
 #[test]
@@ -574,13 +604,13 @@ fn a_reload_that_fails_keeps_the_unsaved_changes_and_the_warning() {
     std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
     let mut app = opened(&ctx, &path);
     app.apply_edit("/gold".into(), json!(2), 0.0);
-    app.stale_save = Some(path.clone());
+    app.stale_save = Some((path.clone(), AfterSave::Stay));
     app.disk_changed = true;
     // The file is gone (moved by cloud sync): nothing can be read back.
     std::fs::remove_file(&path).unwrap();
     app.reload_from_disk();
     assert!(app.dirty, "the changes are still there to save");
-    assert_eq!(app.stale_save.as_deref(), Some(path.as_path()));
+    assert_eq!(app.stale_save.as_ref().map(|s| s.0.as_path()), Some(path.as_path()));
     assert!(app.disk_changed);
     assert_eq!(app.doc.as_ref().and_then(|d| root(&d.content)).and_then(|v| v.pointer("/gold").cloned()), Some(json!(2)));
     // Back on disk: the reload goes through and drops them.
@@ -610,6 +640,93 @@ fn a_save_whose_first_backup_cant_be_made_writes_nothing() {
     assert!(app.status.starts_with("Couldn't save: the backup"), "{}", app.status);
     assert!(app.dirty);
     assert_eq!(value(&app, "/gold"), Some(json!(2)));
+}
+
+/// "Back up and start a new game" backs up the file on disk and closes it: with unsaved
+/// changes on screen it is refused instead of throwing them away without a word.
+#[test]
+fn starting_a_new_game_never_drops_unsaved_changes() {
+    let _l = locks();
+    let s = Scratch::new("new-game");
+    let ctx = window();
+    let path = s.0.join("save.json");
+    std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(500), 0.0);
+    assert!(!app.start_new_game(&path, "first run"));
+    assert!(path.exists(), "the save is still in place");
+    assert!(app.dirty);
+    assert_eq!(value(&app, "/gold"), Some(json!(500)), "the changes are still there");
+    // Saved first, it goes through and the file closes.
+    app.save_to(&path);
+    assert!(app.start_new_game(&path, "first run"), "{}", app.status);
+    assert!(!path.exists() && app.doc.is_none());
+    // Setting aside another file (the save manager's) leaves the file on screen alone.
+    let other = s.0.join("other.json");
+    std::fs::write(&path, br#"{"gold": 2}"#).unwrap();
+    std::fs::write(&other, br#"{"gold": 3}"#).unwrap();
+    let mut app = opened(&ctx, &other);
+    app.apply_edit("/gold".into(), json!(4), 0.0);
+    assert!(app.start_new_game(&path, "second run"), "{}", app.status);
+    assert!(!path.exists());
+    assert!(app.dirty && value(&app, "/gold") == Some(json!(4)), "the other file stays open with its changes");
+}
+
+/// Runs only inside `a_full_disk_never_leaves_a_cut_off_original_backup`, under a file size
+/// limit: opens the save in that test's folder, edits it and tries to save.
+#[cfg(unix)]
+#[test]
+#[ignore]
+fn full_disk_child() {
+    let Some(dir) = std::env::var_os("USE_FULL_DISK_DIR").map(PathBuf::from) else { return };
+    let _l = locks();
+    let ctx = window();
+    let path = dir.join("save.json");
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(2), 0.0);
+    app.save_to(&path);
+    assert!(app.dirty, "the disk is full, so nothing can be saved: {}", app.status);
+}
+
+/// The first save keeps the file as it was in "<save>.bak", and never makes that copy again.
+/// When the disk fills up while it is written, the cut-off copy must not stay behind as the
+/// "original" (the player's only copy of it once the dated backups have been pruned).
+#[cfg(unix)]
+#[test]
+fn a_full_disk_never_leaves_a_cut_off_original_backup() {
+    let s = Scratch::new("full-disk");
+    let path = s.0.join("save.json");
+    let items: Vec<Value> = (0..3000).map(|i| json!({"name": format!("Item {i}"), "count": i})).collect();
+    let original = serde_json::to_vec_pretty(&json!({"gold": 1, "items": items})).unwrap();
+    assert!(original.len() > 64 << 10);
+    std::fs::write(&path, &original).unwrap();
+    let Ok(exe) = std::env::current_exe() else { return };
+    // A full disk, as far as this one program can see: writes past 16 blocks fail
+    // ("file too large") instead of stopping the program.
+    let status = std::process::Command::new("sh")
+        .arg("-c")
+        .arg("trap '' XFSZ; ulimit -f 16 && exec \"$0\" \"$@\"")
+        .arg(exe)
+        .args(["--ignored", "--exact", "app::save_tests::full_disk_child", "--test-threads=1", "-q"])
+        .env("USE_FULL_DISK_DIR", &s.0)
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .status();
+    let Ok(status) = status else { return };
+    assert!(status.success(), "the child test failed: {status}");
+    assert_eq!(std::fs::read(&path).unwrap(), original, "the save is as it was");
+    let bak = s.0.join("save.json.bak");
+    if let Ok(b) = std::fs::read(&bak) {
+        assert_eq!(b.len(), original.len(), "a cut-off backup was left as the original");
+    }
+    // With room again, the save goes through and the original is kept whole.
+    let _l = locks();
+    let ctx = window();
+    let mut app = opened(&ctx, &path);
+    app.apply_edit("/gold".into(), json!(2), 0.0);
+    app.save_to(&path);
+    assert!(!app.dirty, "{}", app.status);
+    assert_eq!(std::fs::read(&bak).unwrap(), original, "the original is kept whole");
 }
 
 #[test]
@@ -1186,6 +1303,41 @@ fn open_with_handle(app: &mut App, p: &Path, id: u64) -> bool {
     let loads = app.loads;
     app.open_in_tab(p.to_path_buf());
     app.attach_handle(p, id, loads)
+}
+
+/// Browser version: reading the same file another way (Open as, a password, another entry of
+/// an archive) keeps its handle, so saving still writes back to the file instead of turning
+/// into a download.
+#[test]
+fn reading_the_file_another_way_keeps_its_handle() {
+    let _locks = locks();
+    let dir = Scratch::new("handle-open-as");
+    let p = dir.0.join("save.json");
+    std::fs::write(&p, br#"{"gold": 1}"#).unwrap();
+    let ctx = window();
+    let mut app = App::with(&ctx, Settings::default(), false);
+    assert!(open_with_handle(&mut app, &p, 5));
+    app.open_as(formats::ReadAs::Bytes);
+    assert!(matches!(app.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_))));
+    assert_eq!(handle_of(&app), Some(5));
+    app.open_as(formats::ReadAs::Detected);
+    assert_eq!(handle_of(&app), Some(5));
+    // Refused (unsaved changes): what is on screen keeps it too.
+    app.apply_edit("/gold".into(), json!(2), 0.0);
+    app.open_as(formats::ReadAs::Text);
+    assert_eq!(handle_of(&app), Some(5));
+}
+
+/// Browser version, `web/fsa.js`: a file read again ("Reload the newer file") counts as what
+/// the page knows the file to hold only once the page shows it, so a save made from the older
+/// file before then still asks instead of writing over the newer one. Run with Node.js
+/// (`tests/fsa_check.js`), when it is installed.
+#[test]
+fn a_file_read_again_is_known_only_once_it_is_shown() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let out = std::process::Command::new("node").arg(root.join("tests/fsa_check.js")).arg(root.join("web/fsa.js")).output();
+    let Ok(out) = out else { return };
+    assert!(out.status.success(), "{}{}", String::from_utf8_lossy(&out.stdout), String::from_utf8_lossy(&out.stderr));
 }
 
 /// A handle belongs to the document that opened the file: closing it lets the handle go,

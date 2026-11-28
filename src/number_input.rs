@@ -262,7 +262,8 @@ pub fn quick_maths_in(text: &str, current: &Value, integer: bool, range: Option<
 /// `a / b` rounded to the nearest whole number (halves away from zero).
 fn div_round(a: i128, b: i128) -> i128 {
     let (q, r) = (a / b, a % b);
-    if 2 * r.abs() >= b.abs() {
+    // Unsigned: the magnitude of the smallest i128 (a divisor typed in full) has no i128.
+    if 2 * r.unsigned_abs() >= b.unsigned_abs() {
         q + if (a < 0) == (b < 0) { 1 } else { -1 }
     } else {
         q
@@ -482,6 +483,42 @@ mod tests {
         }
     }
 
+    /// The languages added later read numbers like the ones whose style they share, and
+    /// what would be read as another number in another style is refused, never guessed.
+    #[test]
+    fn every_language_reads_its_own_style_and_refuses_the_others() {
+        // (languages, typed, whole-number field, read as)
+        let cases: &[(&[&str], &str, bool, Option<Value>)] = &[
+            (&["it", "tr"], "1.500", true, Some(json!(1500))),
+            (&["it", "tr"], "2,5", false, Some(json!(2.5))),
+            (&["it", "tr"], "1.234.567,25", false, Some(json!(1_234_567.25))),
+            (&["it", "tr"], "1.5", false, None),
+            (&["it", "tr"], "1,500", true, None),
+            (&["pl", "ru"], "1\u{00A0}500", true, Some(json!(1500))),
+            (&["pl", "ru"], "1 234 567", true, Some(json!(1_234_567))),
+            (&["pl", "ru"], "2,5", false, Some(json!(2.5))),
+            (&["pl", "ru"], "1.500", true, None),
+            (&["pl", "ru"], "2.5", false, None),
+            (&["pl", "ru"], "1 50", true, None),
+            (&["ko", "zh-TW", "zh-CN", "ja"], "1,500", true, Some(json!(1500))),
+            (&["ko", "zh-TW", "zh-CN", "ja"], "2.5", false, Some(json!(2.5))),
+            (&["ko", "zh-TW", "zh-CN", "ja"], "1.500", true, None),
+            (&["ko", "zh-TW", "zh-CN", "ja"], "2,5", false, None),
+            // Full-width digits and commas are refused rather than read as something else.
+            (&["ja", "zh-CN", "zh-TW", "ko"], "\u{FF11}\u{FF15}\u{FF10}\u{FF10}", true, None),
+            (&["zh-CN", "zh-TW"], "1\u{FF0C}500", true, None),
+        ];
+        for (langs, text, integer, want) in cases {
+            for lang in *langs {
+                assert_eq!(&parse_in(text, *integer, loc(lang)), want, "{lang}: {text:?} (whole: {integer})");
+            }
+        }
+        // Quick maths on a whole-number field holding 10.
+        for (lang, text, want) in [("tr", "+1.500", 1510), ("it", "2,5k", 2500), ("ru", "+1 500", 1510), ("pl", "*1,5", 15), ("ko", "+1,500", 1510), ("zh-TW", "1.5k", 1500)] {
+            assert_eq!(quick_maths_in(text, &json!(10), true, None, loc(lang)), Some(json!(want)), "{lang}: {text:?}");
+        }
+    }
+
     #[test]
     fn whole_numbers_are_worked_out_exactly() {
         let q = |t: &str, cur: Value| quick_maths_in(t, &cur, true, None, POINT);
@@ -496,6 +533,11 @@ mod tests {
         assert_eq!(q("+1", json!(i64::MAX)), Some(json!(i64::MAX as u64 + 1)), "exact past i64");
         assert_eq!(q("*-1", json!(5)), Some(json!(-5)));
         assert_eq!(q("*-2", json!(i64::MIN)), Some(json!(u64::MAX)), "pulled into what the type holds");
+        // Dividing by the most negative number that can be typed (no positive counterpart).
+        assert_eq!(q("/-170141183460469231731687303715884105728", json!(5)), Some(json!(0)));
+        assert_eq!(q("/-170141183460469231731687303715884105728", json!(i64::MIN)), Some(json!(0)));
+        assert_eq!(q("/170141183460469231731687303715884105727", json!(u64::MAX)), Some(json!(0)));
+        assert_eq!(q("/-170141183460469231731687303715884105729", json!(5)), None, "past what can be worked out");
     }
 
     #[test]

@@ -36,15 +36,24 @@ impl App {
 
     /// Backs the save up under `name`, then removes it and closes it so the game starts a new game. True on success.
     pub(super) fn start_new_game(&mut self, path: &Path, name: &str) -> bool {
+        let shown = self.doc.as_ref().is_some_and(|d| d.path == path);
+        // The backup is of the file on disk: unsaved changes to it would be thrown away.
+        if shown && self.dirty {
+            self.fail(tr("Save or revert your changes first."));
+            return false;
+        }
         if let Some(game) = crate::running::game_for(path) {
             self.fail(trf("{0} looks like it's running. Quit it first, then try again. The save wasn't changed.", &[&game]));
             return false;
         }
         match crate::backups::set_aside(path, name) {
             Ok(_) => {
-                // Close the file so its old data can't be saved back over the new game.
-                self.doc = None;
-                self.dirty = false;
+                // Close the file so its old data can't be saved back over the new game (only
+                // that file: another one on screen stays as it is).
+                if shown {
+                    self.doc = None;
+                    self.dirty = false;
+                }
                 self.ok(trf("Backed up as \u{201C}{0}\u{201D} and removed the save, so the game starts a new game. Restore it from Backups \u{203A} Save manager\u{2026} any time.", &[&name.trim()]));
                 true
             }

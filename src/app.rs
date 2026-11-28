@@ -129,13 +129,14 @@ struct Doc {
     /// else (the game, cloud sync) writes it in the meantime.
     stamp: Option<Stamp>,
     /// Browser version: the id of the file handle this document saves back through (opened
-    /// with "Open to save in place"). It belongs to this document alone: a document read again
-    /// or saved under another name doesn't have it.
+    /// with "Open to save in place"). It belongs to this document alone: it stays when the same
+    /// file is read again (another way, or newer from disk), and goes when the document is
+    /// saved under another name; another file opened under the same name never gets it.
     handle: Option<HandleId>,
 }
 
 /// Browser version: a document's file handle, by id (see `web.rs`). The browser lets go of the
-/// handle when the document does (closed, read again, or saved under another name).
+/// handle when the document does (closed, or saved under another name).
 #[derive(Debug, PartialEq, Eq)]
 struct HandleId(u64);
 
@@ -361,8 +362,9 @@ pub struct App {
     disk_changed: bool,
     /// The changed file the player chose to keep working past ("Keep what's shown").
     disk_seen: Option<Stamp>,
-    /// Saving over a file that changed on disk: waiting for Reload / Save anyway / Cancel.
-    stale_save: Option<PathBuf>,
+    /// Saving over a file that changed on disk: waiting for Reload / Save anyway / Cancel,
+    /// with what was to happen once the save went through.
+    stale_save: Option<(PathBuf, AfterSave)>,
     /// "Save anyway" was chosen for the next save.
     stale_ok: bool,
     /// Whether the window had the keyboard focus last frame (a file check runs on return).
