@@ -5,9 +5,9 @@
 use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
 
-const HEADER: usize = 9;
-const SLOT: usize = 0x10F4;
-const SLOTS: usize = 15;
+pub(crate) const HEADER: usize = 9;
+pub(crate) const SLOT: usize = 0x10F4;
+pub(crate) const SLOTS: usize = 15;
 const RECORD: usize = 0x84;
 const ROSTER: [&str; 11] = ["Cloud", "Barret", "Tifa", "Aerith", "Red XIII", "Yuffie", "Cait Sith", "Vincent", "Cid", "Young Cloud", "Sephiroth"];
 
@@ -35,7 +35,7 @@ fn fix_checksums(d: &mut Vec<u8>) {
 }
 
 /// FF7's text: byte + 0x20 for the common range, 0xFF ends it.
-fn text(b: &[u8]) -> String {
+pub(crate) fn text(b: &[u8]) -> String {
     b.iter().take_while(|&&c| c != 0xFF).filter(|&&c| c < 0x60).map(|&c| (c + 0x20) as char).collect()
 }
 

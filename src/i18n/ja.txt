@@ -66,9 +66,6 @@ If the game keeps them somewhere else (another drive, a cloud folder), use Open�
 ‹ All games
 = ‹ すべてのゲーム
 
-Copy character
-= キャラクターをコピー
-
 Copy
 = コピー
 
@@ -299,12 +296,6 @@ Compare with another save…
 
 Open another file in this archive
 = このアーカイブ内の別のファイルを開く
-
-Copy character to another slot…
-= キャラクターを別のスロットにコピー…
-
-Duplicate an Elden Ring character, e.g. to try something out on the copy
-= Elden Ring のキャラクターを複製します。コピーで試したいときなどに。
 
 Save or revert your changes first.
 = 先に変更を保存するか破棄してください。
@@ -1183,7 +1174,6 @@ Advanced
 
 Opened {0} ({1}) — {2}.
 = {0} を開きました（{1}）— {2}。
-
 
 Filter the tree by name or value  (Ctrl+F)
 = 名前または値でツリーを絞り込み  (Ctrl+F)
@@ -26993,9 +26983,6 @@ Changed the Steam ID in {0} places. Save to write the file.
 Copied 1 change as text.
 = 1 件の変更をテキストとしてコピーしました。
 
-Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
-= {0}（レベル {1}）をスロット {2} にコピーしました。ゲームのロード画面に表示されます。
-
 Copied {0} changes as text.
 = {0} 件の変更をテキストとしてコピーしました。
 
@@ -29081,7 +29068,6 @@ Detected format: {0}
 {0} is running
 = {0} が起動中
 
-
 (missing)
 = （なし）
 
@@ -29135,9 +29121,6 @@ Couldn't change that backup: {0}
 
 Couldn't check for a new version. Check your internet connection and try again.
 = 新しいバージョンを確認できませんでした。インターネット接続を確認して、もう一度お試しください。
-
-Couldn't copy the character: {0}. The save wasn't changed.
-= キャラクターをコピーできませんでした：{0}。セーブデータは変更されていません。
 
 Couldn't delete the backup: {0}. It is still in the list.
 = バックアップを削除できませんでした：{0}。一覧に残っています。
@@ -29379,9 +29362,6 @@ Signed, will be re-signed
 Slot {0}: empty
 = スロット {0}：空き
 
-Slot {0}: {1} (level {2})
-= スロット {0}：{1}（レベル {2}）
-
 Start over
 = 最初からやり直す
 
@@ -29411,9 +29391,6 @@ These checksums hold for the file:
 
 This checksum holds for the file:
 = このチェックサムがファイルに一致します：
-
-This replaces {0} (level {1}) in slot {2}.
-= スロット {2} の {0}（レベル {1}）を置き換えます。
 
 Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
 = 名前の横に新しい数値を入力して「設定」を押し、Ctrl+S で保存します。ゲームでセーブデータを読み込んで確認してください。
@@ -29513,9 +29490,6 @@ type a name for the backup
 
 {0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
 = {0} が起動中のようです。先に終了してください。復元したセーブデータが上書きされるおそれがあります。何も復元していません。
-
-{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
-= {0} が起動中のようです。先に終了してください。コピーしたキャラクターが上書きされます。何もコピーしていません。
 
 {0} looks like it's running. Quit it first, then try again. The save wasn't changed.
 = {0} が起動中のようです。先に終了してから、もう一度お試しください。セーブデータは変更されていません。
@@ -30088,7 +30062,6 @@ Sets every character's Another Mode EXP to 472,000, the most the game holds (eve
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = まだ所持していないものも含め、すべての素材をゲームが表示する上限の999にします（クリア済みセーブでは多くが999です）。
 
-
 Exosuit cargo
 = エクソスーツの貨物
 
@@ -30383,7 +30356,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = 一般リソースと準レアリソースを 200、レア（希少）を 35、超レアを 15 にします。Horizon Wiki に載っているリソースポーチの最大容量です（推定値: データファイルには記載がなく、他のツールで作ったセーブにはこれより多く入っています）。伝説級のリソース、食料、弾薬、衣装、キーアイテムは変更しません。
 
-
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = ゲーム画面：プロフィールファイルの所持金と手配報奨金（PC版とPlayStation 2版の形式）。保存時にファイルのMD5を再計算します。公開されているオフセットから作成したもので、実際のプロフィールではまだ試していません
 
@@ -30439,9 +30411,6 @@ Cloud sync: {0}
 This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
 = このセーブは {0} が同期するフォルダーにあります。保存前にゲームを終了し、その後 {0} がどちらを残すか尋ねたら、ローカルのコピーを選んでください。
 
-Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
-= キャラクターをコピーできませんでした。新しいファイルが想定どおりに読み戻せませんでした（{0}）。セーブは変更されていません。
-
 # favourites, recent games, reset to original, tab shortcuts
 
 Favourites
@@ -30470,7 +30439,6 @@ Open another save in a new tab
 
 Next / previous tab
 = 次 / 前のタブ
-
 
 Appearances
 = 外観
@@ -30590,8 +30558,6 @@ Walker Gear
 
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {1}件中{0}件が開発済み。アイテムは開発番号で表示されます（アイテム名はセーブデータに含まれません）。
-
-
 
 Hotbar
 = ホットバー
@@ -30842,7 +30808,6 @@ Zombie kills
 
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = Zomboid\Saves\<モード>\<セーブ名> にある players.db(そのセーブのフォルダ)。各キャラクターの生存時間、撃破数、体重、死亡の有無、欲求と状態、体の各部位の体力、各スキルのレベルと経験値。先にゲームを終了してください。死亡したキャラクターを戻すには「死亡」のチェックを外し、各部位の体力を上げます。
-
 
 # data/games: Epic Battle Fantasy 5, Road 96
 
@@ -31239,7 +31204,6 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = Documents\Almost Human\Legend of GrimrockのsavegameNN.sav(GRIMヘッダーとzlibデータで、自動で展開され、再び圧縮されます)。各パーティメンバーの体力とエネルギー、4つのステータス、未使用のスキルポイント、スキルレベル。アイテム、特性、ダンジョンはツリーにあります。先にゲームを終了してください。
-
 
 # data/games: Dead Space 2, Just Cause 2
 
@@ -31914,6 +31878,158 @@ built in
 
 {0} (each): {1}
 = {0}（各）: {1}
+
+# slot copy, save details, Xbox app to Steam
+
+{0} more
+= ほか{0}件
+
+Copied slot {0} into slot {1}. It shows up in the game's own load menu.
+= スロット{0}をスロット{1}にコピーしました。ゲームのロード画面に表示されます。
+
+Copied to {0}. Start the Steam version to load it.
+= {0} にコピーしました。Steam版を起動して読み込んでください。
+
+Copy a slot
+= スロットをコピー
+
+Copy a slot to another slot…
+= スロットを別のスロットにコピー…
+
+Copy slot
+= スロットをコピー
+
+Copy to the Steam version
+= Steam版にコピー
+
+Copy to the Steam version…
+= Steam版にコピー…
+
+Couldn't copy the save: {0}. The Steam version's save wasn't changed.
+= セーブをコピーできませんでした: {0}。Steam版のセーブは変更されていません。
+
+Couldn't copy the slot: {0}. The save wasn't changed.
+= スロットをコピーできませんでした: {0}。セーブは変更されていません。
+
+Duplicate a {0} save slot, e.g. to try something out on the copy
+= {0} のセーブスロットを複製します(コピーで何かを試すときなど)
+
+File name
+= ファイル名
+
+Folder
+= フォルダー
+
+If the Steam version says the save belongs to someone else, open the copy here and use Tools › Change Steam account in this save.
+= Steam版がセーブを他人のものだと表示したら、ここでコピーを開き、ツール › このセーブのSteamアカウントを変更 を使ってください。
+
+No folder of the Steam version was found on this computer. Start the game on Steam once and save, then try again.
+= このコンピューターにSteam版のフォルダーが見つかりませんでした。Steamでゲームを一度起動してセーブしてから、もう一度お試しください。
+
+Put a copy of this Xbox app save where the game's Steam version looks for its saves. The Xbox app's save is left as it is.
+= このXboxアプリのセーブのコピーを、ゲームのSteam版がセーブを探す場所に置きます。Xboxアプリのセーブはそのまま残ります。
+
+Replace the save that is there (it is backed up first)
+= そこにあるセーブを置き換える(先にバックアップされます)
+
+Slot {0}: {1}
+= スロット{0}: {1}
+
+The Xbox app's save is left as it is. If Steam asks which copy to keep, choose the one on this computer.
+= Xboxアプリのセーブはそのまま残ります。Steamがどちらのコピーを残すか尋ねたら、このコンピューターのものを選んでください。
+
+This replaces slot {0} ({1}).
+= スロット{0}({1})を置き換えます。
+
+couldn't back up {0} first: {1}
+= 先に {0} をバックアップできませんでした: {1}
+
+couldn't read the Xbox app's save: {0}
+= Xboxアプリのセーブを読み込めませんでした: {0}
+
+pick two different slots
+= 異なる2つのスロットを選んでください
+
+slot {0} can't be read
+= スロット{0}を読み込めません
+
+slot {0} doesn't read back as expected
+= スロット{0}が想定どおりに読み戻せません
+
+that folder belongs to the Xbox app; pick the Steam version's folder
+= そのフォルダーはXboxアプリのものです。Steam版のフォルダーを選んでください
+
+that slot is empty
+= そのスロットは空です
+
+the character's data is damaged
+= キャラクターのデータが壊れています
+
+the file is shorter than its slots
+= ファイルがスロットより短いです
+
+the new file doesn't read as the same kind of save
+= 新しいファイルが同じ種類のセーブとして読み込めません
+
+this isn't an Elden Ring save with ten slots
+= 10スロットのエルデンリングのセーブではありません
+
+this isn't an Ocarina of Time save
+= 時のオカリナのセーブではありません
+
+this kind of save has no slots that can be copied
+= この種類のセーブにはコピーできるスロットがありません
+
+type a plain file name, without a folder
+= フォルダーを含まないファイル名を入力してください
+
+{0} gold
+= {0} ゴールド
+
+{0} isn't a folder on this computer
+= {0} はこのコンピューターのフォルダーではありません
+
+{0} isn't a name {1} uses for its saves ({2})
+= {0} は {1} がセーブに使う名前ではありません({2})
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied slot. Nothing was copied.
+= {0} が実行中のようです。先に終了してください。そうしないとコピーしたスロットが上書きされます。何もコピーしていません。
+
+{0} looks like it's running. Quit it first. Nothing was copied.
+= {0} が実行中のようです。先に終了してください。何もコピーしていません。
+
+{0} save slot in use
+= 使用中のセーブスロット {0} 個
+
+{0} save slots in use
+= 使用中のセーブスロット {0} 個
+
+{0} stars
+= スター {0} 枚
+
+{0}, level {1}
+= {0}、レベル {1}
+
+{0}, level {1}, {2}
+= {0}、レベル {1}、{2}
+
+{0}, {1} energy
+= {0}、エネルギー {1}
+
+{0}, {1}, level {2}
+= {0}、{1}、レベル {2}
+
+{0}, {1}:{2}
+= {0}、{1}:{2}
+
+{0}: “{1}” from the Xbox app.
+= {0}: Xboxアプリの「{1}」。
+
+the slot's data is damaged
+= スロットのデータが壊れています
+
+only its backup copy reads
+= バックアップのコピーだけが読み込めます
 
 # Pinned values, Open as and the save review
 

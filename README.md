@@ -113,6 +113,20 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), and each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered and checked first; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
 
+Each found save shows who is in it where the file says so cheaply: the characters and levels in
+Elden Ring, Dark Souls (Remastered), Dark Souls II and III and Sekiro `.sl2` files, a Diablo II
+character's name, class and level, a Pokémon trainer and play time, and what each slot holds in the
+multi-slot saves listed under *Copy a slot* below. It is read in the background, only for the saves on
+screen.
+
+**Copy a slot** (*Tools › Copy a slot to another slot…*) duplicates a save slot inside the same file,
+for example to try something out on the copy: Elden Ring characters (with the title screen's
+summary), Final Fantasy VII (PC), and the emulator saves of Super Mario 64, Ocarina of Time, A Link
+to the Past, Super Metroid, Chrono Trigger and Final Fantasy VI, where it does what the game's own
+copy menu does (the slot, its spare copy where the game keeps one, and its checksum). The copy is
+read back first, with every other slot byte for byte as it was, and the file is backed up before it
+is written.
+
 <details>
 <summary>Other places saves live (Flash, Unity, Xbox app, console memory cards)</summary>
 
@@ -168,7 +182,10 @@ editor reads the container's index and lists the files under the names the game 
 the *Xbox app / PC Game Pass saves (any game)* entry and under the game's own entry (Control,
 Hades, Palworld, Persona 5 Royal, Final Fantasy XV, Yakuza 0, Clair Obscur: Expedition 33 and
 others). The files inside are the same as the Steam ones, so each opens with the game's own screen,
-and saving writes the file back in place. Let the Xbox app finish syncing before you open a save,
+and saving writes the file back in place. To move a save to the Steam version of the same game,
+open it and use *Tools › Copy to the Steam version…*: it puts a copy in a folder where the Steam
+version keeps its saves, under a file name that version uses, and backs up a Steam save it replaces.
+Nothing is written into the Xbox app's container. Let the Xbox app finish syncing before you open a save,
 and keep the game closed while you edit: cloud sync can replace an edited file. Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging
 a file onto the window work as before for anything else.
 
@@ -439,7 +456,7 @@ compression, encryption and checksums.
 
 ## Safety
 
-- **Verified saves**: the new file is decoded again *before* anything is written (copying an Elden Ring character is checked the same way). If it doesn't
+- **Verified saves**: the new file is decoded again *before* anything is written (copying a save slot is checked the same way). If it doesn't
   read back exactly as shown on screen, the save is aborted and your file is left untouched.
 - **Changed on disk**: if the save was written by something else after it was opened (the game
   autosaved, a cloud sync ran), saving stops and asks: reload the newer file, save anyway (the newer

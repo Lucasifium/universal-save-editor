@@ -11,14 +11,14 @@ use super::retro::flag;
 use crate::tree::TreeDoc;
 
 pub const KIND: &str = "Super Metroid save";
-const SLOT: usize = 0x65c;
-const COPY: usize = 0x1ff0;
+pub(crate) const SLOT: usize = 0x65c;
+pub(crate) const COPY: usize = 0x1ff0;
 
 pub fn looks(d: &[u8]) -> bool {
     d.len() == 0x2000 && (&d[0x1fe0..0x1fec] == b"madadameyohn" || &d[0x1fe0..0x1fec] == b"supermetroid")
 }
 
-fn used(d: &[u8], n: usize) -> bool {
+pub(crate) fn used(d: &[u8], n: usize) -> bool {
     // A slot that has been started holds its maximum energy.
     u16::from_le_bytes([d[n * SLOT + 0x32], d[n * SLOT + 0x33]]) != 0
 }
