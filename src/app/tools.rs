@@ -179,7 +179,7 @@ impl App {
         }
         let mut text = format!("Changes to a {} save:\n", self.save_kind());
         for l in &lines {
-            text.push_str(&format!("- {}\n", l.replace('\u{2192}', "->").replace('\u{203A}', ">")));
+            text.push_str(&format!("- {}\n", l.plain()));
         }
         ctx.copy_text(text);
         self.ok(if lines.len() == 1 { tr("Copied 1 change as text.").to_string() } else { trf("Copied {0} changes as text.", &[&lines.len()]) });

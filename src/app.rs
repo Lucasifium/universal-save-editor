@@ -25,6 +25,8 @@ use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 mod tabs;
 mod compare;
 use compare::Compare;
+mod change_line;
+use change_line::ChangeLine;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -466,7 +468,7 @@ struct CopySlots {
 struct SaveReview {
     path: PathBuf,
     running: Option<String>,
-    lines: Vec<String>,
+    lines: Vec<ChangeLine>,
 }
 
 /// Tools › Cheat patches: the patch file picked and the codes ticked in it.
@@ -1786,20 +1788,20 @@ impl App {
         self.save_review = Some(SaveReview { path, running, lines: self.change_lines() });
     }
 
-    /// The unsaved changes in words: "Inventory \u{203A} Scrap Iron: 12 -> 99".
-    fn change_lines(&self) -> Vec<String> {
+    /// The unsaved changes in words: "Inventory \u{203A} Scrap Iron", 12, 99.
+    fn change_lines(&self) -> Vec<ChangeLine> {
         let Some(d) = &self.doc else { return vec![] };
         match (&d.content, &d.baseline) {
             (Content::Binary(a), Content::Binary(b)) => byte_ranges(a, b)
                 .into_iter()
                 .map(|(s, e)| {
                     let name = self.hex.labels.get(&s).map(|l| l.name.clone()).unwrap_or(format!("Offset 0x{s:X}"));
-                    if e - s == 1 { trf("{0}: 1 byte changed", &[&name]) } else { trf("{0}: {1} bytes changed", &[&name, &(e - s)]) }
+                    ChangeLine::text(if e - s == 1 { trf("{0}: 1 byte changed", &[&name]) } else { trf("{0}: {1} bytes changed", &[&name, &(e - s)]) })
                 })
                 .collect(),
             (Content::Text(a), Content::Text(b)) => {
                 if a != b {
-                    vec![tr("The text was edited").into()]
+                    vec![ChangeLine::text(tr("The text was edited"))]
                 } else {
                     vec![]
                 }
@@ -1812,7 +1814,7 @@ impl App {
                     .filter(|p| cv.pointer(p) != bv.pointer(p))
                     .map(|p| {
                         if p.is_empty() {
-                            return tr("Whole document (Raw JSON edit)").to_string();
+                            return ChangeLine::text(tr("Whole document (Raw JSON edit)"));
                         }
                         let (name, context) = match self.model.by_ptr.get(p.as_str()) {
                             Some(&i) => (self.model.rows[i].name().to_string(), self.model.rows[i].context().to_string()),
@@ -1826,10 +1828,8 @@ impl App {
                             _ => "JSON",
                         };
                         // Each note once, on the first value it applies to.
-                        match crate::risks::note(kind, p).filter(|n| noted.borrow_mut().insert(*n)) {
-                            Some(note) => format!("{at}: {old} -> {new}  (note: {note})"),
-                            None => format!("{at}: {old} -> {new}"),
-                        }
+                        let note = crate::risks::note(kind, p).filter(|n| noted.borrow_mut().insert(*n)).map(str::to_string);
+                        ChangeLine { at, change: Some((old, new)), note }
                     })
                     .collect()
             }
@@ -1964,7 +1964,7 @@ impl App {
             ui.label(if r.lines.len() == 1 { trf("{0} change to {1}:", &[&r.lines.len(), &file_name(&r.path)]) } else { trf("{0} changes to {1}:", &[&r.lines.len(), &file_name(&r.path)]) });
             ScrollArea::vertical().show_list_fit(ui, "app_list1", 280.0, |ui| {
                 for l in &r.lines {
-                    ui.label(format!("\u{2022} {l}"));
+                    l.show(ui);
                 }
                 if r.lines.is_empty() {
                     ui.weak(tr("(nothing that the list can describe)"));
@@ -3261,8 +3261,8 @@ impl App {
         let dismiss_w = width(ui, tr("Dismiss")) + pad;
         let more_w = width(ui, tr("More")).max(width(ui, tr("Less"))) + pad;
         let note = crate::i18n::tr_any(&self.doc_note).to_string();
-        // A note that takes up to two lines is shown whole; only a longer one gets More.
-        let fits = width(ui, &note) <= 1.8 * (ui.available_width() - dismiss_w - 8.0);
+        // The strip stays one line: a note that doesn't fit on it is cut short, with More.
+        let fits = width(ui, &note) <= ui.available_width() - dismiss_w - 8.0;
         let (mut dismiss, mut toggle) = (false, false);
         ui.horizontal_top(|ui| {
             let text_w = (ui.available_width() - dismiss_w - if fits { 0.0 } else { more_w } - 4.0).max(80.0);

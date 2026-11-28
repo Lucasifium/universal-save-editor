@@ -31811,3 +31811,6 @@ No editable values here. Try turning on Rarely needed, or use the Tree view.
 
 Rarely needed values are hidden — turn on Rarely needed to search them too.
 = Les valeurs rarement utiles sont masquées — activez Rarement utiles pour les inclure dans la recherche.
+
+(note: {0})
+= (remarque : {0})
