@@ -6386,7 +6386,7 @@ mod save_tests {
     }
 
     #[test]
-    fn an_outside_change_that_hides_from_the_check_is_still_backed_up() {
+    fn an_outside_change_of_the_same_size_and_time_is_noticed_and_backed_up() {
         let _l = locks();
         let s = Scratch::new("hidden-change");
         let ctx = window();
@@ -6395,14 +6395,23 @@ mod save_tests {
         let mut app = opened(&ctx, &path);
         let when = std::fs::metadata(&path).unwrap().modified().unwrap();
         app.apply_edit("/gold".into(), json!(2), 0.0);
-        // Same size and, on a file system with coarse times, the same time: not noticed.
+        // Same size and, on a file system with coarse times, the same time: the hash of what
+        // was read tells them apart.
         let newer = br#"{"gold": 9}"#;
         std::fs::write(&path, newer).unwrap();
         std::fs::OpenOptions::new().write(true).open(&path).unwrap().set_modified(when).unwrap();
-        assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
+        assert!(!safety::changed_quick(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
+        assert!(safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
+        app.save_to(&path);
+        assert!(app.stale_save.is_some(), "asked before writing over it");
+        assert_eq!(gold_on_disk(&path), json!(9), "nothing written yet");
+        app.stale_save = None;
+        app.stale_ok = true;
         app.save_to(&path);
         assert_eq!(gold_on_disk(&path), json!(2));
         assert!(backed_up(&path).contains(&newer.to_vec()), "what was on disk can still be brought back");
+        // The stamp after saving is the written file's: saving again isn't mistaken for a change.
+        assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
     }
 
     #[cfg(unix)]
