@@ -121,7 +121,7 @@ impl Settings {
         if let Some(dir) = p.parent() {
             let _ = std::fs::create_dir_all(dir);
         }
-        let _ = std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default());
+        let _ = write_atomic(&p, serde_json::to_string_pretty(&v).unwrap_or_default().as_bytes());
     }
 
     /// The key a file note is remembered by when dismissed.
@@ -173,6 +173,12 @@ impl Settings {
         self.recent.truncate(MAX_RECENT);
         self.save();
     }
+}
+
+/// Writes the settings file so that a crash part way leaves the old file whole: the new text
+/// goes to a file beside it, is checked, and only then renamed over it.
+fn write_atomic(p: &std::path::Path, bytes: &[u8]) -> Result<(), String> {
+    crate::backups::write_verified(p, bytes, true)
 }
 
 /// Folders where games commonly keep saves, that exist on this machine.
@@ -244,5 +250,19 @@ mod tests {
         assert_eq!(s.recent_games.len(), MAX_RECENT_GAMES);
         assert_eq!(s.recent_games[0], "b");
         assert_eq!(s.recent_games.iter().filter(|g| *g == "b").count(), 1);
+    }
+
+    #[test]
+    fn settings_file_is_replaced_whole() {
+        let d = std::env::temp_dir().join(format!("use-settings-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&d);
+        std::fs::create_dir_all(&d).unwrap();
+        let p = d.join("settings.json");
+        std::fs::write(&p, b"{\"dark\": true}").unwrap();
+        write_atomic(&p, b"{\"dark\": false}").unwrap();
+        assert_eq!(std::fs::read(&p).unwrap(), b"{\"dark\": false}");
+        // Nothing is left beside it.
+        assert_eq!(std::fs::read_dir(&d).unwrap().count(), 1);
+        let _ = std::fs::remove_dir_all(&d);
     }
 }
