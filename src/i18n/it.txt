@@ -32337,3 +32337,89 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = Ora {0} oltre il limite.
+
+# browser version: saving in place
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= Prima che venga scritto un file aperto con Apri per salvare sul posto, il file così com'è in quel momento viene conservato qui, a meno che non sia esattamente ciò che questa pagina ha salvato l'ultima volta. Queste copie risiedono nella memoria interna di questo browser, non in una cartella del computer: cancellare i dati di questo sito nel browser le elimina. Vengono conservate le ultime {0}, fino a {1} MB in tutto.
+
+Couldn't hand over the kept copy: {0}
+= Impossibile consegnare la copia conservata: {0}
+
+Couldn't open the file: {0}
+= Impossibile aprire il file: {0}
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= Impossibile rileggere {0} dal computer: {1}. Ciò che è sullo schermo non è stato modificato.
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= Impossibile salvare in {0}: {1}. Il browser non può sapere se il file sul computer è cambiato. Le modifiche sono ancora qui e le copie del file conservate in questo browser si trovano in Backup › Originali conservati in questo browser.
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= Impossibile salvare in {0}: {1}. Il file sul computer non è stato modificato. Le modifiche sono ancora qui: salva di nuovo oppure usa Salva copia come per scaricarle.
+
+Download a file as it was before you saved it in place
+= Scarica un file com'era prima del salvataggio sul posto
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= Se salvi comunque, il file così com'è ora viene prima conservato in questo browser: Backup › Originali conservati in questo browser.
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= Non salvato: questa pagina non ha più accesso a {0}, quindi il file non è stato toccato. Le modifiche sono ancora qui; Salva copia come le scarica.
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= Non salvato: {0} sul computer è cambiato da quando questa pagina lo ha letto o scritto l'ultima volta, quindi non è stato toccato. Le modifiche sono ancora qui.
+
+Nothing is kept yet.
+= Non è ancora stato conservato nulla.
+
+Open to save in place…
+= Apri per salvare sul posto…
+
+Originals kept in this browser
+= Originali conservati in questo browser
+
+Originals kept in this browser…
+= Originali conservati in questo browser…
+
+Read {0} again from your computer.
+= Rileggi {0} dal computer.
+
+Reading the browser's storage…
+= Lettura della memoria del browser…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= Salva poi scrive nel file che scegli, una volta che lo consenti nel browser, invece di scaricarlo. Il file com'era viene prima conservato in questo browser. Il browser rifiuta in questo modo alcune cartelle di sistema; per quelle usa Apri….
+
+That copy isn't kept in this browser any more.
+= Quella copia non è più conservata in questo browser.
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= Il browser chiede se questa pagina può modificare il file, poi lo riscrive nel file che hai aperto. A meno che il file non sia esattamente ciò che questa pagina ha salvato l'ultima volta, viene prima conservato in questo browser: Backup › Originali conservati in questo browser.
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= Il browser non ha potuto chiedere di modificare {0} ({1}), quindi il file non è stato modificato.
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= Al browser non è stato consentito modificare {0}, quindi il file non è stato modificato.
+
+The browser's storage couldn't be read: {0}
+= Impossibile leggere la memoria del browser: {0}
+
+Written back to {0} on your computer.
+= Scritto di nuovo in {0} sul computer.
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= Scritto di nuovo in {0} sul computer. Il file com'era prima è conservato in questo browser: Backup › Originali conservati in questo browser.
+
+Your browser downloaded the edited file instead.
+= Il browser ha invece scaricato il file modificato.
+
+Your browser downloaded the kept copy of {0}.
+= Il browser ha scaricato la copia conservata di {0}.
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} Nemmeno il download è partito ({1}). Le modifiche sono ancora qui.
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} non è stato modificato: prima non è stato possibile conservarne una copia in questo browser ({1}).

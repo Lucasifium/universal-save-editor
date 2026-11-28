@@ -32337,3 +32337,89 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = Лимит сейчас превышен на {0}.
+
+# browser version: saving in place
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= Перед записью файла, открытого через «Открыть для сохранения на месте», его текущая версия сохраняется здесь, если только это не то, что эта страница записала туда в последний раз. Эти копии хранятся во внутреннем хранилище этого браузера, а не в папке на вашем компьютере: если очистить данные этого сайта в браузере, они будут удалены. Хранятся последние {0}, но не более {1} МБ в сумме.
+
+Couldn't hand over the kept copy: {0}
+= Не удалось передать сохранённую копию: {0}
+
+Couldn't open the file: {0}
+= Не удалось открыть файл: {0}
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= Не удалось снова прочитать {0} с вашего компьютера: {1}. Содержимое на экране не изменилось.
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= Не удалось сохранить в {0}: {1}. Браузер не может определить, изменился ли файл на вашем компьютере. Ваши изменения остались здесь, а копии файла, сохранённые в этом браузере, находятся в разделе Резервные копии › Оригиналы, сохранённые в этом браузере.
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= Не удалось сохранить в {0}: {1}. Файл на вашем компьютере не изменился. Ваши изменения остались здесь: сохраните ещё раз или скачайте их через «Сохранить копию как».
+
+Download a file as it was before you saved it in place
+= Скачать файл в том виде, в каком он был до сохранения на месте
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= Если всё равно сохранить, текущая версия файла сначала будет сохранена в этом браузере: Резервные копии › Оригиналы, сохранённые в этом браузере.
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= Не сохранено: у этой страницы больше нет доступа к {0}, поэтому файл не затронут. Ваши изменения остались здесь; «Сохранить копию как» скачает их.
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= Не сохранено: файл {0} на вашем компьютере изменился с тех пор, как эта страница в последний раз читала или записывала его, поэтому он не затронут. Ваши изменения остались здесь.
+
+Nothing is kept yet.
+= Пока ничего не сохранено.
+
+Open to save in place…
+= Открыть для сохранения на месте…
+
+Originals kept in this browser
+= Оригиналы, сохранённые в этом браузере
+
+Originals kept in this browser…
+= Оригиналы, сохранённые в этом браузере…
+
+Read {0} again from your computer.
+= Снова прочитать {0} с вашего компьютера.
+
+Reading the browser's storage…
+= Чтение хранилища браузера…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= После этого «Сохранить» записывает данные обратно в выбранный вами файл (после вашего разрешения в браузере) вместо скачивания. Текущая версия файла сначала сохраняется в этом браузере. Некоторые системные папки браузер таким образом не разрешает; для них используйте «Открыть…».
+
+That copy isn't kept in this browser any more.
+= Эта копия больше не хранится в этом браузере.
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= Браузер спросит, может ли эта страница изменить файл, а затем запишет данные обратно в открытый вами файл. Если только это не то, что эта страница записала туда в последний раз, его текущая версия сначала сохраняется в этом браузере: Резервные копии › Оригиналы, сохранённые в этом браузере.
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= Браузер не смог запросить разрешение на изменение {0} ({1}), поэтому файл не изменён.
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= Браузеру не разрешили изменить {0}, поэтому файл не изменён.
+
+The browser's storage couldn't be read: {0}
+= Не удалось прочитать хранилище браузера: {0}
+
+Written back to {0} on your computer.
+= Записано обратно в {0} на вашем компьютере.
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= Записано обратно в {0} на вашем компьютере. Прежняя версия файла сохранена в этом браузере: Резервные копии › Оригиналы, сохранённые в этом браузере.
+
+Your browser downloaded the edited file instead.
+= Вместо этого браузер скачал изменённый файл.
+
+Your browser downloaded the kept copy of {0}.
+= Браузер скачал сохранённую копию {0}.
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} Скачивание тоже не началось ({1}). Ваши изменения остались здесь.
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} не изменён: сначала не удалось сохранить его копию в этом браузере ({1}).

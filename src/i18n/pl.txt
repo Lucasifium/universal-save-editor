@@ -32337,3 +32337,89 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = Teraz ponad limit: {0}.
+
+# browser version: saving in place
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= Zanim plik otwarty przez „Otwórz, aby zapisać w miejscu” zostanie zapisany, jego aktualna wersja jest przechowywana tutaj, chyba że jest dokładnie tym, co ta strona zapisała tam ostatnio. Te kopie znajdują się we własnej pamięci tej przeglądarki, a nie w folderze na komputerze: wyczyszczenie danych tej witryny w przeglądarce usuwa je. Przechowywanych jest {0} najnowszych, łącznie do {1} MB.
+
+Couldn't hand over the kept copy: {0}
+= Nie udało się przekazać przechowywanej kopii: {0}
+
+Couldn't open the file: {0}
+= Nie udało się otworzyć pliku: {0}
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= Nie udało się ponownie odczytać {0} z komputera: {1}. To, co jest na ekranie, nie zostało zmienione.
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= Nie udało się zapisać w {0}: {1}. Przeglądarka nie może stwierdzić, czy plik na komputerze się zmienił. Zmiany nadal tu są, a kopie pliku przechowywane w tej przeglądarce znajdują się w sekcji Kopie zapasowe › Oryginały zachowane w tej przeglądarce.
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= Nie udało się zapisać w {0}: {1}. Plik na komputerze nie został zmieniony. Zmiany nadal tu są: zapisz ponownie lub użyj „Zapisz kopię jako”, aby je pobrać.
+
+Download a file as it was before you saved it in place
+= Pobierz plik w stanie sprzed zapisu w miejscu
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= Jeśli mimo to zapiszesz, aktualna wersja pliku zostanie najpierw zachowana w tej przeglądarce: Kopie zapasowe › Oryginały zachowane w tej przeglądarce.
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= Nie zapisano: ta strona nie ma już dostępu do {0}, więc plik nie został naruszony. Zmiany nadal tu są; „Zapisz kopię jako” je pobierze.
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= Nie zapisano: plik {0} na komputerze zmienił się od czasu, gdy ta strona ostatnio go odczytała lub zapisała, więc nie został naruszony. Zmiany nadal tu są.
+
+Nothing is kept yet.
+= Nic jeszcze nie zachowano.
+
+Open to save in place…
+= Otwórz, aby zapisać w miejscu…
+
+Originals kept in this browser
+= Oryginały zachowane w tej przeglądarce
+
+Originals kept in this browser…
+= Oryginały zachowane w tej przeglądarce…
+
+Read {0} again from your computer.
+= Odczytaj {0} ponownie z komputera.
+
+Reading the browser's storage…
+= Odczytywanie pamięci przeglądarki…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= Zapisz wtedy zapisuje dane z powrotem do wybranego pliku, po wyrażeniu zgody w przeglądarce, zamiast go pobierać. Plik w dotychczasowej postaci jest najpierw zachowywany w tej przeglądarce. Przeglądarka odrzuca w ten sposób niektóre foldery systemowe; dla nich użyj Otwórz….
+
+That copy isn't kept in this browser any more.
+= Ta kopia nie jest już przechowywana w tej przeglądarce.
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= Przeglądarka pyta, czy ta strona może zmienić plik, a następnie zapisuje dane z powrotem do otwartego pliku. Jeśli plik nie jest dokładnie tym, co ta strona zapisała tam ostatnio, jest najpierw zachowywany w tej przeglądarce: Kopie zapasowe › Oryginały zachowane w tej przeglądarce.
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= Przeglądarka nie mogła poprosić o zgodę na zmianę {0} ({1}), więc plik nie został zmieniony.
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= Przeglądarka nie otrzymała zgody na zmianę {0}, więc plik nie został zmieniony.
+
+The browser's storage couldn't be read: {0}
+= Nie udało się odczytać pamięci przeglądarki: {0}
+
+Written back to {0} on your computer.
+= Zapisano z powrotem w {0} na komputerze.
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= Zapisano z powrotem w {0} na komputerze. Plik w dotychczasowej postaci jest zachowany w tej przeglądarce: Kopie zapasowe › Oryginały zachowane w tej przeglądarce.
+
+Your browser downloaded the edited file instead.
+= Zamiast tego przeglądarka pobrała edytowany plik.
+
+Your browser downloaded the kept copy of {0}.
+= Przeglądarka pobrała zachowaną kopię pliku {0}.
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} Pobieranie również się nie rozpoczęło ({1}). Zmiany nadal tu są.
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= Plik {0} nie został zmieniony: nie udało się najpierw zachować jego kopii w tej przeglądarce ({1}).

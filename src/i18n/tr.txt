@@ -32337,3 +32337,89 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = Şu anda sınırın {0} üzerinde.
+
+# browser version: saving in place
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= Yerinde kaydetmek için Aç ile açılan bir dosya yazılmadan önce, dosyanın o andaki hâli, bu sayfanın oraya en son kaydettiği şey değilse burada saklanır. Bu kopyalar bilgisayarınızdaki bir klasörde değil, bu tarayıcının kendi depolama alanında bulunur: tarayıcıda bu sitenin verilerini temizlemek onları siler. En yeni {0} kopya saklanır, toplamda en fazla {1} MB.
+
+Couldn't hand over the kept copy: {0}
+= Saklanan kopya teslim edilemedi: {0}
+
+Couldn't open the file: {0}
+= Dosya açılamadı: {0}
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= {0} bilgisayarınızdan yeniden okunamadı: {1}. Ekrandakiler değiştirilmedi.
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= {0} dosyasına kaydedilemedi: {1}. Tarayıcı, bilgisayarınızdaki dosyanın değişip değişmediğini bilemez. Değişiklikleriniz hâlâ burada ve dosyanın bu tarayıcıda saklanan kopyaları Yedekler › Bu tarayıcıda tutulan orijinaller altındadır.
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= {0} dosyasına kaydedilemedi: {1}. Bilgisayarınızdaki dosya değiştirilmedi. Değişiklikleriniz hâlâ burada: yeniden kaydedin veya indirmek için Kopyayı şu adla kaydet seçeneğini kullanın.
+
+Download a file as it was before you saved it in place
+= Dosyayı yerinde kaydedilmeden önceki hâliyle indir
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= Yine de kaydederseniz dosyanın şimdiki hâli önce bu tarayıcıda saklanır: Yedekler › Bu tarayıcıda tutulan orijinaller.
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= Kaydedilmedi: bu sayfanın artık {0} dosyasına erişimi yok, bu yüzden dosyaya dokunulmadı. Değişiklikleriniz hâlâ burada; Kopyayı şu adla kaydet bunları indirir.
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= Kaydedilmedi: bilgisayarınızdaki {0}, bu sayfa onu en son okuduğundan veya yazdığından beri değişti, bu yüzden dosyaya dokunulmadı. Değişiklikleriniz hâlâ burada.
+
+Nothing is kept yet.
+= Henüz hiçbir şey saklanmadı.
+
+Open to save in place…
+= Yerinde kaydetmek için aç…
+
+Originals kept in this browser
+= Bu tarayıcıda tutulan orijinaller
+
+Originals kept in this browser…
+= Bu tarayıcıda tutulan orijinaller…
+
+Read {0} again from your computer.
+= {0} dosyasını bilgisayarınızdan yeniden oku.
+
+Reading the browser's storage…
+= Tarayıcının depolama alanı okunuyor…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= Kaydet, bundan sonra dosyayı indirmek yerine, tarayıcıda izin verdiğinizde seçtiğiniz dosyaya geri yazar. Dosyanın önceki hâli önce bu tarayıcıda saklanır. Tarayıcı bu yöntemle bazı sistem klasörlerini reddeder; onlar için Aç… kullanın.
+
+That copy isn't kept in this browser any more.
+= Bu kopya artık bu tarayıcıda saklanmıyor.
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= Tarayıcı, bu sayfanın dosyayı değiştirip değiştiremeyeceğini sorar, ardından açtığınız dosyaya geri yazar. Dosya, bu sayfanın oraya en son kaydettiği şey değilse, önce bu tarayıcıda saklanır: Yedekler › Bu tarayıcıda tutulan orijinaller.
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= Tarayıcı {0} dosyasını değiştirmek için izin isteyemedi ({1}), bu yüzden dosya değiştirilmedi.
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= Tarayıcının {0} dosyasını değiştirmesine izin verilmedi, bu yüzden dosya değiştirilmedi.
+
+The browser's storage couldn't be read: {0}
+= Tarayıcının depolama alanı okunamadı: {0}
+
+Written back to {0} on your computer.
+= Bilgisayarınızdaki {0} dosyasına geri yazıldı.
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= Bilgisayarınızdaki {0} dosyasına geri yazıldı. Dosyanın önceki hâli bu tarayıcıda saklanıyor: Yedekler › Bu tarayıcıda tutulan orijinaller.
+
+Your browser downloaded the edited file instead.
+= Bunun yerine tarayıcınız düzenlenen dosyayı indirdi.
+
+Your browser downloaded the kept copy of {0}.
+= Tarayıcınız {0} dosyasının saklanan kopyasını indirdi.
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} İndirme de başlamadı ({1}). Değişiklikleriniz hâlâ burada.
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} değiştirilmedi: önce bu tarayıcıda bir kopyası saklanamadı ({1}).

@@ -32388,3 +32388,89 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = 目前超出上限 {0}。
+
+# browser version: saving in place
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= 在寫入用“開啟以儲存回原檔案”開啟的檔案之前，會把檔案當時的樣子儲存在這裡，除非它正是此頁面上次儲存進去的內容。這些副本位於此瀏覽器自己的儲存中，而不是你電腦上的資料夾裡：在瀏覽器中清除此網站的資料會將其刪除。最多保留最新的 {0} 份，總計不超過 {1} MB。
+
+Couldn't hand over the kept copy: {0}
+= 無法提供儲存的副本：{0}
+
+Couldn't open the file: {0}
+= 無法開啟檔案：{0}
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= 無法從你的電腦重新讀取 {0}：{1}。螢幕上的內容沒有改變。
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= 無法儲存到 {0}：{1}。瀏覽器無法判斷你電腦上的檔案是否已更改。你的更改仍在這裡，此瀏覽器中儲存的該檔案副本位於：備份 › 儲存在此瀏覽器中的原檔案。
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= 無法儲存到 {0}：{1}。你電腦上的檔案未被修改。你的更改仍在這裡：請再次儲存，或用“另存副本為”下載。
+
+Download a file as it was before you saved it in place
+= 下載某個檔案在儲存回原檔案之前的樣子
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= 如果仍然儲存，會先把檔案現在的樣子儲存在此瀏覽器中：備份 › 儲存在此瀏覽器中的原檔案。
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= 未儲存：此頁面已無法訪問 {0}，因此沒有動它。你的更改仍在這裡；“另存副本為”可以下載它們。
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= 未儲存：自此頁面上次讀取或寫入以來，你電腦上的 {0} 已被更改，因此沒有動它。你的更改仍在這裡。
+
+Nothing is kept yet.
+= 還沒有儲存任何內容。
+
+Open to save in place…
+= 開啟以儲存回原檔案…
+
+Originals kept in this browser
+= 儲存在此瀏覽器中的原檔案
+
+Originals kept in this browser…
+= 儲存在此瀏覽器中的原檔案…
+
+Read {0} again from your computer.
+= 已從你的電腦重新讀取 {0}。
+
+Reading the browser's storage…
+= 正在讀取瀏覽器儲存…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= 之後儲存時，在瀏覽器中允許後會寫回你選擇的檔案，而不是下載。原來的檔案會先儲存在此瀏覽器中。瀏覽器用這種方式會拒絕某些系統資料夾；這些請用“開啟…”。
+
+That copy isn't kept in this browser any more.
+= 此瀏覽器中已不再儲存那份副本。
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= 瀏覽器會詢問此頁面能否修改該檔案，然後寫回你開啟的檔案。除非該檔案正是此頁面上次儲存進去的內容，否則會先把它儲存在此瀏覽器中：備份 › 儲存在此瀏覽器中的原檔案。
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= 瀏覽器無法請求修改 {0} 的許可（{1}），因此該檔案未被修改。
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= 瀏覽器沒有獲得修改 {0} 的許可，因此該檔案未被修改。
+
+The browser's storage couldn't be read: {0}
+= 無法讀取瀏覽器儲存：{0}
+
+Written back to {0} on your computer.
+= 已寫回你電腦上的 {0}。
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= 已寫回你電腦上的 {0}。原來的檔案儲存在此瀏覽器中：備份 › 儲存在此瀏覽器中的原檔案。
+
+Your browser downloaded the edited file instead.
+= 你的瀏覽器改為下載了編輯後的檔案。
+
+Your browser downloaded the kept copy of {0}.
+= 你的瀏覽器已下載 {0} 的儲存副本。
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} 下載也沒有開始（{1}）。你的更改仍在這裡。
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} 未被修改：無法先在此瀏覽器中儲存一份副本（{1}）。
