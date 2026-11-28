@@ -486,7 +486,12 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 return Err(format!("{f}: no such file"));
             }
             match &a.name {
-                Some(n) => println!("kept {} as \u{201C}{n}\u{201D}: {}", f, crate::backups::take_named(&path, n)?.display()),
+                Some(n) => {
+                    let kept = crate::backups::take_named(&path, n)?;
+                    // The name as it is kept: characters a file name can't hold are replaced.
+                    let n = crate::backups::list(&path).into_iter().find(|v| v.path == kept).and_then(|v| v.name).unwrap_or_else(|| n.clone());
+                    println!("kept {} as \u{201C}{n}\u{201D}: {}", f, kept.display());
+                }
                 None => match crate::backups::take(&path)? {
                     Some(b) => println!("backed up {} as {}", f, b.display()),
                     None => println!("{f}: the newest backup already holds exactly this file"),
