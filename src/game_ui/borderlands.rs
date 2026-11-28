@@ -178,7 +178,8 @@ fn loot_table(ui: &mut Ui, cx: &GameCtx, id: &str, base: &str, cols: &[&str]) {
         ui.weak(tr("Nothing here."));
         return;
     }
-    egui::ScrollArea::vertical().show_list(ui, id, 360.0, |ui| {
+    // Sideways too: on a phone the columns are wider than the panel.
+    egui::ScrollArea::both().show_list(ui, id, 360.0, |ui| {
         egui::Grid::new((id, "grid")).num_columns(cols.len() + 1).spacing([16.0, 4.0]).striped(true).show(ui, |ui| {
             ui.strong("#"); // i18n-ok
             for c in cols {

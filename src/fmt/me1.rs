@@ -280,7 +280,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn fs(o: &mut Vec<u8>, s: &str) {
@@ -290,7 +290,7 @@ mod tests {
     }
 
     /// A tiny synthetic package: an inventory with credits and Shepard's pawn behaviour.
-    fn sample() -> Vec<u8> {
+    pub(crate) fn sample() -> Vec<u8> {
         let names = ["None", "IntProperty", "StrProperty", "m_nResourceCredits", "BioInventorySaveObject", "BioPawnBehaviorSaveObject", "m_FirstName", "m_XPLevel", "BioSquadSaveObject", "m_nSquadExperience"];
         let n = |s: &str| names.iter().position(|x| *x == s).unwrap() as u32;
         let tag = |o: &mut Vec<u8>, name: &str, ty: &str, size: u32| {

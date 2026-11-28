@@ -839,6 +839,8 @@ pub struct GameCtx<'a> {
 
 impl GameCtx<'_> {
     pub fn get(&self, p: &str) -> Option<&Value> {
+        #[cfg(test)]
+        crate::layout_check::note_read(p);
         self.root.pointer(p)
     }
 
@@ -1041,6 +1043,36 @@ impl GameCtx<'_> {
         self.attribute_line(ui, name, p, None);
     }
 
+    /// `grid_row`s for `(label, pointer, editor width)` rows in a label/editor grid, split into
+    /// columns where the panel is wide (one on a phone). Rows the save doesn't have are left out.
+    pub fn value_grid<L: AsRef<str>, P: AsRef<str>>(&mut self, ui: &mut Ui, id: impl std::hash::Hash + Copy, rows: &[(L, P, f32)]) {
+        let rows: Vec<(&str, &str, f32)> = rows.iter().map(|(l, p, w)| (l.as_ref(), p.as_ref(), *w)).filter(|(_, p, _)| self.get(p).is_some()).collect();
+        let widest = rows.iter().map(|r| r.2).fold(0.0, f32::max);
+        row_columns(ui, 360.0, rows.len(), |ui, range, col| {
+            let mut grid = egui::Grid::new((id, col)).num_columns(2).spacing([12.0, 6.0]);
+            // On a phone a long label is held to the room left of its box (and −/+) and wraps.
+            if ui.ctx().screen_rect().width() < 640.0 {
+                grid = grid.max_col_width((ui.available_width() - widest - 12.0 - 84.0).max(90.0));
+            }
+            grid.show(ui, |ui| {
+                for (label, p, w) in &rows[range] {
+                    self.grid_row(ui, label, p, *w);
+                }
+            });
+        });
+    }
+
+    /// `attribute_open` lines for `(name, pointer)` rows, in columns where the panel is wide (one
+    /// on a phone), so a panel of stats isn't mostly empty. Rows the save doesn't have are left out.
+    pub fn open_attributes<L: AsRef<str>, P: AsRef<str>>(&mut self, ui: &mut Ui, rows: &[(L, P)]) {
+        let rows: Vec<(&str, &str)> = rows.iter().map(|(l, p)| (l.as_ref(), p.as_ref())).filter(|(_, p)| self.num(p).is_some()).collect();
+        row_columns(ui, 300.0, rows.len(), |ui, range, _| {
+            for (name, p) in &rows[range] {
+                self.attribute_open(ui, name, p);
+            }
+        });
+    }
+
     fn attribute_line(&mut self, ui: &mut Ui, name: &str, p: &str, cap: Option<(f64, Color32)>) {
         let name = tr_any(name);
         let Some(n) = self.num(p) else { return };
@@ -1172,6 +1204,8 @@ pub fn panel(ui: &mut Ui, title: &str, add: impl FnOnce(&mut Ui)) {
             find_mark(ui, r.rect, title);
             ui.add_space(4.0);
             add(ui);
+            #[cfg(test)]
+            crate::layout_check::note_panel(ui, title);
         });
         ui.add_space(8.0);
     });
@@ -1297,6 +1331,9 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
     // Panels are tabs, one shown at a time: a row of them in columns would leave all but one
     // column empty, so they are drawn one under the other. Known from the frame before.
     let tabbed = active_section(ui.ctx()).is_some() && section_depth(ui.ctx()) == 0;
+    // The layout check draws every tab at once, each laid out as it is when open.
+    #[cfg(test)]
+    let tabbed = tabbed || (crate::layout_check::stacking() && section_depth(ui.ctx()) == 0);
     let panels_key = key.with("panels");
     if tabbed && ui.ctx().data(|d| d.get_temp::<bool>(panels_key)).unwrap_or(false) {
         for i in 0..n {
@@ -1324,6 +1361,44 @@ pub fn columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, u
         ui.ctx().request_repaint();
     }
     if cols > 1 && widest > col_w + 1.0 && widest > need {
+        ui.ctx().data_mut(|d| d.insert_temp(key, (widest, avail)));
+        ui.ctx().request_repaint();
+    }
+}
+
+/// The rows of one panel (label and editor) in as many columns of at least `min_w` as fit, so a
+/// wide panel isn't mostly empty: one column on a phone, filled top to bottom. `add` draws the rows `range` of column `col` (a grid of them, or one row each).
+pub fn row_columns(ui: &mut Ui, min_w: f32, n: usize, mut add: impl FnMut(&mut Ui, std::ops::Range<usize>, usize)) {
+    if n == 0 {
+        return;
+    }
+    // As in `columns`: a column whose rows need more than `min_w` is remembered, and fewer
+    // columns are used from the next frame on.
+    let screen = ui.ctx().data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
+    let key = ui.next_auto_id().with(("row_columns_need", n, min_w.to_bits(), screen));
+    let avail = ui.available_rect_before_wrap().width();
+    let need = ui.ctx().data(|d| d.get_temp::<(f32, f32)>(key)).filter(|&(_, w)| (w - avail).abs() < 0.5).map_or(0.0, |(n, _)| n);
+    let gap = ui.spacing().item_spacing.x;
+    let fit = (((avail + gap) / (min_w.max(need) + gap)).floor() as usize).clamp(1, n);
+    // As many rows to a column as that takes, then no more columns than those rows fill.
+    let per = n.div_ceil(fit);
+    let cols = n.div_ceil(per);
+    if cols == 1 {
+        add(ui, 0..n, 0);
+        return;
+    }
+    let col_w = (avail - gap * (cols - 1) as f32) / cols as f32;
+    let mut widest = 0.0_f32;
+    ui.columns(cols, |cs| {
+        for (c, col) in cs.iter_mut().enumerate() {
+            let range = (c * per).min(n)..((c + 1) * per).min(n);
+            if !range.is_empty() {
+                col.with_layout(egui::Layout::top_down(egui::Align::Min), |ui| add(ui, range, c));
+            }
+        }
+        widest = cs.iter().map(|c| c.min_rect().width()).fold(0.0, f32::max);
+    });
+    if widest > col_w + 1.0 && widest > need {
         ui.ctx().data_mut(|d| d.insert_temp(key, (widest, avail)));
         ui.ctx().request_repaint();
     }

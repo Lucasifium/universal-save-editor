@@ -538,7 +538,7 @@ fn fix(d: &mut Vec<u8>) {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 
@@ -626,7 +626,7 @@ mod tests {
         w.bytes()
     }
 
-    fn synthetic() -> Vec<u8> {
+    pub(crate) fn synthetic() -> Vec<u8> {
         let mut w = W::default();
         w.u(64, SAVE_MAGIC);
         w.u(1, 1);

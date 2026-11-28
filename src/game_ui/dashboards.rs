@@ -21,13 +21,10 @@ fn join(base: &str, key: &str) -> String {
     format!("{base}/{}", pointer_escape(key))
 }
 
-/// Rows of (label, pointer) as a two-column grid.
+/// Rows of (label, pointer) as a two-column grid, split into columns where the panel is wide.
 fn grid(ui: &mut Ui, cx: &mut GameCtx, id: &str, rows: &[(&str, String)]) {
-    egui::Grid::new(id).num_columns(2).spacing([16.0, 6.0]).show(ui, |ui| {
-        for (label, p) in rows {
-            cx.grid_row(ui, label, p, 160.0);
-        }
-    });
+    let rows: Vec<(&str, &str, f32)> = rows.iter().map(|(l, p)| (*l, p.as_str(), 160.0)).collect();
+    cx.value_grid(ui, id, &rows);
 }
 
 /// Every scalar value of an object, as a grid spread over columns.

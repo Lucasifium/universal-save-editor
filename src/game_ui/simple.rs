@@ -413,16 +413,20 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, visible.len(), |ui, k| {
         let (sec, rows) = &visible[k];
         panel(ui, &tr_text(sec.title), |ui| {
-            // On a phone a long label ("Max health (sixteenths of a heart)") pushed its box off the
-            // right edge; there the label column is held to the room left of the box and wraps.
-            let mut grid = egui::Grid::new(("simple_grid", i, k)).num_columns(2).spacing([14.0, 5.0]);
-            if ui.ctx().screen_rect().width() < 640.0 {
-                grid = grid.max_col_width((ui.available_width() - 110.0 - 14.0 - 24.0).max(90.0));
-            }
-            grid.show(ui, |ui| {
-                for (label, p) in rows {
-                    cx.grid_row(ui, &tr_text(label), p, 110.0);
+            let shown: Vec<&(&str, String)> = rows.iter().filter(|(_, p)| cx.get(p).is_some()).collect();
+            // In columns where the window is wide, so a long panel doesn't leave most of it empty.
+            super::row_columns(ui, 380.0, shown.len(), |ui, range, col| {
+                // On a phone a long label ("Max health (sixteenths of a heart)") pushed its box off the
+                // right edge; there the label column is held to the room left of the box and wraps.
+                let mut grid = egui::Grid::new(("simple_grid", i, k, col)).num_columns(2).spacing([14.0, 5.0]);
+                if ui.ctx().screen_rect().width() < 640.0 {
+                    grid = grid.max_col_width((ui.available_width() - 110.0 - 14.0 - 24.0).max(90.0));
                 }
+                grid.show(ui, |ui| {
+                    for (label, p) in &shown[range] {
+                        cx.grid_row(ui, &tr_text(label), p, 110.0);
+                    }
+                });
             });
         });
     });
@@ -540,23 +544,28 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
                         }
                     }
                     let q = filter(ui, &format!("{i}/{li}"));
-                    egui::Grid::new(("simple_list", i, li)).num_columns(2).spacing([14.0, 4.0]).show(ui, |ui| {
-                        for (id, p) in &list {
-                            let name = name_of(l, id);
-                            if !q.is_empty() && !name.to_lowercase().contains(&q) {
-                                continue;
-                            }
-                            cx.label(ui, &name, p);
-                            let n = cx.edits.len();
-                            ui.horizontal(|ui| cx.editor(ui, p, 110.0));
-                            if cx.edits.len() > n {
-                                if let Some((_, v)) = cx.edits.last().cloned() {
-                                    cx.edits.pop();
-                                    set_count(cx, l, p, v);
-                                }
-                            }
-                            ui.end_row();
+                    let shown: Vec<(String, &String)> = list.iter().map(|(id, p)| (name_of(l, id), p)).filter(|(name, _)| q.is_empty() || name.to_lowercase().contains(&q)).collect();
+                    // In columns where the window is wide, so a long list doesn't leave most of the panel empty.
+                    super::row_columns(ui, 380.0, shown.len(), |ui, range, col| {
+                        // On a phone a long item name is held to the room left of its box and wraps.
+                        let mut grid = egui::Grid::new(("simple_list", i, li, col)).num_columns(2).spacing([14.0, 4.0]);
+                        if ui.ctx().screen_rect().width() < 640.0 {
+                            grid = grid.max_col_width((ui.available_width() - 110.0 - 14.0 - 84.0).max(90.0));
                         }
+                        grid.show(ui, |ui| {
+                            for (name, p) in &shown[range] {
+                                cx.label(ui, name, p);
+                                let n = cx.edits.len();
+                                ui.horizontal(|ui| cx.editor(ui, p, 110.0));
+                                if cx.edits.len() > n {
+                                    if let Some((_, v)) = cx.edits.last().cloned() {
+                                        cx.edits.pop();
+                                        set_count(cx, l, p, v);
+                                    }
+                                }
+                                ui.end_row();
+                            }
+                        });
                     });
                 });
             }
@@ -565,7 +574,7 @@ pub fn show(i: u16, ui: &mut Ui, cx: &mut GameCtx) {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::json;
 
@@ -586,7 +595,7 @@ mod tests {
     }
 
     /// A made-up save with every value of the spec in it.
-    fn synthetic(s: &Spec) -> Value {
+    pub(crate) fn synthetic(s: &Spec) -> Value {
         let mut root = json!({});
         for m in s.markers {
             put(&mut root, m, json!(5));

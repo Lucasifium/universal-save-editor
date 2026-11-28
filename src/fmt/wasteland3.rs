@@ -489,10 +489,10 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
-    fn synthetic_xml() -> Vec<u8> {
+    pub(crate) fn synthetic_xml() -> Vec<u8> {
         let item = |t: &str, q: u32| format!("<item><templateName>{t}</templateName><slot>0</slot><ammoLoaded>0</ammoLoaded><quantity>{q}</quantity><uid>00000000-0000-0000-0000-000000000000</uid></item>");
         let pc = |name: &str, lv: u32| {
             format!(

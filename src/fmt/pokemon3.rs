@@ -899,7 +899,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     #[test]
@@ -929,7 +929,7 @@ mod tests {
     }
 
     /// Build a minimal valid Emerald save with one party Pokémon.
-    fn synthetic() -> Vec<u8> {
+    pub(crate) fn synthetic() -> Vec<u8> {
         let mut d = vec![0u8; 0x20000];
         let key = 0x1234_5678u32;
         for (blk, idx) in [(0usize, 4u32), (BLOCK, 5)] {

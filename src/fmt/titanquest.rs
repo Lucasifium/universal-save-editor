@@ -163,7 +163,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn key(d: &mut Vec<u8>, k: &str) {
@@ -181,7 +181,7 @@ mod tests {
     }
 
     /// A synthetic character with the records the reader looks for.
-    fn sample() -> Vec<u8> {
+    pub(crate) fn sample() -> Vec<u8> {
         let mut d = vec![];
         word(&mut d, "headerVersion", 3);
         text(&mut d, "playerCharacterClass", "Warrior");

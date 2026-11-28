@@ -146,7 +146,7 @@ fn person(b: &mut Builder, path: &[&str], f: &dbpf::Flat) {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 

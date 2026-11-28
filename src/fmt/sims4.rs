@@ -325,7 +325,7 @@ pub fn rebuild(original: &[u8], flat: &[u8]) -> Result<Vec<u8>, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 
@@ -335,7 +335,7 @@ mod tests {
         o
     }
 
-    fn package() -> Vec<u8> {
+    pub(crate) fn package() -> Vec<u8> {
         let mut hh = fld(2, 1, 0, &7u64.to_le_bytes());
         hh.extend(fld(3, 2, 0, b"Goth"));
         hh.extend(fld(5, 0, 20_000, &[]));

@@ -204,7 +204,7 @@ fn person(b: &mut Builder, path: &[&str], d: &[u8], data: usize) {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 
@@ -246,7 +246,7 @@ mod tests {
         r
     }
 
-    fn synthetic() -> Vec<u8> {
+    pub(crate) fn synthetic() -> Vec<u8> {
         let mut d = MAGIC.to_vec();
         d.resize(64, 0);
         let mut fami = vec![];

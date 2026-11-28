@@ -451,11 +451,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     /// A synthetic BL3 save: header with two format GUIDs, then an encrypted character.
-    fn sample() -> Vec<u8> {
+    pub(crate) fn sample() -> Vec<u8> {
         sample_of(b"OAK-TEST\0", b"OakSaveGame\0")
     }
 

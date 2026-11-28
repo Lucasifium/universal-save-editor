@@ -141,40 +141,47 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, col| {
         if col == 0 {
             panel(ui, "Ability scores", |ui| {
-                for (k, short) in ABILITIES {
-                    let Some(s) = stats.as_deref().and_then(|s| child(cx.root, s, k)) else { continue };
-                    let p = format!("{s}/m_BaseValue");
-                    if cx.get(&p).is_some() {
-                        cx.attribute_open(ui, &format!("{k} ({short})"), &p);
-                    }
-                }
+                let rows: Vec<(String, String)> = ABILITIES
+                    .iter()
+                    .filter_map(|(k, short)| {
+                        let s = stats.as_deref().and_then(|s| child(cx.root, s, k))?;
+                        let p = format!("{s}/m_BaseValue");
+                        cx.get(&p).is_some().then(|| (format!("{k} ({short})"), p))
+                    })
+                    .collect();
+cx.open_attributes(ui, &rows);
                 ui.weak(tr("Base scores, before race, items and buffs."));
             });
         } else {
             panel(ui, "Progression", |ui| {
+                // One row style for the editable values: name on the left, the box on the right.
+                let mut rows: Vec<(&str, String, f32)> = vec![];
                 if let Some(p) = &prog {
-                    for (label, k) in [("Experience", "Experience"), ("Mythic rank", "MythicExperience")] {
-                        let q = format!("{p}/{k}");
-                        if cx.get(&q).is_some() {
-                            cx.grid_row(ui, label, &q, 120.0);
-                        }
+                    rows.push(("Experience", format!("{p}/Experience"), 120.0));
+                    rows.push(("Mythic rank", format!("{p}/MythicExperience"), 120.0));
+                }
+                if let Some(hp) = stats.as_deref().and_then(|s| child(cx.root, s, "HitPoints")) {
+                    rows.push(("Hit points (base)", format!("{hp}/m_BaseValue"), 80.0));
+                }
+                let rows: Vec<(&str, String, f32)> = rows.into_iter().filter(|r| cx.get(&r.1).is_some()).collect();
+                super::row_columns(ui, 300.0, rows.len(), |ui, range, _| {
+                    for (label, q, w) in &rows[range] {
+                        cx.row_fixed(ui, label, q, 110.0, *w);
                     }
-                    if let Some(classes) = cx.get(&format!("{p}/Classes")).and_then(Value::as_array).cloned() {
-                        ui.add_space(6.0);
-                        for c in classes {
+                });
+                let classes = prog.as_ref().and_then(|p| cx.get(&format!("{p}/Classes"))).and_then(Value::as_array).cloned().unwrap_or_default();
+                if !classes.is_empty() {
+                    ui.add_space(6.0);
+                    let names: Vec<String> = classes
+                        .iter()
+                        .map(|c| {
                             let g = c.get("CharacterClass").and_then(Value::as_str).unwrap_or_default();
                             let name = guid_name(g, wotr).unwrap_or_else(|| crate::i18n::tr("Class").into());
                             let lv = c.get("Level").and_then(Value::as_i64).unwrap_or(0);
-                            ui.label(format!("{name} {lv}")); // i18n-ok: a class name and its level
-                        }
-                    }
-                }
-                if let Some(hp) = stats.as_deref().and_then(|s| child(cx.root, s, "HitPoints")) {
-                    let q = format!("{hp}/m_BaseValue");
-                    if cx.get(&q).is_some() {
-                        ui.add_space(6.0);
-                        cx.grid_row(ui, "Hit points (base)", &q, 80.0);
-                    }
+                            format!("{name} {lv}")
+                        })
+                        .collect();
+                    ui.label(names.join("  \u{00B7}  ")); // i18n-ok: class names and their levels
                 }
                 ui.weak(tr("Experience is shared by the party; raising it gives level-ups to pick in the game."));
             });

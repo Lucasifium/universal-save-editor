@@ -364,11 +364,11 @@ pub fn parse(p: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     /// Game data with a header, a facilities and a likes section, and the directory.
-    fn data() -> Vec<u8> {
+    pub(crate) fn data() -> Vec<u8> {
         let mut p = vec![0u8; 0x200];
         p[..9].copy_from_slice(b"v1.0.45.0");
         p[0x178..0x180].copy_from_slice(&3725.0f64.to_le_bytes());

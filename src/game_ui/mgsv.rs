@@ -107,23 +107,26 @@ fn resources(ui: &mut Ui, cx: &mut GameCtx) {
                 }
             }
         }
-        Grid::new("mgsv_res").num_columns(5).spacing([14.0, 4.0]).show(ui, |ui| {
-            ui.strong(tr("Resource"));
-            ui.strong(tr("Owned"));
-            ui.strong(tr("Online"));
-            ui.strong(tr("Local"));
-            ui.strong(tr("Processed (online)"));
-            ui.end_row();
-            for n in &rs {
-                ui.label(n); // i18n-ok: a name or value from the save, or already translated
-                let p = |f: &str| format!("/Resources/{}/{f}", esc(n));
-                let total = cx.int(&p("Usable (online)")).unwrap_or(0) + cx.int(&p("Usable (local)")).unwrap_or(0);
-                ui.label(total.to_string());
-                cx.editor(ui, &p("Usable (online)"), 90.0);
-                cx.editor(ui, &p("Usable (local)"), 90.0);
-                cx.editor(ui, &p("Processed (online)"), 90.0);
+        // Wider than a phone: the table scrolls sideways instead of pushing the panel off the screen.
+        ScrollArea::horizontal().auto_shrink([false, true]).id_salt("mgsv_res_scroll").show_locked(ui, |ui| {
+            Grid::new("mgsv_res").num_columns(5).spacing([14.0, 4.0]).show(ui, |ui| {
+                ui.strong(tr("Resource"));
+                ui.strong(tr("Owned"));
+                ui.strong(tr("Online"));
+                ui.strong(tr("Local"));
+                ui.strong(tr("Processed (online)"));
                 ui.end_row();
-            }
+                for n in &rs {
+                    ui.label(n); // i18n-ok: a name or value from the save, or already translated
+                    let p = |f: &str| format!("/Resources/{}/{f}", esc(n));
+                    let total = cx.int(&p("Usable (online)")).unwrap_or(0) + cx.int(&p("Usable (local)")).unwrap_or(0);
+                    ui.label(total.to_string());
+                    cx.editor(ui, &p("Usable (online)"), 90.0);
+                    cx.editor(ui, &p("Usable (local)"), 90.0);
+                    cx.editor(ui, &p("Processed (online)"), 90.0);
+                    ui.end_row();
+                }
+            });
         });
         ui.weak(tr("The game shows Owned = online + local (the number with the globe is the online part). Checked against the in-game vehicle, walker gear and placed-weapon screens."));
     });

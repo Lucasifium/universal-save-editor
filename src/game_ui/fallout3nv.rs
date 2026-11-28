@@ -27,10 +27,13 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 340.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "S.P.E.C.I.A.L.", |ui| {
-                egui::Grid::new("fo_special").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                    for n in ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"] {
-                        cx.grid_row(ui, n, &format!("/S.P.E.C.I.A.L./{n}"), 70.0);
-                    }
+                const SPECIAL: [&str; 7] = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"];
+                super::row_columns(ui, 300.0, SPECIAL.len(), |ui, range, col| {
+                    egui::Grid::new(("fo_special", col)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+                        for n in &SPECIAL[range] {
+                            cx.grid_row(ui, n, &format!("/S.P.E.C.I.A.L./{n}"), 70.0);
+                        }
+                    });
                 });
                 ui.weak(tr("The perk and trait bonuses on top come from the game."));
             });
@@ -44,10 +47,12 @@ pub fn show(ui: &mut Ui, cx: &mut GameCtx) {
                     ui.weak(tr("This save's skills couldn't be read."));
                     return;
                 }
-                egui::Grid::new("fo_skills").num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
-                    for n in &names {
-                        cx.grid_row(ui, n, &format!("/Skills/{n}"), 70.0);
-                    }
+                super::row_columns(ui, 300.0, names.len(), |ui, range, col| {
+                    egui::Grid::new(("fo_skills", col)).num_columns(2).spacing([12.0, 6.0]).show(ui, |ui| {
+                        for n in &names[range] {
+                            cx.grid_row(ui, n, &format!("/Skills/{n}"), 70.0);
+                        }
+                    });
                 });
                 ui.weak(tr("Points spent at level-up plus books, bobbleheads and perks. The game adds them to each skill's base (from S.P.E.C.I.A.L., +15 when tagged) and stops counting at 100."));
             });
