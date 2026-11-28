@@ -423,7 +423,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     painter.text(row_rect.left_center() + egui::vec2(32.0, 0.0), egui::Align2::LEFT_CENTER, &s.title, FontId::new(16.0, theme::semibold_family()), c);
                     let mut right = format!("{count}");
                     if s.advanced {
-                        right = format!("{}  \u{00B7}  {right}", tr("advanced"));
+                        right = format!("{}  \u{00B7}  {right}", tr("rarely needed"));
                     }
                     painter.text(row_rect.right_center() - egui::vec2(12.0, 0.0), egui::Align2::RIGHT_CENTER, right, FontId::new(13.0, egui::FontFamily::Proportional), ui.visuals().weak_text_color());
                     if resp.clicked() {

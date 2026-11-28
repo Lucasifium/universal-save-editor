@@ -213,9 +213,6 @@ Preferences…
 View
 = Exibir
 
-Show advanced values
-= Mostrar valores avançados
-
 Show raw key names
 = Mostrar nomes brutos das chaves
 
@@ -585,14 +582,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = O filtro examina nomes, chaves e valores atuais.
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= Não há valores editáveis aqui. Tente ativar Avançado ou use a visualização Árvore.
-
 Try part of a name (“gold”) or a current value (“1500”).
 = Tente parte de um nome (“ouro”) ou um valor atual (“1500”).
-
-Advanced values are hidden — tick Advanced to search them too.
-= Os valores avançados estão ocultos — marque Avançado para pesquisá-los também.
 
 Changes
 = Alterações
@@ -27062,9 +27053,6 @@ Undone.
 Usually in
 = Normalmente em
 
-advanced
-= avançado
-
 in {0}
 = em {0}
 
@@ -31768,3 +31756,18 @@ Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you
 
 The most this field takes. Click to set it to {0}.
 = O máximo que este campo aceita. Clique para definir como {0}.
+
+Show rarely needed values
+= Mostrar valores raramente necessários
+
+Rarely needed
+= Raramente necessários
+
+rarely needed
+= raramente necessário
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= Não há valores editáveis aqui. Tente ativar Raramente necessários ou use a visualização Árvore.
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= Os valores raramente necessários estão ocultos — ative Raramente necessários para pesquisá-los também.

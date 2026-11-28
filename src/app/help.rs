@@ -252,7 +252,7 @@ impl App {
                         ui.ctx().set_zoom_factor(1.0);
                     }
                 });
-                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show advanced values")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show rarely needed values")).changed();
                 changed |= crate::widgets::checkbox(ui, &mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
                 changed |= crate::widgets::checkbox(ui, &mut self.settings.hex_guide, tr("Show the find-a-value guide in the hex view")).changed();
                 ui.separator();

@@ -213,9 +213,6 @@ Preferences…
 View
 = 表示
 
-Show advanced values
-= 詳細な値を表示
-
 Show raw key names
 = 生のキー名を表示
 
@@ -585,14 +582,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = フィルターは名前、キー、現在の値を対象にします。
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= ここに編集できる値はありません。「詳細」をオンにするか、ツリー表示を使ってください。
-
 Try part of a name (“gold”) or a current value (“1500”).
 = 名前の一部（「gold」）や現在の値（「1500」）で試してください。
-
-Advanced values are hidden — tick Advanced to search them too.
-= 詳細な値は非表示です。「詳細」にチェックを入れるとそれらも検索できます。
 
 Changes
 = 変更
@@ -27173,9 +27164,6 @@ Undone.
 Usually in
 = 通常の場所
 
-advanced
-= 詳細
-
 in {0}
 = {0} 内
 
@@ -31879,3 +31867,18 @@ Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you
 
 The most this field takes. Click to set it to {0}.
 = この項目の上限です。クリックすると {0} にします。
+
+Show rarely needed values
+= めったに使わない値を表示
+
+Rarely needed
+= めったに使わない値
+
+rarely needed
+= めったに使わない
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= ここに編集できる値はありません。「めったに使わない値」をオンにするか、ツリー表示を使ってください。
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= めったに使わない値は非表示です。「めったに使わない値」をオンにするとそれらも検索できます。

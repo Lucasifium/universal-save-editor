@@ -2389,7 +2389,7 @@ impl App {
             });
             ui.menu_button(tr("View"), |ui| {
                 let mut changed = false;
-                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show advanced values")).changed();
+                changed |= crate::widgets::checkbox(ui, &mut self.settings.show_advanced, tr("Show rarely needed values")).changed();
                 changed |= crate::widgets::checkbox(ui, &mut self.settings.show_raw_keys, tr("Show raw key names")).changed();
                 crate::widgets::checkbox(ui, &mut self.show_changes, tr("Changes panel"));
                 if ui.add_enabled(self.doc.is_some() && !self.doc_note.is_empty() && self.note_hidden(), egui::Button::new(tr("Show the note about this file"))).clicked() {
@@ -3846,7 +3846,7 @@ impl App {
         } else {
             tr("Also show engine internals and read-only values").to_string()
         };
-        let label = if hidden > 0 && !self.settings.show_advanced { format!("{} ({hidden})", tr("Advanced")) } else { tr("Advanced").into() };
+        let label = if hidden > 0 && !self.settings.show_advanced { format!("{} ({hidden})", tr("Rarely needed")) } else { tr("Rarely needed").into() };
         changed |= widgets::labeled_toggle(ui, &mut self.settings.show_advanced, &label, &tip);
         if changed {
             self.settings.save();
@@ -3980,12 +3980,12 @@ impl App {
                     ui.add_space(40.0);
                     ui.vertical_centered(|ui| {
                         if self.search.trim().is_empty() {
-                            ui.weak(tr("No editable values here. Try turning on Advanced, or use the Tree view."));
+                            ui.weak(tr("No editable values here. Try turning on Rarely needed, or use the Tree view."));
                         } else {
                             ui.label(trf("Nothing matches \u{201C}{0}\u{201D}.", &[&self.search.trim()]));
                             ui.weak(tr("Try part of a name (\u{201C}gold\u{201D}) or a current value (\u{201C}1500\u{201D})."));
                             if !self.settings.show_advanced {
-                                ui.weak(tr("Advanced values are hidden \u{2014} tick Advanced to search them too."));
+                                ui.weak(tr("Rarely needed values are hidden \u{2014} turn on Rarely needed to search them too."));
                             }
                         }
                     });
