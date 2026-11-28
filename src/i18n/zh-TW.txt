@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = 這臺電腦上
 
-Other games
-= 其他遊戲
-
 Console games
 = 主機遊戲
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = 沒有匹配的遊戲。請用「開啟…」自行選擇檔案。
-
-Choose a game from the list.
-= 請從清單中選擇遊戲。
 
 Looking for saves…
 = 正在查詢存檔…
@@ -209,9 +203,6 @@ Preferences…
 
 View
 = 檢視
-
-Show advanced values
-= 顯示高階數值
 
 Show raw key names
 = 顯示原始鍵名
@@ -576,14 +567,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = 篩選會匹配名稱、鍵和目前數值。
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= 這裡沒有可編輯的數值。請嘗試開啟「高階」，或使用樹狀檢視。
-
 Try part of a name (“gold”) or a current value (“1500”).
 = 試試輸入名稱的一部分（「gold」）或目前數值（「1500」）。
-
-Advanced values are hidden — tick Advanced to search them too.
-= 高階數值已隱藏——勾選「高階」後也可搜尋它們。
 
 Changes
 = 更改
@@ -10026,9 +10011,6 @@ Skill test modifier (%)
 Skill trees
 = 技能樹
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= 技能和性格範圍為0到1000；每100對應遊戲條上的一點。模擬人以ID列出（其名稱在角色檔案中）。鎮民和預設家庭位於「數值」標籤頁開啟「高階」後的「其他模擬人」下。尚未在遊戲中測試。
-
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = 技能範圍為0到6；ADR是六類危險品，以位表示（63＝全部）。經驗決定司機等級；遊戲在載入時自行計算。
 
@@ -12357,9 +12339,6 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste。時間以 100 納秒的刻度(tick)為單位(每秒 10,000,000)。
-
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= 技能和性格範圍為0到1000；每100對應遊戲條上的一點。模擬人使用其檔名（user00012即Characters\User00012.iff）。鎮民和訪客位於「數值」標籤頁開啟「高階」後的「其他模擬人」下。尚未在遊戲中測試。
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id> 中的 StellarBladeSave00.sav。物品名稱為遊戲內部 ID;儲存時會重新寫入存檔的 CRC-32。已在真實的遊戲初期存檔上檢查,尚未在遊戲中試用。
@@ -27133,9 +27112,6 @@ Undone.
 Usually in
 = 通常位於
 
-advanced
-= 高階
-
 in {0}
 = 位於 {0}
 
@@ -32474,3 +32450,95 @@ Your browser downloaded the kept copy of {0}.
 
 {0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
 = {0} 未被修改：無法先在此瀏覽器中儲存一份副本（{1}）。
+
+# texts added by recent changes
+
+(none)
+= （無）
+
+Action and adventure
+= 動作與冒險
+
+All games
+= 所有遊戲
+
+Any genre
+= 所有型別
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= 點選存檔即可開啟。儲存之前不會寫入任何內容，寫入前會先備份磁碟上的檔案。
+
+Dark or light as your system is set, changing with it.
+= 按系統設定使用深色或淺色，並隨系統切換。
+
+How this works
+= 使用方法
+
+Look through all the usual places on this computer again, for games added since.
+= 重新查詢這臺電腦上所有常見位置，找出之後新增的遊戲。
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= 這裡沒有可編輯的數值。請嘗試開啟“很少用到”，或使用樹狀檢視。
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= 只顯示這一類遊戲。清單中沒有型別的遊戲顯示在“所有型別”下。
+
+Popular
+= 熱門
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= 也可以快速計算：+500、*2、/2、250k、1.5m、max 或 min，按 Enter 時算出結果。
+
+RPG
+= 角色扮演
+
+Rarely needed
+= 很少用到
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= 很少用到的數值已隱藏——開啟“很少用到”後也可搜尋它們。
+
+Roguelike, roguelite and idle
+= Roguelike、Roguelite 與放置
+
+Shooter
+= 射擊
+
+Show rarely needed values
+= 顯示很少用到的數值
+
+Simulation, farming and management
+= 模擬、農場與經營
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= 技能和性格範圍為0到1000；每100對應遊戲條上的一點。模擬人以ID列出（其名稱在角色檔案中）。鎮民和預設家庭位於“數值”標籤頁開啟“很少用到”後的“其他模擬人”下。尚未在遊戲中測試。
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= 技能和性格範圍為0到1000；每100對應遊戲條上的一點。模擬人使用其檔名（user00012即Characters\User00012.iff）。鎮民和訪客位於“數值”標籤頁開啟“很少用到”後的“其他模擬人”下。尚未在遊戲中測試。
+
+Soulslike and Metroidvania
+= 魂類與銀河惡魔城
+
+Strategy
+= 策略
+
+Survival and crafting
+= 生存與建造
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= 每個遊戲旁的標記表示可編輯的程度：螢幕（有專門的介面）、數值（按名稱列出所有數值）或十六進位制（找到你知道的數字後修改）。
+
+The most this field takes. Click to set it to {0}.
+= 此項的上限。點選設為 {0}。
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= 輸入名稱的一部分，或 bg3、ff7 這樣的簡稱；含有匹配項的字母會自動展開。
+
+What can it open?
+= 能開啟哪些檔案？
+
+rarely needed
+= 很少用到
+
+{0} save ({1})
+= {0} 存檔（{1}）

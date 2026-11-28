@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = Na tym komputerze
 
-Other games
-= Inne gry
-
 Console games
 = Gry konsolowe
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Żadna gra nie pasuje. Użyj Otwórz…, aby samodzielnie wybrać plik.
-
-Choose a game from the list.
-= Wybierz grę z listy.
 
 Looking for saves…
 = Szukanie zapisów…
@@ -209,9 +203,6 @@ Preferences…
 
 View
 = Widok
-
-Show advanced values
-= Pokaż wartości zaawansowane
 
 Show raw key names
 = Pokaż surowe nazwy kluczy
@@ -576,14 +567,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = Filtr przeszukuje nazwy, klucze i bieżące wartości.
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= Brak edytowalnych wartości. Spróbuj włączyć Zaawansowane lub użyj widoku Drzewo.
-
 Try part of a name (“gold”) or a current value (“1500”).
 = Spróbuj wpisać część nazwy („gold”) lub bieżącą wartość („1500”).
-
-Advanced values are hidden — tick Advanced to search them too.
-= Wartości zaawansowane są ukryte — zaznacz Zaawansowane, aby je również przeszukać.
 
 Changes
 = Zmiany
@@ -9967,9 +9952,6 @@ Skill test modifier (%)
 Skill trees
 = Drzewka umiejętności
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Umiejętności i osobowość mieszczą się w zakresie od 0 do 1000; każde 100 to jeden punkt na paskach gry. Simowie są wymienieni według identyfikatorów (ich imiona są w plikach postaci). Mieszkańcy miasta i domyślne rodziny są w sekcji Inni Simowie na karcie Wartości z włączonym trybem Zaawansowane. Jeszcze nie wypróbowano w grze.
-
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = Umiejętności mieszczą się w zakresie od 0 do 6; ADR to sześć klas towarów niebezpiecznych zapisanych jako bity (63 = wszystkie). Doświadczenie ustala poziom kierowcy; gra wylicza go przy wczytywaniu.
 
@@ -12291,9 +12273,6 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste. Czasy są podane w tyknięciach po 100 nanosekund (10,000,000 na sekundę).
-
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Umiejętności i osobowość mieszczą się w zakresie od 0 do 1000; każde 100 to jeden punkt na paskach gry. Simowie noszą nazwę swojego pliku (user00012 to Characters\User00012.iff). Mieszkańcy miasta i goście są w Innych Simach na karcie Wartości po włączeniu Zaawansowanych. Jeszcze nie wypróbowano w grze.
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav w %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>. Nazwy przedmiotów to wewnętrzne identyfikatory gry; suma CRC-32 zapisu jest zapisywana ponownie przy zapisie. Sprawdzono na prawdziwym zapisie z początku gry, jeszcze nie wypróbowano w grze.
@@ -27076,9 +27055,6 @@ Undone.
 Usually in
 = Zwykle w
 
-advanced
-= zaawansowane
-
 in {0}
 = w {0}
 
@@ -32423,3 +32399,95 @@ Your browser downloaded the kept copy of {0}.
 
 {0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
 = Plik {0} nie został zmieniony: nie udało się najpierw zachować jego kopii w tej przeglądarce ({1}).
+
+# texts added by recent changes
+
+(none)
+= (brak)
+
+Action and adventure
+= Akcja i przygodówki
+
+All games
+= Wszystkie gry
+
+Any genre
+= Dowolny gatunek
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Kliknij zapis, aby go otworzyć. Nic nie jest zapisywane, dopóki nie klikniesz Zapisz, a plik na dysku jest najpierw archiwizowany w kopii zapasowej.
+
+Dark or light as your system is set, changing with it.
+= Ciemny lub jasny zgodnie z ustawieniami systemu, zmienia się razem z nim.
+
+How this works
+= Jak to działa
+
+Look through all the usual places on this computer again, for games added since.
+= Przeszukaj ponownie wszystkie typowe miejsca na tym komputerze pod kątem dodanych od tego czasu gier.
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= Brak wartości do edycji. Spróbuj włączyć opcję Rzadko potrzebne lub użyj widoku drzewa.
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Tylko gry tego rodzaju. Gry bez gatunku na liście są wyświetlane w sekcji Dowolny gatunek.
+
+Popular
+= Popularne
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= Szybkie obliczenia też działają: +500, *2, /2, 250k, 1.5m, max lub min, obliczane po naciśnięciu Enter.
+
+RPG
+= RPG
+
+Rarely needed
+= Rzadko potrzebne
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= Rzadko potrzebne wartości są ukryte — włącz opcję Rzadko potrzebne, aby je również przeszukiwać.
+
+Roguelike, roguelite and idle
+= Roguelike, roguelite i idle
+
+Shooter
+= Strzelanki
+
+Show rarely needed values
+= Pokaż rzadko potrzebne wartości
+
+Simulation, farming and management
+= Symulacje, farmy i zarządzanie
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Umiejętności i osobowość mieszczą się w zakresie od 0 do 1000; każde 100 to jeden punkt na paskach w grze. Simowie są wymienieni według id (ich imiona znajdują się w plikach postaci). Mieszkańcy miasta i domyślne rodziny są w sekcji Inni Simowie na karcie Wartości po włączeniu opcji Rzadko potrzebne. Jeszcze nie wypróbowano w grze.
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Umiejętności i osobowość mieszczą się w zakresie od 0 do 1000; każde 100 to jeden punkt na paskach w grze. Simowie mają nazwę pliku (user00012 to Characters\User00012.iff). Mieszkańcy miasta i goście są w sekcji Inni Simowie na karcie Wartości po włączeniu opcji Rzadko potrzebne. Jeszcze nie wypróbowano w grze.
+
+Soulslike and Metroidvania
+= Soulslike i Metroidvania
+
+Strategy
+= Strategie
+
+Survival and crafting
+= Przetrwanie i wytwarzanie
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= Odznaka obok każdej gry mówi, jak daleko sięga edycja: Screen (osobny ekran), Values (każda wartość według nazwy) lub Hex (znajdź znaną liczbę, a potem ją zmień).
+
+The most this field takes. Click to set it to {0}.
+= Maksimum, jakie przyjmuje to pole. Kliknij, aby ustawić {0}.
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Wpisz część nazwy lub krótkie nazwy, takie jak bg3 lub ff7; litery zawierające dopasowanie otwierają się same.
+
+What can it open?
+= Co może otworzyć?
+
+rarely needed
+= rzadko potrzebne
+
+{0} save ({1})
+= Zapis {0} ({1})

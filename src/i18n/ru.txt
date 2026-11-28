@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = На этом компьютере
 
-Other games
-= Другие игры
-
 Console games
 = Консольные игры
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Подходящих игр нет. Используйте «Открыть…», чтобы выбрать файл самостоятельно.
-
-Choose a game from the list.
-= Выберите игру из списка.
 
 Looking for saves…
 = Поиск сохранений…
@@ -209,9 +203,6 @@ Preferences…
 
 View
 = Вид
-
-Show advanced values
-= Показывать дополнительные значения
 
 Show raw key names
 = Показывать исходные имена ключей
@@ -576,14 +567,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = Фильтр учитывает названия, ключи и текущие значения.
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= Здесь нет редактируемых значений. Попробуйте включить «Дополнительно» или используйте вид «Дерево».
-
 Try part of a name (“gold”) or a current value (“1500”).
 = Введите часть названия («gold») или текущее значение («1500»).
-
-Advanced values are hidden — tick Advanced to search them too.
-= Дополнительные значения скрыты — отметьте «Дополнительно», чтобы искать и среди них.
 
 Changes
 = Изменения
@@ -9967,9 +9952,6 @@ Skill test modifier (%)
 Skill trees
 = Деревья навыков
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Навыки и характер — от 0 до 1000; каждые 100 соответствуют одному делению на шкалах игры. Симы перечислены по идентификаторам (их имена находятся в файлах персонажей). Горожане и семьи по умолчанию находятся в разделе «Другие симы» на вкладке «Значения» при включённом режиме «Дополнительно». В игре пока не проверялось.
-
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = Навыки — от 0 до 6; ADR — это шесть классов опасных грузов в виде битов (63 = все). Опыт задаёт уровень водителя; игра вычисляет его при загрузке.
 
@@ -12291,9 +12273,6 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste. Время указано в тиках по 100 наносекунд (10 000 000 в секунду).
-
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Навыки и характер меняются от 0 до 1000; каждые 100 — это одно деление на шкалах игры. У симов указано имя файла (user00012 — это Characters\User00012.iff). Горожане и гости находятся в разделе «Other Sims» на вкладке «Значения» при включённом «Дополнительно». В игре пока не проверялось.
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav в %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>. Названия предметов — внутренние идентификаторы игры; CRC-32 сохранения записывается заново при сохранении. Проверено на настоящем сохранении начала игры, в самой игре пока не проверялось.
@@ -27076,9 +27055,6 @@ Undone.
 Usually in
 = Обычно в
 
-advanced
-= дополнительно
-
 in {0}
 = в {0}
 
@@ -32423,3 +32399,95 @@ Your browser downloaded the kept copy of {0}.
 
 {0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
 = {0} не изменён: сначала не удалось сохранить его копию в этом браузере ({1}).
+
+# texts added by recent changes
+
+(none)
+= (нет)
+
+Action and adventure
+= Экшен и приключения
+
+All games
+= Все игры
+
+Any genre
+= Любой жанр
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Нажмите на сохранение, чтобы открыть его. Ничего не записывается, пока вы не сохраните, а файл на диске предварительно копируется в резервную копию.
+
+Dark or light as your system is set, changing with it.
+= Тёмная или светлая — в соответствии с настройками системы, меняется вместе с ней.
+
+How this works
+= Как это работает
+
+Look through all the usual places on this computer again, for games added since.
+= Снова просмотреть все обычные места на этом компьютере, чтобы найти добавленные игры.
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= Здесь нет редактируемых значений. Попробуйте включить «Редко нужные» или используйте режим «Дерево».
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Только игры этого типа. Игры без жанра в списке показываются в разделе «Любой жанр».
+
+Popular
+= Популярные
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= Быстрые вычисления тоже работают: +500, *2, /2, 250k, 1.5m, max или min — результат вычисляется при нажатии Enter.
+
+RPG
+= RPG
+
+Rarely needed
+= Редко нужные
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= Редко нужные значения скрыты — включите «Редко нужные», чтобы искать и среди них.
+
+Roguelike, roguelite and idle
+= Roguelike, roguelite и idle
+
+Shooter
+= Шутеры
+
+Show rarely needed values
+= Показывать редко нужные значения
+
+Simulation, farming and management
+= Симуляторы, фермы и менеджмент
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Навыки и личность принимают значения от 0 до 1000; каждые 100 — это одно деление на шкалах игры. Симы указаны по их id (имена хранятся в файлах персонажей). Горожане и семьи по умолчанию находятся в разделе «Другие симы» на вкладке «Значения» при включённом «Редко нужные». Пока не проверено в игре.
+
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Навыки и личность принимают значения от 0 до 1000; каждые 100 — это одно деление на шкалах игры. Симы указаны по имени файла (user00012 — это Characters\User00012.iff). Горожане и посетители находятся в разделе «Другие симы» на вкладке «Значения» при включённом «Редко нужные». Пока не проверено в игре.
+
+Soulslike and Metroidvania
+= Soulslike и Metroidvania
+
+Strategy
+= Стратегии
+
+Survival and crafting
+= Выживание и крафт
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= Значок рядом с каждой игрой показывает, насколько глубоко можно редактировать: Screen (отдельный экран), Values (все значения по именам) или Hex (найдите известное число, затем измените его).
+
+The most this field takes. Click to set it to {0}.
+= Максимум, который принимает это поле. Нажмите, чтобы установить {0}.
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Введите часть названия или короткие имена, например bg3 или ff7; буквы с совпадением раскрываются автоматически.
+
+What can it open?
+= Что можно открыть?
+
+rarely needed
+= редко нужные
+
+{0} save ({1})
+= Сохранение {0} ({1})
