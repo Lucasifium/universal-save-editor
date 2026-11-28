@@ -25,6 +25,7 @@ use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 mod tabs;
 mod compare;
 use compare::Compare;
+mod backup_tools;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -53,6 +54,8 @@ enum Ask {
     PresetFile,
     ExportNames,
     ImportNames,
+    ExportBackups,
+    ImportBackups,
 }
 
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
@@ -588,6 +591,8 @@ pub struct App {
     /// The Save manager window: `Some((save it is for, backup name being typed, version waiting for a delete/replace confirmation))` while open.
     /// It stays open for a save that was set aside (or is missing), so a backup can be put back.
     manager: Option<(PathBuf, String, Option<(PathBuf, bool)>)>,
+    /// Folder backups, checks, export and import in the Save manager, and the Backup space window.
+    backup_tools: backup_tools::Tools,
     /// Tools › Change Steam account: the IDs found in the save, the one picked, and the new one typed.
     rebind: Option<(Vec<u64>, usize, String)>,
     patches: Option<Patches>,
@@ -667,6 +672,12 @@ impl App {
         crate::backups::set_root(settings.backup_dir.clone());
         crate::backups::set_earlier_roots(settings.earlier_backup_dirs.clone());
         crate::backups::set_keep(settings.backup_keep);
+        crate::backups::space::set_cap(settings.backup_cap_gb.saturating_mul(crate::backups::space::GB));
+        if !WEB {
+            // Backups made before the editor kept a list of its backups folders count toward a size limit too.
+            let recent = settings.recent.clone();
+            std::thread::spawn(move || crate::backups::space::remember_existing(&recent));
+        }
         let has_icons = theme::install_fonts(&cc.egui_ctx);
         theme::apply(&cc.egui_ctx, settings.dark);
         cc.egui_ctx.set_zoom_factor(settings.zoom);
@@ -753,6 +764,7 @@ impl App {
             backup_name: None,
             new_game_name: None,
             manager: None,
+            backup_tools: Default::default(),
             rebind: None,
             patches: None,
             compare: None,
@@ -842,6 +854,8 @@ impl App {
             Ask::PresetFile => (tr("Open which preset?"), file_browser::Mode::OpenFile),
             Ask::ExportNames => (tr("Export the names to"), file_browser::Mode::SaveFile),
             Ask::ImportNames => (tr("Import names from which file?"), file_browser::Mode::OpenFile),
+            Ask::ExportBackups => (tr("Export the backups to"), file_browser::Mode::SaveFile),
+            Ask::ImportBackups => (tr("Import backups from which file?"), file_browser::Mode::OpenFile),
         };
         #[cfg(target_os = "android")]
         {
@@ -891,6 +905,8 @@ impl App {
             Ask::PresetFile => self.open_preset_file(&p),
             Ask::ExportNames => self.export_names(&p),
             Ask::ImportNames => self.import_names(&p),
+            Ask::ExportBackups => self.export_backups(&p),
+            Ask::ImportBackups => self.import_backups(&p),
             Ask::BackupDir => {
                 self.ok(trf("Backups now go to {0}. Earlier ones stay where they were and are still listed.", &[&p.display()]));
                 self.settings.set_backup_dir(Some(p));
@@ -2287,6 +2303,10 @@ impl App {
                     ui.close_menu();
                     self.open_save_manager();
                 }
+                if !WEB && ui.button(tr("Backup space\u{2026}")).on_hover_text(tr("How much room all backups take, and ways to free some")).clicked() {
+                    ui.close_menu();
+                    self.open_backup_space();
+                }
                 ui.separator();
                 let bak = self.doc.as_ref().map(|d| {
                     let mut b = d.path.as_os_str().to_owned();
@@ -2675,10 +2695,11 @@ impl App {
         let mut aside = false;
         let mut change_dir = false;
         let mut reset_dir = false;
+        let mut tool_act = None;
         let has_doc = self.doc.is_some();
         let dirty = self.dirty;
         let newest_dir = versions.first().and_then(|v| v.path.parent()).map(Path::to_path_buf);
-        egui::Window::new(tr("Save manager")).open(&mut open).collapsible(false).default_width(fit(ctx, 560.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
+        egui::Window::new(tr("Save manager")).open(&mut open).collapsible(false).default_width(fit(ctx, 760.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
             ui.label(RichText::new(file_name(&path)).strong());
             if !path.exists() {
                 ui.label(RichText::new(tr("There is no save file here right now. The game makes a new one when you save in it, or restore a backup below to put one back.")).color(theme::fg(ui, theme::WARN)));
@@ -2690,7 +2711,7 @@ impl App {
                     ui.weak(trf("The newest backup is in {0} (the folder above couldn't be written to, or it was made earlier).", &[&other.display()]));
                 }
                 if !WEB && !cfg!(target_os = "android") {
-                    ui.horizontal(|ui| {
+                    ui.horizontal_wrapped(|ui| {
                         if ui.small_button(tr("Keep backups in another folder\u{2026}")).clicked() {
                             change_dir = true;
                         }
@@ -2701,7 +2722,7 @@ impl App {
                 }
             }
             ui.add_space(6.0);
-            ui.horizontal(|ui| {
+            ui.horizontal_wrapped(|ui| {
                 ui.add(TextEdit::singleline(&mut name).hint_text(tr("backup name, e.g. first run")).desired_width(260.0));
                 let ready = !name.trim().is_empty() && path.is_file();
                 if ui.add_enabled(ready, egui::Button::new(tr("Back up this save"))).on_disabled_hover_text(tr("Type a name for the backup first")).on_hover_text(tr("Keeps a named backup of the save file as it is on disk now, until you delete it. The save itself is not changed.")).clicked() {
@@ -2724,13 +2745,14 @@ impl App {
                     }
                     ui.strong(title);
                     for v in rows {
-                        ui.horizontal(|ui| {
+                        ui.horizontal_wrapped(|ui| {
                             let when = crate::backups::describe(v.when);
                             let label = match &v.name {
                                 Some(n) => format!("\u{201C}{n}\u{201D} \u{00B7} {when} ({})", human_size(v.size as usize)),
                                 None => format!("{when} ({})", human_size(v.size as usize)),
                             };
                             ui.label(label);
+                            self.backup_tools.mark(ui, &v.path);
                             if confirm.as_ref().is_some_and(|(p, _)| *p == v.path) {
                                 let is_restore = confirm.as_ref().is_some_and(|(_, r)| *r);
                                 let yes = match (is_restore, has_doc && dirty) {
@@ -2771,7 +2793,12 @@ impl App {
                     }
                 }
             }
+            ui.separator();
+            tool_act = self.backup_tools.ui(ui, &path, &versions, has_doc && dirty);
         });
+        if let Some(a) = tool_act.take() {
+            self.backup_act(a, &path);
+        }
         let find = |p: &PathBuf| versions.iter().find(|v| v.path == *p);
         if change_dir {
             self.ask(Ask::BackupDir, self.settings.backup_dir.clone(), None);
@@ -5088,6 +5115,7 @@ impl App {
         self.backup_name_dialog(ctx);
         self.new_game_dialog(ctx);
         self.manager_window(ctx);
+        self.backup_tools_frame(ctx);
         self.rebind_dialog(ctx);
         self.patches_dialog(ctx);
         self.poll_loading(ctx, now);

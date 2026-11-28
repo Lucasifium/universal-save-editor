@@ -14,6 +14,10 @@ use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
 /// The remembered backups folders, at most this many (the oldest are forgotten first).
 const REMEMBER_MAX: usize = 5_000;
 
+/// No backup this app made is stamped before 2001: a file named like one with an older stamp
+/// (`2023.pdf`) is someone else's and is never removed.
+const OLDEST_STAMP: u64 = 978_307_200;
+
 /// Total size limit in bytes for all backups (0: no limit).
 static CAP: AtomicU64 = AtomicU64::new(0);
 
@@ -72,6 +76,18 @@ pub fn remember(dir: &Path) {
     let _ = super::write_verified(&f, text.as_bytes(), true);
 }
 
+/// Remembers the backups folders of `saves` that already hold backups (made before the editor
+/// kept a list), so a size limit counts them too.
+pub fn remember_existing(saves: &[PathBuf]) {
+    for s in saves {
+        for d in super::dirs(s).into_iter().chain(s.parent().map(super::folders::dirs).unwrap_or_default()) {
+            if !in_folder(&d).is_empty() {
+                remember(&d);
+            }
+        }
+    }
+}
+
 /// Whose backups a folder holds.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Kind {
@@ -115,9 +131,12 @@ pub struct Survey {
 /// The folders under a backups root: one per save, plus the whole-folder ones.
 fn under_root(base: &Path) -> Vec<PathBuf> {
     let sub = |d: &Path| -> Vec<PathBuf> { std::fs::read_dir(d).into_iter().flatten().flatten().map(|e| e.path()).filter(|p| p.is_dir()).collect() };
+    // Only folders named the way the editor names them (`<name>-<8 hex digits>`): a chosen
+    // backups folder may hold the player's own folders too, and nothing in those is ever touched.
+    let ours = |p: &PathBuf| p.file_name().map(|n| n.to_string_lossy().to_string()).and_then(|n| n.rsplit_once('-').map(|(_, h)| h.len() == 8 && h.bytes().all(|b| b.is_ascii_hexdigit()))).unwrap_or(false);
     let mut out = sub(base);
-    out.retain(|p| p.file_name().is_none_or(|n| n != "folders"));
     out.extend(sub(&base.join("folders")));
+    out.retain(ours);
     out
 }
 
@@ -189,7 +208,7 @@ fn removable<'a>(s: &'a Survey, protect: &[&Path]) -> Vec<&'a Version> {
     let mut out: Vec<&Version> = vec![];
     for u in &s.saves {
         // `versions` is newest first, so the first automatic one is the one to keep.
-        out.extend(u.versions.iter().filter(|v| v.name.is_none()).skip(1).filter(|v| !protect.contains(&v.path.as_path())));
+        out.extend(u.versions.iter().filter(|v| v.name.is_none()).skip(1).filter(|v| v.when >= OLDEST_STAMP && !protect.contains(&v.path.as_path())));
     }
     out.sort_by_key(|v| (!is_future(v.when, now), v.when));
     out
@@ -373,6 +392,38 @@ mod tests {
             assert_eq!(list(p).len(), 1, "{} keeps exactly its newest", p.display());
         }
         assert_eq!(std::fs::read(&list(&saves[0])[0].path).unwrap(), [7u8; 50]);
+    }
+
+    #[test]
+    fn files_of_the_players_own_in_a_chosen_backups_folder_are_never_removed() {
+        let _g = guard();
+        let s = Scratch::new("own-files");
+        // The player chose a folder that already holds folders and files of their own.
+        let chosen = s.0.join("Documents");
+        let photos = chosen.join("Photos");
+        let odd = chosen.join("trip-deadbeef");
+        for d in [&photos, &odd] {
+            std::fs::create_dir_all(d).unwrap();
+            for f in ["2023.pdf", "1001.jpg", "1002.jpg"] {
+                std::fs::write(d.join(f), b"mine").unwrap();
+            }
+        }
+        set_root(Some(chosen.clone()));
+        let a = s.0.join("a.sav");
+        std::fs::write(&a, b"one").unwrap();
+        take(&a).unwrap();
+        set_cap(1);
+        std::fs::write(&a, b"two").unwrap();
+        take(&a).unwrap();
+        let sv = survey(&[]);
+        assert!(older_than(&sv, 1).iter().all(|v| v.path.starts_with(chosen.join("a.sav").parent().unwrap()) && !v.path.starts_with(&photos) && !v.path.starts_with(&odd)));
+        assert_eq!(remove(&older_than(&sv, 0)), (0, 0));
+        for d in [&photos, &odd] {
+            for f in ["2023.pdf", "1001.jpg", "1002.jpg"] {
+                assert!(d.join(f).exists(), "{}", d.join(f).display());
+            }
+        }
+        assert_eq!(list(&a).len(), 1, "the cap still keeps the newest backup");
     }
 
     #[test]

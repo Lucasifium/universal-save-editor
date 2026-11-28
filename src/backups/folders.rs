@@ -25,12 +25,11 @@ pub const MAX_BYTES: u64 = 1 << 30;
 /// How deep below the save folder files are still taken.
 const MAX_DEPTH: usize = 12;
 
-/// One file of a folder: its path inside the folder (with `/`), where it is, and its size.
+/// One file of a folder: its path inside the folder (with `/`) and where it is.
 #[derive(Clone, Debug)]
 pub struct Entry {
     pub rel: String,
     pub path: PathBuf,
-    pub size: u64,
 }
 
 /// What a folder holds: the files a backup of it would take.
@@ -126,7 +125,7 @@ fn walk(dir: &Path, prefix: &str, depth: usize, out: &mut Contents) -> Result<()
             walk(&e.path(), &format!("{rel}/"), depth + 1, out)?;
         } else if meta.is_file() {
             out.bytes += meta.len();
-            out.files.push(Entry { rel, path: e.path(), size: meta.len() });
+            out.files.push(Entry { rel, path: e.path() });
             if out.files.len() > MAX_FILES {
                 return Err(trf("the folder holds more than {0} files, too many for a save folder", &[&MAX_FILES]));
             }
@@ -259,7 +258,8 @@ fn copy(dir: &Path, name: Option<&str>, keep: Option<&Path>) -> Result<PathBuf, 
         }
     }
     super::space::remember(&home);
-    super::space::enforce_cap(&[dest.as_path()]);
+    let protect: Vec<&Path> = [Some(dest.as_path()), keep].into_iter().flatten().collect();
+    super::space::enforce_cap(&protect);
     Ok(dest)
 }
 
@@ -576,6 +576,25 @@ mod tests {
         assert!(take_named(&many, "x").is_err());
         assert!(list(&many).is_empty());
         assert!(take_named(&save_folder(&s), " ").is_err());
+    }
+
+    #[test]
+    fn a_size_limit_never_removes_the_folder_backup_being_restored() {
+        let _g = guard();
+        let s = Scratch::new("cap-restore");
+        let dir = save_folder(&s);
+        let was = read_tree(&dir);
+        copy(&dir, None, None).unwrap();
+        let first = list(&dir)[0].path.clone();
+        std::fs::write(dir.join("Farm_123"), b"farm two").unwrap();
+        copy(&dir, None, None).unwrap();
+        std::fs::write(dir.join("Farm_123"), b"farm three").unwrap();
+        super::super::space::set_cap(1);
+        let r = restore(&dir, &first);
+        super::super::space::set_cap(0);
+        r.unwrap();
+        assert_eq!(read_tree(&dir), was);
+        assert!(first.exists(), "the restored backup is still there");
     }
 
     #[test]

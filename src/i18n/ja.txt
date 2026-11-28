@@ -31871,3 +31871,257 @@ Yes, tell me
 
 No thanks
 = いいえ
+
+# Save manager: whole-folder backups, backup check, export and import, backup space
+
+Adds the backups from a zip made by Export backups. Nothing is replaced, and the save itself is not changed.
+= 「バックアップをエクスポート」で作った zip からバックアップを追加します。何も置き換えず、セーブ自体も変更しません。
+
+Apply the limit now…
+= 今すぐ上限を適用…
+
+Back up the whole folder
+= フォルダー全体をバックアップ
+
+Backed up the whole folder as “{0}”.
+= フォルダー全体を「{0}」としてバックアップしました。
+
+Backup space
+= バックアップの容量
+
+Backup space…
+= バックアップの容量…
+
+Backups take {0} in all: {1} backups of {2} saves.
+= バックアップの合計は {0} です（{2} 件のセーブのバックアップ {1} 件）。
+
+Can't be read: {0}
+= 読み込めません：{0}
+
+Check backups
+= バックアップを確認
+
+Check this one
+= 要確認
+
+Checked {0} backups: every one reads fine.
+= {0} 件のバックアップを確認しました。すべて正常に読み込めます。
+
+Checked {0} backups: {1} damaged, {2} that read differently from the open save. They are marked in the Save manager.
+= {0} 件のバックアップを確認しました。破損 {1} 件、開いているセーブと読み込み結果が異なるもの {2} 件。セーブマネージャーに印が付いています。
+
+Checking backups…
+= バックアップを確認しています…
+
+Checking… {0} of {1}
+= 確認中… {0} / {1}
+
+Couldn't back up the folder: {0}. Nothing in it was changed.
+= フォルダーをバックアップできませんでした：{0}。フォルダー内は何も変更されていません。
+
+Couldn't be read as a save.
+= セーブとして読み込めませんでした。
+
+Couldn't export the backups: {0}.
+= バックアップをエクスポートできませんでした：{0}。
+
+Couldn't import the backups: {0}. The save wasn't changed.
+= バックアップをインポートできませんでした：{0}。セーブは変更されていません。
+
+Couldn't restore the folder: {0}. Nothing in it was changed.
+= フォルダーを復元できませんでした：{0}。フォルダー内は何も変更されていません。
+
+Couldn't restore the folder: {0}. Some files may have changed and couldn't be put back; the folder as it was before is kept in {1}.
+= フォルダーを復元できませんでした：{0}。一部のファイルが変更され、元に戻せなかった可能性があります。復元前のフォルダーは {1} に保存されています。
+
+Count again
+= 再集計
+
+Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder.
+= 集計対象：このアプリが書き込んだすべてのバックアップフォルダー、最近使ったファイルのバックアップ、エディター自身のバックアップフォルダー。
+
+Damaged
+= 破損
+
+Delete automatic backups older than
+= 次より古い自動バックアップを削除：
+
+Delete them
+= 削除する
+
+Deleted {0} automatic backups and freed {1}.
+= 自動バックアップを {0} 件削除し、{1} を空けました。
+
+Deleted {0} of {1} automatic backups and freed {2}. The others couldn't be deleted and are still there.
+= 自動バックアップ {1} 件のうち {0} 件を削除し、{2} を空けました。残りは削除できず、そのまま残っています。
+
+Delete…
+= 削除…
+
+Export backups…
+= バックアップをエクスポート…
+
+Export the backups to
+= バックアップのエクスポート先
+
+Exported {0} backups ({1}) to {2}.
+= バックアップ {0} 件（{1}）を {2} にエクスポートしました。
+
+For games that keep a save as several files: backs up every file in {0} as one backup ({1} files, {2}). Restoring puts the folder back exactly as it was.
+= 1 つのセーブを複数のファイルで保存するゲーム向け：{0} 内のすべてのファイルを 1 つのバックアップにします（{1} ファイル、{2}）。復元するとフォルダーはそのときの状態にそのまま戻ります。
+
+Free up room
+= 空き容量を増やす
+
+How much room all backups take, and ways to free some
+= すべてのバックアップの使用容量と、容量を空ける方法
+
+Import backups from which file?
+= どのファイルからバックアップをインポートしますか？
+
+Import backups…
+= バックアップをインポート…
+
+Imported {0} backups ({1} were already here).
+= バックアップを {0} 件インポートしました（{1} 件はすでにありました）。
+
+Imported {0} backups ({1} were already here). They were exported from {2}.
+= バックアップを {0} 件インポートしました（{1} 件はすでにありました）。{2} からエクスポートされたものです。
+
+Limit all backups to
+= すべてのバックアップの上限：
+
+No automatic backups are that old.
+= それほど古い自動バックアップはありません。
+
+No backups yet. One is made automatically each time you save.
+= まだバックアップはありません。保存するたびに自動で作成されます。
+
+No limit
+= 上限なし
+
+Only automatic backups are deleted. Named backups, and the newest automatic backup of every save, are always kept.
+= 削除されるのは自動バックアップだけです。名前付きのバックアップと、各セーブの最新の自動バックアップは常に残ります。
+
+Puts every backup of this save into one zip file, to keep a copy elsewhere or move them to another computer
+= このセーブのすべてのバックアップを 1 つの zip ファイルにまとめます。別の場所に保管したり、別のコンピューターに移したりできます
+
+Puts the whole folder back as it was in this backup. The folder as it is now is backed up first, so you can undo it.
+= フォルダー全体をこのバックアップの状態に戻します。現在のフォルダーを先にバックアップするので、元に戻せます。
+
+Reads differently from the open save. It may be damaged, or from another version of the game.
+= 開いているセーブと読み込み結果が異なります。破損しているか、別のバージョンのゲームのものかもしれません。
+
+Reads every backup of this save to make sure it can still be restored. Nothing is changed.
+= このセーブのすべてのバックアップを読み込み、まだ復元できるか確かめます。何も変更しません。
+
+Reads fine
+= 正常
+
+Restored the whole folder ({0} files written, {1} removed). The folder as it was is backed up too, so you can switch back.
+= フォルダー全体を復元しました（{0} ファイルを書き込み、{1} ファイルを削除）。復元前のフォルダーもバックアップしたので、元に戻せます。
+
+The file is empty.
+= ファイルが空です。
+
+These backups are kept in the editor's own backups folder, never in the save folder.
+= これらのバックアップはエディター自身のバックアップフォルダーに保存され、セーブフォルダーには置かれません。
+
+This deletes {0} automatic backups ({1}). They can't be brought back.
+= 自動バックアップ {0} 件（{1}）を削除します。元には戻せません。
+
+This folder can't be backed up as a whole: {0}.
+= このフォルダーは丸ごとバックアップできません：{0}。
+
+This save's backups take {0} ({1} backups).
+= このセーブのバックアップは {0} です（{1} 件）。
+
+When a new backup passes the limit, the oldest automatic backups of any save are deleted first.
+= 新しいバックアップで上限を超えると、すべてのセーブの中で最も古い自動バックアップから削除されます。
+
+Whole save folder
+= セーブフォルダー全体
+
+Whole save folder ({0} backups)
+= セーブフォルダー全体（バックアップ {0} 件）
+
+a whole drive can't be backed up as one save folder
+= ドライブ全体をセーブフォルダーとしてバックアップすることはできません
+
+backup name, e.g. before the boss
+= バックアップ名（例：ボス戦の前）
+
+choose another file name: that one is the save or one of its backups
+= 別のファイル名を選んでください。その名前はセーブ本体かそのバックアップです
+
+couldn't back up the folder first: {0}
+= 先にフォルダーをバックアップできませんでした：{0}
+
+that file isn't a backups file made by Export backups
+= そのファイルは「バックアップをエクスポート」で作られたものではありません
+
+the backup holds a file that would land outside the folder ({0}), so it wasn't used
+= バックアップにフォルダーの外に出てしまうファイル（{0}）が含まれているため、使用しませんでした
+
+the backup is damaged: {0}
+= バックアップが破損しています：{0}
+
+the backup is larger than any save folder backup this app makes, so it wasn't used
+= このアプリが作るフォルダーのバックアップより大きいため、使用しませんでした
+
+the backups file is damaged: {0}
+= バックアップファイルが破損しています：{0}
+
+the folder holds more than {0} files, too many for a save folder
+= フォルダー内のファイルが {0} 個を超えており、セーブフォルダーとしては多すぎます
+
+the folder holds more than {0}, too much for a save folder
+= フォルダーの中身が {0} を超えており、セーブフォルダーとしては大きすぎます
+
+the folder is nested too deep to be a save folder
+= フォルダーの階層が深すぎてセーブフォルダーとは思えません
+
+there are no backups of this save to export
+= エクスポートするこのセーブのバックアップがありません
+
+this folder holds the editor's own backups
+= このフォルダーにはエディター自身のバックアップが入っています
+
+this is your home folder, not a save folder
+= これはホームフォルダーで、セーブフォルダーではありません
+
+{0} (click to show the backups folder)
+= {0}（クリックでバックアップフォルダーを表示）
+
+{0} (the {1} backups added before this stay)
+= {0}（それまでに追加した {1} 件のバックアップは残ります）
+
+{0} (whole folder)
+= {0}（フォルダー全体）
+
+{0} GB
+= {0} GB
+
+{0} automatic, {1} named
+= 自動 {0} 件、名前付き {1} 件
+
+{0} backups.zip
+= {0} バックアップ.zip
+
+{0} changed while it was being copied (the game may be saving). Try again in a moment.
+= コピー中に {0} が変更されました（ゲームが保存中かもしれません）。少し待ってからもう一度お試しください。
+
+{0} days
+= {0} 日
+
+{0} files, all readable
+= {0} ファイル、すべて読み込み可能
+
+{0} is too large to import
+= {0} は大きすぎてインポートできません
+
+{0} isn't a folder
+= {0} はフォルダーではありません
+
+{0} over the limit now.
+= 現在、上限を {0} 超えています。

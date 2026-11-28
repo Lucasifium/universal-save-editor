@@ -128,7 +128,7 @@ pub fn import(save: &Path, zip_path: &Path) -> Result<Imported, String> {
         if e.size() > MAX_ENTRY {
             return Err(fail(trf("{0} is too large to import", &[&base])));
         }
-        let mut bytes = Vec::with_capacity(e.size() as usize);
+        let mut bytes = Vec::with_capacity(e.size().min(64 << 20) as usize);
         e.by_ref().take(MAX_ENTRY + 1).read_to_end(&mut bytes).map_err(|err| fail(trf("the backups file is damaged: {0}", &[&format!("{name}: {err}")])))?;
         std::fs::create_dir_all(dir).map_err(|err| fail(format!("{}: {err}", dir.display())))?;
         let here = |n: &str| dir.join(n);
