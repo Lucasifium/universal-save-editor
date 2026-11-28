@@ -448,9 +448,25 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
             let (path, opts, mut d) = open(f, &a)?;
             for e in edits {
                 let (ptr, text) = e.split_once('=').ok_or_else(|| format!("usage: {e}: write pointer=value"))?;
-                // Bare words are taken as text, so `/name=Ann` works without quotes.
-                let v: Value = serde_json::from_str(text).unwrap_or_else(|_| Value::String(text.to_string()));
                 let old = root(&d.content).and_then(|r| r.pointer(ptr)).cloned().ok_or_else(|| format!("{ptr}: not in this save"))?;
+                // Bare words are taken as text, so `/name=Ann` works without quotes; but only
+                // for a value that is text. A typo (`/gold=1,000`, `/gold=99O`) must not turn a
+                // number into text the game can't read.
+                let v: Value = match serde_json::from_str(text) {
+                    Ok(v) => v,
+                    Err(_) if old.is_string() => Value::String(text.to_string()),
+                    Err(_) => {
+                        let kind = match &old {
+                            Value::Number(_) => "a number",
+                            Value::Bool(_) => "true or false",
+                            Value::Null => "null",
+                            Value::Array(_) => "a list",
+                            _ => "a group of values",
+                        };
+                        let shown = old.to_string().chars().take(40).collect::<String>();
+                        return Err(format!("{ptr} holds {kind} ({shown}), and {text} isn't one; write numbers like 1000 or 2.5, or put text in quotes ({ptr}='\"{text}\"'). Nothing was written"));
+                    }
+                };
                 match &mut d.content {
                     Content::Tree(t) => {
                         t.set(ptr, v.clone()).map_err(|e| format!("{ptr}: {e}"))?.ok_or_else(|| format!("{ptr}: can't be edited"))?;
@@ -760,6 +776,30 @@ mod tests {
         assert_eq!(std::fs::read(&save).unwrap(), now);
         assert_eq!(backed_up(&save).len(), 1);
         assert!(!s.0.join("save.json.saving").exists() && !s.0.join("save.json.partial").exists());
+    }
+
+    /// A bare word is text only where the save holds text: a mistyped number is refused rather
+    /// than written into the save as text.
+    #[test]
+    fn a_mistyped_number_is_refused_not_stored_as_text() {
+        let s = Scratch::new("typo");
+        let save = s.0.join("save.json");
+        let original = br#"{"gold": 10, "name": "Ann", "hard": false}"#;
+        std::fs::write(&save, original).unwrap();
+        let p = save.to_string_lossy().to_string();
+        for typed in ["/gold=1,000", "/gold=99O", "/gold=1.000,5", "/hard=yes", "/gold=", "/name=Bo /gold=x"] {
+            let edits: Vec<&str> = typed.split(' ').collect();
+            let mut a = vec!["set", p.as_str()];
+            a.extend(edits);
+            a.push("--no-backup");
+            assert_eq!(run(&args(&a)), Some(1), "{typed}");
+            assert_eq!(std::fs::read(&save).unwrap(), original, "{typed}: nothing written");
+        }
+        // Text without quotes where the save holds text, and JSON anywhere, still work.
+        assert_eq!(run(&args(&["set", &p, "/name=Bo Bo", "/gold=1000", "/hard=true", "--no-backup"])), Some(0));
+        let v: Value = serde_json::from_slice(&std::fs::read(&save).unwrap()).unwrap();
+        assert_eq!(v, json!({"gold": 1000, "name": "Bo Bo", "hard": true}));
+        assert_eq!(run(&args(&["set", &p, "/gold=\"lots\"", "--no-backup"])), Some(0), "quoted text is taken as asked");
     }
 
     #[test]
