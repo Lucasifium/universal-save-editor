@@ -3214,11 +3214,17 @@ impl App {
         let hi = self.has_icons;
         // The selected colours: white on the light theme's pale selection could not be read.
         let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
-        let label = tr("Changes");
-        let r = ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, label, color));
+        let n = self.change_count();
+        let label = if self.dirty && n > 0 { trf("Changes ({0})", &[&n]) } else { tr("Changes").to_string() };
+        // A framed button like its neighbours, so it reads as something to press.
+        let text = widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color);
+        let r = ui.add(egui::Button::new(text).selected(self.show_changes));
+        if r.clicked() {
+            self.show_changes = !self.show_changes;
+        }
         // Its text starts with an icon glyph: the screen reader gets the words and the on/off state.
         let (on, enabled) = (self.show_changes, r.enabled());
-        r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, label));
+        r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, &label));
         r.on_hover_text(tr("List everything you've changed since the last save"));
     }
 
