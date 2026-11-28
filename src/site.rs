@@ -313,16 +313,17 @@ fn level(g: &GameInfo) -> (&'static str, &'static str) {
 const STYLE: &str = r#":root{--bg:#0d111f;--bg2:#131930;--card:#161d36;--line:#27304d;--text:#eaeefb;--muted:#9ba6c6;--accent:#ffc247;--focus:#ffc247;--on-accent:#1a1400;--accent2:#9fb0ff;--track:#232c4b;--shadow:0 18px 50px rgba(0,0,0,.45);--r:14px;--head:ui-rounded,"SF Pro Rounded","Hiragino Maru Gothic ProN","Arial Rounded MT Bold","Segoe UI Variable Display","Segoe UI",system-ui,sans-serif}
 html[data-theme="light"]{color-scheme:light;--bg:#eef1f8;--bg2:#e3e8f4;--card:#fff;--line:#d3daea;--text:#121a30;--muted:#4f5b78;--accent:#f2a900;--focus:#2a45d6;--on-accent:#1a1400;--accent2:#2a45d6;--track:#dbe1f1;--shadow:0 18px 40px rgba(30,45,100,.14)}
 :root{color-scheme:dark}
-.theme-btn{background:none;border:1px solid var(--line);color:var(--muted);font:600 .9rem/1 system-ui,sans-serif;padding:8px 12px;border-radius:10px;cursor:pointer;min-height:36px}.theme-btn:hover{color:var(--text);border-color:var(--accent)}.theme-btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.theme-btn{white-space:nowrap;background:none;border:1px solid var(--line);color:var(--muted);font:600 .9rem/1 system-ui,sans-serif;padding:8px 12px;border-radius:10px;cursor:pointer;min-height:36px}.theme-btn:hover{color:var(--text);border-color:var(--accent)}.theme-btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 a{color:var(--accent2);text-underline-offset:3px}a:focus-visible,summary:focus-visible,input:focus-visible,.btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:8px}
 main,header .in,footer .in{max-width:1040px;margin:0 auto;padding:0 20px}
 header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header .in{display:flex;align-items:center;gap:16px;min-height:60px;flex-wrap:wrap}
+header .in{display:flex;align-items:center;gap:4px 16px;min-height:60px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.skip{position:absolute;left:12px;top:-80px;z-index:10;background:var(--accent);color:var(--on-accent);font-weight:700;padding:10px 16px;border-radius:10px;text-decoration:none}.skip:focus{top:12px;outline:3px solid var(--focus);outline-offset:3px}main:focus{outline:none}
 header .brand{font:800 1.1rem/1 var(--head);color:var(--text);text-decoration:none;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
 header .brand img{width:26px;height:26px;border-radius:6px;flex:none}
-header nav{margin-left:auto;display:flex;gap:20px}header nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:11px 2px;display:inline-block}header nav a:hover{color:var(--text)}
+header nav{margin-left:auto;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:0 20px}header nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;padding:11px 2px;display:inline-block;white-space:nowrap}header nav a:hover{color:var(--text)}
 h1{font:800 clamp(2rem,5vw,3.3rem)/1.08 var(--head);letter-spacing:-.025em;margin:0 0 16px;text-wrap:balance}
 h2{font:800 1.55rem/1.2 var(--head);letter-spacing:-.015em;margin:48px 0 14px;padding-left:14px;border-left:5px solid var(--accent)}h3{font:700 1.15rem var(--head);margin:28px 0 8px}
 p,li{max-width:70ch}
@@ -361,16 +362,17 @@ details.letter{margin:10px 0;border-top:1px solid var(--line)}details.letter>sum
 ol li,ul li{margin:6px 0}
 .what>:first-child{margin-top:0}.what>:last-child{margin-bottom:0}.what>p{margin:0 0 6px}.what ul{margin:0;padding-left:1.3em}.what li{margin:5px 0}.what li::marker{color:var(--accent)}.what ul+p{margin:14px 0 0;color:var(--muted);font-size:.95rem}
 h2 .ver{display:block;font:600 .85rem/1.4 system-ui,sans-serif;color:var(--muted);letter-spacing:.02em;margin-bottom:4px}
-h1,h2,h3,[id]{scroll-margin-top:84px}
-@media (min-width:761px) and (max-width:1100px){h1,h2,h3,[id]{scroll-margin-top:112px}}
+h1,h2,h3,[id]{scroll-margin-top:112px}
+@media (min-width:761px) and (max-width:1100px){header{position:static}h1,h2,h3,[id]{scroll-margin-top:12px}header nav{order:3;flex-basis:100%;margin-left:0;justify-content:flex-start}header .theme-btn{order:2;margin-left:auto}}
 @media (max-width:600px){.shot{max-width:340px}}
 .feature{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--r);padding:8px 24px 16px;margin:8px 0 24px}.feature h2{margin-top:16px}
 .dl-more{margin:4px 0 0;font-size:.92rem;color:var(--muted);line-height:1.9}.dl-more span{font-weight:600;margin-right:4px}.dl-more a{white-space:nowrap}
 .shot{margin:32px auto;max-width:760px}.shot img{display:block;width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.shot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 .gshot{margin:24px 0}.gshot img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.gshot figcaption{color:var(--muted);font-size:.9rem;margin-top:8px}
 footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-size:.9rem}footer .in{padding:24px 20px}
-@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}h1,h2,h3,[id]{scroll-margin-top:12px}}
-@media (min-width:360px) and (max-width:760px){header .in{position:relative}header .theme-btn{position:absolute;top:8px;right:20px}}
+@media (max-width:760px){.hero{grid-template-columns:1fr;gap:28px;padding-top:32px}header nav{margin-left:0;gap:4px 14px;flex-wrap:wrap;justify-content:flex-start}header nav a{padding:6px 2px}header .in{padding-top:8px;padding-bottom:8px;gap:6px}header{position:static}h1,h2,h3,[id]{scroll-margin-top:12px}}
+@media (max-width:760px){header nav{order:3;flex-basis:100%}header .theme-btn{order:2;margin-left:auto}}
+@media (max-width:400px){header .brand{font-size:1rem}}
 "#;
 
 const DOWNLOAD_BUTTON: &str = r#"<a class="btn" href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download for free</a>"#;
@@ -472,6 +474,8 @@ pub(super) struct Chrome {
     pub dl_version: String,
     pub dl_for: String,
     pub dl_all: String,
+    /// The link that jumps past the menu to the page's content.
+    pub skip: String,
 }
 
 impl Chrome {
@@ -498,6 +502,7 @@ impl Chrome {
             dl_version: "Version {0}:".into(),
             dl_for: "Download for ".into(),
             dl_all: "All versions and release notes".into(),
+            skip: "Skip to content".into(),
             root,
         }
     }
@@ -546,8 +551,9 @@ pub(super) fn page_in(c: &Chrome, title: &str, desc: &str, path: &str, body: &st
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{brand_href}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{games_href}">{games}</a><a href="{root}save-manager/">{save_manager}</a><a href="{root}whats-new/">{whats_new}</a><a href="{root}{WEB_APP}">{browser}</a><a href="{dl_nav}">{download}</a><a href="{REPO}">{source}</a><button type="button" class="theme-btn" id="theme-toggle" aria-label="{to_light}">{light}</button></nav></div></header>
-<main>
+<a class="skip" href="#main">{skip}</a>
+<header><div class="in"><a class="brand" href="{brand_href}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{games_href}">{games}</a><a href="{root}save-manager/">{save_manager}</a><a href="{root}whats-new/">{whats_new}</a><a href="{root}{WEB_APP}">{browser}</a><a href="{dl_nav}">{download}</a><a href="{REPO}">{source}</a></nav><button type="button" class="theme-btn" id="theme-toggle" aria-label="{to_light}">{light}</button></div></header>
+<main id="main" tabindex="-1">
 {body}
 </main>
 <footer><div class="in">{footer}</div></footer>
@@ -568,6 +574,7 @@ pub(super) fn page_in(c: &Chrome, title: &str, desc: &str, path: &str, body: &st
         browser = c.browser,
         download = c.download,
         source = c.source,
+        skip = c.skip,
         light = c.light,
         to_light = c.to_light,
         footer = footer,
@@ -1515,7 +1522,7 @@ fn build_site() {
         let _ = write!(cards, r#"<details class="letter"><summary>{c} <span>({count})</span></summary><ul class="grid">{items}</ul></details>"#);
     }
     if !console_cards.is_empty() {
-        cards.push_str("<h3>Console games</h3>");
+        cards.push_str(r#"<h3 id="consoles">Console games</h3>"#);
     }
     for (at, (count, items)) in &console_cards {
         let title = crate::games::CONSOLES.get(*at).map_or("Other", |c| c.0);
@@ -1557,7 +1564,7 @@ fn build_site() {
 <div id="list">{cards}</div>
 </details>
 <p class="empty" id="none">No game matches. The editor can still open saves of games that aren't listed: try it, or <a href="{REPO}/issues">ask for the game</a>.</p>
-<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});function fold(s){{s=s.toLowerCase();return s.normalize?s.normalize('NFD').replace(/[̀-ͯ]/g,''):s}}document.getElementById('q').addEventListener('input',function(){{var q=fold(this.value).trim(),n=0,words=q.split(/\s+/),short=q.replace(/[^a-z0-9]/g,'');if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var name=fold(li.querySelector('span').textContent),keys=fold(li.getAttribute('data-k')||'').split(' ');var hit=words.every(function(w){{return name.indexOf(w)>=0}})||(short.length>=2&&keys.some(function(k){{return k.indexOf(short)>=0}}));li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block'}})</script>
+<script>var all=document.getElementById('all');if(location.hash==='#games')all.open=true;window.addEventListener('hashchange',function(){{if(location.hash==='#games')all.open=true}});function fold(s){{s=s.toLowerCase();return s.normalize?s.normalize('NFD').replace(/[̀-ͯ]/g,''):s}}document.getElementById('q').addEventListener('input',function(){{var q=fold(this.value).trim(),n=0,words=q.split(/\s+/),short=q.replace(/[^a-z0-9]/g,'');if(q)all.open=true;document.querySelectorAll('#list details.letter').forEach(function(d){{var h=0;d.querySelectorAll('li').forEach(function(li){{var name=fold(li.querySelector('span').textContent),keys=fold(li.getAttribute('data-k')||'').split(' ');var hit=words.every(function(w){{return name.indexOf(w)>=0}})||(short.length>=2&&keys.some(function(k){{return k.indexOf(short)>=0}}));li.style.display=hit?'':'none';if(hit){{h++;n++}}}});d.style.display=h?'':'none';d.open=!!q&&h>0}});document.getElementById('none').style.display=n?'none':'block';var ch=document.getElementById('consoles');if(ch){{var v=false;for(var e=ch.nextElementSibling;e;e=e.nextElementSibling)if(e.style.display!=='none')v=true;ch.style.display=v?'':'none'}}}});document.getElementById('q').addEventListener('keydown',function(e){{if(e.key!=='Enter'||!this.value.trim())return;var a=[].find.call(document.querySelectorAll('#list li'),function(li){{return li.style.display!=='none'}});if(a){{e.preventDefault();a.querySelector('a').focus()}}}})</script>
 "#,
         n = GAMES.len(),
         newest = newest_html(&newest_games(&skip, 10)),
@@ -1622,19 +1629,13 @@ fn build_site() {
         urls.push(format!("{SITE}/{path}"));
     }
 
-    let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
-    for u in &urls {
-        let _ = writeln!(sm, "<url><loc>{u}</loc></url>");
-    }
-    sm.push_str("</urlset>\n");
-    std::fs::write(out.join("sitemap.xml"), sm).unwrap();
     // GitHub Pages serves this for unknown addresses.
-    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/#games\">home page</a>.</p>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
+    let nf = page("Page not found | Universal Save Editor", "That page doesn't exist. Find your game on the Universal Save Editor home page.", "", "<section class=\"hero game\"><div><h1>Page not found</h1>\n<p class=\"lead\">That address doesn't exist. Every supported game is listed on the <a href=\"/#games\">home page</a>.</p></div></section>", &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))
         .replace("<meta charset=\"utf-8\">", "<meta charset=\"utf-8\">\n<meta name=\"robots\" content=\"noindex\">")
         .replace("href=\"./", "href=\"/");
     std::fs::write(out.join("404.html"), nf).unwrap();
-    let signing = r#"<h1>Code signing policy</h1>
-<p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p>
+    let signing = r#"<section class="hero game"><div><h1>Code signing policy</h1>
+<p class="lead">How the Windows downloads of Universal Save Editor are built and signed.</p></div></section>
 <p>Every download on the <a href="https://github.com/Lucasifium/universal-save-editor/releases">Releases page</a> is built by GitHub Actions from the source code in the <a href="https://github.com/Lucasifium/universal-save-editor">public repository</a>, by the release workflow kept in that repository. Nothing is built or uploaded by hand. Each release lists a <code>SHA256SUMS.txt</code> so a download can be checked against what the workflow produced.</p>
 <p>The Windows downloads are not code-signed yet, so Windows may warn about them the first time they run; the checksums above are the way to check a download. Signing will be added once the project qualifies for a free open-source signing program.</p>
 <h2>Team roles</h2>
@@ -1647,6 +1648,15 @@ fn build_site() {
     let dir = out.join("code-signing");
     std::fs::create_dir_all(&dir).unwrap();
     std::fs::write(dir.join("index.html"), page("Code signing policy | Universal Save Editor", "How the Universal Save Editor downloads are built and signed.", "code-signing/", signing, &schema("Universal Save Editor", "Free, offline save editor and manager for PC games.", &format!("{SITE}/")))).unwrap();
+    urls.push(format!("{SITE}/code-signing/"));
+
+    // Every indexable page; the 404 page is the only one left out.
+    let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
+    for u in &urls {
+        let _ = writeln!(sm, "<url><loc>{u}</loc></url>");
+    }
+    sm.push_str("</urlset>\n");
+    std::fs::write(out.join("sitemap.xml"), sm).unwrap();
     std::fs::write(out.join("robots.txt"), format!("User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")).unwrap();
     println!("{} pages; full-editor games without a README row: {unmatched:?}", urls.len());
     // Every page needs its own slug.
@@ -1897,6 +1907,19 @@ fn translated_pages_are_well_formed_and_linked_inside_the_site() {
                 assert!(known.contains(&target), "{path}: links to {target}, which is not a translated page ({depth})");
             }
         }
+    }
+}
+
+#[test]
+fn pages_have_a_skip_link_to_their_content() {
+    let rows = readme_rows();
+    let mut pages = lang::pages(&[], &rows);
+    pages.push(("whats-new/".into(), page("t", "d", "whats-new/", "<h1>x</h1>", "{}")));
+    for (path, html) in &pages {
+        let skip = html.find("<a class=\"skip\" href=\"#main\">").unwrap_or_else(|| panic!("{path}: no skip link"));
+        assert!(skip < html.find("<header>").unwrap_or(0), "{path}: the skip link comes after the menu");
+        assert_eq!(html.matches("<main id=\"main\"").count(), 1, "{path}: no target for the skip link");
+        assert!(!html.contains("href=\"#main\">Skip to content") || path.split('/').next().is_some_and(|d| !lang::LANGS.iter().any(|l| l.dir == d)), "{path}: skip link not translated");
     }
 }
 

@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = 已有报告称，这款游戏编辑过的存档可以在游戏中正常加载和使用。
 
+# Skip link
+Skip to content
+= 跳到主要内容

@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = このゲームの編集済みセーブデータが、ゲーム内で読み込めて正常に動作したという報告があります。
 
+# Skip link
+Skip to content
+= 本文へスキップ

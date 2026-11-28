@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = Des sauvegardes modifiées de ce jeu ont été signalées comme se chargeant et fonctionnant dans le jeu.
 
+# Skip link
+Skip to content
+= Aller au contenu

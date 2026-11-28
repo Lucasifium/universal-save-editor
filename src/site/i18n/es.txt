@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = Se ha informado de que las partidas editadas de este juego se cargan y funcionan en el juego.
 
+# Skip link
+Skip to content
+= Saltar al contenido

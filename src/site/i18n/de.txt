@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = Bearbeitete Spielstände dieses Spiels wurden als im Spiel ladbar und funktionsfähig gemeldet.
 
+# Skip link
+Skip to content
+= Zum Inhalt springen

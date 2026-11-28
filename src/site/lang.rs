@@ -197,6 +197,7 @@ fn chrome(l: &SiteLang, depth: usize) -> Chrome {
         dl_version: t("Version {0}:"),
         dl_for: for_label,
         dl_all: t("All versions and release notes"),
+        skip: t("Skip to content"),
         root,
     }
 }
