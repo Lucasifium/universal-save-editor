@@ -1241,37 +1241,38 @@ pub fn hero(ui: &mut Ui, accent: Color32, title: &str, subtitle: &str, add: impl
         let facts_w: f32 = facts.iter().map(|(c, v, _)| measure(ui, c, crate::theme::size::CAPTION).max(measure(ui, v, crate::theme::size::BODY))).sum::<f32>()
             + 24.0 * facts.len() as f32;
         let side = !phone && !facts.is_empty() && facts_w < ui.available_width() * 0.45;
-        ui.horizontal_top(|ui| {
-            let left_w = if side { ui.available_width() - facts_w } else { ui.available_width() };
-            ui.vertical(|ui| {
-                ui.set_max_width(left_w);
-                let r = ui.label(crate::theme::title(title).color(ui.visuals().strong_text_color()));
-                find_mark(ui, r.rect, title);
-                if !subtitle.is_empty() {
-                    ui.label(RichText::new(subtitle).size(crate::theme::size::BODY).color(theme::fg(ui, accent)));
-                }
-                if !side && !facts.is_empty() {
-                    let line: Vec<String> = facts.iter().map(|(c, v, _)| format!("{c}: {v}")).collect();
-                    ui.label(crate::theme::caption(line.join("  \u{00B7}  ")).color(caption_color(ui)));
-                }
-            });
-            if side {
-                ui.with_layout(egui::Layout::right_to_left(egui::Align::Min), |ui| {
-                    ui.spacing_mut().item_spacing.x = 24.0;
-                    for (c, v, tip) in facts.iter().rev() {
-                        let r = ui
-                            .vertical(|ui| {
-                                ui.label(crate::theme::caption(c.as_str()).color(caption_color(ui)));
-                                ui.label(RichText::new(v.as_str()).size(crate::theme::size::BODY).color(ui.visuals().strong_text_color()));
-                            })
-                            .response;
-                        if !tip.is_empty() {
-                            r.on_hover_text(tip.as_str());
-                        }
-                    }
-                });
+        let left_w = if side { ui.available_width() - facts_w } else { ui.available_width() };
+        let top_right = ui.max_rect().right_top().max(ui.cursor().left_top());
+        ui.vertical(|ui| {
+            ui.set_max_width(left_w);
+            let r = ui.label(crate::theme::title(title).color(ui.visuals().strong_text_color()));
+            find_mark(ui, r.rect, title);
+            if !subtitle.is_empty() {
+                ui.label(RichText::new(subtitle).size(crate::theme::size::BODY).color(theme::fg(ui, accent)));
+            }
+            if !side && !facts.is_empty() {
+                let line: Vec<String> = facts.iter().map(|(c, v, _)| format!("{c}: {v}")).collect();
+                ui.label(crate::theme::caption(line.join("  \u{00B7}  ")).color(caption_color(ui)));
             }
         });
+        if side {
+            // Drawn over the right of the title's lines, which are taller than the facts.
+            let top = egui::pos2(ui.max_rect().right(), top_right.y);
+            let rect = egui::Rect::from_min_max(egui::pos2(top.x - facts_w, top.y), egui::pos2(top.x, top.y + 60.0));
+            let mut right = ui.new_child(egui::UiBuilder::new().max_rect(rect).layout(egui::Layout::right_to_left(egui::Align::Min)));
+            right.spacing_mut().item_spacing.x = 24.0;
+            for (c, v, tip) in facts.iter().rev() {
+                let r = right
+                    .vertical(|ui| {
+                        ui.label(crate::theme::caption(c.as_str()).color(caption_color(ui)));
+                        ui.label(RichText::new(v.as_str()).size(crate::theme::size::BODY).color(ui.visuals().strong_text_color()));
+                    })
+                    .response;
+                if !tip.is_empty() {
+                    r.on_hover_text(tip.as_str());
+                }
+            }
+        }
         ui.add_space(6.0);
         // Tiles count themselves, so on a phone the last of an odd number can fill its row
         // (see `tile_frame_min`); the count is known from the frame before.

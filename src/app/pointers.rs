@@ -52,10 +52,16 @@ impl App {
         }
         let c = theme::focus_color(ui.visuals().dark_mode);
         let p = ui.painter().with_clip_rect(ui.ctx().screen_rect());
-        p.rect_stroke(r.expand(3.0), egui::Rounding::same(7.0), egui::Stroke::new(2.0_f32, c));
-        badge_with(&p, ui, r.right_top() + egui::vec2(0.0, 0.0), n);
+        // Kept inside the window: the menu bar's items sit at its very top.
+        let screen = ui.ctx().screen_rect();
+        let ring = r.expand(3.0).intersect(screen.shrink(1.0));
+        p.rect_stroke(ring, egui::Rounding::same(7.0), egui::Stroke::new(2.0_f32, c));
+        badge_with(&p, ui, egui::pos2(r.right() - 2.0, r.top().max(screen.top() + BADGE + 1.0)), n);
     }
 }
+
+/// The radius of the numbered badge.
+const BADGE: f32 = 8.0;
 
 fn badge(ui: &egui::Ui, at: egui::Pos2, n: u32) {
     badge_with(ui.painter(), ui, at, n);
@@ -63,7 +69,7 @@ fn badge(ui: &egui::Ui, at: egui::Pos2, n: u32) {
 
 /// A filled circle with a number, the same on the card and on the marked button.
 fn badge_with(p: &egui::Painter, ui: &egui::Ui, at: egui::Pos2, n: u32) {
-    p.circle_filled(at, 9.0, theme::focus_color(ui.visuals().dark_mode));
+    p.circle_filled(at, BADGE, theme::focus_color(ui.visuals().dark_mode));
     let text = if ui.visuals().dark_mode { egui::Color32::from_rgb(16, 17, 21) } else { egui::Color32::WHITE };
     p.text(at, egui::Align2::CENTER_CENTER, n.to_string(), theme::font(theme::size::CAPTION), text);
 }
