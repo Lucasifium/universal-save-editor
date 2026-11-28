@@ -32490,3 +32490,7 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = Was kann es öffnen?
+
+# changes button
+Changes ({0})
+= Änderungen ({0})

@@ -32568,3 +32568,7 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = 何を開けますか？
+
+# changes button
+Changes ({0})
+= 変更 ({0})
