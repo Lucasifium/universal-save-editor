@@ -32541,3 +32541,7 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = 能打开哪些文件？
+
+# changes button
+Changes ({0})
+= 更改 ({0})

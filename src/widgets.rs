@@ -471,7 +471,8 @@ pub fn number_shown(n: &serde_json::Number) -> String {
     if n.is_i64() || n.is_u64() {
         crate::number_input::group_digits(&plain, crate::number_input::group_separator())
     } else {
-        plain
+        // Decimals with the language's own mark ("2,5" in German), as the box shows them while typing.
+        crate::number_input::edit_text(n, crate::number_input::locale())
     }
 }
 
@@ -560,7 +561,7 @@ fn editor_body(ui: &mut Ui, id_src: &str, v: &Value, editable: bool, width: f32,
                 // In the language's style ("2,5" in German), so that it reads back as the same number.
                 ui.data(|d| d.get_temp::<String>(id)).unwrap_or_else(|| crate::number_input::edit_text(n, crate::number_input::locale()))
             } else {
-                number_text(n)
+                number_shown(n)
             };
             // Up/Down step the value (Shift: 10 steps) through the same path as typing and −/+.
             let mut keyed = None;
