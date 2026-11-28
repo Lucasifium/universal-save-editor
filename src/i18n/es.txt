@@ -4583,7 +4583,7 @@ Change to
 = Cambiar a
 
 Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
-= Cambiar el nivel no cambia la experiencia: establezca ambos. El oro del personaje puede ser como máximo 10,000 por nivel.
+= Cambiar el nivel no cambia la experiencia: establezca ambos. El oro del personaje puede ser como máximo 10.000 por nivel.
 
 Chapter
 = Capítulo
@@ -9712,7 +9712,7 @@ Sets every synthesis material to 99, the stack the game's menus show as full.
 = Fija cada material de síntesis en 99, la pila que los menús del juego muestran como llena.
 
 Sets leather, metal, chemicals and silk to 9,999. No public source states a limit, so this is an estimate. Unique materials such as black pearls are left alone.
-= Fija cuero, metal, productos químicos y seda en 9,999. Ninguna fuente pública indica un límite, así que es una estimación. Los materiales únicos, como las perlas negras, no se tocan.
+= Fija cuero, metal, productos químicos y seda en 9.999. Ninguna fuente pública indica un límite, así que es una estimación. Los materiales únicos, como las perlas negras, no se tocan.
 
 Sets lumber and material stone to 50,000, the most the game keeps. Fertilizer is left alone.
 = Fija madera y piedra de material en 50,000, el máximo del juego. El fertilizante no se toca.
@@ -9721,7 +9721,7 @@ Sets money to 999,999, the most the game holds
 = Fija el dinero en 999,999, el máximo del juego
 
 Sets the six crafting materials to 99,999. No public source states a limit (real saves hold over 60,000), so this is an estimate.
-= Fija los seis materiales de fabricación en 99,999. Ninguna fuente pública indica un límite (las partidas reales superan 60,000), así que es una estimación.
+= Fija los seis materiales de fabricación en 99.999. Ninguna fuente pública indica un límite (las partidas reales superan 60.000), así que es una estimación.
 
 Sets wood, metal and cloth to 2,000, what the Jackdaw's fully upgraded hold takes. Rum and sugar are trade goods and are left alone.
 = Fija madera, metal y tela en 2,000, lo que admite la bodega del Jackdaw totalmente mejorada. El ron y el azúcar son bienes comerciales y no se tocan.
@@ -10819,7 +10819,7 @@ Takes effect the next time you load this slot. Freedom turns off food and water;
 = Surte efecto la próxima vez que cargue esta ranura. Libertad desactiva comida y agua; Creativo también desactiva el oxígeno y los costes de construcción. Cambiar de modo puede desactivar los logros.
 
 Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
-= Los ingresos son lo que han ganado los negocios y usted aún no ha cobrado. El dinero tiene un tope de ¥9,999,999,999,999.
+= Los ingresos son lo que han ganado los negocios y usted aún no ha cobrado. El dinero tiene un tope de ¥9.999.999.999.999.
 
 Talent points
 = Puntos de talento
@@ -12111,7 +12111,7 @@ edition
 = edición
 
 ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.
-= ff13-NN.dat. La partida se descifra para editarla y se vuelve a cifrar al guardar. Los gil llegan hasta 9,999,999.
+= ff13-NN.dat. La partida se descifra para editarla y se vuelve a cifrar al guardar. Los gil llegan hasta 9.999.999.
 
 generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.
 = generalprogress.bepis en la carpeta de la ranura de partida. Cada variante de arma es 1 si se tiene y 0 si no; los archivos de nivel (lvlNprogress.bepis) guardan rangos y secretos.
@@ -12201,7 +12201,7 @@ tool level
 = nivel de herramienta
 
 userN.dat. Money is stored divided by 10; the game's cap is 99,990.
-= userN.dat. El dinero se guarda dividido entre 10; el tope del juego es 99,990.
+= userN.dat. El dinero se guarda dividido entre 10; el tope del juego es 99.990.
 
 {0}  (level {1})
 = {0}  (nivel {1})
@@ -15976,31 +15976,31 @@ Close the emulator first. The tape count of each skater and the save's checksum 
 = Cierra primero el emulador. El recuento de cintas de cada patinador y la suma de comprobación de la partida se vuelven a escribir.
 
 10,000 Points
-= 10,000 puntos
+= 10.000 puntos
 
 15,000 Points
-= 15,000 puntos
+= 15.000 puntos
 
 20,000 Points
-= 20,000 puntos
+= 20.000 puntos
 
 25,000 Points
-= 25,000 puntos
+= 25.000 puntos
 
 30,000 Points
-= 30,000 puntos
+= 30.000 puntos
 
 40,000 Points
-= 40,000 puntos
+= 40.000 puntos
 
 5,000 Points
-= 5,000 puntos
+= 5.000 puntos
 
 50,000 Points
-= 50,000 puntos
+= 50.000 puntos
 
 7,500 Points
-= 7,500 puntos
+= 7.500 puntos
 
 Allegro Presto
 = Allegro Presto
@@ -29615,7 +29615,7 @@ Close the game (and DOSBox) first. The game's money is a signed 32-bit number: k
 = Cierra primero el juego (y DOSBox). El dinero del juego es un número de 32 bits con signo: mantenlo muy por debajo de 2,000,000,000, \n         porque se le suman los ingresos mensuales y un total que pase el límite da la vuelta.
 
 Close the game and turn off Ubisoft Connect cloud saves first. Followers raise your level; each number is stored in only as many bytes as it needs, so a small value can be raised only up to 255 or 65,535 until the game itself saves a bigger one; research points are only saved while you have some unspent.
-= Cierra primero el juego y desactiva las partidas en la nube de Ubisoft Connect. Los seguidores suben tu nivel; cada número se guarda en solo los bytes que necesita, así que un valor pequeño solo puede subirse hasta 255 o 65,535 hasta que el propio juego guarde uno mayor; los puntos de investigación solo se guardan mientras tengas alguno sin gastar.
+= Cierra primero el juego y desactiva las partidas en la nube de Ubisoft Connect. Los seguidores suben tu nivel; cada número se guarda en solo los bytes que necesita, así que un valor pequeño solo puede subirse hasta 255 o 65.535 hasta que el propio juego guarde uno mayor; los puntos de investigación solo se guardan mientras tengas alguno sin gastar.
 
 Close the game before saving. Search for a resource or upgrade by name (Ctrl+F) — the game state is large.
 = Cierra el juego antes de guardar. Busca un recurso o mejora por nombre (Ctrl+F): el estado del juego es grande.
@@ -29630,10 +29630,10 @@ Close the game first. Achievements, items seen and challenges are 0 (locked) or 
 = Cierra primero el juego. Los logros, los objetos vistos y los desafíos valen 0 (bloqueado) o 1 (desbloqueado), numerados como en las listas del propio juego; la suma de comprobación se vuelve a escribir al guardar.
 
 Close the game first. Cash is in cents (500000 is $5,000). The level is stored counting from 0, so 49 is the top level. Changing the level alone doesn't change the respect the game thinks you have earned, so set total respect with it. The save's checksum is rewritten.
-= Cierra primero el juego. El efectivo está en centavos (500000 es $5,000). El nivel se guarda contando desde 0, así que 49 es el nivel máximo. Cambiar solo el nivel no cambia el respeto que el juego cree que has ganado, así que fija con él el respeto total. La suma de comprobación de la partida se reescribe.
+= Cierra primero el juego. El efectivo está en centavos (500000 es $5.000). El nivel se guarda contando desde 0, así que 49 es el nivel máximo. Cambiar solo el nivel no cambia el respeto que el juego cree que has ganado, así que fija con él el respeto total. La suma de comprobación de la partida se reescribe.
 
 Close the game first. Cash is in cents (500000 is $5,000). The save's checksum is rewritten. Changing the respect level alone doesn't change the respect the game thinks you have earned, so set total respect with it.
-= Cierra primero el juego. El efectivo está en centavos (500000 es $5,000). La suma de comprobación de la partida se reescribe. Cambiar solo el nivel de respeto no cambia el respeto que el juego cree que has ganado, así que fija con él el respeto total.
+= Cierra primero el juego. El efectivo está en centavos (500000 es $5.000). La suma de comprobación de la partida se reescribe. Cambiar solo el nivel de respeto no cambia el respeto que el juego cree que has ganado, así que fija con él el respeto total.
 
 Close the game first. Cash, loan and fees are in whole currency units with one decimal (the game keeps tenths). \n         The park's chunk is unpacked and packed again on save, with the file's sum written right.
 = Cierra primero el juego. El efectivo, el préstamo y las tarifas están en unidades monetarias enteras con un decimal (el juego guarda décimas). \n         El bloque del parque se descomprime y se vuelve a comprimir al guardar, con la suma del archivo escrita correctamente.
@@ -29654,7 +29654,7 @@ Close the game first. Life counts quarters: 4 is one cell (the game's most is 15
 = Cierra primero el juego. La vida cuenta cuartos: 4 es una celda (el máximo del juego es 15 celdas, 60). La copia de vida y energía del menú de carga se vuelve a escribir por ti.
 
 Close the game first. Money is stored divided by 10; the game's cap is 99,990. Achievements aren't shown.
-= Cierra primero el juego. El dinero se guarda dividido entre 10; el tope del juego es 99,990. Los logros no se muestran.
+= Cierra primero el juego. El dinero se guarda dividido entre 10; el tope del juego es 99.990. Los logros no se muestran.
 
 Close the game first. Salt and gold are what you carry; items and the skill tree are not edited yet.
 = Cierra primero el juego. La sal y el oro son lo que llevas; los objetos y el árbol de habilidades aún no se editan.
@@ -29792,7 +29792,7 @@ Level, experience, fame, gold, unspent points, the four stats, health, mana and 
 = Nivel, experiencia, fama, oro, puntos sin gastar, las cuatro estadísticas, salud, maná y montones de objetos. La partida se \n         vuelve a codificar y su suma de comprobación se actualiza al guardar.
 
 Level, experience, gold, attributes, unspent points and skill points; the file's size and checksum are fixed when you save. Gold can be at most 10,000 × level on the character.
-= Nivel, experiencia, oro, atributos, puntos sin gastar y puntos de habilidad; el tamaño y la suma de comprobación del archivo se corrigen al guardar. El oro puede ser como máximo 10,000 × el nivel del personaje.
+= Nivel, experiencia, oro, atributos, puntos sin gastar y puntos de habilidad; el tamaño y la suma de comprobación del archivo se corrigen al guardar. El oro puede ser como máximo 10.000 × el nivel del personaje.
 
 Level, experience, money, unspent points, the five attributes and skill levels (skills show the game's \n         internal record names). This file has no checksum; values are changed in place.
 = Nivel, experiencia, dinero, puntos sin gastar, los cinco atributos y niveles de habilidad (las habilidades muestran los \n         nombres internos de registro del juego). Este archivo no tiene suma de comprobación; los valores se cambian en el sitio.
@@ -29955,6 +29955,9 @@ Wings of Freedom
 
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = Sube la EXP del Another Mode de cada personaje a 472.000, el máximo del juego (en una partida completada todos están en ese valor). El juego los sube hasta el rango 15 por sí solo al cargar la partida.
+
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= Sube cada regalo a 99, el máximo del juego, incluidos los que aún no tienes.
 
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Sube a 999 cada material de fabricación, el límite que muestra el juego (muchos están en 999 en una partida completada), incluidos los que aún no tienes.
@@ -32540,3 +32543,14 @@ Nothing found.
 # changes button
 Changes ({0})
 = Cambios ({0})
+
+# values that hold other values
+list of {0}
+= lista de {0}
+
+group of {0}
+= grupo de {0}
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= Esa es la partida que está abierta. Exporta con otro nombre: los datos decodificados no son un archivo que el juego pueda cargar.

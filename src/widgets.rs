@@ -184,6 +184,18 @@ pub fn display(v: &Value) -> String {
     }
 }
 
+/// [`display`] for showing to the user: whole numbers with their digits grouped and decimals
+/// with the language's mark, as the number boxes show them. Searching compares against
+/// [`display`], which stays as the file has it.
+pub fn display_shown(v: &Value) -> String {
+    match v {
+        Value::Number(n) => number_shown(n),
+        Value::Array(a) => trf("list of {0}", &[&a.len()]),
+        Value::Object(m) => trf("group of {0}", &[&m.len()]),
+        other => display(other),
+    }
+}
+
 pub fn type_name(v: &Value) -> &'static str {
     match v {
         Value::String(_) => "text",

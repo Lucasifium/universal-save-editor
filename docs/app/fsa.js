@@ -21,11 +21,22 @@
     return Array.from(d, (b) => b.toString(16).padStart(2, '0')).join('');
   }
 
-  // The file behind `handle` as it is now; it becomes what this page knows the file to hold.
+  // The file behind `handle` as it is now. It becomes what this page knows the file to hold
+  // only once the page shows it (`accept`): until then a save of what is on screen, made from
+  // the older file, still finds the file changed and asks first.
+  const readHash = new WeakMap();
   async function read(handle) {
     const data = new Uint8Array(await (await handle.getFile()).arrayBuffer());
-    known.set(handle, await sha256(data));
+    readHash.set(handle, await sha256(data));
     return data;
+  }
+
+  // The file last read through `handle` is on screen now.
+  function accept(handle) {
+    if (readHash.has(handle)) {
+      known.set(handle, readHash.get(handle));
+      readHash.delete(handle);
+    }
   }
 
   function message(e) {
@@ -240,7 +251,9 @@
     }
     // Still as it was: that is what this page knows it to hold. Otherwise the next save finds
     // it changed and asks.
-    if (now === 'old') known.set(handle, was);
+    // Not after Save anyway: then the file holds another program's version, which this
+    // page must go on asking about.
+    if (now === 'old' && !anyway) known.set(handle, was);
     return {
       status: 'failed',
       error: error || 'the file did not read back as written',
@@ -249,5 +262,5 @@
     };
   }
 
-  g.saveEditorFiles = { supported, pick, read, write, originals, downloadOriginal, keepOriginal, toDrop, MAX_COUNT, MAX_BYTES };
+  g.saveEditorFiles = { supported, pick, read, accept, write, originals, downloadOriginal, keepOriginal, toDrop, MAX_COUNT, MAX_BYTES };
 })(globalThis);

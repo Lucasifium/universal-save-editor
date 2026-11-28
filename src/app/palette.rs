@@ -643,6 +643,7 @@ impl App {
             return vec![];
         }
         let key = (q.trim().to_lowercase(), self.model_gen, self.edit_gen);
+        let on_game = self.tab == Tab::Game;
         let cached = self.palette.as_ref().and_then(|p| p.values.as_ref()).filter(|(k, _)| *k == key).map(|(_, v)| v.clone());
         let rows = match cached {
             Some(v) => v,
@@ -681,9 +682,9 @@ impl App {
             .filter(|&i| i < self.model.rows.len())
             .map(|i| {
                 let r = &self.model.rows[i];
-                let shown = top.pointer(&r.ptr).map(widgets::display).unwrap_or_default();
+                let shown = top.pointer(&r.ptr).map(widgets::display_shown).unwrap_or_default();
                 let shown: String = shown.lines().next().unwrap_or("").chars().take(60).collect();
-                Hit { group: Group::Values, act: Act::Value(i), label: r.name().to_string(), sub: r.context().to_string(), right: shown, enabled: true, tip: None }
+                Hit { group: Group::Values, act: Act::Value(i), label: super::review::value_name(on_game, r.name()), sub: r.context().to_string(), right: shown, enabled: true, tip: None }
             })
             .collect()
     }

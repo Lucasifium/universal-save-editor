@@ -128,7 +128,7 @@ impl App {
     pub(super) fn compare_window(&mut self, ctx: &egui::Context, now: f64) {
         let Some(cmp) = &self.compare else { return };
         let binary = matches!(self.doc.as_ref().map(|d| &d.content), Some(Content::Binary(_)));
-        let show = |v: &Option<Value>| v.as_ref().map(widgets::display).unwrap_or_else(|| tr("(missing)").into());
+        let show = |v: &Option<Value>| v.as_ref().map(widgets::display_shown).unwrap_or_else(|| tr("(missing)").into());
         // This save's *current* value, so rows update after edits.
         let mine_of = |p: &str, original: &Option<Value>| -> Option<Value> {
             if binary {

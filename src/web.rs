@@ -43,6 +43,8 @@ extern "C" {
     fn js_write(handle: &JsValue, bytes: &js_sys::Uint8Array, anyway: bool) -> Result<js_sys::Promise, JsValue>;
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = read)]
     fn js_read(handle: &JsValue) -> Result<js_sys::Promise, JsValue>;
+    #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = accept)]
+    fn js_accept(handle: &JsValue) -> Result<(), JsValue>;
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = originals)]
     fn js_originals() -> Result<js_sys::Promise, JsValue>;
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = downloadOriginal)]
@@ -261,6 +263,15 @@ pub fn reread(ctx: &egui::Context, id: u64) {
         });
         ctx.request_repaint();
     });
+}
+
+/// The file last read again through handle `id` is now on screen: from here on it is what the
+/// page knows the file to hold, so a save over it no longer counts as writing over a change.
+/// Until then, a save still finds the file changed and asks first.
+pub fn accept_reread(id: u64) {
+    if let Some(handle) = HANDLES.with(|h| h.borrow().get(&id).cloned()) {
+        let _ = js_accept(&handle);
+    }
 }
 
 /// The file read again by `reread`, once: the handle id and its bytes (or what went wrong).

@@ -192,11 +192,12 @@ fn chrome(l: &SiteLang, depth: usize) -> Chrome {
             t("Source code on GitHub"),
             t("Code signing policy"),
         ),
-        og_alt: t("Universal Save Editor: free, offline save editor for 550+ games"),
+        og_alt: tlf(l, "Universal Save Editor: free, offline save editor for {0}+ ({1}) games", &[&many().to_string(), &GAMES.len().to_string()]),
         dl_windows: t("Download for Windows"),
         dl_version: t("Version {0}:"),
         dl_for: for_label,
         dl_all: t("All versions and release notes"),
+        skip: t("Skip to content"),
         root,
     }
 }
@@ -432,7 +433,7 @@ pub(super) fn pages(skip: &[String], rows: &[(String, String)]) -> Vec<(String, 
     for l in LANGS {
         if !skip.contains(&queue_name(l, None)) {
             let path = format!("{}/", l.dir);
-            let desc = tl(l, "Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.");
+            let desc = tlf(l, "Free offline save editor for PC games: change money, items and stats in the saves of {0}+ ({1}) games. Nothing is uploaded, and every save is backed up first.", &[&many().to_string(), &GAMES.len().to_string()]);
             let title = tlf(l, "Free offline save editor for {0}+ ({1}) games | Universal Save Editor", &[&many().to_string(), &GAMES.len().to_string()]);
             let body = home_body(l, skip);
             let alts = alternates(skip, None);

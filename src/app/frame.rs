@@ -143,7 +143,9 @@ impl App {
         egui::TopBottomPanel::top("toolbar").show(ctx, |ui| self.toolbar(ui));
         self.tab_strip(ctx);
         if self.doc.is_some() && !self.doc_note.is_empty() && !self.note_hidden() {
-            egui::TopBottomPanel::top("doc_note").show(ctx, |ui| self.note_bar(ui));
+            // Room above and below its buttons, so they don't touch the lines around the strip.
+            let frame = egui::Frame::side_top_panel(&ctx.style()).inner_margin(egui::Margin::symmetric(8.0, 4.0));
+            egui::TopBottomPanel::top("doc_note").frame(frame).show(ctx, |ui| self.note_bar(ui));
         }
         // The file is being written by this app: that is not a change on disk to warn about.
         if !saving {

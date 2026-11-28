@@ -417,7 +417,7 @@ impl App {
         let cap_gb = self.settings.backup_cap_gb;
         let t = &mut self.backup_tools;
         let Some(s) = t.survey.as_ref() else { return };
-        egui::Window::new(tr("Backup space")).open(&mut open).collapsible(false).default_width(fit(ctx, 600.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
+        egui::Window::new(tr("Backup space")).open(&mut open).collapsible(false).default_pos(super::modal::start_pos(ctx, fit(ctx, 600.0))).default_width(fit(ctx, 600.0)).max_width(fit(ctx, 900.0)).show(ctx, |ui| {
             ui.label(RichText::new(trf("Backups take {0} in all: {1} backups of {2} saves.", &[&size(s.bytes), &s.files, &s.saves.len()])).strong());
             ui.weak(tr("Counted: every backups folder this app has written to, the backups of recent files, and the editor's own backups folder."));
             ui.add_space(4.0);

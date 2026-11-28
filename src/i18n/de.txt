@@ -4575,7 +4575,7 @@ Change to
 = Ändern in
 
 Changing the level doesn't change experience: set both. Gold on the character can be at most 10,000 per level.
-= Das Ändern der Stufe ändert nicht die Erfahrung: beide setzen. Das Gold des Charakters kann höchstens 10,000 pro Stufe betragen.
+= Das Ändern der Stufe ändert nicht die Erfahrung: beide setzen. Das Gold des Charakters kann höchstens 10.000 pro Stufe betragen.
 
 Chapter
 = Kapitel
@@ -9725,7 +9725,7 @@ Sets every synthesis material to 99, the stack the game's menus show as full.
 = Setzt jedes Synthesematerial auf 99, den Stapel, den die Spielmenüs als voll anzeigen.
 
 Sets leather, metal, chemicals and silk to 9,999. No public source states a limit, so this is an estimate. Unique materials such as black pearls are left alone.
-= Setzt Leder, Metall, Chemikalien und Seide auf 9,999. Keine öffentliche Quelle nennt ein Limit, daher ist dies eine Schätzung. Einzigartige Materialien wie Schwarze Perlen bleiben unverändert.
+= Setzt Leder, Metall, Chemikalien und Seide auf 9.999. Keine öffentliche Quelle nennt ein Limit, daher ist dies eine Schätzung. Einzigartige Materialien wie Schwarze Perlen bleiben unverändert.
 
 Sets lumber and material stone to 50,000, the most the game keeps. Fertilizer is left alone.
 = Setzt Holz und Materialstein auf 50,000, das Maximum des Spiels. Dünger bleibt unverändert.
@@ -9734,7 +9734,7 @@ Sets money to 999,999, the most the game holds
 = Setzt das Geld auf 999,999, den Höchstwert des Spiels
 
 Sets the six crafting materials to 99,999. No public source states a limit (real saves hold over 60,000), so this is an estimate.
-= Setzt die sechs Handwerksmaterialien auf 99,999. Keine öffentliche Quelle nennt ein Limit (echte Spielstände enthalten über 60,000), daher ist dies eine Schätzung.
+= Setzt die sechs Handwerksmaterialien auf 99.999. Keine öffentliche Quelle nennt ein Limit (echte Spielstände enthalten über 60.000), daher ist dies eine Schätzung.
 
 Sets wood, metal and cloth to 2,000, what the Jackdaw's fully upgraded hold takes. Rum and sugar are trade goods and are left alone.
 = Setzt Holz, Metall und Stoff auf 2,000, was der voll ausgebaute Laderaum der Jackdaw fasst. Rum und Zucker sind Handelsgüter und bleiben unverändert.
@@ -10821,7 +10821,7 @@ Takes effect the next time you load this slot. Freedom turns off food and water;
 = Wird beim nächsten Laden dieses Slots wirksam. „Freiheit“ schaltet Nahrung und Wasser aus; „Kreativ“ zusätzlich Sauerstoff und Baukosten. Ein Moduswechsel kann Erfolge deaktivieren.
 
 Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
-= Einnahmen sind das, was die Geschäfte verdient haben und Sie noch nicht abgeholt haben. Das Geld ist auf ¥9,999,999,999,999 begrenzt.
+= Einnahmen sind das, was die Geschäfte verdient haben und Sie noch nicht abgeholt haben. Das Geld ist auf ¥9.999.999.999.999 begrenzt.
 
 Talent points
 = Talentpunkte
@@ -12080,7 +12080,7 @@ edition
 = Edition
 
 ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.
-= ff13-NN.dat. Der Spielstand wird zum Bearbeiten entschlüsselt und beim Speichern wieder verschlüsselt. Gil geht bis 9,999,999.
+= ff13-NN.dat. Der Spielstand wird zum Bearbeiten entschlüsselt und beim Speichern wieder verschlüsselt. Gil geht bis 9.999.999.
 
 generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.
 = generalprogress.bepis im Ordner des Spielstand-Slots. Jede Waffenvariante ist 1, wenn vorhanden, und 0, wenn nicht; die Level-Dateien (lvlNprogress.bepis) enthalten Ränge und Geheimnisse.
@@ -12170,7 +12170,7 @@ tool level
 = Werkzeugstufe
 
 userN.dat. Money is stored divided by 10; the game's cap is 99,990.
-= userN.dat. Geld wird durch 10 geteilt gespeichert; die Obergrenze des Spiels ist 99,990.
+= userN.dat. Geld wird durch 10 geteilt gespeichert; die Obergrenze des Spiels ist 99.990.
 
 {0}  (level {1})
 = {0}  (Level {1})
@@ -15980,31 +15980,31 @@ Close the emulator first. The tape count of each skater and the save's checksum 
 = Zuerst den Emulator schließen. Die Bandanzahl jedes Skaters und die Prüfsumme des Spielstands werden neu geschrieben.
 
 10,000 Points
-= 10,000 Punkte
+= 10.000 Punkte
 
 15,000 Points
-= 15,000 Punkte
+= 15.000 Punkte
 
 20,000 Points
-= 20,000 Punkte
+= 20.000 Punkte
 
 25,000 Points
-= 25,000 Punkte
+= 25.000 Punkte
 
 30,000 Points
-= 30,000 Punkte
+= 30.000 Punkte
 
 40,000 Points
-= 40,000 Punkte
+= 40.000 Punkte
 
 5,000 Points
-= 5,000 Punkte
+= 5.000 Punkte
 
 50,000 Points
-= 50,000 Punkte
+= 50.000 Punkte
 
 7,500 Points
-= 7,500 Punkte
+= 7.500 Punkte
 
 Allegro Presto
 = Allegro Presto
@@ -29963,6 +29963,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = Setzt die Another-Mode-EP jedes Charakters auf 472.000, das Maximum des Spiels (in einem abgeschlossenen Spielstand hat jeder Charakter diesen Wert). Das Spiel stuft sie beim Laden des Spielstands von selbst auf Rang 15 hoch.
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= Setzt jedes Geschenk auf 99, die Höchstmenge des Spiels, auch Geschenke, die du noch nicht besitzt.
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Setzt jedes Herstellungsmaterial auf 999, die Grenze, die das Spiel anzeigt (viele stehen in einem abgeschlossenen Spielstand auf 999), auch solche, die du noch nicht besitzt.
 
@@ -32547,3 +32550,14 @@ Nothing found.
 # changes button
 Changes ({0})
 = Änderungen ({0})
+
+# values that hold other values
+list of {0}
+= Liste mit {0}
+
+group of {0}
+= Gruppe mit {0}
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= Das ist der geöffnete Spielstand. Exportiere unter einem anderen Namen: Die decodierten Daten sind keine Datei, die das Spiel laden kann.

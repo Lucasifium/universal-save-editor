@@ -210,14 +210,18 @@ fn definitions(cjk: bool) -> (FontDefinitions, bool) {
         }
     }
 
-    // Japanese, Chinese and Korean last: only for characters nothing before them has.
+    // Japanese, Chinese and Korean after the text fonts, so Latin text keeps its look, but
+    // before the symbol fonts: those carry heavy picture forms of the full-width "?", "!" and
+    // brackets that Japanese and Chinese sentences are full of.
     if cjk {
         for (i, path) in cjk_fonts().iter().enumerate() {
             if let Some(d) = load(path) {
                 let name = format!("cjk{i}");
                 fonts.font_data.insert(name.clone(), d);
                 for fam in [FontFamily::Proportional, FontFamily::Monospace] {
-                    fonts.families.entry(fam).or_default().push(name.clone());
+                    let list = fonts.families.entry(fam).or_default();
+                    let at = list.iter().position(|n| n == "NotoEmoji-Regular" || n == "emoji-icon-font" || n == "segoe_sym").unwrap_or(list.len());
+                    list.insert(at, name.clone());
                 }
             }
         }

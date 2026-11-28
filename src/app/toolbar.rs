@@ -33,10 +33,19 @@ impl App {
         // The strip stays one line: a note that doesn't fit on it is cut short, with More.
         let fits = width(ui, &note) <= ui.available_width() - dismiss_w - 8.0;
         let (mut dismiss, mut toggle) = (false, false);
-        ui.horizontal_top(|ui| {
+        // One line: the text sits level with the buttons. Opened over several lines, the
+        // buttons stay at the top beside its first line.
+        let one_line = fits || !self.note_open;
+        let layout = egui::Layout::left_to_right(if one_line { egui::Align::Center } else { egui::Align::Min });
+        let height = ui.spacing().interact_size.y.max(crate::widgets::MIN_TARGET);
+        ui.allocate_ui_with_layout(egui::vec2(ui.available_width(), height), layout, |ui| {
             let text_w = (ui.available_width() - dismiss_w - if fits { 0.0 } else { more_w } - 4.0).max(80.0);
-            ui.allocate_ui(egui::vec2(text_w, 0.0), |ui| {
+            // On one line the text gets the whole height of the row to sit in the middle of.
+            ui.allocate_ui(egui::vec2(text_w, if one_line { height } else { 0.0 }), |ui| {
                 ui.set_width(text_w);
+                if !one_line {
+                    ui.add_space(3.0);
+                }
                 let text = RichText::new(&note).color(ui.visuals().weak_text_color());
                 if fits || self.note_open {
                     ui.add(egui::Label::new(text).wrap());
@@ -97,7 +106,9 @@ impl App {
         let label = if self.dirty && n > 0 { trf("Changes ({0})", &[&n]) } else { tr("Changes").to_string() };
         // A framed button like its neighbours, so it reads as something to press.
         let text = widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color);
-        let r = ui.add(egui::Button::new(text).selected(self.show_changes));
+        // A selected button is drawn square unless told otherwise: keep its neighbours' corners.
+        let rounding = ui.visuals().widgets.inactive.rounding;
+        let r = ui.add(egui::Button::new(text).selected(self.show_changes).rounding(rounding));
         if r.clicked() {
             self.show_changes = !self.show_changes;
         }

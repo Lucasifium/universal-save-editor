@@ -30041,6 +30041,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = 各キャラクターのアナザーモードの経験値を、ゲームの上限である472,000にします（クリア済みのセーブでは全員がこの値です）。セーブを読み込むと、ゲームが自動でランク15まで上げます。
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= すべてのプレゼントを、ゲームの上限である99にします（まだ持っていないものも含みます）。
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = まだ所持していないものも含め、すべての素材をゲームが表示する上限の999にします（クリア済みセーブでは多くが999です）。
 
@@ -32625,3 +32628,14 @@ Nothing found.
 # changes button
 Changes ({0})
 = 変更 ({0})
+
+# values that hold other values
+list of {0}
+= {0} 件のリスト
+
+group of {0}
+= {0} 件のグループ
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= それは開いているセーブデータです。別の名前でエクスポートしてください。デコードしたデータはゲームが読み込めるファイルではありません。

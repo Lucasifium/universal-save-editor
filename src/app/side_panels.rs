@@ -53,7 +53,8 @@ impl App {
         let panel = egui::SidePanel::right("changes").default_width(320.0).min_width(260.0);
         let panel = if phone { panel.resizable(false).exact_width(ctx.screen_rect().width()) } else { panel };
         panel.show(ctx, |ui| {
-            let Some(d) = &self.doc else { return };
+            let on_game = self.tab == Tab::Game;
+        let Some(d) = &self.doc else { return };
             ui.add_space(6.0);
             ui.horizontal(|ui| {
                 ui.heading(tr("Changes"));
@@ -139,9 +140,9 @@ impl App {
                                 ui.weak(tr("Made by one button. Revert puts all of them back."));
                                 egui::CollapsingHeader::new(tr("Show values")).id_source(("change_group", gid)).show(ui, |ui| {
                                     for p in list.iter().take(CHANGES_SHOWN) {
-                                        let name = self.model.by_ptr.get(p.as_str()).map(|&i| self.model.rows[i].name().to_string()).unwrap_or_else(|| (*p).clone());
-                                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
-                                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                                        let name = self.model.by_ptr.get(p.as_str()).map(|&i| review::value_name(on_game, self.model.rows[i].name())).unwrap_or_else(|| (*p).clone());
+                                        let old = bv.pointer(p).map(widgets::display_shown).unwrap_or_else(|| tr("(none)").into());
+                                        let new = cv.pointer(p).map(widgets::display_shown).unwrap_or_else(|| tr("(none)").into());
                                         ui.horizontal_wrapped(|ui| {
                                             ui.label(name);
                                             ui.label(RichText::new(old).weak().strikethrough());
@@ -163,7 +164,7 @@ impl App {
                                 ui.label(RichText::new(tr("Whole document (Raw JSON edit)")).strong());
                             } else {
                                 let (name, context) = match self.model.by_ptr.get(ptr.as_str()) {
-                                    Some(&i) => (self.model.rows[i].name().to_string(), self.model.rows[i].context().to_string()),
+                                    Some(&i) => (review::value_name(on_game, self.model.rows[i].name()), self.model.rows[i].context().to_string()),
                                     None => (ptr.clone(), String::new()),
                                 };
                                 if ui.link(RichText::new(&name).strong()).on_hover_text(tr("Show in list")).clicked() {
@@ -172,8 +173,8 @@ impl App {
                                 if !context.is_empty() {
                                     ui.weak(context);
                                 }
-                                let old = bv.pointer(ptr).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
-                                let new = cv.pointer(ptr).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                                let old = bv.pointer(ptr).map(widgets::display_shown).unwrap_or_else(|| tr("(none)").into());
+                                let new = cv.pointer(ptr).map(widgets::display_shown).unwrap_or_else(|| tr("(none)").into());
                                 ui.horizontal_wrapped(|ui| {
                                     ui.label(RichText::new(old).weak().strikethrough());
                                     ui.label("\u{203A}");

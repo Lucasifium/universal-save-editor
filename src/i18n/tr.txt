@@ -10818,7 +10818,7 @@ Takes effect the next time you load this slot. Freedom turns off food and water;
 = Bu slotu bir sonraki yüklediğinizde geçerli olur. Özgürlük yiyecek ve suyu kapatır; Yaratıcı ayrıca oksijeni ve inşa maliyetlerini de kapatır. Modu değiştirmek başarımları kapatabilir.
 
 Takings are what the businesses have earned and you haven't collected yet. Money tops out at ¥9,999,999,999,999.
-= Hasılat, işletmelerin kazandığı ve henüz tahsil etmediğiniz tutardır. Para en fazla ¥9,999,999,999,999 olabilir.
+= Hasılat, işletmelerin kazandığı ve henüz tahsil etmediğiniz tutardır. Para en fazla ¥9.999.999.999.999 olabilir.
 
 Talent points
 = Yetenek puanları
@@ -12077,7 +12077,7 @@ edition
 = sürüm
 
 ff13-NN.dat. The save is decrypted to edit and encrypted again on save. Gil goes up to 9,999,999.
-= ff13-NN.dat. Kayıt düzenlemek için çözülür ve kaydederken yeniden şifrelenir. Gil 9,999,999'a kadar çıkar.
+= ff13-NN.dat. Kayıt düzenlemek için çözülür ve kaydederken yeniden şifrelenir. Gil 9.999.999'a kadar çıkar.
 
 generalprogress.bepis in the save slot folder. Each weapon variant is 1 when owned and 0 when not; the level files (lvlNprogress.bepis) hold ranks and secrets.
 = Kayıt slotu klasöründeki generalprogress.bepis. Her silah varyantı sahipken 1, değilken 0'dır; seviye dosyaları (lvlNprogress.bepis) rütbeleri ve sırları tutar.
@@ -12167,7 +12167,7 @@ tool level
 = alet seviyesi
 
 userN.dat. Money is stored divided by 10; the game's cap is 99,990.
-= userN.dat. Para 10'a bölünmüş olarak saklanır; oyunun sınırı 99,990'dır.
+= userN.dat. Para 10'a bölünmüş olarak saklanır; oyunun sınırı 99.990'dır.
 
 {0}  (level {1})
 = {0}  (seviye {1})
@@ -12251,7 +12251,7 @@ GPData_<slot>.sav in Documents\\My Games\\MortalShell\\Dungeonhaven\\Saved\\Save
 = Documents\My Games\MortalShell\Dungeonhaven\Saved\SaveGames içindeki GPData_<slot>.sav. Katran BoneShards olarak saklanır; Fırtına Modu oyunu kendi kopyasını tutar. Envanter eşya adları oyun metni olarak saklanır ve gösterilmez.
 
 HK GameSlot 1 ... or HK Autosave Slot in the game's data folder (Steam: steamapps\\common\\SleepingDogsDefinitiveEdition\\data). The save is unscrambled and scrambled again, with its checksum, on save. Each XP track tops out at 50,000.
-= Oyunun veri klasöründeki HK GameSlot 1 ... veya HK Autosave Slot (Steam: steamapps\common\SleepingDogsDefinitiveEdition\data). Kayıt çözülür ve kaydederken sağlama toplamıyla yeniden karıştırılır. Her XP yolu 50,000'de son bulur.
+= Oyunun veri klasöründeki HK GameSlot 1 ... veya HK Autosave Slot (Steam: steamapps\common\SleepingDogsDefinitiveEdition\data). Kayıt çözülür ve kaydederken sağlama toplamıyla yeniden karıştırılır. Her XP yolu 50.000'de son bulur.
 
 RDR2SAVE<n>.SAV (and REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV) in Documents\\Rockstar Games\\Red Dead Redemption\\Profiles\\<id>. The save is decrypted and encrypted again with its CRC-32 when you save. Money, honor, fame, the Dead Eye meter and consumables can be changed; weapons, horses and kit are listed as owned. PS4 and Switch saves of the same release use the same format.
 = Documents\Rockstar Games\Red Dead Redemption\Profiles\<id> içindeki RDR2SAVE<n>.SAV (ve REDDEAD2HCOR<n>.SAV, RDR2ZOMBIESAVE<n>.SAV). Kayıt çözülür ve kaydettiğinizde CRC-32 değeriyle yeniden şifrelenir. Para, onur, şöhret, Dead Eye göstergesi ve sarf malzemeleri değiştirilebilir; silahlar, atlar ve donanım sahip olunan olarak listelenir. Aynı sürümün PS4 ve Switch kayıtları aynı biçimi kullanır.
@@ -12272,7 +12272,7 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 = Bir Daggerfall Unity kayıt klasöründeki SaveData.txt (LocalLow\Daggerfall Workshop\Daggerfall Unity\Saves\<name>-<n>). Taşınan altın, seviye, sağlık, sekiz özellik, tüm 35 yetenek, dirençler, itibarlar ve her bölgenin bankasındaki altın. Özellikler ve yetenekler 0 ile 100 arasındadır.
 
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
-= Saves\0.celeste … 2.celeste. Süreler 100 nanosaniyelik tik cinsindendir (saniyede 10,000,000).
+= Saves\0.celeste … 2.celeste. Süreler 100 nanosaniyelik tik cinsindendir (saniyede 10.000.000).
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id> içindeki StellarBladeSave00.sav. Eşya adları oyunun dahili kimlikleridir; kaydın CRC-32 değeri kaydederken yeniden yazılır. Gerçek bir oyun başı kaydında denendi, henüz oyunda denenmedi.
@@ -15974,31 +15974,31 @@ Close the emulator first. The tape count of each skater and the save's checksum 
 = Önce emülatörü kapatın. Her kaykaycının kaset sayısı ve kaydın sağlama toplamı yeniden yazılır.
 
 10,000 Points
-= 10,000 Puan
+= 10.000 Puan
 
 15,000 Points
-= 15,000 Puan
+= 15.000 Puan
 
 20,000 Points
-= 20,000 Puan
+= 20.000 Puan
 
 25,000 Points
-= 25,000 Puan
+= 25.000 Puan
 
 30,000 Points
-= 30,000 Puan
+= 30.000 Puan
 
 40,000 Points
-= 40,000 Puan
+= 40.000 Puan
 
 5,000 Points
-= 5,000 Puan
+= 5.000 Puan
 
 50,000 Points
-= 50,000 Puan
+= 50.000 Puan
 
 7,500 Points
-= 7,500 Puan
+= 7.500 Puan
 
 Allegro Presto
 = Allegro Presto
@@ -29957,6 +29957,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = Her karakterin Another Mode EXP'sini oyunun tutabildiği en yüksek değer olan 472.000'e ayarlar (tamamlanmış bir kayıtta her karakter bu değerdedir). Kaydı yüklediğinizde oyun onları kendisi 15. rütbeye yükseltir.
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= Her hediyeyi oyunun üst sınırı olan 99'a çıkarır, henüz sahip olmadıkların da dahil.
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Her üretim malzemesini oyunun gösterdiği sınır olan 999'a çıkarır (tamamlanmış bir kayıtta çoğu 999'dadır), henüz sahip olmadıklarınız da dahil.
 
@@ -32549,3 +32552,13 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 Nothing found.
 = Hiçbir şey bulunamadı.
 
+# values that hold other values
+list of {0}
+= {0} öğeli liste
+
+group of {0}
+= {0} öğeli grup
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= Bu, açık olan kayıt. Başka bir adla dışa aktarın: çözülmüş veriler oyunun yükleyebileceği bir dosya değildir.

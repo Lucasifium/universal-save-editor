@@ -59,6 +59,12 @@ impl Line {
 /// Lists longer than this are grouped by section.
 const GROUP_FROM: usize = 8;
 
+/// A value's name where changes are listed. On a game's own screen the boxes carry translated
+/// labels, so the list names the value the same way where it can.
+pub(super) fn value_name(on_game: bool, name: &str) -> String {
+    if on_game { crate::i18n::tr_any(name).to_string() } else { name.to_string() }
+}
+
 impl App {
     /// The unsaved changes, one line each, for the dialog.
     pub(super) fn review_lines(&self) -> Vec<Line> {
@@ -99,12 +105,12 @@ impl App {
                         let (name, context, group) = match self.model.by_ptr.get(p.as_str()) {
                             Some(&i) => {
                                 let r = &self.model.rows[i];
-                                (r.name().to_string(), r.context().to_string(), self.model.sections[r.section].title.clone())
+                                (value_name(self.tab == Tab::Game, r.name()), r.context().to_string(), self.model.sections[r.section].title.clone())
                             }
                             None => (p.clone(), String::new(), String::new()),
                         };
-                        let old = bv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
-                        let new = cv.pointer(p).map(widgets::display).unwrap_or_else(|| tr("(none)").into());
+                        let old = bv.pointer(p).map(widgets::display_shown).unwrap_or_else(|| tr("(none)").into());
+                        let new = cv.pointer(p).map(widgets::display_shown).unwrap_or_else(|| tr("(none)").into());
                         let at = if context.is_empty() { name } else { format!("{context} \u{203A} {name}") };
                         Line {
                             text: format!("{at}: {old} -> {new}"),
@@ -186,7 +192,7 @@ impl App {
         // Lines without a tick box (a Raw JSON edit, bytes added or removed) are always saved.
         let kept = r.lines.iter().filter(|l| l.keep).count();
         modal(ctx, tr("Save changes?"), |ui| {
-            ui.set_max_width(520.0);
+            ui.set_max_width(fit(ctx, 520.0));
             if let Some(game) = &r.running {
                 theme::card(ui, |ui| {
                     ui.label(RichText::new(trf("{0} looks like it's running.", &[game])).color(theme::fg(ui, theme::WARN)).strong());

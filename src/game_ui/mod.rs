@@ -1130,15 +1130,19 @@ impl GameCtx<'_> {
     fn attribute_line(&mut self, ui: &mut Ui, name: &str, p: &str, cap: Option<(f64, Color32)>) {
         let name = tr_any(name);
         let Some(n) = self.num(p) else { return };
+        // The lines of one column share a name width: the id of the column they sit in.
+        let group = ui.id();
         ui.horizontal(|ui| {
             let c = if self.modified(p) { theme::fg(ui, theme::MODIFIED) } else { ui.visuals().strong_text_color() };
-            ui.allocate_ui_with_layout(egui::vec2(110.0, 24.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
-                ui.set_width(110.0);
+            let box_w = if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 };
+            let label_w = attribute_label_width(ui, group, name, box_w);
+            ui.allocate_ui_with_layout(egui::vec2(label_w, 24.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                ui.set_width(label_w);
                 let r = ui.add(egui::Label::new(RichText::new(name).color(c)).truncate());
                 find_mark(ui, r.rect, name);
             });
             // Decimals need a wider box than whole numbers. The line has room for −/+ on a phone.
-            widgets::with_steppers(|| self.editor(ui, p, if n.fract().abs() > 1e-9 { 84.0 } else { 52.0 }));
+            widgets::with_steppers(|| self.editor(ui, p, box_w));
             if let Some((max, color)) = cap {
                 let w = (ui.available_width() - 8.0).max(30.0);
                 bar(ui, w, (n / max) as f32, color, None);
@@ -1912,6 +1916,23 @@ mod tests {
         assert_eq!(fmt_num(1234567.0), "1,234,567");
         assert_eq!(fmt_num(-1500.0), "-1,500");
     }
+}
+
+/// The width for the name of an attribute line: 110 px, or what the longest name among the
+/// lines of the same column needed on the last frame (a translated name is often longer), as
+/// far as the value box and its −/+ leave room. All lines of a column get the same width, so
+/// their boxes stay in one line.
+fn attribute_label_width(ui: &Ui, group: egui::Id, name: &str, box_w: f32) -> f32 {
+    const BASE: f32 = 110.0;
+    let text_w = ui.fonts(|f| f.layout_no_wrap(name.to_string(), egui::TextStyle::Body.resolve(ui.style()), Color32::WHITE).size().x).ceil() + 2.0;
+    let key = group.with("attribute_label_w");
+    let frame = ui.ctx().cumulative_pass_nr();
+    // (widest on the last frame, widest so far on this frame, this frame's number)
+    let (last, now, at) = ui.ctx().data(|d| d.get_temp::<(f32, f32, u64)>(key)).unwrap_or((0.0, 0.0, frame));
+    let (last, now) = if at == frame { (last, now.max(text_w)) } else { (now, text_w) };
+    ui.ctx().data_mut(|d| d.insert_temp(key, (last, now, frame)));
+    let room = (ui.available_width() - box_w - 84.0).max(BASE);
+    BASE.max(last).max(text_w).min(room)
 }
 
 /// Item rows (name, then its editor of `width`; `extra` is room for buttons beside it) in as many

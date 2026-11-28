@@ -400,6 +400,12 @@ impl App {
         let path = d.path.clone();
         let mut opts = d.opts.clone();
         change(&mut opts);
+        // The same file read another way (Open as, a password): it still saves back through
+        // the handle it was opened with (browser version).
+        let handle = self.doc.as_mut().and_then(|d| d.handle.take());
         self.load_with(&path, opts);
+        if let Some(d) = self.doc.as_mut().filter(|d| d.path == path && d.handle.is_none()) {
+            d.handle = handle;
+        }
     }
 }

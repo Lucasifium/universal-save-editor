@@ -1,7 +1,7 @@
 # Texts of the translated website pages (src/site/lang.rs). English line, "= " translation, blank line.
 
-Free offline save editor for PC games: change money, items and stats in the saves of 550+ games. Nothing is uploaded, and every save is backed up first.
-= 免费的离线 PC 游戏存档编辑器：可修改 550 多款游戏存档中的金钱、物品和属性。不会上传任何内容，每次保存前都会先备份。
+Free offline save editor for PC games: change money, items and stats in the saves of {0}+ ({1}) games. Nothing is uploaded, and every save is backed up first.
+= 免费的离线 PC 游戏存档编辑器：可修改 {0}+（{1}）款游戏存档中的金钱、物品和属性。不会上传任何内容，每次保存前都会先备份。
 
 Free offline save editor for {0}+ ({1}) games | Universal Save Editor
 = 免费离线存档编辑器，支持 {0}+（{1}）款游戏 | Universal Save Editor
@@ -201,8 +201,8 @@ Source code on GitHub
 Code signing policy
 = 代码签名政策
 
-Universal Save Editor: free, offline save editor for 550+ games
-= Universal Save Editor：支持 550 多款游戏的免费离线存档编辑器
+Universal Save Editor: free, offline save editor for {0}+ ({1}) games
+= Universal Save Editor：支持 {0}+（{1}）款游戏的免费离线存档编辑器
 
 Download for Windows
 = 下载 Windows 版
@@ -318,3 +318,6 @@ Confirmed in game
 Edited saves of this game have been reported to load and work in the game.
 = 已有报告称，这款游戏编辑过的存档可以在游戏中正常加载和使用。
 
+# Skip link
+Skip to content
+= 跳到主要内容

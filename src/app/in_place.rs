@@ -13,7 +13,8 @@ thread_local! {
     static GOT: RefCell<Option<Result<String, String>>> = const { RefCell::new(None) };
     /// A save in place found the file changed on disk: the file and its handle id, for the
     /// "changed on disk" question.
-    static STALE: RefCell<Option<(PathBuf, u64)>> = const { RefCell::new(None) };
+    /// What was to happen once the save went through goes with it.
+    static STALE: RefCell<Option<(PathBuf, u64, AfterSave)>> = const { RefCell::new(None) };
 }
 
 /// The newest originals the browser keeps, and their size in all (web/fsa.js has the same).
@@ -80,9 +81,10 @@ impl App {
         let name = file_name(path);
         let len = bytes.len();
         let data = bytes.clone();
+        let after = then.clone();
         crate::web::write_in_place(&self.ctx, id, &data, anyway, move |outcome| {
             if outcome == crate::web::InPlace::Changed {
-                STALE.with(|s| *s.borrow_mut() = Some((p.clone(), id)));
+                STALE.with(|s| *s.borrow_mut() = Some((p.clone(), id, after)));
             }
             let _ = tx.send(in_place_result(&p, &name, bytes, len, check, outcome));
         });
@@ -93,8 +95,12 @@ impl App {
     /// Each frame: the "changed on disk" question, a file read again, and the originals window.
     pub(super) fn in_place_frame(&mut self, ctx: &egui::Context) {
         self.in_place_stale_dialog(ctx);
-        if let Some((id, r)) = crate::web::take_reread() {
-            self.reread_done(id, r);
+        // A file read again is shown once no save or open is under way: until then the file
+        // on screen can't be replaced, and the read waits.
+        if self.saving.is_none() && self.loading.is_none() {
+            if let Some((id, r)) = crate::web::take_reread() {
+                self.reread_done(id, r);
+            }
         }
         self.originals_window(ctx);
     }
@@ -102,7 +108,7 @@ impl App {
     /// The file a save in place was about to write changed on disk: Reload / Save anyway /
     /// Cancel, as the desktop app asks.
     fn in_place_stale_dialog(&mut self, ctx: &egui::Context) {
-        let Some((path, id)) = STALE.with(|s| s.borrow().clone()) else { return };
+        let Some((path, id, then)) = STALE.with(|s| s.borrow().clone()) else { return };
         if self.saving.is_some() {
             return;
         }
@@ -113,7 +119,7 @@ impl App {
         }
         let mut choice = None;
         modal(ctx, tr("The save changed on disk"), |ui| {
-            ui.set_max_width(460.0);
+            ui.set_max_width(fit(ctx, 460.0));
             ui.label(trf("{0} changed on disk after you opened it. Most likely the game saved, or a cloud sync brought in another copy.", &[&file_name(&path)]));
             ui.add_space(4.0);
             ui.label(tr("Saving now would put the version you opened, with your changes, over that newer file."));
@@ -141,7 +147,8 @@ impl App {
         }
         match choice {
             Some(0) => crate::web::reread(&self.ctx, id),
-            Some(1) => self.save_in_place(&path, id, AfterSave::Stay, true),
+            // Then whatever the save was for: closing the file, opening another, quitting.
+            Some(1) => self.save_in_place(&path, id, then, true),
             Some(_) => self.info(tr("Not saved. Your changes are still here.")),
             None => {}
         }
@@ -157,12 +164,15 @@ impl App {
         }
         let handle = self.doc.as_mut().and_then(|d| d.handle.take());
         let loads = self.loads;
-        self.dirty = false;
+        // The unsaved changes are dropped by the load itself, only once it has gone through.
         self.load(&path);
         let fresh = self.loads != loads;
         match self.doc.as_mut() {
             Some(d) if fresh && d.path == path => {
                 d.handle = handle;
+                // Only now does the page take this for what the file holds: a save from here
+                // on writes over it without asking, as it is what is on screen.
+                crate::web::accept_reread(id);
                 self.ok(trf("Read {0} again from your computer.", &[&name]));
             }
             // It couldn't be shown: what is on screen keeps its handle.
@@ -184,7 +194,7 @@ impl App {
         }
         let mut open = true;
         let mut get = None;
-        egui::Window::new(tr("Originals kept in this browser")).open(&mut open).collapsible(false).default_width(fit(ctx, 520.0)).max_width(fit(ctx, 700.0)).show(ctx, |ui| {
+        egui::Window::new(tr("Originals kept in this browser")).open(&mut open).collapsible(false).default_pos(super::modal::start_pos(ctx, fit(ctx, 520.0))).default_width(fit(ctx, 520.0)).max_width(fit(ctx, 700.0)).show(ctx, |ui| {
             ui.label(trf("Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.", &[&KEEP_COUNT, &KEEP_MB]));
             ui.add_space(6.0);
             match crate::web::originals() {

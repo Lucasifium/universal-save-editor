@@ -30008,6 +30008,9 @@ Wings of Freedom
 Sets every character's Another Mode EXP to 472,000, the most the game holds (every character is at that in a completed save). The game ranks them up to 15 by itself when you load the save.
 = 將每個角色的另一模式經驗值設為遊戲上限 472,000（通關存檔中所有角色都是這個值）。載入存檔時，遊戲會自動將他們提升到 15 級。
 
+Raises every gift to 99, the most the game holds, including ones you don't own yet.
+= 將每件禮物提升到遊戲的上限99，包括你尚未擁有的禮物。
+
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = 將每種製作材料提升到遊戲顯示的上限 999（在已通關的存檔中許多都是 999），包括你還沒有的。
 
@@ -32600,3 +32603,13 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 Nothing found.
 = 找不到任何結果。
 
+# values that hold other values
+list of {0}
+= {0} 項清單
+
+group of {0}
+= {0} 項群組
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= 這是目前開啟的存檔。請用其他名稱匯出：解碼後的資料不是遊戲能讀取的檔案。
