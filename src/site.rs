@@ -4,6 +4,9 @@
 //!
 //!     cargo test --release --lib build_site -- --ignored
 
+mod guides;
+mod lang;
+
 use crate::games::{GameInfo, GAMES};
 use std::fmt::Write as _;
 
@@ -371,6 +374,8 @@ footer{border-top:1px solid var(--line);margin-top:64px;color:var(--muted);font-
 "#;
 
 const DOWNLOAD_BUTTON: &str = r#"<a class="btn" href="https://github.com/Lucasifium/universal-save-editor/releases/latest">Download for free</a>"#;
+/// How every page's main download button starts (its text differs by language).
+const DOWNLOAD_BUTTON_OPEN: &str = r#"<a class="btn" href="https://github.com/Lucasifium/universal-save-editor/releases/latest">"#;
 const RELEASES: &str = "https://github.com/Lucasifium/universal-save-editor/releases";
 const DISCUSSIONS: &str = "https://github.com/Lucasifium/universal-save-editor/discussions";
 const IN_GAME_REPORT: &str = "https://github.com/Lucasifium/universal-save-editor/issues/new?template=worked-in-game.yml";
@@ -416,19 +421,21 @@ fn download_url(end: &str) -> String {
 /// Turns a page's main "Download for free" button into the Windows download, with every other
 /// download (and all releases) listed under the buttons. The script picks the visitor's system
 /// and, once the latest release is known, points the links at its files.
-fn with_downloads(body: &str) -> String {
-    let Some(at) = body.find(DOWNLOAD_BUTTON) else { return body.to_string() };
-    let main = format!(r#"<a class="btn" data-dl-main href="{}">Download for Windows</a>"#, download_url(DOWNLOADS[0].2));
+fn with_downloads(body: &str, c: &Chrome) -> String {
+    let Some(at) = body.find(DOWNLOAD_BUTTON_OPEN) else { return body.to_string() };
+    let button_len = body[at..].find("</a>").map_or(0, |i| i + 4);
+    let main = format!(r#"<a class="btn" data-dl-main href="{}">{}</a>"#, download_url(DOWNLOADS[0].2), c.dl_windows);
     let links: String = DOWNLOADS
         .iter()
         .map(|(id, label, end)| format!(r#"<a data-dl="{id}" data-end="{end}" href="{}">{label}</a>"#, download_url(end)))
         .collect::<Vec<_>>()
         .join(" · ");
     let more = format!(
-        r#"<p class="dl-more" id="download"><span>Version {v}:</span> {links}<br><a href="{RELEASES}">All versions and release notes</a></p>"#,
-        v = env!("CARGO_PKG_VERSION")
+        r#"<p class="dl-more" id="download"><span>{version}</span> {links}<br><a href="{RELEASES}">{all}</a></p>"#,
+        version = c.dl_version.replace("{0}", env!("CARGO_PKG_VERSION")),
+        all = c.dl_all,
     );
-    let after = at + DOWNLOAD_BUTTON.len();
+    let after = at + button_len;
     let close = body[after..].find("</div>").map_or(body.len(), |i| after + i);
     format!("{}{main}{}{more}{}", &body[..at], &body[after..close], &body[close..])
 }
@@ -436,18 +443,87 @@ fn with_downloads(body: &str) -> String {
 const DOWNLOAD_SCRIPT: &str = r#"<script>(function(){var m=document.querySelectorAll('[data-dl-main]');if(!m.length)return;var ua=navigator.userAgent,d=navigator.userAgentData,p=((d&&d.platform)||navigator.platform||'')+' '+ua;var os=/Android|iPhone|iPad/i.test(ua)?null:/Win/i.test(p)?'win':/Mac/i.test(p)?'mac':/Linux|X11|CrOS/i.test(p)?'linux':null;var arch=/arm|aarch64/i.test(p)?'arm64':'x64';function pick(){if(!os)return;var a=document.querySelector('[data-dl="'+(os==='mac'?'macos':os+'-'+arch)+'"]');if(!a)return;m.forEach(function(b){b.href=a.href;b.textContent='Download for '+a.textContent})}if(d&&d.getHighEntropyValues){d.getHighEntropyValues(['architecture']).then(function(v){if(v.architecture)arch=v.architecture==='arm'?'arm64':'x64';pick()},pick)}else pick();if(window.fetch)fetch('https://api.github.com/repos/Lucasifium/universal-save-editor/releases/latest').then(function(r){return r.ok?r.json():null}).then(function(j){if(!j||!j.assets)return;document.querySelectorAll('[data-dl]').forEach(function(a){j.assets.forEach(function(x){if(x.name.slice(-a.dataset.end.length)===a.dataset.end)a.href=x.browser_download_url})});var s=document.querySelector('.dl-more span');if(s&&j.tag_name)s.textContent='Version '+j.tag_name.replace(/^v/,'')+':';pick()}).catch(function(){})})()</script>"#;
 
 fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String {
-    let body = with_downloads(body);
+    page_in(&Chrome::english(path), title, desc, path, body, schema, &[])
+}
+
+/// What a page's frame says (menu, footer, theme button, download labels), which differs by
+/// language, and where the site's root is from the page.
+pub(super) struct Chrome {
+    pub html_lang: String,
+    /// Path from the page up to the site's root: "./", "../", "../../".
+    pub root: String,
+    pub brand_href: String,
+    pub games: String,
+    pub games_href: String,
+    pub save_manager: String,
+    pub whats_new: String,
+    pub browser: String,
+    pub download: String,
+    pub source: String,
+    pub light: String,
+    pub dark: String,
+    pub to_light: String,
+    pub to_dark: String,
+    /// The footer's text and links, as HTML.
+    pub footer: String,
+    pub og_alt: String,
+    pub dl_windows: String,
+    /// "Version {0}:" and the label the script puts on the main button ("Download for ").
+    pub dl_version: String,
+    pub dl_for: String,
+    pub dl_all: String,
+}
+
+impl Chrome {
+    fn english(path: &str) -> Chrome {
+        let root = "../".repeat(path.split('/').filter(|p| !p.is_empty()).count());
+        let root = if root.is_empty() { "./".to_string() } else { root };
+        Chrome {
+            html_lang: "en".into(),
+            brand_href: root.clone(),
+            games: "Games".into(),
+            games_href: format!("{root}#games"),
+            save_manager: "Save manager".into(),
+            whats_new: "What's new".into(),
+            browser: "Use in browser".into(),
+            download: "Download".into(),
+            source: "Source".into(),
+            light: "Light theme".into(),
+            dark: "Dark theme".into(),
+            to_light: "Switch to light theme".into(),
+            to_dark: "Switch to dark theme".into(),
+            footer: format!(r#"Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{root}whats-new/">What's new</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a>"#),
+            og_alt: "Universal Save Editor: free, offline save editor for 550+ games".into(),
+            dl_windows: "Download for Windows".into(),
+            dl_version: "Version {0}:".into(),
+            dl_for: "Download for ".into(),
+            dl_all: "All versions and release notes".into(),
+            root,
+        }
+    }
+}
+
+/// A page in the site's frame. `alternates` are the same page in other languages: (hreflang, address).
+pub(super) fn page_in(c: &Chrome, title: &str, desc: &str, path: &str, body: &str, schema: &str, alternates: &[(String, String)]) -> String {
+    let body = with_downloads(body, c);
+    let footer = if alternates.len() > 1 {
+        let links: Vec<String> = alternates.iter().filter(|(l, _)| l != "x-default").filter_map(|(l, u)| Some(format!(r#"<a href="{u}" hreflang="{l}" lang="{l}">{}</a>"#, lang::display_name(l)?))).collect();
+        format!("{}<br>{}", c.footer, links.join(" · "))
+    } else {
+        c.footer.clone()
+    };
+    let alt_links: String = alternates.iter().map(|(l, u)| format!("<link rel=\"alternate\" hreflang=\"{l}\" href=\"{u}\">\n")).collect();
     let has_dl = body.contains("data-dl-main");
     format!(
         r##"<!doctype html>
-<html lang="en">
+<html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{t}</title>
 <meta name="description" content="{d}">
 <link rel="canonical" href="{SITE}/{path}">
-<meta property="og:type" content="website">
+{alt_links}<meta property="og:type" content="website">
 <meta property="og:site_name" content="Universal Save Editor">
 <meta property="og:title" content="{t}">
 <meta property="og:description" content="{d}">
@@ -455,7 +531,7 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <meta property="og:image" content="{SITE}/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Universal Save Editor: free, offline save editor for 550+ games">
+<meta property="og:image:alt" content="{og_alt}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{SITE}/social-preview.png">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
@@ -470,22 +546,52 @@ fn page(title: &str, desc: &str, path: &str, body: &str, schema: &str) -> String
 <script type="application/ld+json">{schema}</script>
 </head>
 <body>
-<header><div class="in"><a class="brand" href="{root}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{root}#games">Games</a><a href="{root}save-manager/">Save manager</a><a href="{root}whats-new/">What's new</a><a href="{root}{WEB_APP}">Use in browser</a><a href="{dl_nav}">Download</a><a href="{REPO}">Source</a><button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch to light theme">Light theme</button></nav></div></header>
+<header><div class="in"><a class="brand" href="{brand_href}"><img src="{root}logo-64.png" width="26" height="26" alt="">Universal Save Editor</a><nav><a href="{games_href}">{games}</a><a href="{root}save-manager/">{save_manager}</a><a href="{root}whats-new/">{whats_new}</a><a href="{root}{WEB_APP}">{browser}</a><a href="{dl_nav}">{download}</a><a href="{REPO}">{source}</a><button type="button" class="theme-btn" id="theme-toggle" aria-label="{to_light}">{light}</button></nav></div></header>
 <main>
 {body}
 </main>
-<footer><div class="in">Universal Save Editor is free, and always will be. Open source under the GPL-3.0. Not affiliated with any game developer or publisher; game names and trademarks belong to their owners. Always keep a backup of your saves.<br><a href="{DISCUSSIONS}">Questions and ideas</a> · <a href="{REPORT}">Report a problem</a> · <a href="{root}whats-new/">What's new</a> · <a href="{RELEASES}">All versions and release notes</a> · <a href="{REPO}">Source code on GitHub</a> · <a href="{root}code-signing/">Code signing policy</a></div></footer>
+<footer><div class="in">{footer}</div></footer>
 {script}
-<script>(function(){{var b=document.getElementById("theme-toggle"),h=document.documentElement,m=document.querySelector('meta[name="theme-color"]');if(!b)return;function paint(){{var l=h.getAttribute("data-theme")==="light";b.textContent=l?"Dark theme":"Light theme";b.setAttribute("aria-label",l?"Switch to dark theme":"Switch to light theme");if(m)m.setAttribute("content",l?"#eef1f8":"#0d111f")}}b.addEventListener("click",function(){{var l=h.getAttribute("data-theme")==="light";if(l)h.removeAttribute("data-theme");else h.setAttribute("data-theme","light");try{{localStorage.setItem("use-theme",l?"dark":"light")}}catch(e){{}}paint()}});paint()}})();</script>
+<script>(function(){{var b=document.getElementById("theme-toggle"),h=document.documentElement,m=document.querySelector('meta[name="theme-color"]');if(!b)return;function paint(){{var l=h.getAttribute("data-theme")==="light";b.textContent=l?{dark_js}:{light_js};b.setAttribute("aria-label",l?{to_dark_js}:{to_light_js});if(m)m.setAttribute("content",l?"#eef1f8":"#0d111f")}}b.addEventListener("click",function(){{var l=h.getAttribute("data-theme")==="light";if(l)h.removeAttribute("data-theme");else h.setAttribute("data-theme","light");try{{localStorage.setItem("use-theme",l?"dark":"light")}}catch(e){{}}paint()}});paint()}})();</script>
 </body>
 </html>
 "##,
         t = esc(title),
         d = esc(desc),
-        root = if path.is_empty() { "./" } else { "../" },
-        dl_nav = if has_dl { "#download".to_string() } else if path.is_empty() { "./#download".to_string() } else { "../#download".to_string() },
-        script = if has_dl { DOWNLOAD_SCRIPT } else { "" },
+        lang = c.html_lang,
+        root = c.root,
+        brand_href = c.brand_href,
+        games_href = c.games_href,
+        games = c.games,
+        save_manager = c.save_manager,
+        whats_new = c.whats_new,
+        browser = c.browser,
+        download = c.download,
+        source = c.source,
+        light = c.light,
+        to_light = c.to_light,
+        footer = footer,
+        og_alt = esc(&c.og_alt),
+        light_js = serde_json::to_string(&c.light).unwrap_or_default(),
+        dark_js = serde_json::to_string(&c.dark).unwrap_or_default(),
+        to_light_js = serde_json::to_string(&c.to_light).unwrap_or_default(),
+        to_dark_js = serde_json::to_string(&c.to_dark).unwrap_or_default(),
+        dl_nav = if has_dl { "#download".to_string() } else { format!("{}#download", c.root) },
+        script = if has_dl { download_script(c) } else { String::new() },
     )
+}
+
+/// A text as a JavaScript string in single quotes.
+fn js_str(s: &str) -> String {
+    format!("'{}'", s.replace('\\', "\\\\").replace('\'', "\\'"))
+}
+
+/// The download script with its two texts in the page's language.
+fn download_script(c: &Chrome) -> String {
+    let (pre, post) = c.dl_version.split_once("{0}").unwrap_or((&c.dl_version, ""));
+    DOWNLOAD_SCRIPT
+        .replace("'Download for '", &js_str(&c.dl_for))
+        .replace("'Version '+j.tag_name.replace(/^v/,'')+':'", &format!("{}+j.tag_name.replace(/^v/,'')+{}", js_str(pre), js_str(post)))
 }
 
 fn schema(name: &str, desc: &str, url: &str) -> String {
@@ -558,7 +664,7 @@ const WHY: &str = r#"<ul>
 <li><strong>Console cheat patches.</strong> About 2,400 PlayStation 1 to 4, PSP, Vita and Dreamcast games have ready-made cheats from the Apollo patch collection built in: pick the codes and apply them. Encrypted saves from about 80 PS3, PS4, PSP and Vita games open already decrypted, and are encrypted again on save.</li>
 <li><strong>Dreamcast saves.</strong> VMU <code>.vms</code> files and Nexus <code>.dci</code> files open with their header CRC and byte order handled, and are written back the same way.</li>
 <li><strong>Sega Saturn saves.</strong> Single <code>.bup</code>, <code>.sro</code>, <code>.xml</code>, <code>.b64</code> and <code>.cms</code> saves, and whole backup RAM images from Mednafen, Beetle, Yabause, Kronos and SAROO, one save at a time.</li>
-<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Italian, Polish, Turkish, Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese, following the system language.</li>
 <li><strong>Search everything.</strong> Press Ctrl+K (Cmd+K on a Mac), or pick <em>Edit &rsaquo; Search everything</em>, and one box finds a menu command, a game, a recent file or a value on the open save; Enter runs the command, opens the file or shows the value.</li>
 <li><strong>Several saves in tabs.</strong> Open more than one save at a time and copy a value, or a whole group such as an inventory, from one save to another.</li>
 <li><strong>Steam account switch.</strong> Finds the Steam IDs inside a save and changes them to another account, for saves copied between accounts or co-op hosts.</li>
@@ -671,6 +777,75 @@ fn whats_new_body(log: &str) -> String {
     out
 }
 
+/// The name a guide page of its own goes by in the page queue (`SITE_SKIP`).
+fn guide_queue_name(g: &guides::Guide) -> String {
+    format!("{} games", g.engine)
+}
+
+/// Where an engine's saves live, as a list.
+fn guide_where_html(g: &guides::Guide) -> String {
+    let rows: String = g.where_rows.iter().map(|(os, path)| format!("<li><strong>{}:</strong> <code>{}</code></li>\n", esc(os), esc(path))).collect();
+    format!("<ul>\n{rows}</ul>\n")
+}
+
+/// An engine guide inside the page of the catalog game it belongs to.
+fn guide_block(g: &guides::Guide) -> String {
+    format!(
+        "<h2 id=\"{}\">{} saves: a guide</h2>\n<h3>Where the files are</h3>\n{}{}\n",
+        g.anchor,
+        esc(g.engine),
+        guide_where_html(g),
+        g.body
+    )
+}
+
+/// The page of an engine guide that has no catalog entry: what the engine's saves are and how to
+/// edit one, in the layout of a game page.
+fn guide_page_body(g: &guides::Guide) -> String {
+    let faq: String = g.faq.iter().map(|(q, a)| format!("<h3>{q}</h3>\n<p>{a}</p>\n")).collect();
+    let others: String = guides::GUIDES
+        .iter()
+        .filter(|o| o.anchor != g.anchor)
+        .map(|o| match o.game {
+            Some(name) => format!(r#"<li><a href="../{}-save-editor/#{}"><span>{}</span><small>{}</small></a></li>"#, slug(&search_name(name)), o.anchor, esc(o.engine), esc(o.blurb)),
+            None => format!(r#"<li><a href="../{}/"><span>{}</span><small>{}</small></a></li>"#, o.slug, esc(o.engine), esc(o.blurb)),
+        })
+        .collect();
+    format!(
+        r#"<section class="hero game"><div><h1>{engine} save editor</h1>
+<p class="lead">{lead}</p>
+<div class="badges"><span class="badge free">Free forever</span><span class="badge">Offline</span><span class="badge">Open source</span></div>
+{DOWNLOAD_BUTTON}<a class="btn alt" href="../{WEB_APP}">Use it in your browser</a></div></section>
+<h2 id="{anchor}">Where {engine} saves live</h2>
+{where_list}{body}
+<h2>How to edit a {engine} save</h2>
+<ol>
+<li><a href=#download>Download Universal Save Editor</a> for Windows, macOS or Linux; just run it. Rather not install anything? <a href="../{WEB_APP}">Use it in your browser</a> instead: it runs on your computer too, and saving downloads the edited file.</li>
+<li>Close the game, so it doesn't write over your changes.</li>
+<li>Choose <em>Find my game's saves</em> and pick your game, or open the file yourself (or drag it onto the window).</li>
+<li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
+</ol>
+<h2>Questions about {engine} saves</h2>
+{faq}<h3>Is it safe to use with online play?</h3>
+<p>Edited saves are for single-player play. Don't use them in online or multiplayer modes, where they can break rules or get an account flagged.</p>
+<h3>Does it cost anything?</h3>
+<p>No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.</p>
+<h2>Why use it</h2>
+{why}
+<h2>More guides</h2>
+<ul class="grid more">{others}</ul>
+<p><a href="../#games">See all {total} supported games</a></p>
+"#,
+        engine = esc(g.engine),
+        lead = g.lead,
+        anchor = g.anchor,
+        where_list = guide_where_html(g),
+        body = g.body,
+        why = why_short(),
+        total = GAMES.len(),
+    )
+}
+
 const POKEMON_ITEM: &str = r#"<li><a href="pokemon-save-editor/"><span>Pokémon (Gen 1-9)</span><small>Every mainline game, Red and Blue to Scarlet and Violet: trainer, money, badges, bag, party and PC boxes</small><span class="tag screen">Game screen</span></a></li>"#;
 
 const POKEMON_DESC: &str = "Free, offline Pokémon save editor for every generation, Red and Blue to Scarlet and Violet: trainer, money, badges, bag, party and PC boxes, IVs, EVs and moves.";
@@ -742,6 +917,22 @@ fn home_questions() -> Vec<(String, String)> {
         ),
         ("Does it cost anything?".to_string(), "No. It's free and always will be: no ads, no account and no limits. The code is open source under the GPL-3.0.".to_string()),
     ]
+}
+
+/// The home page's list of engine guides (the ones whose own pages are still queued are left out).
+fn engine_guides_html(skip: &[String]) -> String {
+    let items: String = guides::GUIDES
+        .iter()
+        .filter(|g| g.game.is_some() || !skip.contains(&guide_queue_name(g)))
+        .map(|g| {
+            let href = match g.game {
+                Some(name) => format!("{}-save-editor/#{}", slug(&search_name(name)), g.anchor),
+                None => format!("{}/", g.slug),
+            };
+            format!(r#"<li><a href="{href}"><span>{}</span><small>{}</small></a></li>"#, esc(g.engine), esc(g.blurb))
+        })
+        .collect();
+    format!("<h2 id=\"guides\">Engine guides</h2>\n<p>Games built on the same engine keep their saves in much the same way. These guides say where each engine's saves live and what is in them, which helps for games that aren't listed too.</p>\n<ul class=\"grid more\">{items}</ul>\n")
 }
 
 /// The home page's structured data: the app with what it does, and the questions answered on the page.
@@ -896,14 +1087,20 @@ fn shot_heights() -> std::collections::HashMap<String, u32> {
 /// public sample save). The page works the same without it.
 fn shot_html(slug_dir: &str, game: &str, what: Option<&str>) -> String {
     let name = slug_dir.trim_end_matches("-save-editor");
-    let Some(h) = shot_heights().get(name).copied() else { return String::new() };
     let shows = what.map(card_blurb).filter(|b| !b.is_empty()).map(|b| format!(": {}", b.trim_end_matches('\u{2026}').to_lowercase())).unwrap_or_default();
     let alt = format!("{game} save editor screen with a save open{shows}");
+    let caption = format!("The {} screen in Universal Save Editor, opened on an example save. Select the picture to see it full size.", esc(game));
+    shot_html_with("../", name, &alt, &caption)
+}
+
+/// The picture of a game's screen, if there is one: `up` is the way up to the site's root from the page.
+/// `caption` is HTML.
+fn shot_html_with(up: &str, name: &str, alt: &str, caption: &str) -> String {
+    let Some(h) = shot_heights().get(name).copied() else { return String::new() };
     format!(
-        r#"<figure class="gshot"><a href="../shots/{name}-2000.webp"><img src="../shots/{name}-{SHOT_W}.webp" srcset="../shots/{name}-640.webp 640w, ../shots/{name}-{SHOT_W}.webp {SHOT_W}w, ../shots/{name}-2000.webp 2000w" sizes="(min-width: 960px) 1040px, 100vw" width="{SHOT_W}" height="{h}" alt="{}" loading="lazy" decoding="async"></a><figcaption>The {} screen in Universal Save Editor, opened on an example save. Select the picture to see it full size.</figcaption></figure>
+        r#"<figure class="gshot"><a href="{up}shots/{name}-2000.webp"><img src="{up}shots/{name}-{SHOT_W}.webp" srcset="{up}shots/{name}-640.webp 640w, {up}shots/{name}-{SHOT_W}.webp {SHOT_W}w, {up}shots/{name}-2000.webp 2000w" sizes="(min-width: 960px) 1040px, 100vw" width="{SHOT_W}" height="{h}" alt="{}" loading="lazy" decoding="async"></a><figcaption>{caption}</figcaption></figure>
 "#,
-        esc(&alt),
-        esc(game)
+        esc(alt),
     )
 }
 
@@ -1263,13 +1460,14 @@ fn build_site() {
 <li>Choose <em>Find my game's saves</em>, pick <strong>{n}</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
-{faq}{in_game}<h2>Why use it</h2>
+{guide}{faq}{in_game}<h2>Why use it</h2>
 {why}
 <p>Edited saves are for single-player play. Don't use them in online or multiplayer modes.</p>
 {related}"#,
             why = why_short(),
             confirmed = if confirmed_in_game(g.name) { r#"<span class="badge ok">Confirmed in game</span>"# } else { "" },
             in_game = in_game_html(g.name),
+            guide = guides::guide_for(g.name).map(guide_block).unwrap_or_default(),
             faq = faq_html(g, what.as_deref()),
             shot = shot_html(&s, g.name, what.as_deref()),
             related = related_html(g, &pages),
@@ -1285,7 +1483,8 @@ fn build_site() {
         let path = format!("{s}/");
         let dir = out.join(&s);
         std::fs::create_dir_all(&dir).unwrap();
-        std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &website_schema(&schema(&format!("Universal Save Editor ({search} save editor)"), &desc, &format!("{SITE}/{path}")), Some((&format!("{search} Save Editor"), &format!("{SITE}/{path}")))))).unwrap();
+        let schema_json = website_schema(&schema(&format!("Universal Save Editor ({search} save editor)"), &desc, &format!("{SITE}/{path}")), Some((&format!("{search} Save Editor"), &format!("{SITE}/{path}"))));
+        std::fs::write(dir.join("index.html"), page_in(&Chrome::english(&path), &title, &desc, &path, &body, &schema_json, &lang::alternates(&skip, Some(g)))).unwrap();
         urls.push(format!("{SITE}/{path}"));
         let blurb = what.as_deref().map(card_blurb).unwrap_or_default();
         let tag_class = if has_screen(g) { "tag screen" } else { "tag" };
@@ -1349,7 +1548,7 @@ fn build_site() {
 <h2>Why download a save editor?</h2>
 {WHY}
 <h2 id="questions">Questions about save editing</h2>
-{questions_html}{newest}<h2>Browse by genre</h2>
+{questions_html}{newest}{engine_guides}<h2>Browse by genre</h2>
 <ul class="grid genres">{genre_links}</ul>
 <h2 id="games">Games ({n})</h2>
 <p>{full} games open on a screen made for them; the rest can be edited value by value. Type to find yours, or open the full list:</p>
@@ -1362,17 +1561,24 @@ fn build_site() {
 "#,
         n = GAMES.len(),
         newest = newest_html(&newest_games(&skip, 10)),
+        engine_guides = engine_guides_html(&skip),
         hero_shots = hero_shots_html(),
         genre_links = GENRES.iter().filter(|g| genre_items.contains_key(g.0)).map(|g| format!(r#"<li><a href="{}/"><span>{}</span><small>{} games</small></a></li>"#, g.1, g.2, genre_items[g.0].len())).collect::<String>(),
     );
-    std::fs::write(out.join("index.html"), page(&format!("Free Offline Save Editor for {many}+ ({}) Games | Universal Save Editor", GAMES.len()), &desc, "", &body, &home_schema(&desc, &questions))).unwrap();
+    std::fs::write(out.join("index.html"), page_in(&Chrome::english(""), &format!("Free Offline Save Editor for {many}+ ({}) Games | Universal Save Editor", GAMES.len()), &desc, "", &body, &home_schema(&desc, &questions), &lang::alternates(&skip, None))).unwrap();
 
-    // Pages about one feature or one series rather than one game.
-    for (path, title, desc, body, crumb) in [
-        ("save-manager/", "Save Manager for PC Game Saves | Universal Save Editor", SAVE_MANAGER_DESC.to_string(), save_manager_body(), "Save manager"),
-        ("pokemon-save-editor/", "Pokémon Save Editor (Gen 1-9) | Universal Save Editor", POKEMON_DESC.to_string(), pokemon_body(&rows, &pages), "Pokémon save editor"),
-        ("whats-new/", "What's New in Universal Save Editor", WHATS_NEW_DESC.to_string(), whats_new_body(include_str!("../CHANGELOG.md")), "What's new"),
-    ] {
+    // Pages about one feature or one series rather than one game; engine guides join them once
+    // they are out of the page queue.
+    let mut feature_pages = vec![
+        ("save-manager/".to_string(), "Save Manager for PC Game Saves | Universal Save Editor".to_string(), SAVE_MANAGER_DESC.to_string(), save_manager_body(), "Save manager".to_string()),
+        ("pokemon-save-editor/".to_string(), "Pokémon Save Editor (Gen 1-9) | Universal Save Editor".to_string(), POKEMON_DESC.to_string(), pokemon_body(&rows, &pages), "Pokémon save editor".to_string()),
+        ("whats-new/".to_string(), "What's New in Universal Save Editor".to_string(), WHATS_NEW_DESC.to_string(), whats_new_body(include_str!("../CHANGELOG.md")), "What's new".to_string()),
+    ];
+    for g in guides::own_pages().filter(|g| !skip.contains(&guide_queue_name(g))) {
+        feature_pages.push((format!("{}/", g.slug), g.title.to_string(), g.desc.to_string(), guide_page_body(g), format!("{} save editor", g.engine)));
+    }
+    for (path, title, desc, body, crumb) in feature_pages {
+        let (path, title, crumb) = (path.as_str(), title.as_str(), crumb.as_str());
         let dir = out.join(path.trim_end_matches('/'));
         std::fs::create_dir_all(&dir).unwrap();
         let url = format!("{SITE}/{path}");
@@ -1406,6 +1612,14 @@ fn build_site() {
         let crumb = format!("{name} save editors");
         std::fs::write(dir.join("index.html"), page(&title, &desc, &path, &body, &website_schema(&schema(&format!("Universal Save Editor ({crumb})"), &desc, &url), Some((&crumb, &url))))).unwrap();
         urls.push(url);
+    }
+
+    // The home page and the most popular games' pages in the app's other languages.
+    for (path, html) in lang::pages(&skip, &rows) {
+        let dir = out.join(path.trim_end_matches('/'));
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("index.html"), html).unwrap();
+        urls.push(format!("{SITE}/{path}"));
     }
 
     let mut sm = String::from("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
@@ -1587,5 +1801,139 @@ fn home_search_keys_are_the_apps_short_names() {
     for (shot, game, page) in HERO_SHOTS {
         assert!(shot_heights().contains_key(*shot), "no picture for {shot}");
         assert!(GAMES.iter().any(|g| format!("{}-save-editor", slug(&search_name(g.name))) == *page && g.name.starts_with(game)), "no page {page} for {game}");
+    }
+}
+
+/// Writes the English texts the translated pages use, one per line, to the file named by
+/// `SITE_KEYS_OUT` (to start a new language's catalog):
+///
+///     SITE_KEYS_OUT=keys.txt cargo test --lib dump_site_keys -- --ignored
+#[test]
+#[ignore]
+fn dump_site_keys() {
+    let rows = readme_rows();
+    let _ = lang::take_used();
+    let _ = lang::pages(&[], &rows);
+    let mut seen = std::collections::HashSet::new();
+    let keys: Vec<String> = lang::take_used().into_iter().filter(|k| seen.insert(k.clone())).collect();
+    std::fs::write(std::env::var("SITE_KEYS_OUT").expect("SITE_KEYS_OUT"), keys.join("\n") + "\n").unwrap();
+    let mut queue: Vec<String> = guides::own_pages().map(guide_queue_name).collect();
+    queue.extend(lang::all_queue_names());
+    std::fs::write(std::env::var("SITE_KEYS_OUT").unwrap() + ".queue", queue.join("\n") + "\n").unwrap();
+}
+
+#[test]
+fn translated_pages_have_every_text_translated() {
+    let rows = readme_rows();
+    let _ = lang::take_missing();
+    let _ = lang::take_used();
+    let pages = lang::pages(&[], &rows);
+    assert_eq!(lang::take_missing(), Vec::<String>::new(), "texts without a translation");
+    assert_eq!(pages.len(), lang::LANGS.len() * (1 + lang::TOP.len()));
+    let used: std::collections::HashSet<String> = lang::take_used().into_iter().collect();
+    // Shown only for a game that was reported to work in the game.
+    let conditional = ["Confirmed in game", "Edited saves of this game have been reported to load and work in the game."];
+    for l in lang::LANGS {
+        let cat = lang::catalog_of(l);
+        for en in conditional {
+            assert!(cat.contains_key(en), "{}: no translation of {en:?}", l.dir);
+        }
+        let stale: Vec<&String> = cat.keys().filter(|k| !used.contains(*k) && !conditional.contains(&k.as_str())).collect();
+        assert!(stale.is_empty(), "{}: translations of texts the pages no longer use: {stale:?}", l.dir);
+        let parsed = lang::parse(match l.dir { "de" => include_str!("site/i18n/de.txt"), "es" => include_str!("site/i18n/es.txt"), "fr" => include_str!("site/i18n/fr.txt"), "pt-br" => include_str!("site/i18n/pt-BR.txt"), "ja" => include_str!("site/i18n/ja.txt"), _ => include_str!("site/i18n/zh-CN.txt") });
+        assert_eq!(parsed.len(), cat.len(), "{}: a text is in the catalog twice", l.dir);
+    }
+}
+
+#[test]
+fn translations_keep_the_tags_and_placeholders_of_the_english_text() {
+    fn shape(s: &str) -> (Vec<String>, Vec<String>) {
+        let (mut tags, mut holes) = (vec![], vec![]);
+        let mut rest = s;
+        while let Some(i) = rest.find(['<', '{']) {
+            let close = if rest[i..].starts_with('<') { '>' } else { '}' };
+            let Some(j) = rest[i..].find(close) else { break };
+            let piece = rest[i..i + j + 1].to_string();
+            if close == '>' { tags.push(piece) } else { holes.push(piece) }
+            rest = &rest[i + j + 1..];
+        }
+        holes.sort();
+        (tags, holes)
+    }
+    for l in lang::LANGS {
+        for (en, tr) in lang::catalog_of(l) {
+            assert!(!tr.trim().is_empty(), "{}: empty translation of {en:?}", l.dir);
+            assert_eq!(shape(en), shape(tr), "{}: tags or placeholders differ in the translation of {en:?}", l.dir);
+        }
+    }
+}
+
+#[test]
+fn translated_pages_are_well_formed_and_linked_inside_the_site() {
+    let rows = readme_rows();
+    let pages = lang::pages(&[], &rows);
+    let known: std::collections::HashSet<String> = pages.iter().map(|p| p.0.clone()).collect();
+    for (path, html) in &pages {
+        assert!(tags_balanced(html), "{path}: unbalanced tags");
+        assert!(html.contains("hreflang=\"x-default\""), "{path}: no language alternates");
+        assert!(!html.contains("{0}") && !html.contains("{1}"), "{path}: a placeholder was left in");
+        // Links to other pages of the languages (not the English ones) point at pages that exist.
+        let depth = path.trim_end_matches('/').matches('/').count() + 1;
+        for part in html.split("href=\"").skip(1) {
+            let href = part.split('"').next().unwrap_or("");
+            if href.starts_with('#') || href.starts_with('/') || href.contains(':') {
+                continue;
+            }
+            // Resolve relative to the page's folder.
+            let mut dirs: Vec<&str> = path.trim_end_matches('/').split('/').collect();
+            let mut rel = href.split('#').next().unwrap_or("");
+            while let Some(r) = rel.strip_prefix("../") {
+                dirs.pop();
+                rel = r;
+            }
+            let rel = rel.trim_start_matches("./");
+            if dirs.first().is_some_and(|d| lang::LANGS.iter().any(|l| l.dir == *d)) && !rel.starts_with("shots") && !rel.ends_with(".css") && !rel.ends_with(".png") && !rel.ends_with(".webmanifest") {
+                let target = format!("{}/{}", dirs.join("/"), rel);
+                assert!(known.contains(&target), "{path}: links to {target}, which is not a translated page ({depth})");
+            }
+        }
+    }
+}
+
+#[test]
+fn translated_pages_wait_in_the_queue_under_unique_names() {
+    let names = lang::all_queue_names();
+    let mut sorted = names.clone();
+    sorted.sort();
+    sorted.dedup();
+    assert_eq!(sorted.len(), names.len());
+    assert_eq!(names.len(), lang::LANGS.len() * (1 + lang::TOP.len()));
+    assert_eq!(lang::top_games().len(), lang::TOP.len(), "a top game is missing from the catalog");
+    for g in lang::top_games() {
+        assert!(has_screen(g), "{} has no game screen", g.name);
+    }
+    // A queued page is left out, and pages about it do not point at it.
+    let rows = readme_rows();
+    let skip = vec![lang::queue_name(&lang::LANGS[0], None), lang::queue_name(&lang::LANGS[0], Some(lang::top_games()[0]))];
+    let pages = lang::pages(&skip, &rows);
+    assert_eq!(pages.len(), lang::LANGS.len() * (1 + lang::TOP.len()) - 2);
+    assert!(!pages.iter().any(|p| p.0 == "de/" || p.0 == "de/elden-ring-save-editor/"));
+    let de = pages.iter().find(|p| p.0 == "de/the-witcher-3-save-editor/").map(|p| &p.1).unwrap();
+    assert!(!de.contains("href=\"../elden-ring-save-editor/\"") || de.contains("../../elden-ring-save-editor/"));
+}
+
+#[test]
+fn engine_guides_have_short_titles_and_belong_to_pages() {
+    for g in guides::GUIDES {
+        match g.game {
+            Some(name) => assert!(GAMES.iter().any(|x| x.name == name), "{name} is not in the catalog"),
+            None => {
+                assert!(g.title.chars().count() <= 62, "{}: title too long", g.slug);
+                assert!(g.desc.chars().count() <= 160, "{}: description too long", g.slug);
+                assert!(tags_balanced(&guide_page_body(g)), "{}: unbalanced tags", g.slug);
+                assert!(!GAMES.iter().any(|x| slug(&search_name(x.name)) == g.slug.trim_end_matches("-save-editor")), "{}: a game has this page name", g.slug);
+            }
+        }
+        assert!(tags_balanced(&guide_block(g)), "{}: unbalanced tags", g.anchor);
     }
 }

@@ -32550,3 +32550,7 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 
 Nothing found.
 = Rien trouvé.
+
+# changes button
+Changes ({0})
+= Modifications ({0})

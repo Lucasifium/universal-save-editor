@@ -47,6 +47,31 @@
 <li>Choose <em>Find my game's saves</em>, pick <strong>RPG Maker XP games</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
+<h2 id="rpg-maker-xp-guide">RPG Maker XP, VX and VX Ace saves: a guide</h2>
+<h3>Where the files are</h3>
+<ul>
+<li><strong>XP:</strong> <code>&lt;game folder&gt;\Save1.rxdata</code></li>
+<li><strong>VX:</strong> <code>&lt;game folder&gt;\Save1.rvdata</code></li>
+<li><strong>VX Ace:</strong> <code>&lt;game folder&gt;\Save1.rvdata2</code></li>
+</ul>
+<p>The older RPG Maker versions (XP, VX and VX Ace) write their saves as Ruby data. Games made with them, including many well-known indie RPGs, usually keep the files in the game's own folder; a few use a folder named after the game under your user folder.</p>
+<h3>The files</h3>
+<ul>
+<li><code>Save1.rxdata</code> (XP), <code>Save1.rvdata</code> (VX) and <code>Save1.rvdata2</code> (VX Ace), numbered for each slot (<code>Save2</code>, <code>Save3</code> and so on).</li>
+<li>The data is a Ruby object dump (Marshal). The editor reads it and writes it back as it was, with only the values you changed different.</li>
+</ul>
+<h3>What can be changed</h3>
+<ul>
+<li><strong>Gold and steps.</strong></li>
+<li><strong>The party and every actor.</strong> Level, experience, HP, SP and the stat bonuses.</li>
+<li><strong>Items, weapons and armor you carry.</strong> Listed by database number.</li>
+</ul>
+<h3>Things to know</h3>
+<ul>
+<li>Numbers refer to the game's database, which lives in the game's <code>Data</code> folder (<code>Items.rxdata</code> and similar) and is not part of the save. The game's own item screen is the quickest way to match a number to a name: note the order of the items you carry.</li>
+<li>Keep the item numbers you add inside the database's range, or the game may stop when it draws the item.</li>
+<li>Close the game before you edit, and keep the backup the editor makes until you have tried the edit in the game.</li>
+</ul>
 <h2>Questions about RPG Maker XP games saves</h2>
 <h3>Where is the RPG Maker XP games save file?</h3>
 <p>Usually in <code>Inside each game's folder (Steam games are found in steamapps\common)</code>, in files named <code>Save1.rxdata, Save2.rxdata …</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick RPG Maker XP games.</p>
@@ -69,7 +94,7 @@
 <li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
-<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Italian, Polish, Turkish, Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese, following the system language.</li>
 <li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>

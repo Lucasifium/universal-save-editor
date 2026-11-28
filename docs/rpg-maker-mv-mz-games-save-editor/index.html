@@ -52,6 +52,35 @@
 <li>Choose <em>Find my game's saves</em>, pick <strong>RPG Maker MV / MZ games</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
+<h2 id="rpg-maker-mv-mz-guide">RPG Maker MV and MZ saves: a guide</h2>
+<h3>Where the files are</h3>
+<ul>
+<li><strong>MV:</strong> <code>&lt;game folder&gt;\www\save\file1.rpgsave</code></li>
+<li><strong>MZ:</strong> <code>&lt;game folder&gt;\save\file1.rmmzsave</code></li>
+</ul>
+<p>RPG Maker MV and MZ are built on web technology, and their saves are small text files kept inside the game's own folder (for a Steam game, under <code>steamapps\common\&lt;game&gt;</code>). Every MV or MZ game saves the same way, so this guide covers them all.</p>
+<h3>The files</h3>
+<ul>
+<li><code>file1.rpgsave</code>, <code>file2.rpgsave</code> and so on (MV), or <code>file1.rmmzsave</code> (MZ): one per save slot. Slot 0 is the automatic save in some games.</li>
+<li><code>global.rpgsave</code> (<code>global.rmmzsave</code>) lists the slots the load screen shows, and <code>config.rpgsave</code> holds the options. Open the numbered files to change your game.</li>
+<li>The text inside is packed (LZ-String) JSON; the editor unpacks it and packs it again on save.</li>
+<li>A game played in a web browser keeps its saves in the browser's storage instead, not in files, so there is nothing to open.</li>
+</ul>
+<h3>What can be changed</h3>
+<ul>
+<li><strong>Gold, steps and play time.</strong> The party's gold is the number most people want.</li>
+<li><strong>Each party member.</strong> Name, level, experience, HP, MP and TP, the bonuses added to each stat, and the skills they have learned (by number).</li>
+<li><strong>Items, weapons and armor.</strong> Shown by their number in the game's database. Change a count, remove an entry, or add one.</li>
+</ul>
+<p>The game's database is what gives a number its name, and it isn't part of the save: item 1 is whatever the game's maker put first. The names are in the game's <code>data</code> folder (<code>Items.json</code>, <code>Weapons.json</code>, <code>Armors.json</code>, <code>Skills.json</code>). Open the one you need in a text editor to look a number up.</p>
+<h3>Things to know</h3>
+<ul>
+<li>Only add item numbers that exist in the game's database: an unknown number can stop the game when the item is shown.</li>
+<li>Change a level and its experience together. The game works the level out from the experience when the party next gains any, so a level raised on its own can drop back.</li>
+<li>Switches and variables that a game's story uses are kept in the save too, under the game's own system data. Change them one at a time and keep a backup.</li>
+<li>The editor has a ready-made <em>max gold</em> preset for these games, which only ever raises the number.</li>
+<li>Close the game first. Plugin-heavy games may add their own data to the save; it opens as part of the same tree.</li>
+</ul>
 <h2>Questions about RPG Maker MV / MZ games saves</h2>
 <h3>Where is the RPG Maker MV / MZ games save file?</h3>
 <p>Usually in <code>Inside each game's folder: www\save (MV) or save (MZ); Steam games are found in steamapps\common</code>, in files named <code>file1.rpgsave, file2.rpgsave … (MZ: file1.rmmzsave)</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick RPG Maker MV / MZ games.</p>
@@ -74,7 +103,7 @@
 <li><strong>Safe.</strong> Every save is checked by reading it back before it's written, and the old file is backed up first (Backups &rsaquo; Open save manager).</li>
 <li><strong>Works on games it doesn't know.</strong> Value search finds a number you know, or one you don't (a health bar, a hidden counter): scan, play, save, then keep what increased, decreased, changed or stayed the same.</li>
 <li><strong>Linux and Steam Deck.</strong> <em>Find my game's saves</em> also looks inside Proton and Wine prefixes, where Windows games run through Steam Play keep their saves.</li>
-<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Brazilian Portuguese, Japanese and Simplified Chinese, following the system language.</li>
+<li><strong>In your language.</strong> Menus and messages in English, German, Spanish, French, Italian, Polish, Turkish, Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese, following the system language.</li>
 <li><strong>Save manager (toolbar button).</strong> Automatic and named backups kept in a folder next to each save, where no game loads them. Restore any backup (the current save is backed up first), compare it, or back up and start a new game on a one-save game and restore the old one later. Every backup is flushed to disk and checked before anything is replaced.</li>
 <li><strong>Open source.</strong> Anyone can read the code (GPL-3.0).</li>
 </ul>

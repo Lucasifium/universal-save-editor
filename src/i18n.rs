@@ -30,6 +30,12 @@ pub const LANGS: &[Lang] = &[
     Lang { code: "pt-BR", name: "Português (Brasil)", cjk: false, catalog: include_str!("i18n/pt-BR.txt") },
     Lang { code: "ja", name: "日本語", cjk: true, catalog: include_str!("i18n/ja.txt") },
     Lang { code: "zh-CN", name: "简体中文", cjk: true, catalog: include_str!("i18n/zh-CN.txt") },
+    Lang { code: "zh-TW", name: "繁體中文", cjk: true, catalog: include_str!("i18n/zh-TW.txt") },
+    Lang { code: "ko", name: "한국어", cjk: true, catalog: include_str!("i18n/ko.txt") },
+    Lang { code: "it", name: "Italiano", cjk: false, catalog: include_str!("i18n/it.txt") },
+    Lang { code: "pl", name: "Polski", cjk: false, catalog: include_str!("i18n/pl.txt") },
+    Lang { code: "tr", name: "Türkçe", cjk: false, catalog: include_str!("i18n/tr.txt") },
+    Lang { code: "ru", name: "Русский", cjk: false, catalog: include_str!("i18n/ru.txt") },
 ];
 
 /// Tests that switch the language take this, so they don't run into each other.
@@ -96,6 +102,11 @@ pub fn current() -> &'static Lang {
     &LANGS[CURRENT.load(Ordering::Relaxed).min(LANGS.len() - 1)]
 }
 
+/// Index of the language in use in `LANGS`.
+pub fn current_index() -> usize {
+    CURRENT.load(Ordering::Relaxed).min(LANGS.len() - 1)
+}
+
 /// Picks the language by code (`None`: the system's language, when there is a catalog for it).
 pub fn set(code: Option<&str>) {
     let want = code.map(str::to_string).or_else(system_language);
@@ -110,9 +121,9 @@ pub fn find(locale: &str) -> Option<usize> {
         return Some(i);
     }
     let base = l.split('-').next().unwrap_or("");
-    // Traditional Chinese reads Simplified poorly; leave it in English rather than guess.
-    if base == "zh" && (l.contains("hant") || l.ends_with("-tw") || l.ends_with("-hk") || l.ends_with("-mo")) {
-        return None;
+    // Traditional Chinese (Taiwan, Hong Kong, Macau, or an explicit Hant script) has its own catalog.
+    if base == "zh" && !l.contains("hans") && (l.contains("hant") || l.ends_with("-tw") || l.ends_with("-hk") || l.ends_with("-mo")) {
+        return LANGS.iter().position(|x| x.code == "zh-TW");
     }
     LANGS.iter().position(|x| x.code.split('-').next() == Some(base))
 }
@@ -551,7 +562,14 @@ mod tests {
         assert_eq!(find("de_AT.UTF-8").map(|i| LANGS[i].code), Some("de"));
         assert_eq!(find("pt-PT").map(|i| LANGS[i].code), Some("pt-BR"));
         assert_eq!(find("zh-Hans-CN").map(|i| LANGS[i].code), Some("zh-CN"));
-        assert_eq!(find("zh-TW"), None);
+        assert_eq!(find("zh-TW").map(|i| LANGS[i].code), Some("zh-TW"));
+        assert_eq!(find("zh-Hant-HK").map(|i| LANGS[i].code), Some("zh-TW"));
+        assert_eq!(find("zh").map(|i| LANGS[i].code), Some("zh-CN"));
+        assert_eq!(find("ko-KR").map(|i| LANGS[i].code), Some("ko"));
+        assert_eq!(find("it-CH").map(|i| LANGS[i].code), Some("it"));
+        assert_eq!(find("pl_PL").map(|i| LANGS[i].code), Some("pl"));
+        assert_eq!(find("tr-TR").map(|i| LANGS[i].code), Some("tr"));
+        assert_eq!(find("ru_RU.UTF-8").map(|i| LANGS[i].code), Some("ru"));
         assert_eq!(find("nl-NL"), None);
     }
 }

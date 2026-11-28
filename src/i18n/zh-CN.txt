@@ -32594,3 +32594,7 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 
 Nothing found.
 = 什么也没找到。
+
+# changes button
+Changes ({0})
+= 更改 ({0})

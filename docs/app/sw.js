@@ -3,11 +3,11 @@
 // kept or answered; everything else goes to the network as usual. web/finish.py fills in the
 // cache name (the app version and a hash of the files) and the files with their SHA-256.
 'use strict';
-const CACHE = "save-editor-app-0.9.3-1e087c3a5c55";
+const CACHE = "save-editor-app-0.9.3-7c3af2ede3ab";
 const FILES = {
-  "./": "9a482c17f3a60c99eade764b5f8efd23b2ceb165678bc86b17d7318bd14e7024",
+  "./": "f885b0bca66fef14021ec806a16997260d6d2d82680b6efb969423f92c0cbfe8",
   "universal_save_editor.js": "5099166d804d31a92b8841247965adf2526bcbead96bad036bd1ae2cf669ef05",
-  "universal_save_editor_bg.wasm": "8b65aa75bfc728aade27680c69c683d01dce136def9e6b3f6205618fcc5f103d",
+  "universal_save_editor_bg.wasm": "f5a3b69e15fbb0e85be1b80994c250d88c70020b949e559ea53d58c6007eb1d4",
   "fsa.js": "347474758f938ce80ee165d049fdfda97a7d9f906f6d8d5496dfb95be4b3c003"
 };
 const PREFIX = 'save-editor-app-';

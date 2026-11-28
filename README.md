@@ -92,6 +92,8 @@ There is also a browser version on the project website. There is no ready-made A
 
 590+ (593) games, with a screen of their own for the most popular ones and a value editor for the rest. See the full list with what each screen edits in **[GAMES.md](GAMES.md)**, or find your game on the [website](https://universalsaveeditor.com/#games), which has a page for each one.
 
+The website's pages for Ren'Py, RPG Maker (MV / MZ and XP / VX / Ace) and Unity games carry a guide to where that engine keeps its saves and what the values mean.
+
 ## Paradox ironman and binary saves
 
 Ironman saves of Europa Universalis IV, Crusader Kings II and III, Hearts of Iron IV, Victoria 3,
@@ -346,11 +348,12 @@ another one (e.g. before and after you earned gold), with how much each number c
 
 ## Languages
 
-Menus, buttons and messages are in English, German, Spanish, French, Brazilian Portuguese,
-Japanese and Simplified Chinese. The app follows the system language; *Edit › Preferences ›
-Language* changes it. Game screens and value names stay as the game has them. Japanese and Chinese
-need a system font with those characters (Windows, macOS and most Linux desktops have one), so the
-browser version offers the other languages only.
+Menus, buttons and messages are in English, German, Spanish, French, Italian, Polish, Turkish,
+Russian, Brazilian Portuguese, Japanese, Korean, Simplified Chinese and Traditional Chinese. The app
+follows the system language; *Edit › Preferences › Language* changes it. Game screens and value
+names stay as the game has them. Japanese, Korean and Chinese need a system font with those
+characters (Windows, macOS and most Linux desktops have one), so the browser version offers the
+other languages only.
 
 ## Several saves at once
 

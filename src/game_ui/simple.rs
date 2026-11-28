@@ -753,7 +753,7 @@ pub(crate) mod tests {
             for w in [1000.0, 380.0] {
                 crate::i18n::set(Some("en"));
                 let base = cut(i, &root, w).len();
-                for lang in ["de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+                for lang in crate::i18n::LANGS.iter().skip(1).map(|l| l.code) {
                     crate::i18n::set(Some(lang));
                     let now = cut(i, &root, w);
                     if now.len() > base {

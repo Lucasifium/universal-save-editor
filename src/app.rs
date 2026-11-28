@@ -3219,11 +3219,17 @@ impl App {
         let hi = self.has_icons;
         // The selected colours: white on the light theme's pale selection could not be read.
         let color = if self.show_changes { ui.visuals().selection.stroke.color } else { ui.visuals().text_color() };
-        let label = tr("Changes");
-        let r = ui.toggle_value(&mut self.show_changes, widgets::icon_text_colored(ui, hi, icon::HISTORY, label, color));
+        let n = self.change_count();
+        let label = if self.dirty && n > 0 { trf("Changes ({0})", &[&n]) } else { tr("Changes").to_string() };
+        // A framed button like its neighbours, so it reads as something to press.
+        let text = widgets::icon_text_colored(ui, hi, icon::HISTORY, &label, color);
+        let r = ui.add(egui::Button::new(text).selected(self.show_changes));
+        if r.clicked() {
+            self.show_changes = !self.show_changes;
+        }
         // Its text starts with an icon glyph: the screen reader gets the words and the on/off state.
         let (on, enabled) = (self.show_changes, r.enabled());
-        r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, label));
+        r.widget_info(|| egui::WidgetInfo::selected(egui::WidgetType::SelectableLabel, enabled, on, &label));
         r.on_hover_text(tr("List everything you've changed since the last save"));
     }
 
@@ -7134,7 +7140,7 @@ pub(crate) mod layout_tests {
         picks.push(0);
         let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let mut problems = vec![];
-        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        for lang in crate::i18n::LANGS.iter().map(|l| l.code) {
         crate::i18n::set(Some(lang));
         for dark in [true, false] {
             for (w, h) in [(1280.0, 800.0), (1000.0, 700.0), (820.0, 600.0), (640.0, 480.0), (380.0, 760.0)] {
@@ -7219,7 +7225,7 @@ pub(crate) mod layout_tests {
         }
         let found: SaveSearch = std::sync::Arc::new(std::sync::Mutex::new(v));
         let mut problems = vec![];
-        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        for lang in crate::i18n::LANGS.iter().map(|l| l.code) {
             crate::i18n::set(Some(lang));
             for (w, h) in [(1280.0, 800.0), (820.0, 600.0), (380.0, 760.0)] {
                 let ctx = window();
@@ -7273,7 +7279,7 @@ pub(crate) mod layout_tests {
         let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
         let path = knight_save("chips");
         let mut problems = vec![];
-        for lang in ["en", "de", "es", "fr", "pt-BR", "ja", "zh-CN"] {
+        for lang in crate::i18n::LANGS.iter().map(|l| l.code) {
             crate::i18n::set(Some(lang));
             for (w, h) in [(360.0, 740.0), (412.0, 900.0), (600.0, 900.0)] {
                 let ctx = window();

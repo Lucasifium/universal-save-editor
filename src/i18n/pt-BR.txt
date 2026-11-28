@@ -32510,3 +32510,7 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 
 Nothing found.
 = Nada encontrado.
+
+# changes button
+Changes ({0})
+= Alterações ({0})

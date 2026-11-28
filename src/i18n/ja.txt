@@ -32621,3 +32621,7 @@ Find a menu command, a game, a recent file or a value on the open save. Up and D
 
 Nothing found.
 = 見つかりませんでした。
+
+# changes button
+Changes ({0})
+= 変更 ({0})
