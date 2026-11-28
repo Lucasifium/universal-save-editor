@@ -53,13 +53,17 @@ fn in_xbox_container(p: &Path) -> bool {
 /// `replace`, after a backup. Returns the new file and the backup taken, if any.
 pub fn copy(src: &Source, dir: &Path, name: &str, replace: bool) -> Result<(PathBuf, Option<PathBuf>), String> {
     check_name(src.game, name)?;
-    if in_xbox_container(dir) {
-        return Err(tr("that folder belongs to the Xbox app; pick the Steam version's folder").into());
-    }
     if !dir.is_dir() {
         return Err(trf("{0} isn't a folder on this computer", &[&dir.display()]));
     }
     let dest = dir.join(name);
+    // Where the write really lands: a folder or file that is a link into the Xbox app's
+    // folders counts as inside them.
+    let real_dir = std::fs::canonicalize(dir).unwrap_or_else(|_| dir.to_path_buf());
+    let real_dest = std::fs::canonicalize(&dest).ok();
+    if in_xbox_container(dir) || in_xbox_container(&real_dir) || real_dest.as_deref().is_some_and(in_xbox_container) {
+        return Err(tr("that folder belongs to the Xbox app; pick the Steam version's folder").into());
+    }
     let bytes = std::fs::read(&src.blob).map_err(|e| trf("couldn't read the Xbox app's save: {0}", &[&e]))?;
     let mut backup = None;
     if dest.exists() {
@@ -126,6 +130,32 @@ mod tests {
         assert!(copy(&src, &user, "Profile1.sav", true).is_err());
         assert!(copy(&src, &steam, "Profile1.txt", true).is_err());
         assert_eq!(std::fs::read(&blob).unwrap(), before, "the Xbox app's file is never changed");
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    /// A Steam save that is a link to a file in the Xbox app's folders, or a Steam folder that
+    /// is a link to one of them: the copy would land in the container, so it is refused.
+    #[cfg(unix)]
+    #[test]
+    fn a_link_into_the_container_is_never_written_through() {
+        let tmp = temp("link");
+        let user = tmp.join("Packages/SupergiantGamesLLC.Hades_q53c1yqmx7pha/SystemAppData/wgs/000901F0A1B2C3D4_0000000000000000000000006A7B8C9D");
+        crate::xgp::tests::make(&user, "Profile1", &[("Profile1.sav", b"SGB1 save one")]);
+        let blob = crate::xgp::read_index(&user).unwrap().containers[0].files[0].path.clone();
+        // Another file in the container, which the Steam save links to.
+        let other = blob.with_file_name("0123456789ABCDEF0123456789ABCDEF");
+        std::fs::write(&other, b"another container file").unwrap();
+        let src = source(&blob).unwrap();
+        let steam = tmp.join("Saved Games/Hades");
+        std::fs::create_dir_all(&steam).unwrap();
+        std::os::unix::fs::symlink(&other, steam.join("Profile1.sav")).unwrap();
+        assert!(copy(&src, &steam, "Profile1.sav", true).is_err());
+        assert_eq!(std::fs::read(&other).unwrap(), b"another container file");
+        // The Steam folder itself leads into the container.
+        let linked = tmp.join("Saved Games/Linked");
+        std::os::unix::fs::symlink(blob.parent().unwrap(), &linked).unwrap();
+        assert!(copy(&src, &linked, "Profile2.sav", false).is_err());
+        assert!(!blob.parent().unwrap().join("Profile2.sav").exists(), "nothing added to the container");
         let _ = std::fs::remove_dir_all(&tmp);
     }
 
