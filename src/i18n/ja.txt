@@ -31914,3 +31914,73 @@ built in
 
 {0} (each): {1}
 = {0}（各）: {1}
+
+# Saving in place in the browser
+Couldn't open the file: {0}
+= ファイルを開けませんでした: {0}
+
+Open to save in place…
+= 同じファイルに保存できるように開く…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= 保存すると、ブラウザーで許可した後、ダウンロードではなく選んだファイルに書き戻します。元のファイルは先にこのブラウザーに保管されます。ブラウザーはこの方法では一部のシステムフォルダーを拒否します。その場合は「開く…」を使ってください。
+
+Originals kept in this browser…
+= このブラウザーに保管した元ファイル…
+
+Download a file as it was before you first saved it in place
+= 同じファイルに初めて保存する前の状態のファイルをダウンロード
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Before the first save, the file as it was is kept in this browser: Backups › Originals kept in this browser.
+= このページがファイルを変更してよいかブラウザーが確認し、開いたファイルに書き戻します。最初の保存の前に、元のファイルがこのブラウザーに保管されます: バックアップ › このブラウザーに保管した元ファイル。
+
+Your browser downloaded {0} as it was before it was first saved here.
+= ここで初めて保存する前の状態の {0} をブラウザーがダウンロードしました。
+
+That copy isn't kept in this browser any more.
+= そのコピーはもうこのブラウザーに保管されていません。
+
+Couldn't hand over the kept copy: {0}
+= 保管したコピーを渡せませんでした: {0}
+
+Originals kept in this browser
+= このブラウザーに保管した元ファイル
+
+Before the first save to a file opened with Open to save in place, the file as it was is kept here. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= 「同じファイルに保存できるように開く」で開いたファイルを初めて保存する前に、元のファイルがここに保管されます。これらのコピーはパソコンのフォルダーではなく、このブラウザー自身の保存領域にあります。ブラウザーでこのサイトのデータを消去すると削除されます。新しい順に {0} 件、合計 {1} MB まで保管されます。
+
+Reading the browser's storage…
+= ブラウザーの保存領域を読み込み中…
+
+The browser's storage couldn't be read: {0}
+= ブラウザーの保存領域を読み込めませんでした: {0}
+
+Nothing is kept yet.
+= まだ何も保管されていません。
+
+Your browser downloaded the edited file instead.
+= 代わりに編集したファイルをブラウザーがダウンロードしました。
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} ダウンロードも始まりませんでした ({1})。変更はまだ残っています。
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= パソコンの {0} に書き戻しました。元のファイルはこのブラウザーに保管されています: バックアップ › このブラウザーに保管した元ファイル。
+
+Written back to {0} on your computer.
+= パソコンの {0} に書き戻しました。
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= ブラウザーに {0} を変更する許可がなかったため、そのファイルは変更されていません。
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= ブラウザーが {0} の変更の許可を求められなかったため ({1})、そのファイルは変更されていません。
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} は変更されていません: 先にこのブラウザーにコピーを保管できませんでした ({1})。
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= {0} に保存できませんでした: {1}。パソコンのファイルは変更されていません。変更はまだ残っています。もう一度保存するか、「名前を付けてコピーを保存」でダウンロードしてください。
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and the file as it was before your first save is kept in this browser: Backups › Originals kept in this browser.
+= {0} に保存できませんでした: {1}。パソコンのファイルが変わったかどうかブラウザーには分かりません。変更はまだ残っており、最初の保存前の元のファイルはこのブラウザーに保管されています: バックアップ › このブラウザーに保管した元ファイル。

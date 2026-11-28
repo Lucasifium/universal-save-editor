@@ -24,6 +24,8 @@ mod tools;
 use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 mod tabs;
 mod compare;
+#[cfg(target_arch = "wasm32")]
+mod in_place;
 use compare::Compare;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
@@ -250,16 +252,23 @@ fn companion_failed(e: &crate::backups::CompanionError) -> String {
     trf("Couldn't write {0}, a file the game checks against the save ({1}). These files couldn't be put back as they were and may not match each other now: {2}. Their earlier versions are in the backups folder.", &[&e.file.display(), &e.error, &stuck.join(", ")])
 }
 
-/// Builds the file for `content`, checks that it reads back as exactly that, keeps a backup of
-/// the file on disk and writes the new one. Touches nothing but files, so it runs on the UI
-/// thread or a worker thread alike. Every failure says what happened, in the player's language.
-fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::Options) -> Result<Written, String> {
+/// Builds the file for `content` and checks that it reads back as exactly that; nothing is
+/// written yet. Returns the file and what it reads back as.
+fn build_save(layers: &[Layer], content: &Content, opts: &formats::Options) -> Result<(Vec<u8>, formats::Decoded), String> {
     let bytes = formats::encode(layers, content).map_err(|e| trf("Couldn't save: the new file couldn't be built ({0}). The save on disk wasn't changed.", &[&e]))?;
     // Verify before touching the disk: the new file must decode to exactly what's on screen.
     let check = formats::decode_with(&bytes, opts);
     if !formats::same_layers(&check.layers, layers) || !formats::verified(&check.content, content) {
         return Err(tr("Couldn't save: the new file didn't read back exactly as edited, so nothing was written. The save on disk wasn't changed. Please report this with Help \u{203A} Report a problem.").into());
     }
+    Ok((bytes, check))
+}
+
+/// Builds the file for `content`, checks that it reads back as exactly that, keeps a backup of
+/// the file on disk and writes the new one. Touches nothing but files, so it runs on the UI
+/// thread or a worker thread alike. Every failure says what happened, in the player's language.
+fn write_save(path: &Path, layers: &[Layer], content: &Content, opts: &formats::Options) -> Result<Written, String> {
+    let (bytes, check) = build_save(layers, content, opts)?;
 
     let mut note: Option<String> = None;
     if WEB {
@@ -1580,6 +1589,9 @@ impl App {
     /// Checks that the file can be saved, then writes it here or on a worker thread. Either way
     /// the same `write_save` does the work and `finish_save` takes in its outcome.
     fn save_with(&mut self, path: &Path, then: AfterSave, background: bool) {
+        // Browser: "Save a copy as" downloads even a file that can be saved in place.
+        #[cfg(target_arch = "wasm32")]
+        let download = crate::web::take_download_next();
         // A file being opened (or read again) is not the one on screen yet: saving now would
         // write the old one and leave the new one with the wrong idea of what is on disk.
         if self.saving.is_some() || self.loading.is_some() {
@@ -1593,6 +1605,10 @@ impl App {
         if !std::mem::take(&mut self.stale_ok) && doc.path == path && safety::changed(&doc.path, doc.stamp.as_ref()) {
             self.stale_save = Some(path.to_path_buf());
             return;
+        }
+        #[cfg(target_arch = "wasm32")]
+        if !download && crate::web::has_handle(path) {
+            return self.save_in_place(path, then);
         }
         if background && !WEB {
             // The worker gets its own copy: what is on screen can't change under it.
@@ -1972,8 +1988,12 @@ impl App {
             if let Some(c) = crate::cloud::service_for(&r.path) {
                 ui.weak(trf("This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.", &[&c]));
             }
+            #[cfg(target_arch = "wasm32")]
+            let web_note = in_place::save_note(&r.path);
+            #[cfg(not(target_arch = "wasm32"))]
+            let web_note = tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.");
             ui.weak(if WEB {
-                tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.")
+                web_note
             } else {
                 tr("The save on disk now is backed up first. Backups \u{203A} Quick restore brings it back.")
             });
@@ -2023,6 +2043,8 @@ impl App {
         }
         let Some(doc) = &self.doc else { return };
         let name = file_name(&doc.path);
+        #[cfg(target_arch = "wasm32")]
+        crate::web::download_next();
         self.ask(Ask::SaveAs, None, Some(name));
     }
 
@@ -2213,6 +2235,8 @@ impl App {
                     ui.close_menu();
                     self.ask(Ask::Open, None, None);
                 }
+                #[cfg(target_arch = "wasm32")]
+                self.open_in_place_item(ui);
                 if !cfg!(target_os = "android") && !WEB && ui.button(tr("Find my game's saves\u{2026}")).on_hover_text(tr("Pick a game to see the saves it has on this computer")).clicked() {
                     ui.close_menu();
                     self.game_picker = Some(self.picker());
@@ -2287,6 +2311,8 @@ impl App {
                     ui.close_menu();
                     self.open_save_manager();
                 }
+                #[cfg(target_arch = "wasm32")]
+                self.originals_item(ui);
                 ui.separator();
                 let bak = self.doc.as_ref().map(|d| {
                     let mut b = d.path.as_os_str().to_owned();
@@ -4555,6 +4581,8 @@ impl App {
         let mut open: Option<PathBuf> = None;
         let mut restore_missing: Option<PathBuf> = None;
         let mut browse: Option<Option<PathBuf>> = None;
+        #[cfg(target_arch = "wasm32")]
+        let mut in_place = false;
         ScrollArea::vertical().auto_shrink([false, false]).show_locked(ui, |ui| {
             ui.vertical_centered(|ui| {
                 ui.add_space((ui.available_height() * 0.08).max(24.0));
@@ -4607,6 +4635,14 @@ impl App {
                 ui.add_space(4.0);
                 if !cfg!(target_os = "android") {
                     ui.weak(tr("or drag a file anywhere onto this window"));
+                }
+                #[cfg(target_arch = "wasm32")]
+                if crate::web::can_save_in_place() {
+                    ui.add_space(2.0);
+                    in_place = ui
+                        .small_button(tr("Open to save in place\u{2026}"))
+                        .on_hover_text(tr("Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open\u{2026} for those."))
+                        .clicked();
                 }
                 ui.add_space(18.0);
 
@@ -4716,6 +4752,10 @@ impl App {
         }
         if let Some(dir) = browse {
             self.ask(Ask::Open, dir, None);
+        }
+        #[cfg(target_arch = "wasm32")]
+        if in_place {
+            self.open_in_place();
         }
     }
 }
@@ -4910,10 +4950,16 @@ impl App {
                 self.request_open(p);
             }
             if let Some(p) = crate::web::take_picked() {
-                match self.web_asked.take() {
+                let what = self.web_asked.take();
+                // A file picked to save in place keeps its handle only if it is the one that opens.
+                crate::web::settle_handle(&p, matches!(what, None | Some(Ask::Open)) && self.handle_may_follow(&p));
+                match what {
                     Some(what) => self.answered(what, p),
                     None => self.request_open(p),
                 }
+            }
+            if let Some(e) = crate::web::take_pick_error() {
+                self.fail(trf("Couldn't open the file: {0}", &[&e]));
             }
         }
         // Shortcuts.
@@ -5111,6 +5157,8 @@ impl App {
         self.prefs_window(ctx);
         self.help_window(ctx);
         self.browser_window(ctx);
+        #[cfg(target_arch = "wasm32")]
+        self.originals_window(ctx);
         // Android: bring up the on-screen keyboard while a text field has focus.
         #[cfg(target_os = "android")]
         {
@@ -6903,6 +6951,29 @@ mod save_tests {
         assert!(!same(json!({"a": 1}), json!({"b": 1})));
         assert!(!same_values_list(&Content::Text("a".into()), &Content::Text("a".into())));
         assert!(!same_values_list(&j(json!(1)), &Content::Binary(vec![1])));
+    }
+
+    /// Browser version: a newly picked file's handle is used only when opening it shows that
+    /// file, so unsaved changes to another file of the same name can never be written into it.
+    #[test]
+    fn picked_handle_follows_only_the_file_that_opens() {
+        let _locks = locks();
+        let dir = Scratch::new("handle");
+        let a = dir.0.join("a.json");
+        let b = dir.0.join("b.json");
+        std::fs::write(&a, br#"{"gold": 1}"#).unwrap();
+        std::fs::write(&b, br#"{"gold": 2}"#).unwrap();
+        let ctx = window();
+        let mut app = opened(&ctx, &a);
+        assert!(app.handle_may_follow(&b), "a file not open anywhere");
+        assert!(app.handle_may_follow(&a), "the file on screen, with nothing unsaved, is read again");
+        app.dirty = true;
+        assert!(!app.handle_may_follow(&a), "unsaved changes to the file on screen");
+        app.dirty = false;
+        app.open_in_tab(b.clone());
+        assert_eq!(app.doc.as_ref().map(|d| d.path.clone()), Some(b.clone()));
+        assert!(!app.handle_may_follow(&a), "open in another tab, which is shown instead");
+        assert!(app.handle_may_follow(&b));
     }
 }
 

@@ -20,8 +20,15 @@ no rate limits.
 
 **No install:** the [browser version](https://universalsaveeditor.com/app/) is the same
 editor compiled to WebAssembly. It runs inside the page on your own computer and never uploads the save;
-saving downloads the edited file. It can't search your folders (*Find my game's saves*), keep backups, or open
-SQLite saves and the saves of Palworld and Hogwarts Legacy: use the downloaded app for those.
+saving downloads the edited file. In Chrome and Edge, *File › Open to save in place* opens a file so that
+*Save* writes back to that same file once you allow it in the browser's prompt (if you say no, it downloads as
+usual). Before the first such save, the file as it was is kept in the browser's own storage, not in a folder
+on your disk: *Backups › Originals kept in this browser* downloads it again (the 10 newest, up to 200 MB in all;
+clearing the site's data in the browser removes them). Chrome refuses some system folders in that picker; use
+*Open* for those. After the first visit the page and the program are kept by the browser, so it also opens
+with no connection, and Chrome and Edge can install it as an app from their menu. It can't search your
+folders (*Find my game's saves*), keep backups like the app does, or open SQLite saves and the saves of
+Palworld and Hogwarts Legacy: use the downloaded app for those.
 
 ## Why this exists
 
