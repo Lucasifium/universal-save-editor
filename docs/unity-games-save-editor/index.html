@@ -46,6 +46,31 @@
 <li>Choose <em>Find my game's saves</em>, pick <strong>Unity games (PlayerPrefs)</strong> and open your save (or drag the save file onto the window).</li>
 <li>Change what you want, then <em>Save</em>. The editor checks the new file and backs up the old one first.</li>
 </ol>
+<h2 id="unity-guide">Unity saves: a guide</h2>
+<h3>Where the files are</h3>
+<ul>
+<li><strong>Windows, PlayerPrefs:</strong> <code>Registry: HKCU\Software\&lt;company&gt;\&lt;game&gt;</code></li>
+<li><strong>Windows, save files:</strong> <code>%USERPROFILE%\AppData\LocalLow\&lt;company&gt;\&lt;game&gt;</code></li>
+<li><strong>Linux:</strong> <code>~/.config/unity3d/&lt;company&gt;/&lt;game&gt;/ (prefs and save files)</code></li>
+<li><strong>macOS:</strong> <code>~/Library/Preferences/unity.&lt;company&gt;.&lt;game&gt;.plist and ~/Library/Application Support/&lt;company&gt;/&lt;game&gt;</code></li>
+</ul>
+<p>Unity is used for thousands of games, and each one decides for itself how to save. Most use one of a few ways, and the editor handles each.</p>
+<h3>PlayerPrefs</h3>
+<p>Small games often keep coins, unlocks and settings in PlayerPrefs. On Windows they are in the registry under <code>HKCU\Software\&lt;company&gt;\&lt;game&gt;</code>; on Linux in a <code>prefs</code> file under <code>~/.config/unity3d</code>; on macOS in a <code>unity.*.plist</code> file. Choose <em>Unity games (PlayerPrefs)</em> in <em>Find my game's saves</em>: the registry key opens like a save, every pref by name with its type (whole number, decimal or text) kept, and saving writes it back. <strong>Close the game first</strong>: Unity writes its prefs when the game quits, so an open game would put the old values back.</p>
+<h3>Save files in LocalLow</h3>
+<p>Larger games write real save files into their data folder: <code>%USERPROFILE%\AppData\LocalLow\&lt;company&gt;\&lt;game&gt;</code> on Windows. What is inside depends on the game:</p>
+<ul>
+<li><strong>JSON or XML text.</strong> Opens as a list of named values.</li>
+<li><strong>.NET BinaryFormatter</strong> (<code>.dat</code>, <code>.sav</code> and similar). Opens as a tree of the game's own objects, with numbers and text editable.</li>
+<li><strong>Easy Save 3</strong> (<code>.es3</code>), a very common save plugin. It is JSON, sometimes encrypted with AES and compressed with gzip. The editor tries the plugin's default password by itself; if the game uses its own, enter it in <em>Tools &rsaquo; Decrypt with password</em>.</li>
+<li><strong>Anything else.</strong> A file the editor doesn't recognize opens as raw data, where value search can find a number you know.</li>
+</ul>
+<h3>Things to know</h3>
+<ul>
+<li>Several games keep both: options in PlayerPrefs and progress in files. Check both places if one doesn't have what you want.</li>
+<li>A save with a checksum or hash next to it stops loading after an edit unless the checksum is made again. The editor looks for one near the start or end of the file and writes it again on every save.</li>
+<li>Steam Cloud may copy an older save over an edited one the next time the game starts. Edit with the game closed and, if needed, turn cloud sync off for the game first.</li>
+</ul>
 <h2>Questions about Unity games (PlayerPrefs) saves</h2>
 <h3>Where is the Unity games (PlayerPrefs) save file?</h3>
 <p>Usually in <code>Windows: the registry (HKCU\Software\&lt;company&gt;\&lt;game&gt;); Linux: ~/.config/unity3d/&lt;company&gt;/&lt;game&gt;; macOS: ~/Library/Preferences</code>, in files named <code>&lt;company&gt; - &lt;game&gt;.reg (exported for you), prefs, unity.&lt;company&gt;.&lt;game&gt;.plist</code>. The downloaded editor finds it for you: choose <em>Find my game's saves</em> and pick Unity games (PlayerPrefs).</p>
