@@ -32491,3 +32491,8 @@ rarely needed
 
 {0} save ({1})
 = {0} 세이브 ({1})
+
+# Changes button
+
+Changes ({0})
+= 변경 사항 ({0})

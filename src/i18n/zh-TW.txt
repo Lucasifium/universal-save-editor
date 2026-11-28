@@ -32542,3 +32542,8 @@ rarely needed
 
 {0} save ({1})
 = {0} 存檔（{1}）
+
+# Changes button
+
+Changes ({0})
+= 變更 ({0})

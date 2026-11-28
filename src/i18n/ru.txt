@@ -32491,3 +32491,8 @@ rarely needed
 
 {0} save ({1})
 = Сохранение {0} ({1})
+
+# Changes button
+
+Changes ({0})
+= Изменения ({0})
