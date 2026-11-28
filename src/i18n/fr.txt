@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = Sur cet ordinateur
 
-Other games
-= Autres jeux
-
 Console games
 = Jeux sur console
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Aucun jeu correspondant. Utilisez Ouvrir… pour choisir le fichier vous-même.
-
-Choose a game from the list.
-= Choisissez un jeu dans la liste.
 
 Looking for saves…
 = Recherche de sauvegardes…
@@ -31823,3 +31817,57 @@ Dark or light as your system is set, changing with it.
 
 {0} save ({1})
 = Sauvegarde {0} ({1})
+
+Popular
+= Populaires
+
+All games
+= Tous les jeux
+
+Any genre
+= Tous les genres
+
+RPG
+= RPG
+
+Soulslike and Metroidvania
+= Soulslike et metroidvania
+
+Action and adventure
+= Action et aventure
+
+Shooter
+= Tir
+
+Roguelike, roguelite and idle
+= Roguelike, roguelite et idle
+
+Survival and crafting
+= Survie et artisanat
+
+Simulation, farming and management
+= Simulation, ferme et gestion
+
+Strategy
+= Stratégie
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Seulement les jeux de ce type. Les jeux sans genre dans la liste apparaissent sous Tous les genres.
+
+How this works
+= Comment ça marche
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Cliquez sur une sauvegarde pour l'ouvrir. Rien n'est écrit avant que vous enregistriez, et le fichier sur le disque est d'abord sauvegardé.
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= Le badge à côté de chaque jeu indique jusqu'où va l'édition : Écran (un écran dédié), Valeurs (chaque valeur par son nom) ou Hex (trouver un nombre connu, puis le modifier).
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Tapez une partie du nom, ou des noms courts comme bg3 ou ff7 ; les lettres qui contiennent un résultat s'ouvrent d'elles-mêmes.
+
+Look through all the usual places on this computer again, for games added since.
+= Chercher à nouveau dans tous les emplacements habituels de cet ordinateur, pour les jeux ajoutés depuis.
+
+What can it open?
+= Que peut-il ouvrir ?

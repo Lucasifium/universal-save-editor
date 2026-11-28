@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = このコンピューター上
 
-Other games
-= その他のゲーム
-
 Console games
 = コンソールゲーム
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = 該当するゲームがありません。「開く…」でファイルを直接選んでください。
-
-Choose a game from the list.
-= 一覧からゲームを選んでください。
 
 Looking for saves…
 = セーブデータを探しています…
@@ -31894,3 +31888,57 @@ Dark or light as your system is set, changing with it.
 
 {0} save ({1})
 = {0} のセーブ（{1}）
+
+Popular
+= 人気
+
+All games
+= すべてのゲーム
+
+Any genre
+= すべてのジャンル
+
+RPG
+= RPG
+
+Soulslike and Metroidvania
+= ソウルライク・メトロイドヴァニア
+
+Action and adventure
+= アクション・アドベンチャー
+
+Shooter
+= シューター
+
+Roguelike, roguelite and idle
+= ローグライク・ローグライト・放置系
+
+Survival and crafting
+= サバイバル・クラフト
+
+Simulation, farming and management
+= シミュレーション・農業・経営
+
+Strategy
+= ストラテジー
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= この種類のゲームだけを表示します。ジャンルのないゲームは「すべてのジャンル」に表示されます。
+
+How this works
+= 使い方
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= セーブをクリックすると開きます。保存するまで何も書き込まれず、書き込む前にディスク上のファイルがバックアップされます。
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= 各ゲームの横のバッジは編集できる範囲を示します：画面（専用の画面）、値（すべての値を名前で表示）、16進（知っている数値を探して変更）。
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= 名前の一部や bg3、ff7 のような略称を入力すると、該当する文字のグループが自動で開きます。
+
+Look through all the usual places on this computer again, for games added since.
+= このコンピューターのいつもの場所をもう一度すべて探し、その後に追加されたゲームを見つけます。
+
+What can it open?
+= 何を開けますか？

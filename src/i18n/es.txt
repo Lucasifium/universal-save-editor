@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = En este equipo
 
-Other games
-= Otros juegos
-
 Console games
 = Juegos de consola
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Ningún juego coincide. Usa Abrir… para elegir el archivo tú mismo.
-
-Choose a game from the list.
-= Elige un juego de la lista.
 
 Looking for saves…
 = Buscando partidas…
@@ -31809,3 +31803,57 @@ Dark or light as your system is set, changing with it.
 
 {0} save ({1})
 = Partida de {0} ({1})
+
+Popular
+= Populares
+
+All games
+= Todos los juegos
+
+Any genre
+= Cualquier género
+
+RPG
+= RPG
+
+Soulslike and Metroidvania
+= Soulslike y metroidvania
+
+Action and adventure
+= Acción y aventura
+
+Shooter
+= Disparos
+
+Roguelike, roguelite and idle
+= Roguelike, roguelite e idle
+
+Survival and crafting
+= Supervivencia y fabricación
+
+Simulation, farming and management
+= Simulación, granjas y gestión
+
+Strategy
+= Estrategia
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Solo juegos de este tipo. Los juegos sin género en la lista aparecen en Cualquier género.
+
+How this works
+= Cómo funciona
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Haz clic en una partida para abrirla. No se escribe nada hasta que guardes, y antes se hace una copia de seguridad del archivo en disco.
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= La etiqueta junto a cada juego indica hasta dónde llega la edición: Pantalla (una pantalla propia), Valores (cada valor por nombre) o Hex (busca un número que conozcas y cámbialo).
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Escribe parte de un nombre, o nombres cortos como bg3 o ff7; las letras con coincidencias se abren solas.
+
+Look through all the usual places on this computer again, for games added since.
+= Volver a buscar en todos los sitios habituales de este ordenador, por si hay juegos nuevos.
+
+What can it open?
+= ¿Qué puede abrir?

@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = 这台电脑上
 
-Other games
-= 其他游戏
-
 Console games
 = 主机游戏
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = 没有匹配的游戏。请用“打开…”自行选择文件。
-
-Choose a game from the list.
-= 请从列表中选择游戏。
 
 Looking for saves…
 = 正在查找存档…
@@ -31867,3 +31861,57 @@ Dark or light as your system is set, changing with it.
 
 {0} save ({1})
 = {0} 存档（{1}）
+
+Popular
+= 热门
+
+All games
+= 所有游戏
+
+Any genre
+= 所有类型
+
+RPG
+= 角色扮演
+
+Soulslike and Metroidvania
+= 魂类与银河恶魔城
+
+Action and adventure
+= 动作与冒险
+
+Shooter
+= 射击
+
+Roguelike, roguelite and idle
+= Roguelike、Roguelite 与放置
+
+Survival and crafting
+= 生存与建造
+
+Simulation, farming and management
+= 模拟、农场与经营
+
+Strategy
+= 策略
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= 只显示这一类游戏。列表中没有类型的游戏显示在“所有类型”下。
+
+How this works
+= 使用方法
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= 点击存档即可打开。保存之前不会写入任何内容，写入前会先备份磁盘上的文件。
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= 每个游戏旁的标记表示可编辑的程度：屏幕（有专门的界面）、数值（按名称列出所有数值）或十六进制（找到你知道的数字后修改）。
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= 输入名称的一部分，或 bg3、ff7 这样的简称；含有匹配项的字母会自动展开。
+
+Look through all the usual places on this computer again, for games added since.
+= 重新查找这台电脑上所有常见位置，找出之后新增的游戏。
+
+What can it open?
+= 能打开哪些文件？

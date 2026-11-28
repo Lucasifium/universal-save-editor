@@ -28,6 +28,7 @@ use compare::Compare;
 mod change_line;
 use change_line::ChangeLine;
 pub(crate) mod window_size;
+mod picker_extra;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -404,6 +405,10 @@ struct GamePicker {
     missing: Option<PathBuf>,
     /// The starred games (copied from the settings while the window is open).
     favs: Vec<String>,
+    /// Only games of this genre (a key of `genres::GAME_GENRES`).
+    genre: Option<&'static str>,
+    /// The search box takes the focus when the window opens.
+    focus_search: bool,
 }
 
 /// The saves found for each game in the catalog (`None`: not looked at yet).
@@ -454,7 +459,7 @@ fn spawn_search(found: &SaveSearch, full: bool) {
 
 impl GamePicker {
     fn with(found: SaveSearch) -> Self {
-        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None, favs: vec![] }
+        Self { query: String::new(), picked: None, group: None, found, only_found: None, level: None, save_groups: None, missing: None, favs: vec![], genre: None, focus_search: true }
     }
 }
 
@@ -4617,8 +4622,12 @@ impl App {
                         if self.settings.favourites.iter().chain(self.settings.recent_games.iter()).any(|n| crate::games::GAMES.iter().any(|g| g.name == n)) {
                             ui.add_space(8.0);
                         }
-                        if let Some(p) = self.your_games(ui) {
+                        let (found, pick_file) = self.your_games(ui);
+                        if let Some(p) = found {
                             open = Some(p);
+                        }
+                        if pick_file {
+                            browse = Some(None);
                         }
                         if self.saves_found.is_some() {
                             ui.add_space(8.0);
@@ -4671,7 +4680,14 @@ impl App {
                             ui.weak(tr("RPG Maker games usually keep saves in a \u{201C}save\u{201D} folder next to the game."));
                         });
                         ui.add_space(8.0);
-                        theme::card(ui, |ui| {
+                        // Once the player has opened something, the long list of formats waits behind a link.
+                        let what_id = egui::Id::new("start_what_it_opens");
+                        let expanded = self.settings.recent.is_empty() || ui.data(|d| d.get_temp::<bool>(what_id).unwrap_or(false));
+                        if !expanded {
+                            if ui.link(tr("What can it open?")).clicked() {
+                                ui.data_mut(|d| d.insert_temp(what_id, true));
+                            }
+                        } else { theme::card(ui, |ui| {
                             ui.label(RichText::new(tr("What it can open")).family(theme::semibold_family()).size(16.0));
                             let games = trf("{0} games, {1} of them with a screen of their own: Elden Ring, Baldur's Gate, Mass Effect, Final Fantasy, Stardew Valley, Terraria, Cyberpunk 2077 and many more \u{00B7} Pok\u{00E9}mon Gen I\u{2013}III (emulator saves) \u{00B7} {2}",
                                 &[
@@ -4694,7 +4710,7 @@ impl App {
                             ] {
                                 widgets::label_text(ui, title, list, true);
                             }
-                        });
+                        }); }
                     });
                 });
             });
@@ -5312,8 +5328,12 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 let only = gp.only_found.unwrap_or(!searching && any_here);
                 ui.horizontal_wrapped(|ui| {
                     ui.label(tr("Search:"));
-                    ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0))
-                        .on_hover_text(tr("Words in any order work (\"witcher 3\" or \"3 witcher\"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7."));
+                    let search = ui.add(TextEdit::singleline(&mut gp.query).hint_text(tr("game name")).desired_width(200.0));
+                    // Ready to type a name as soon as the window opens.
+                    if std::mem::take(&mut gp.focus_search) {
+                        search.request_focus();
+                    }
+                    search.on_hover_text(tr("Words in any order work (\"witcher 3\" or \"3 witcher\"), and so do short names made from the initials of the name with its numbers, such as bg3, gta5 or ff7."));
                     let mut o = only;
                     if crate::widgets::checkbox(ui, &mut o, tr("Only games found here"))
                         .on_hover_text(tr("Show only the games whose saves were found on this computer. Typing a name searches every game."))
@@ -5338,6 +5358,25 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                 ui.selectable_value(&mut gp.level, Some(l), l.label()).on_hover_text(l.hint());
                             }
                         });
+                    // The genres the website groups games by.
+                    let genre_text = gp.genre.map_or(tr("Any genre"), picker_extra::genre_label);
+                    let font = egui::TextStyle::Button.resolve(ui.style());
+                    let need = ui.fonts(|f| f.layout_no_wrap(genre_text.to_string(), font, Color32::WHITE).size().x) + 40.0;
+                    if ui.available_size_before_wrap().x < need {
+                        ui.end_row();
+                    }
+                    egui::ComboBox::from_id_salt("gp_genre")
+                        .wrap_mode(egui::TextWrapMode::Truncate)
+                        .width(need.min(ui.available_size_before_wrap().x))
+                        .selected_text(genre_text)
+                        .show_ui(ui, |ui| {
+                            ui.selectable_value(&mut gp.genre, None, tr("Any genre"));
+                            for g in picker_extra::GENRES {
+                                ui.selectable_value(&mut gp.genre, Some(*g), picker_extra::genre_label(g));
+                            }
+                        })
+                        .response
+                        .on_hover_text(tr("Only games of this kind. Games without a genre in the list are shown under Any genre."));
                     if ui
                         .add_enabled(!searching, egui::Button::new(tr("Search again")))
                         .on_hover_text(tr("The saves found before are remembered and checked first. Search again looks through all the usual places on this computer for games added since."))
@@ -5364,13 +5403,12 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         }
                     });
                 }
-                ui.weak(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
                 ui.separator();
                 let q = gp.query.trim().to_lowercase();
-                let level = gp.level;
+                let (level, genre) = (gp.level, gp.genre);
                 let matches = |i: usize| {
                     let g = &crate::games::GAMES[i];
-                    crate::games::name_matches(g.name, &q) && level.is_none_or(|l| crate::games::level(g) == l)
+                    crate::games::name_matches(g.name, &q) && level.is_none_or(|l| crate::games::level(g) == l) && genre.is_none_or(|k| picker_extra::genre_of(g.name) == Some(k))
                 };
                 // Games with saves on this computer first, then the rest; a typed name looks through all of them.
                 // Starred games come first, wherever they are.
@@ -5380,6 +5418,9 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 let found_here: Vec<usize> = (0..crate::games::GAMES.len()).filter(|&i| here(i) && matches(i) && !is_fav(i)).collect();
                 let others: Vec<usize> = if only && q.is_empty() { vec![] } else { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i) && !is_fav(i)).collect() };
                 let hidden = if only && q.is_empty() { (0..crate::games::GAMES.len()).filter(|&i| !here(i) && matches(i) && !is_fav(i)).count() } else { 0 };
+                // Well-known games, above the A to Z groups while no name is typed (a typed name
+                // opens the letters that hold it instead).
+                let popular: Vec<usize> = if q.is_empty() && !(only && any_here) { picker_extra::popular_indices().into_iter().filter(|&i| matches(i) && !is_fav(i) && !here(i)).collect() } else { vec![] };
                 let star_clicked: std::cell::Cell<Option<usize>> = std::cell::Cell::new(None);
                 let mut show_all = false;
                 let list = |ui: &mut egui::Ui, picked: &mut Option<usize>, show_all: &mut bool| {
@@ -5435,15 +5476,22 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                             for &i in &found_here {
                                 row(ui, i, picked);
                             }
-                            if !others.is_empty() {
-                                ui.add_space(6.0);
-                                ui.label(RichText::new(tr("Other games")).strong());
-                            }
+                            ui.add_space(6.0);
                         } else if searching && only && q.is_empty() {
                             ui.horizontal(|ui| {
                                 ui.spinner();
                                 ui.weak(tr("Looking for saves on this computer\u{2026}"));
                             });
+                        }
+                        if !popular.is_empty() {
+                            ui.label(RichText::new(tr("Popular")).strong());
+                            for &i in &popular {
+                                row(ui, i, picked);
+                            }
+                            ui.add_space(6.0);
+                        }
+                        if !others.is_empty() && (!found_here.is_empty() || !popular.is_empty()) {
+                            ui.label(RichText::new(tr("All games")).strong());
                         }
                         // Grouped by first letter (digits and symbols under #), collapsed unless a name is typed.
                         let letter = |i: usize| -> char {
@@ -5473,7 +5521,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         by_console.sort_by_key(|(c, _)| crate::games::CONSOLES.iter().position(|(n, _)| n == c));
                         for (c, members) in &groups {
                             let title = format!("{c}  ({})", members.len());
-                            let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_letter", *c, found_here.is_empty()));
+                            let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_letter", *c, found_here.is_empty(), q.is_empty()));
                             h = if q.is_empty() { h.default_open(false) } else { h.open(Some(true)) };
                             h.show(ui, |ui| {
                                 for &i in members {
@@ -5486,7 +5534,7 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                             ui.label(RichText::new(tr("Console games")).strong());
                             for (c, members) in &by_console {
                                 let title = format!("{c}  ({})", members.len());
-                                let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_console", *c, found_here.is_empty()));
+                                let mut h = egui::CollapsingHeader::new(RichText::new(title).strong()).id_salt(("gp_console", *c, found_here.is_empty(), q.is_empty()));
                                 h = if q.is_empty() { h.default_open(false) } else { h.open(Some(true)) };
                                 h.show(ui, |ui| {
                                     for &i in members {
@@ -5508,7 +5556,16 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                 };
                 let details_body = |ui: &mut egui::Ui, picked: Option<usize>, group: &mut Option<String>, open: &mut Option<PathBuf>, save_groups: &mut Option<((usize, usize), Vec<String>)>| {
                     let Some(i) = picked else {
-                        ui.weak(tr("Choose a game from the list."));
+                        // Until a game is picked: how this window works.
+                        ui.strong(tr("How this works"));
+                        ui.add_space(2.0);
+                        ui.label(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
+                        ui.add_space(4.0);
+                        ui.label(tr("Click a save to open it. Nothing is written until you save, and the file on disk is backed up first."));
+                        ui.add_space(4.0);
+                        ui.label(tr("The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it)."));
+                        ui.add_space(4.0);
+                        ui.weak(tr("Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves."));
                         return;
                     };
                     let g = &crate::games::GAMES[i];
@@ -5621,6 +5678,8 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                         c[1].with_layout(egui::Layout::top_down(egui::Align::Min), |ui| details(ui, gp.picked, &mut gp.group, &mut open, &mut gp.save_groups));
                     });
                 } else if gp.picked.is_none() {
+                    // No room for the "how this works" pane beside the list: its first line goes above it.
+                    ui.weak(tr("Pick a game to see where it keeps its saves and the ones on this computer. Open\u{2026} and dragging a file onto the window still work for anything else."));
                     list(ui, &mut gp.picked, &mut show_all);
                 } else {
                     if ui.button(tr("\u{2039} All games")).clicked() {

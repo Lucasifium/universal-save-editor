@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = Neste computador
 
-Other games
-= Outros jogos
-
 Console games
 = Jogos de console
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Nenhum jogo encontrado. Use Abrir… para escolher o arquivo você mesmo.
-
-Choose a game from the list.
-= Escolha um jogo da lista.
 
 Looking for saves…
 = Procurando saves…
@@ -31783,3 +31777,57 @@ Dark or light as your system is set, changing with it.
 
 {0} save ({1})
 = Save de {0} ({1})
+
+Popular
+= Populares
+
+All games
+= Todos os jogos
+
+Any genre
+= Qualquer gênero
+
+RPG
+= RPG
+
+Soulslike and Metroidvania
+= Soulslike e metroidvania
+
+Action and adventure
+= Ação e aventura
+
+Shooter
+= Tiro
+
+Roguelike, roguelite and idle
+= Roguelike, roguelite e idle
+
+Survival and crafting
+= Sobrevivência e criação
+
+Simulation, farming and management
+= Simulação, fazenda e gerenciamento
+
+Strategy
+= Estratégia
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Só jogos deste tipo. Jogos sem gênero na lista aparecem em Qualquer gênero.
+
+How this works
+= Como funciona
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Clique em um save para abri-lo. Nada é gravado até você salvar, e o arquivo no disco ganha um backup antes.
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= O selo ao lado de cada jogo diz até onde vai a edição: Tela (uma tela própria), Valores (cada valor pelo nome) ou Hex (encontre um número que você conhece e mude-o).
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Digite parte de um nome, ou nomes curtos como bg3 ou ff7; as letras com resultados se abrem sozinhas.
+
+Look through all the usual places on this computer again, for games added since.
+= Procurar de novo em todos os lugares de sempre deste computador, por jogos adicionados desde então.
+
+What can it open?
+= O que ele abre?

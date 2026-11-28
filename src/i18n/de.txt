@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = Auf diesem Computer
 
-Other games
-= Andere Spiele
-
 Console games
 = Konsolenspiele
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Kein Spiel gefunden. Mit Öffnen… die Datei selbst wählen.
-
-Choose a game from the list.
-= Spiel aus der Liste wählen.
 
 Looking for saves…
 = Spielstände werden gesucht…
@@ -31816,3 +31810,57 @@ Dark or light as your system is set, changing with it.
 
 {0} save ({1})
 = Spielstand: {0} ({1})
+
+Popular
+= Beliebt
+
+All games
+= Alle Spiele
+
+Any genre
+= Jedes Genre
+
+RPG
+= Rollenspiel
+
+Soulslike and Metroidvania
+= Soulslike und Metroidvania
+
+Action and adventure
+= Action und Abenteuer
+
+Shooter
+= Shooter
+
+Roguelike, roguelite and idle
+= Roguelike, Roguelite und Idle
+
+Survival and crafting
+= Survival und Crafting
+
+Simulation, farming and management
+= Simulation, Farmen und Management
+
+Strategy
+= Strategie
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Nur Spiele dieser Art. Spiele ohne Genre in der Liste stehen unter „Jedes Genre“.
+
+How this works
+= So funktioniert es
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Klicke auf einen Spielstand, um ihn zu öffnen. Geschrieben wird erst beim Speichern, und die Datei auf der Festplatte wird vorher gesichert.
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= Das Abzeichen neben jedem Spiel zeigt, wie weit die Bearbeitung geht: Bildschirm (eine eigene Ansicht), Werte (jeder Wert mit Namen) oder Hex (eine bekannte Zahl suchen und ändern).
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Tippe einen Teil des Namens oder Kurznamen wie bg3 oder ff7; die Buchstaben mit Treffern klappen von selbst auf.
+
+Look through all the usual places on this computer again, for games added since.
+= Alle üblichen Orte auf diesem Computer noch einmal durchsuchen, nach inzwischen hinzugekommenen Spielen.
+
+What can it open?
+= Was kann es öffnen?
