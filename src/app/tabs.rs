@@ -97,6 +97,35 @@ impl App {
         self.tabs.list.len()
     }
 
+    /// Browser version: whether a file just picked as `p` may be saved back through its handle.
+    /// Only when opening it shows that file: not when another tab already has `p` open (that
+    /// tab is shown instead) or the file on screen is `p` with unsaved changes (saving those
+    /// first must not write them into the newly picked file).
+    #[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))]
+    pub(super) fn handle_may_follow(&self, p: &Path) -> bool {
+        let elsewhere = (0..self.tab_count()).any(|i| i != self.tabs.active && self.tab_path(i) == Some(p));
+        let here_unsaved = self.dirty && self.doc.as_ref().is_some_and(|d| d.path == p);
+        !elsewhere && !here_unsaved
+    }
+
+    /// Browser version: gives the document that just opened from `p` (after `loads_before`
+    /// files had been read) the handle `id` to save back through. False, and nothing given,
+    /// when what is on screen isn't a fresh read of `p`: it failed to open, it waits behind
+    /// "save changes?", or another tab was shown instead.
+    #[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))]
+    pub(super) fn attach_handle(&mut self, p: &Path, id: u64, loads_before: u64) -> bool {
+        if self.loads == loads_before || self.loading.is_some() || self.pending_open.is_some() || self.dirty {
+            return false;
+        }
+        match self.doc.as_mut() {
+            Some(d) if d.path == p && d.handle.is_none() => {
+                d.handle = Some(super::HandleId(id));
+                true
+            }
+            _ => false,
+        }
+    }
+
     /// Any tab, shown or not, with unsaved changes.
     pub(super) fn any_dirty(&self) -> bool {
         self.dirty || self.tabs.list.iter().enumerate().any(|(i, p)| i != self.tabs.active && p.dirty)

@@ -32337,3 +32337,88 @@ this is your home folder, not a save folder
 
 {0} over the limit now.
 = Derzeit {0} über der Grenze.
+
+# Saving in place in the browser
+Couldn't open the file: {0}
+= Die Datei konnte nicht geöffnet werden: {0}
+
+Open to save in place…
+= Zum Speichern an Ort und Stelle öffnen…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= Speichern schreibt dann in die gewählte Datei zurück, sobald du es im Browser erlaubst, statt sie herunterzuladen. Die Datei, wie sie war, wird vorher in diesem Browser aufbewahrt. Manche Systemordner verweigert der Browser auf diesem Weg; nimm dafür Öffnen….
+
+Originals kept in this browser…
+= In diesem Browser aufbewahrte Originale…
+
+That copy isn't kept in this browser any more.
+= Diese Kopie wird in diesem Browser nicht mehr aufbewahrt.
+
+Couldn't hand over the kept copy: {0}
+= Die aufbewahrte Kopie konnte nicht übergeben werden: {0}
+
+Originals kept in this browser
+= In diesem Browser aufbewahrte Originale
+
+Reading the browser's storage…
+= Speicher des Browsers wird gelesen…
+
+The browser's storage couldn't be read: {0}
+= Der Speicher des Browsers konnte nicht gelesen werden: {0}
+
+Nothing is kept yet.
+= Noch nichts aufbewahrt.
+
+Your browser downloaded the edited file instead.
+= Dein Browser hat stattdessen die bearbeitete Datei heruntergeladen.
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} Auch der Download hat nicht begonnen ({1}). Deine Änderungen sind noch da.
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= In {0} auf deinem Computer zurückgeschrieben. Die Datei, wie sie vorher war, wird in diesem Browser aufbewahrt: Sicherungen › In diesem Browser aufbewahrte Originale.
+
+Written back to {0} on your computer.
+= In {0} auf deinem Computer zurückgeschrieben.
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= Der Browser durfte {0} nicht ändern, daher wurde diese Datei nicht geändert.
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= Der Browser konnte nicht um Erlaubnis bitten, {0} zu ändern ({1}), daher wurde diese Datei nicht geändert.
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} wurde nicht geändert: Eine Kopie davon konnte vorher nicht in diesem Browser aufbewahrt werden ({1}).
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= Speichern in {0} fehlgeschlagen: {1}. Die Datei auf deinem Computer wurde nicht geändert. Deine Änderungen sind noch da: Speichere erneut oder lade sie mit „Kopie speichern unter“ herunter.
+
+Download a file as it was before you saved it in place
+= Eine Datei so herunterladen, wie sie vor dem Speichern an Ort und Stelle war
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Unless the file is just what this page saved there last, it is kept in this browser first: Backups › Originals kept in this browser.
+= Der Browser fragt, ob diese Seite die Datei ändern darf, und schreibt sie dann in die geöffnete Datei zurück. Sofern die Datei nicht genau das ist, was diese Seite zuletzt dort gespeichert hat, wird sie vorher in diesem Browser aufbewahrt: Sicherungen › In diesem Browser aufbewahrte Originale.
+
+Your browser downloaded the kept copy of {0}.
+= Dein Browser hat die aufbewahrte Kopie von {0} heruntergeladen.
+
+Before a file opened with Open to save in place is written, the file as it is then is kept here, unless it is just what this page saved there last. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= Bevor eine mit „Zum Speichern an Ort und Stelle öffnen“ geöffnete Datei geschrieben wird, wird die Datei, wie sie dann ist, hier aufbewahrt, sofern sie nicht genau das ist, was diese Seite zuletzt dort gespeichert hat. Diese Kopien liegen im eigenen Speicher dieses Browsers, nicht in einem Ordner auf deinem Computer: Wenn du die Websitedaten im Browser löschst, sind sie weg. Die neuesten {0} werden aufbewahrt, insgesamt höchstens {1} MB.
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and copies of the file kept in this browser are under Backups › Originals kept in this browser.
+= Speichern in {0} fehlgeschlagen: {1}. Der Browser kann nicht sagen, ob sich die Datei auf deinem Computer geändert hat. Deine Änderungen sind noch da, und die in diesem Browser aufbewahrten Kopien der Datei findest du unter Sicherungen › In diesem Browser aufbewahrte Originale.
+
+Not saved: {0} on your computer changed since this page last read or wrote it, so it wasn't touched. Your changes are still here.
+= Nicht gespeichert: {0} auf deinem Computer hat sich geändert, seit diese Seite die Datei zuletzt gelesen oder geschrieben hat, daher wurde sie nicht angetastet. Deine Änderungen sind noch da.
+
+Not saved: this page no longer has access to {0}, so it wasn't touched. Your changes are still here; Save a copy as downloads them.
+= Nicht gespeichert: Diese Seite hat keinen Zugriff mehr auf {0}, daher wurde die Datei nicht angetastet. Deine Änderungen sind noch da; „Kopie speichern unter“ lädt sie herunter.
+
+If you save anyway, the file as it is now is kept in this browser first: Backups › Originals kept in this browser.
+= Wenn du trotzdem speicherst, wird die Datei, wie sie jetzt ist, vorher in diesem Browser aufbewahrt: Sicherungen › In diesem Browser aufbewahrte Originale.
+
+Couldn't read {0} from your computer again: {1}. What is on screen wasn't changed.
+= {0} konnte nicht erneut von deinem Computer gelesen werden: {1}. Die Anzeige wurde nicht geändert.
+
+Read {0} again from your computer.
+= {0} erneut von deinem Computer gelesen.
