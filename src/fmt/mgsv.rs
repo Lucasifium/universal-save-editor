@@ -854,7 +854,7 @@ impl Backend for MgsvBackend {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     /// Every skill id has one name, and the specialist names match the game's wording.
     #[test]
     fn skill_table_is_unique_and_names_materials_engineer() {
@@ -948,7 +948,7 @@ mod tests {
         p
     }
 
-    fn sample() -> Vec<u8> {
+    pub(crate) fn sample() -> Vec<u8> {
         let rank_e = 0u64;
         let staff0 = (3u64 << 3) | (5 << 13) | (9 << 20);
         let status0 = (7u64 << 27) | (5 << 22) | (3 << 8);

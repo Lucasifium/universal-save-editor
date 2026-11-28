@@ -10,7 +10,7 @@ use crate::game_ui::simple::{self, Shape, Spec};
 use serde_json::{json, Map, Value};
 use std::collections::BTreeSet;
 
-fn set(root: &mut Value, ptr: &str, v: Value) {
+pub(crate) fn set(root: &mut Value, ptr: &str, v: Value) {
     let segs: Vec<&str> = ptr.split('/').skip(1).collect();
     let mut cur = root;
     for (i, seg) in segs.iter().enumerate() {
@@ -109,7 +109,7 @@ fn number(ptr: &str, salt: usize) -> i64 {
     }
 }
 
-fn value_for(ptr: &str, salt: usize) -> Value {
+pub(crate) fn value_for(ptr: &str, salt: usize) -> Value {
     if is_text(ptr) {
         json!("Player")
     } else {

@@ -583,7 +583,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn s(x: &str) -> Vec<u8> {
@@ -658,7 +658,7 @@ mod tests {
     }
 
     /// Minimal Essentials v19 save: two party Pokémon sharing a nature symbol, a bag, a PC.
-    fn essentials_sample() -> Vec<u8> {
+    pub(crate) fn essentials_sample() -> Vec<u8> {
         fn sym(v: &mut Vec<u8>, s: &str) {
             v.push(b':');
             v.extend(w_long(s.len() as i64));

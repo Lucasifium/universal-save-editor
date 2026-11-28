@@ -166,7 +166,7 @@ pub fn companions(path: &Path, bytes: &[u8]) -> Vec<(PathBuf, Vec<u8>)> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::super::gff::build::{erf, gff, V};
     use super::*;
     use serde_json::Value;
@@ -196,7 +196,7 @@ mod tests {
         ]
     }
 
-    fn save() -> Vec<u8> {
+    pub(crate) fn save() -> Vec<u8> {
         erf(&[
             ("Repute", 2038, gff("FAC ", vec![])),
             ("Module", T_IFO, gff("IFO ", vec![("Mod_Name", V::Loc(-1, "Prelude")), ("Mod_PlayerList", V::List(vec![(0, pc())]))])),

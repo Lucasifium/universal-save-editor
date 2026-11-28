@@ -245,7 +245,7 @@ fn parse_inner(d: &[u8]) -> Option<TreeDoc> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 
@@ -265,7 +265,7 @@ mod tests {
 
     /// A small New Vegas-shaped save: a 1×1 screenshot, one plugin, the player's reference
     /// (experience, karma, caps) and the player's base form (S.P.E.C.I.A.L.).
-    fn synthetic() -> Vec<u8> {
+    pub(crate) fn synthetic() -> Vec<u8> {
         let mut h = vec![];
         u32p(&mut h, 48);
         h.extend([b'E', b'N', b'G', b'L', b'I', b'S', b'H']);

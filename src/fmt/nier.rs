@@ -152,11 +152,11 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
     use serde_json::Value;
 
-    fn synthetic() -> Vec<u8> {
+    pub(crate) fn synthetic() -> Vec<u8> {
         let mut d = vec![0u8; SIZE];
         d[0x24..0x28].copy_from_slice(&3725u32.to_le_bytes());
         d[0x2C..0x30].copy_from_slice(&2u32.to_le_bytes());

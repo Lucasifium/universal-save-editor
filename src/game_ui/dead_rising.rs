@@ -16,18 +16,24 @@ pub fn dead_rising(ui: &mut Ui, cx: &mut GameCtx) {
         cx.tile(ui, "PP", "/Frank/PP", ACCENT);
     });
     panel(ui, "Frank", |ui| {
-        cx.row_fixed(ui, "Max health", "/Frank/Max health", 120.0, 90.0);
-        ui.weak(tr("1000 per health block: 4000 at level 1, 12000 at level 50."));
-        let skills = cx.int("/Frank/Skills").unwrap_or(0);
-        ui.label(trf("Skills learned: {0} of 21", &[&(skills.count_ones())]));
-        if ui.add_enabled(skills != DR1_ALL_SKILLS && cx.can_edit("/Frank/Skills"), eframe::egui::Button::new(tr("Learn all skills"))).clicked() {
-            cx.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS));
-        }
         if super::quick_button(ui, tr("Level 50 with full health"), "") {
             cx.set("/Frank/Level", Value::from(50));
             cx.set("/Frank/Max health", Value::from(12_000));
             cx.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS));
         }
+        // Health on the left, skills on the right where there is room.
+        super::columns(ui, 340.0, 2, |ui, col| {
+            if col == 0 {
+                cx.row_fixed(ui, "Max health", "/Frank/Max health", 120.0, 90.0);
+                ui.weak(tr("1000 per health block: 4000 at level 1, 12000 at level 50."));
+            } else {
+                let skills = cx.int("/Frank/Skills").unwrap_or(0);
+                ui.label(trf("Skills learned: {0} of 21", &[&(skills.count_ones())]));
+                if ui.add_enabled(skills != DR1_ALL_SKILLS && cx.can_edit("/Frank/Skills"), eframe::egui::Button::new(tr("Learn all skills"))).clicked() {
+                    cx.set("/Frank/Skills", Value::from(DR1_ALL_SKILLS));
+                }
+            }
+        });
         ui.weak(tr("Level and PP are kept separately in the save, so change them together."));
     });
 }

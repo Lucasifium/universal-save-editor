@@ -188,17 +188,21 @@ pub fn re_slot(ui: &mut Ui, cx: &mut GameCtx) {
     let hp: Vec<String> = objects_with(cx.root, "_CurrentMaxHP", 12);
     if !hp.is_empty() {
         panel(ui, "Health", |ui| {
-            egui::Grid::new("re_hp").num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
-                ui.strong(tr("Character"));
-                ui.strong(tr("Health"));
-                ui.strong(tr("Most health"));
-                ui.end_row();
-                for (n, p) in hp.iter().enumerate() {
-                    ui.label(if n == 0 { tr("Player").to_string() } else { trf("Character {0}", &[&(n + 1)]) });
-                    cx.cell(ui, &format!("{p}/_CurrentHP"), 100.0);
-                    cx.cell(ui, &format!("{p}/_CurrentMaxHP"), 100.0);
+            // In columns where the window is wide, each with its own heading.
+            super::row_columns(ui, 420.0, hp.len(), |ui, range, col| {
+                egui::Grid::new(("re_hp", col)).num_columns(3).striped(true).spacing([14.0, 4.0]).show(ui, |ui| {
+                    ui.strong(tr("Character"));
+                    ui.strong(tr("Health"));
+                    ui.strong(tr("Most health"));
                     ui.end_row();
-                }
+                    for n in range {
+                        let p = &hp[n];
+                        ui.label(if n == 0 { tr("Player").to_string() } else { trf("Character {0}", &[&(n + 1)]) });
+                        cx.cell(ui, &format!("{p}/_CurrentHP"), 100.0);
+                        cx.cell(ui, &format!("{p}/_CurrentMaxHP"), 100.0);
+                        ui.end_row();
+                    }
+                });
             });
             ui.weak(tr("Enemies kept in the save show here too; the player is usually first."));
         });
@@ -413,12 +417,10 @@ pub fn eu4(ui: &mut Ui, cx: &mut GameCtx) {
     let pw = format!("{c}/powers");
     if cx.get(&pw).and_then(Value::as_array).is_some_and(|a| a.len() >= 3) {
         panel(ui, "Monarch power", |ui| {
-            ui.horizontal_wrapped(|ui| {
-                for (i, n) in ["Administrative", "Diplomatic", "Military"].iter().enumerate() {
-                    cx.label(ui, n, &format!("{pw}/{i}"));
-                    cx.editor(ui, &format!("{pw}/{i}"), 80.0);
-                    ui.add_space(10.0);
-                }
+            // Side by side where there is room, one under the other on a phone.
+            let names = ["Administrative", "Diplomatic", "Military"];
+            columns(ui, 260.0, names.len(), |ui, i| {
+                cx.row_fixed(ui, names[i], &format!("{pw}/{i}"), 110.0, 80.0);
             });
         });
     }
@@ -817,30 +819,33 @@ pub fn civ6(ui: &mut Ui, cx: &mut GameCtx) {
         fact(ui, "Human players", &humans.to_string(), accent);
     });
     panel(ui, "Civilizations", |ui| {
-        egui::Grid::new("civ6_grid").num_columns(6).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
-            for h in ["Civilization", "Leader", "Player", "Played by", "Their turn", "Alive"] {
-                ui.strong(crate::i18n::tr_any(h));
-            }
-            ui.end_row();
-            for c in &civs {
-                ui.label(cx.text(&format!("{c}/Civilization")).unwrap_or_default());
-                ui.label(cx.text(&format!("{c}/Leader")).unwrap_or_default());
-                ui.label(cx.text(&format!("{c}/Player")).unwrap_or_default());
-                cx.compact(ui, &format!("{c}/Played by"), 90.0);
-                let t = format!("{c}/Current turn");
-                if cx.get(&t).is_some() {
-                    cx.compact(ui, &t, 40.0);
-                } else {
-                    ui.label("");
+        // Wider than a phone: the table scrolls sideways instead of pushing the panel off the screen.
+        egui::ScrollArea::horizontal().auto_shrink([false, true]).id_salt("civ6_scroll").show_locked(ui, |ui| {
+            egui::Grid::new("civ6_grid").num_columns(6).striped(true).spacing([14.0, 6.0]).show(ui, |ui| {
+                for h in ["Civilization", "Leader", "Player", "Played by", "Their turn", "Alive"] {
+                    ui.strong(crate::i18n::tr_any(h));
                 }
-                let alive = cx.get(&format!("{c}/Alive")).and_then(Value::as_bool);
-                ui.label(match alive {
-                    Some(true) => tr("Yes"),
-                    Some(false) => tr("Defeated"),
-                    None => "",
-                });
                 ui.end_row();
-            }
+                for c in &civs {
+                    ui.label(cx.text(&format!("{c}/Civilization")).unwrap_or_default());
+                    ui.label(cx.text(&format!("{c}/Leader")).unwrap_or_default());
+                    ui.label(cx.text(&format!("{c}/Player")).unwrap_or_default());
+                    cx.compact(ui, &format!("{c}/Played by"), 90.0);
+                    let t = format!("{c}/Current turn");
+                    if cx.get(&t).is_some() {
+                        cx.compact(ui, &t, 40.0);
+                    } else {
+                        ui.label("");
+                    }
+                    let alive = cx.get(&format!("{c}/Alive")).and_then(Value::as_bool);
+                    ui.label(match alive {
+                        Some(true) => tr("Yes"),
+                        Some(false) => tr("Defeated"),
+                        None => "",
+                    });
+                    ui.end_row();
+                }
+            });
         });
         ui.weak(tr("Hand a civilisation to a human or the AI, or change whose turn it is \u{2014} for hotseat or play-by-cloud games when someone drops out. Gold, faith, cities and units are in the packed part of the save, which isn't mapped yet."));
     });
@@ -876,28 +881,26 @@ pub fn diablo2(ui: &mut Ui, cx: &mut GameCtx) {
     columns(ui, 360.0, 2, |ui, i| {
         if i == 0 {
             panel(ui, "Attributes", |ui| {
-                for k in ["Strength", "Dexterity", "Vitality", "Energy"] {
-                    cx.attribute_open(ui, k, &join("/Attributes", k));
-                }
-                ui.add_space(6.0);
-                cx.grid_row(ui, "Stat points", "/Attributes/Stat points", 80.0);
-                cx.grid_row(ui, "Skill points", "/Attributes/Skill points", 80.0);
+                // One row style for all six: name on the left, the value with −/+ on the right.
+                let names = ["Strength", "Dexterity", "Vitality", "Energy", "Stat points", "Skill points"];
+                let rows: Vec<(&str, String)> = names.into_iter().map(|k| (k, join("/Attributes", k))).collect();
+                cx.open_attributes(ui, &rows);
             });
         } else {
             panel(ui, "Life and mana", |ui| {
-                egui::Grid::new("d2_life").num_columns(4).spacing([10.0, 6.0]).show(ui, |ui| {
-                    ui.label("");
-                    ui.weak(tr("Current"));
-                    ui.label("");
-                    ui.weak(tr("Base max")).on_hover_text(tr("The maximum before items and bonuses; the game adds those on top"));
-                    ui.end_row();
-                    for (a, b) in [(crate::i18n::tx("Life"), crate::i18n::tx("Max life")), (crate::i18n::tx("Mana"), crate::i18n::tx("Max mana")), (crate::i18n::tx("Stamina"), crate::i18n::tx("Max stamina"))] {
-                        ui.label(crate::i18n::tr_any(a));
+                // One line each, "Life  [current] / [base max]", side by side where there is room.
+                let rows = [(crate::i18n::tx("Life"), crate::i18n::tx("Max life")), (crate::i18n::tx("Mana"), crate::i18n::tx("Max mana")), (crate::i18n::tx("Stamina"), crate::i18n::tx("Max stamina"))];
+                columns(ui, 300.0, rows.len(), |ui, i| {
+                    let (a, b) = rows[i];
+                    ui.horizontal(|ui| {
+                        ui.allocate_ui_with_layout(egui::vec2(70.0, 22.0), egui::Layout::left_to_right(egui::Align::Center), |ui| {
+                            ui.set_width(70.0);
+                            ui.label(crate::i18n::tr_any(a));
+                        });
                         cx.compact(ui, &join("/Life and mana", a), 84.0);
-                        ui.label("/");
+                        ui.label("/").on_hover_text(tr("The maximum before items and bonuses; the game adds those on top"));
                         cx.compact(ui, &join("/Life and mana", b), 84.0);
-                        ui.end_row();
-                    }
+                    });
                 });
                 ui.weak(tr("Max life and mana here are the base values, before items."));
             });

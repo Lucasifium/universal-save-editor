@@ -1090,7 +1090,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn id(n: u16) -> Vec<u8> {
@@ -1110,7 +1110,7 @@ mod tests {
     const CLOSE: u16 = 4;
 
     /// date=1444.11.11 player="FRA" countries={ FRA={ treasury=12.345 0x3f00=7 powers={ 1 2 3 } } }
-    fn eu4() -> Vec<u8> {
+    pub(crate) fn eu4() -> Vec<u8> {
         let date = (((1444 + 5000) * 365 + 314) * 24) as i32;
         [
             b"EU4bin".to_vec(),

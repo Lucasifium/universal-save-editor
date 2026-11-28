@@ -395,7 +395,7 @@ pub fn parse(d: &[u8]) -> Result<TreeDoc, String> {
 }
 
 #[cfg(test)]
-mod tests {
+pub(crate) mod tests {
     use super::*;
 
     fn int(o: &mut Vec<u8>, m: u32, v: u32) {
@@ -417,7 +417,7 @@ mod tests {
         o.push(0);
     }
 
-    fn sample() -> Vec<u8> {
+    pub(crate) fn sample() -> Vec<u8> {
         let mut d = b"CIV6".to_vec();
         d.extend([0u8; 12]);
         text(&mut d, GAME_SPEED, "GAMESPEED_STANDARD");
