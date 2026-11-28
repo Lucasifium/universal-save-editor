@@ -37,6 +37,7 @@ use slots::CopySlots;
 mod xbox_steam;
 use xbox_steam::XboxSteam;
 mod backup_tools;
+mod palette;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -637,6 +638,8 @@ pub struct App {
     copy_slots: Option<CopySlots>,
     xbox_steam: Option<XboxSteam>,
     game_picker: Option<GamePicker>,
+    /// Search everything (Ctrl+K), while it is open.
+    palette: Option<palette::Palette>,
     /// Bulk edit in the Values tab, while it is on.
     bulk: Option<Bulk>,
     preset_save: Option<PresetSave>,
@@ -812,6 +815,7 @@ impl App {
             copy_slots: None,
             xbox_steam: None,
             game_picker: None,
+            palette: None,
             bulk: None,
             preset_save: None,
             preset_apply: None,
@@ -2278,6 +2282,10 @@ impl App {
                     self.focus_search = true;
                     self.focus_game_find = self.tab == Tab::Game;
                 }
+                if ui.add(egui::Button::new(tr("Search everything\u{2026}")).shortcut_text("Ctrl+K")).on_hover_text(tr("Search everything: commands, games, recent files and values")).clicked() {
+                    ui.close_menu();
+                    self.open_palette();
+                }
                 ui.separator();
                 if ui.add_enabled(self.dirty, egui::Button::new(tr("Copy changes as text"))).on_hover_text(tr("The list of changes, to paste when asking for help or sharing what you did")).clicked() {
                     ui.close_menu();
@@ -2369,13 +2377,7 @@ impl App {
                     .clicked()
                 {
                     ui.close_menu();
-                    match crate::fmt::template::ensure_dir() {
-                        Ok(d) => {
-                            crate::platform::reveal(&d.join("README.txt"));
-                            self.ok(trf("Templates folder: {0}", &[&d.display()]));
-                        }
-                        Err(e) => self.fail(trf("Couldn't make the templates folder: {0}", &[&e])),
-                    }
+                    self.open_templates_folder();
                 }
                 ui.menu_button(tr("Presets"), |ui| {
                     if ui
@@ -4127,16 +4129,7 @@ impl App {
             self.apply_bytes(o, b);
         }
         if let Some(i) = jump {
-            self.tab = Tab::Values;
-            self.search.clear();
-            let sec = self.model.rows[i].section;
-            if self.collapsed.remove(&sec) {
-                self.collapsed_gen += 1;
-            }
-            if self.model.sections[sec].advanced && !self.settings.show_advanced {
-                self.settings.show_advanced = true;
-            }
-            self.scroll_to_row = Some(i);
+            self.jump_to_row(i);
         }
         if revert_all {
             self.revert_all();
@@ -4893,6 +4886,7 @@ impl App {
             }
         }
         self.tab_keys(ctx);
+        self.palette_frame(ctx);
         // Remember zoom.
         let zoom = ctx.zoom_factor();
         if (zoom - self.settings.zoom).abs() > 0.001 {

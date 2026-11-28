@@ -390,6 +390,10 @@ right-click any value › *Paste here* for a single value. A paste is one Undo s
   Values, Tree and Raw views. Save-wide actions (Max crafting materials, Max upgrade materials, fill, unlock)
   sit in one *Quick actions* strip at the top; Ctrl+F finds and highlights a label on the screen.
 - Changed values are highlighted in orange; hover one to see its original value and click the arrow beside it to reset just that field.
+- **Search everything** (Ctrl+K, Cmd+K on a Mac, or *Edit › Search everything*): one box finds a
+  menu command, a game (it opens *Find my game's saves* on that game), a recent file or a value on
+  the open save, by any words of its name in any order. Up and Down pick a row, Enter runs it or
+  shows the value in the Values list, Esc closes; a command the menu greys out is greyed out there too.
 - **Undo / Redo** (Ctrl+Z / Ctrl+Y), and a **Changes** panel listing old › new for each edit; the
   save dialog lists the changes the same way, and *Edit › Copy changes as text* writes them as
   `old -> new`.

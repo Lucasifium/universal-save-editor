@@ -32483,3 +32483,28 @@ Look through all the usual places on this computer again, for games added since.
 
 What can it open?
 = ¿Qué puede abrir?
+
+# Search everything
+Search everything…
+= Buscar en todo…
+
+Search everything
+= Buscar en todo
+
+Search everything: commands, games, recent files and values
+= Buscar en todo: comandos, juegos, archivos recientes y valores
+
+Commands
+= Comandos
+
+Games
+= Juegos
+
+Values on this save
+= Valores de esta partida
+
+Find a menu command, a game, a recent file or a value on the open save. Up and Down pick a row, Enter runs it, Esc closes.
+= Busca un comando del menú, un juego, un archivo reciente o un valor de la partida abierta. Arriba y Abajo eligen una fila, Intro la ejecuta y Esc cierra.
+
+Nothing found.
+= No se encontró nada.

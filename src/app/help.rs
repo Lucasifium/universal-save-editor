@@ -7,7 +7,7 @@ use crate::{platform, theme, widgets};
 use eframe::egui::{self, RichText};
 
 pub const SITE: &str = "https://universalsaveeditor.com/";
-const DISCUSSIONS: &str = "https://github.com/Lucasifium/universal-save-editor/discussions";
+pub(super) const DISCUSSIONS: &str = "https://github.com/Lucasifium/universal-save-editor/discussions";
 pub const REPO: &str = "https://github.com/Lucasifium/universal-save-editor";
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -24,6 +24,7 @@ const SHORTCUTS: &[(&str, &str)] = &[
     ("Ctrl+Z", tx("Undo")),
     ("Ctrl+Y / Ctrl+Shift+Z", tx("Redo")),
     ("Ctrl+F", tx("Find on the open tab")),
+    ("Ctrl+K", tx("Search everything: commands, games, recent files and values")),
     ("Ctrl+T", tx("Open another save in a new tab")),
     ("Ctrl+Tab / Ctrl+Shift+Tab", tx("Next / previous tab")),
     ("Ctrl+Plus / Ctrl+Minus", tx("Zoom in / out")),
@@ -70,7 +71,7 @@ pub fn request_url() -> String {
     format!("{REPO}/issues/new?template=request-a-game.yml")
 }
 
-fn open_url(ctx: &egui::Context, url: &str) {
+pub(super) fn open_url(ctx: &egui::Context, url: &str) {
     ctx.open_url(egui::OpenUrl::new_tab(url));
 }
 
