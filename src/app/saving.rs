@@ -322,7 +322,10 @@ impl App {
         self.settings.push_recent(path);
         if meanwhile {
             // The file holds what was shown when the save started; what is shown now stays as
-            // it is and counts as unsaved.
+            // it is and counts as unsaved. Changes are listed, and reverted, against the file
+            // as it now is.
+            d.baseline = check.content;
+            self.model_from_baseline = false;
             self.dirty = true;
             return self.fail(tr("Saved, but changes made while saving aren't in the file yet. Save again to keep them."));
         }
@@ -518,6 +521,14 @@ impl App {
 
     pub(super) fn export_to(&mut self, dest: &Path) {
         let Some(doc) = &self.doc else { return };
+        // Decoded data in place of the save itself is a file the game can't load.
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            let real = |p: &Path| std::fs::canonicalize(p).unwrap_or_else(|_| p.to_path_buf());
+            if real(dest) == real(&doc.path) {
+                return self.fail(tr("That is the save that is open. Export under another name: the decoded data is not a file the game can load."));
+            }
+        }
         let result = match &doc.content {
             Content::Json { value, .. } => serde_json::to_vec_pretty(value).map_err(|e| e.to_string()),
             Content::Tree(t) => serde_json::to_vec_pretty(&t.view).map_err(|e| e.to_string()),

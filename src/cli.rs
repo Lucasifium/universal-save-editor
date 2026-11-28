@@ -452,7 +452,9 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
                 // Bare words are taken as text, so `/name=Ann` works without quotes; but only
                 // for a value that is text. A typo (`/gold=1,000`, `/gold=99O`) must not turn a
                 // number into text the game can't read.
-                let v: Value = match serde_json::from_str(text) {
+                let v: Value = match serde_json::from_str::<Value>(text) {
+                    // A name such as 123 or true stays text where the save holds text.
+                    Ok(v) if old.is_string() && !v.is_string() => Value::String(text.to_string()),
                     Ok(v) => v,
                     Err(_) if old.is_string() => Value::String(text.to_string()),
                     Err(_) => {

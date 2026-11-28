@@ -891,11 +891,17 @@ fn exporting_over_an_existing_file_backs_it_up_first() {
     let path = s.0.join("save.dat");
     std::fs::write(&path, &packed).unwrap();
     let app = &mut opened(&ctx, &path);
-    // Picked the save itself in the export dialog and confirmed the replace.
+    // Picked the save itself in the export dialog: refused, the save stays as it is.
     app.export_to(&path);
+    assert_eq!(app.status_kind, StatusKind::Err, "{}", app.status);
+    assert_eq!(std::fs::read(&path).unwrap(), packed, "the save was not replaced with decoded data");
+    // Over another file that is already there: that one is kept first.
+    let other = s.0.join("other.dat");
+    std::fs::write(&other, &packed).unwrap();
+    app.export_to(&other);
     assert_eq!(app.status_kind, StatusKind::Ok, "{}", app.status);
-    assert_eq!(gold_on_disk(&path), json!(1), "the decoded data was written");
-    assert!(backed_up(&path).contains(&packed), "the packed save can be brought back");
+    assert_eq!(gold_on_disk(&other), json!(1), "the decoded data was written");
+    assert!(backed_up(&other).contains(&packed), "the replaced file can be brought back");
     // Exporting to a new file makes no backups.
     let out = s.0.join("out.json");
     app.export_to(&out);

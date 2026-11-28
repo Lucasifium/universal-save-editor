@@ -251,7 +251,9 @@
     }
     // Still as it was: that is what this page knows it to hold. Otherwise the next save finds
     // it changed and asks.
-    if (now === 'old') known.set(handle, was);
+    // Not after Save anyway: then the file holds another program's version, which this
+    // page must go on asking about.
+    if (now === 'old' && !anyway) known.set(handle, was);
     return {
       status: 'failed',
       error: error || 'the file did not read back as written',

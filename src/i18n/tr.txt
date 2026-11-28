@@ -32555,3 +32555,7 @@ list of {0}
 
 group of {0}
 = {0} öğeli grup
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= Bu, açık olan kayıt. Başka bir adla dışa aktarın: çözülmüş veriler oyunun yükleyebileceği bir dosya değildir.

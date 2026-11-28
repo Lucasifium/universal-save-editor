@@ -32605,3 +32605,7 @@ list of {0}
 
 group of {0}
 = {0} 项分组
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= 这是当前打开的存档。请用其他名称导出：解码后的数据不是游戏能读取的文件。

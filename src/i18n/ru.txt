@@ -32555,3 +32555,7 @@ list of {0}
 
 group of {0}
 = группа: {0}
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= Это открытое сохранение. Экспортируйте под другим именем: декодированные данные — не тот файл, который игра сможет загрузить.

@@ -32521,3 +32521,7 @@ list of {0}
 
 group of {0}
 = grupo de {0}
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= Esse é o save que está aberto. Exporte com outro nome: os dados decodificados não são um arquivo que o jogo consiga carregar.

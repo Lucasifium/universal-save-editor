@@ -32632,3 +32632,7 @@ list of {0}
 
 group of {0}
 = {0} 件のグループ
+
+# export
+That is the save that is open. Export under another name: the decoded data is not a file the game can load.
+= それは開いているセーブデータです。別の名前でエクスポートしてください。デコードしたデータはゲームが読み込めるファイルではありません。
