@@ -12,7 +12,7 @@ use crate::tree::TreeDoc;
 use std::sync::OnceLock;
 
 pub const KIND: &str = "Chrono Trigger (SNES) save";
-const SLOT: usize = 0xa00;
+pub(crate) const SLOT: usize = 0xa00;
 const CHARS: [&str; 7] = ["Crono", "Marle", "Lucca", "Robo", "Frog", "Ayla", "Magus"];
 
 fn items() -> &'static Vec<(u64, u64, String)> {
@@ -28,7 +28,7 @@ fn items() -> &'static Vec<(u64, u64, String)> {
     })
 }
 
-fn sum(d: &[u8], s: usize) -> u16 {
+pub(crate) fn sum(d: &[u8], s: usize) -> u16 {
     let mut c: u32 = 0;
     for i in (s..s + SLOT).step_by(2).rev() {
         c %= 0xffff;
@@ -41,7 +41,7 @@ fn stored(d: &[u8], n: usize) -> u16 {
     u16::from_le_bytes([d[0x1ff0 + 2 * n], d[0x1ff1 + 2 * n]])
 }
 
-fn valid(d: &[u8], n: usize) -> bool {
+pub(crate) fn valid(d: &[u8], n: usize) -> bool {
     stored(d, n) != 0 && sum(d, n * SLOT) == stored(d, n)
 }
 

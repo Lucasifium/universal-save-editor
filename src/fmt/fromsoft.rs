@@ -238,6 +238,19 @@ pub fn detect(d: &[u8]) -> Option<Game> {
     }
 }
 
+/// A slot's character name and level (soul level) for a quick look, without reading the rest.
+/// `Some((None, None))`: a Sekiro save, which keeps no name or level. `None`: no character.
+pub fn summary(d: &[u8]) -> Option<(Option<String>, Option<u32>)> {
+    match d.len() {
+        ER_SLOT => find_er(d).map(|b| (name_at(d, b + 0x60), Some(u32_at(d, b + 0x2C)))),
+        DS3_SLOT => find_ds3(d).map(|b| (name_at(d, b + 0x44), Some(u32_at(d, b + 0x2C)))),
+        SEKIRO_SLOT => find_sekiro(d).map(|_| (None, None)),
+        DS1_SLOT => ds1_class(d).map(|_| (name_at(d, 0xF8), Some(u16_at(d, 0xE0) as u32))),
+        n if n == DS1_SLOT - 12 => ptde_pad(d).map(|p| (name_at(&p, 0xF8), Some(u16_at(&p, 0xE0) as u32))),
+        _ => is_ds2(d).then(|| (name_at(d, 0x3C4), Some(u32_at(d, 0x3C)))),
+    }
+}
+
 /// An editable number stored at one or more places (`offs`) with `width` bytes.
 #[derive(Clone, Debug)]
 struct Field {
