@@ -173,13 +173,13 @@ impl App {
 
     /// The unsaved changes as plain text, for pasting into a message or a forum post.
     pub(super) fn copy_changes(&mut self, ctx: &egui::Context) {
-        let lines = self.change_lines();
+        let lines = self.review_lines();
         if lines.is_empty() {
             return self.info(tr("No changes to copy yet."));
         }
         let mut text = format!("Changes to a {} save:\n", self.save_kind());
         for l in &lines {
-            text.push_str(&format!("- {}\n", l.replace('\u{2192}', "->").replace('\u{203A}', ">")));
+            text.push_str(&format!("- {}\n", l.plain()));
         }
         ctx.copy_text(text);
         self.ok(if lines.len() == 1 { tr("Copied 1 change as text.").to_string() } else { trf("Copied {0} changes as text.", &[&lines.len()]) });

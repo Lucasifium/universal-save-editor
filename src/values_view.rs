@@ -492,7 +492,7 @@ pub fn show(ui: &mut Ui, model: &Model, disp: &[Disp], collapsed: &HashSet<usize
                     let s = &model.sections[sec];
                     let mut right = format!("{count}");
                     if s.advanced {
-                        right = format!("{}  \u{00B7}  {right}", tr("advanced"));
+                        right = format!("{}  \u{00B7}  {right}", tr("rarely needed"));
                     }
                     let resp = header_row(ui, full_w, &s.title, &right, !collapsed.contains(&sec), ctx.has_icons);
                     if resp.clicked() {

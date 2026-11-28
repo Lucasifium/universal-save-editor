@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = En este equipo
 
-Other games
-= Otros juegos
-
 Console games
 = Juegos de consola
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Ningún juego coincide. Usa Abrir… para elegir el archivo tú mismo.
-
-Choose a game from the list.
-= Elige un juego de la lista.
 
 Looking for saves…
 = Buscando partidas…
@@ -209,9 +203,6 @@ Preferences…
 
 View
 = Ver
-
-Show advanced values
-= Mostrar valores avanzados
 
 Show raw key names
 = Mostrar nombres de clave sin procesar
@@ -576,14 +567,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = El filtro busca en nombres, claves y valores actuales.
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= No hay valores editables aquí. Prueba a activar Avanzado o usa la vista Árbol.
-
 Try part of a name (“gold”) or a current value (“1500”).
 = Prueba parte de un nombre (“oro”) o un valor actual (“1500”).
-
-Advanced values are hidden — tick Advanced to search them too.
-= Los valores avanzados están ocultos — marca Avanzado para buscar también en ellos.
 
 Changes
 = Cambios
@@ -9954,8 +9939,8 @@ Skill test modifier (%)
 Skill trees
 = Árboles de habilidades
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims se listan por su ID (sus nombres están en los archivos de personajes). Los habitantes y las familias predeterminadas están en Otros sims, en la pestaña Valores, con Avanzado activado. Aún no probado en el juego.
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims se listan por su ID (sus nombres están en los archivos de personajes). Los habitantes y las familias predeterminadas están en Otros sims, en la pestaña Valores, con Poco usados activado. Aún no probado en el juego.
 
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = Las habilidades van de 0 a 6; ADR son las seis clases de mercancías peligrosas como bits (63 = todas). La experiencia fija el nivel de conductor; el juego lo calcula al cargar.
@@ -12323,8 +12308,8 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste. Los tiempos están en ticks de 100 nanosegundos (10 000 000 por segundo).
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims llevan el nombre de su archivo (user00012 es Characters\User00012.iff). Los habitantes y los visitantes están en Otros sims, en la pestaña Valores, con Avanzado activado. Aún no probado en el juego.
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Las habilidades y la personalidad van de 0 a 1000; cada 100 es un punto en las barras del juego. Los sims llevan el nombre de su archivo (user00012 es Characters\User00012.iff). Los habitantes y los visitantes están en Otros sims, en la pestaña Valores, con Poco usados activado. Aún no probado en el juego.
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav en %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>. Los nombres de objeto son los ids internos del juego; el CRC-32 de la partida se vuelve a escribir al guardar. Comprobado con una partida real del inicio del juego, aún no probado en el juego.
@@ -26938,7 +26923,7 @@ Deleted the preset “{0}”.
 = Se eliminó el preajuste “{0}”.
 
 Enter a number, e.g. 2.5
-= Escribe un número, p. ej. 2.5
+= Escribe un número, p. ej. 2,5
 
 Enter a whole number, e.g. 1500
 = Escribe un número entero, p. ej. 1500
@@ -27074,9 +27059,6 @@ Undone.
 
 Usually in
 = Normalmente en
-
-advanced
-= avanzado
 
 in {0}
 = en {0}
@@ -32415,3 +32397,89 @@ Couldn't read {0} from your computer again: {1}. What is on screen wasn't change
 
 Read {0} again from your computer.
 = {0} se volvió a leer de tu ordenador.
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= También puedes hacer cuentas: +500, *2, /2, 250k, 1,5m, max o min; se calcula al pulsar Intro.
+
+The most this field takes. Click to set it to {0}.
+= El máximo que admite este campo. Haz clic para ponerlo en {0}.
+
+Show rarely needed values
+= Mostrar valores poco usados
+
+Rarely needed
+= Poco usados
+
+rarely needed
+= poco usado
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= No hay valores editables aquí. Prueba a activar Poco usados o usa la vista Árbol.
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= Los valores poco usados están ocultos — activa Poco usados para buscar también en ellos.
+
+Dark or light as your system is set, changing with it.
+= Oscuro o claro según tu sistema, y cambia con él.
+
+(none)
+= (ninguno)
+
+{0} save ({1})
+= Partida de {0} ({1})
+
+Popular
+= Populares
+
+All games
+= Todos los juegos
+
+Any genre
+= Cualquier género
+
+RPG
+= RPG
+
+Soulslike and Metroidvania
+= Soulslike y metroidvania
+
+Action and adventure
+= Acción y aventura
+
+Shooter
+= Disparos
+
+Roguelike, roguelite and idle
+= Roguelike, roguelite e idle
+
+Survival and crafting
+= Supervivencia y fabricación
+
+Simulation, farming and management
+= Simulación, granjas y gestión
+
+Strategy
+= Estrategia
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Solo juegos de este tipo. Los juegos sin género en la lista aparecen en Cualquier género.
+
+How this works
+= Cómo funciona
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Haz clic en una partida para abrirla. No se escribe nada hasta que guardes, y antes se hace una copia de seguridad del archivo en disco.
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= La etiqueta junto a cada juego indica hasta dónde llega la edición: Pantalla (una pantalla propia), Valores (cada valor por nombre) o Hex (busca un número que conozcas y cámbialo).
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Escribe parte de un nombre, o nombres cortos como bg3 o ff7; las letras con coincidencias se abren solas.
+
+Look through all the usual places on this computer again, for games added since.
+= Volver a buscar en todos los sitios habituales de este ordenador, por si hay juegos nuevos.
+
+What can it open?
+= ¿Qué puede abrir?

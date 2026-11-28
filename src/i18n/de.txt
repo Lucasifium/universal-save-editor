@@ -42,9 +42,6 @@ Pick a game to see where it keeps its saves and the ones on this computer. Open�
 On this computer
 = Auf diesem Computer
 
-Other games
-= Andere Spiele
-
 Console games
 = Konsolenspiele
 
@@ -53,9 +50,6 @@ Looking for saves on this computer…
 
 No game matches. Use Open… to pick the file yourself.
 = Kein Spiel gefunden. Mit Öffnen… die Datei selbst wählen.
-
-Choose a game from the list.
-= Spiel aus der Liste wählen.
 
 Looking for saves…
 = Spielstände werden gesucht…
@@ -209,9 +203,6 @@ Preferences…
 
 View
 = Ansicht
-
-Show advanced values
-= Erweiterte Werte anzeigen
 
 Show raw key names
 = Rohe Schlüsselnamen anzeigen
@@ -576,14 +567,8 @@ Every value and the full structure of the save, for anything this screen doesn't
 The filter looks at names, keys and current values.
 = Der Filter durchsucht Namen, Schlüssel und aktuelle Werte.
 
-No editable values here. Try turning on Advanced, or use the Tree view.
-= Keine bearbeitbaren Werte hier. „Erweitert“ einschalten oder die Baumansicht nutzen.
-
 Try part of a name (“gold”) or a current value (“1500”).
 = Einen Teil eines Namens („gold“) oder einen aktuellen Wert („1500“) versuchen.
-
-Advanced values are hidden — tick Advanced to search them too.
-= Erweiterte Werte sind ausgeblendet — „Erweitert“ ankreuzen, um sie ebenfalls zu durchsuchen.
 
 Changes
 = Änderungen
@@ -9967,8 +9952,8 @@ Skill test modifier (%)
 Skill trees
 = Fertigkeitsbäume
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Fertigkeiten und Persönlichkeit reichen von 0 bis 1000; je 100 ergeben einen Punkt auf den Balken des Spiels. Sims werden nach ihrer ID aufgelistet (ihre Namen stehen in den Charakterdateien). Stadtbewohner und die Standardfamilien finden Sie unter „Andere Sims“ im Reiter „Werte“ bei aktiviertem „Erweitert“. Im Spiel noch nicht getestet.
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims are listed by their id (their names are in the character files). Townies and the default families are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Fertigkeiten und Persönlichkeit reichen von 0 bis 1000; je 100 ergeben einen Punkt auf den Balken des Spiels. Sims werden nach ihrer ID aufgelistet (ihre Namen stehen in den Charakterdateien). Stadtbewohner und die Standardfamilien finden Sie unter „Andere Sims“ im Reiter „Werte“ bei eingeschaltetem „Selten benötigt“. Im Spiel noch nicht getestet.
 
 Skills go from 0 to 6; ADR is the six hazardous-goods classes as bits (63 = all). Experience sets the driver level; the game works it out on load.
 = Fertigkeiten reichen von 0 bis 6; ADR sind die sechs Gefahrgutklassen als Bits (63 = alle). Erfahrung bestimmt die Fahrerstufe; das Spiel berechnet sie beim Laden.
@@ -12292,8 +12277,8 @@ SaveData.txt from a Daggerfall Unity save folder (LocalLow\\Daggerfall Workshop\
 Saves\\0.celeste … 2.celeste. Times are in ticks of 100 nanoseconds (10,000,000 per second).
 = Saves\0.celeste … 2.celeste. Zeiten sind in Ticks zu 100 Nanosekunden angegeben (10.000.000 pro Sekunde).
 
-Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Advanced on. Not yet tried in the game.
-= Fertigkeiten und Persönlichkeit reichen von 0 bis 1000; je 100 ergeben einen Punkt auf den Balken des Spiels. Sims tragen ihren Dateinamen (user00012 ist Characters\User00012.iff). Stadtbewohner und Besucher finden Sie unter „Andere Sims“ im Reiter „Werte“ bei aktiviertem „Erweitert“. Im Spiel noch nicht getestet.
+Skills and personality go from 0 to 1000; every 100 is one point on the game's bars. Sims carry their file name (user00012 is Characters\\User00012.iff). Townies and visitors are under Other Sims on the Values tab with Rarely needed on. Not yet tried in the game.
+= Fertigkeiten und Persönlichkeit reichen von 0 bis 1000; je 100 ergeben einen Punkt auf den Balken des Spiels. Sims tragen ihren Dateinamen (user00012 ist Characters\User00012.iff). Stadtbewohner und Besucher finden Sie unter „Andere Sims“ im Reiter „Werte“ bei eingeschaltetem „Selten benötigt“. Im Spiel noch nicht getestet.
 
 StellarBladeSave00.sav in %LOCALAPPDATA%\\SB\\Saved\\SaveGames\\<Steam id>. Item names are the game's internal ids; the save's CRC-32 is written again on save. Checked on a real early-game save, not yet tried in the game.
 = StellarBladeSave00.sav in %LOCALAPPDATA%\SB\Saved\SaveGames\<Steam id>. Item-Namen sind die internen IDs des Spiels; die CRC-32 des Spielstands wird beim Speichern neu geschrieben. An einem echten Spielstand vom Spielanfang geprüft, noch nicht im Spiel getestet.
@@ -26939,7 +26924,7 @@ Deleted the preset “{0}”.
 = Preset „{0}“ gelöscht.
 
 Enter a number, e.g. 2.5
-= Eine Zahl eingeben, z. B. 2.5
+= Eine Zahl eingeben, z. B. 2,5
 
 Enter a whole number, e.g. 1500
 = Eine ganze Zahl eingeben, z. B. 1500
@@ -27075,9 +27060,6 @@ Undone.
 
 Usually in
 = Normalerweise in
-
-advanced
-= erweitert
 
 in {0}
 = in {0}
@@ -32422,3 +32404,89 @@ Couldn't read {0} from your computer again: {1}. What is on screen wasn't change
 
 Read {0} again from your computer.
 = {0} erneut von deinem Computer gelesen.
+
+# Number boxes, game list, theme and window
+
+Quick maths works too: +500, *2, /2, 250k, 1.5m, max or min, worked out when you press Enter.
+= Rechnen geht auch: +500, *2, /2, 250k, 1,5m, max oder min, ausgerechnet beim Drücken der Eingabetaste.
+
+The most this field takes. Click to set it to {0}.
+= Der Höchstwert dieses Felds. Klicken, um es auf {0} zu setzen.
+
+Show rarely needed values
+= Selten benötigte Werte anzeigen
+
+Rarely needed
+= Selten benötigt
+
+rarely needed
+= selten benötigt
+
+No editable values here. Try turning on Rarely needed, or use the Tree view.
+= Keine bearbeitbaren Werte hier. „Selten benötigt“ einschalten oder die Baumansicht nutzen.
+
+Rarely needed values are hidden — turn on Rarely needed to search them too.
+= Selten benötigte Werte sind ausgeblendet — „Selten benötigt“ einschalten, um sie ebenfalls zu durchsuchen.
+
+Dark or light as your system is set, changing with it.
+= Dunkel oder hell, wie dein System eingestellt ist, und wechselt mit ihm.
+
+(none)
+= (keiner)
+
+{0} save ({1})
+= Spielstand: {0} ({1})
+
+Popular
+= Beliebt
+
+All games
+= Alle Spiele
+
+Any genre
+= Jedes Genre
+
+RPG
+= Rollenspiel
+
+Soulslike and Metroidvania
+= Soulslike und Metroidvania
+
+Action and adventure
+= Action und Abenteuer
+
+Shooter
+= Shooter
+
+Roguelike, roguelite and idle
+= Roguelike, Roguelite und Idle
+
+Survival and crafting
+= Survival und Crafting
+
+Simulation, farming and management
+= Simulation, Farmen und Management
+
+Strategy
+= Strategie
+
+Only games of this kind. Games without a genre in the list are shown under Any genre.
+= Nur Spiele dieser Art. Spiele ohne Genre in der Liste stehen unter „Jedes Genre“.
+
+How this works
+= So funktioniert es
+
+Click a save to open it. Nothing is written until you save, and the file on disk is backed up first.
+= Klicke auf einen Spielstand, um ihn zu öffnen. Geschrieben wird erst beim Speichern, und die Datei auf der Festplatte wird vorher gesichert.
+
+The badge beside each game says how far editing goes: Screen (a screen of its own), Values (every value by name) or Hex (find a number you know, then change it).
+= Das Abzeichen neben jedem Spiel zeigt, wie weit die Bearbeitung geht: Bildschirm (eine eigene Ansicht), Werte (jeder Wert mit Namen) oder Hex (eine bekannte Zahl suchen und ändern).
+
+Type part of a name, or short names such as bg3 or ff7; the letters holding a match open by themselves.
+= Tippe einen Teil des Namens oder Kurznamen wie bg3 oder ff7; die Buchstaben mit Treffern klappen von selbst auf.
+
+Look through all the usual places on this computer again, for games added since.
+= Alle üblichen Orte auf diesem Computer noch einmal durchsuchen, nach inzwischen hinzugekommenen Spielen.
+
+What can it open?
+= Was kann es öffnen?
