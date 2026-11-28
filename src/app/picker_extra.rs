@@ -46,8 +46,11 @@ pub fn genre_label(key: &str) -> &'static str {
 }
 
 /// The genre key of a game (catalog name), when it has one.
+/// The table is built once, the first time it is asked: the list asks for every game on
+/// every frame while a genre is picked.
 pub fn genre_of(name: &str) -> Option<&'static str> {
-    crate::genres::GAME_GENRES.iter().find(|(n, _)| *n == name).map(|(_, g)| *g)
+    static BY_NAME: std::sync::OnceLock<std::collections::HashMap<&'static str, &'static str>> = std::sync::OnceLock::new();
+    BY_NAME.get_or_init(|| crate::genres::GAME_GENRES.iter().copied().collect()).get(name).copied()
 }
 
 /// The catalog index of each popular game.
@@ -77,5 +80,15 @@ mod tests {
         for (_, k) in crate::genres::GAME_GENRES {
             assert!(GENRES.contains(k), "genre {k} is not offered");
         }
+    }
+
+    #[test]
+    fn the_genre_table_gives_each_game_its_one_genre() {
+        let mut seen = std::collections::HashSet::new();
+        for (n, k) in crate::genres::GAME_GENRES {
+            assert!(seen.insert(*n), "{n} is listed twice");
+            assert_eq!(genre_of(n), Some(*k));
+        }
+        assert_eq!(genre_of("Not a game at all"), None);
     }
 }
