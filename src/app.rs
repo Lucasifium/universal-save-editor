@@ -6277,6 +6277,32 @@ mod save_tests {
         assert!(!safety::changed(&path, app.doc.as_ref().unwrap().stamp.as_ref()));
     }
 
+    #[test]
+    fn a_reload_that_fails_keeps_the_unsaved_changes_and_the_warning() {
+        let _l = locks();
+        let s = Scratch::new("reload-fails");
+        let ctx = window();
+        let path = s.0.join("save.json");
+        std::fs::write(&path, br#"{"gold": 1}"#).unwrap();
+        let mut app = opened(&ctx, &path);
+        app.apply_edit("/gold".into(), json!(2), 0.0);
+        app.stale_save = Some(path.clone());
+        app.disk_changed = true;
+        // The file is gone (moved by cloud sync): nothing can be read back.
+        std::fs::remove_file(&path).unwrap();
+        app.reload_from_disk();
+        assert!(app.dirty, "the changes are still there to save");
+        assert_eq!(app.stale_save.as_deref(), Some(path.as_path()));
+        assert!(app.disk_changed);
+        assert_eq!(app.doc.as_ref().and_then(|d| root(&d.content)).and_then(|v| v.pointer("/gold").cloned()), Some(json!(2)));
+        // Back on disk: the reload goes through and drops them.
+        std::fs::write(&path, br#"{"gold": 7}"#).unwrap();
+        app.reload_from_disk();
+        assert!(!app.dirty);
+        assert!(app.stale_save.is_none() && !app.disk_changed);
+        assert_eq!(app.doc.as_ref().and_then(|d| root(&d.content)).and_then(|v| v.pointer("/gold").cloned()), Some(json!(7)));
+    }
+
     #[cfg(unix)]
     #[test]
     fn a_save_whose_first_backup_cant_be_made_writes_nothing() {
