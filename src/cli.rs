@@ -608,7 +608,6 @@ fn go(cmd: &str, args: &[String]) -> Result<(), String> {
     Ok(())
 }
 
-/// Sets the value at `ptr` in JSON or Tree content.
 /// Packs the edited data, checks the new file reads back exactly as intended and only then writes it.
 fn write_edited(path: &Path, opts: &Options, d: &formats::Decoded, a: &Args) -> Result<(), String> {
     let bytes = formats::encode(&d.layers, &d.content)?;
@@ -644,6 +643,7 @@ fn find_preset(which: &str) -> Result<crate::presets::Preset, String> {
         .ok_or_else(|| format!("no preset called \u{201C}{which}\u{201D} (see `presets`)"))
 }
 
+/// Sets the value at `ptr` in JSON or Tree content.
 fn set_in(c: &mut Content, ptr: &str, v: Value) -> Result<(), String> {
     match c {
         Content::Tree(t) => {

@@ -61,12 +61,12 @@ fn parse_hex(s: &str) -> Option<Vec<u8>> {
 
 fn offset(v: &Value) -> Option<usize> {
     match v {
-        Value::Number(n) => n.as_u64().map(|n| n as usize),
+        Value::Number(n) => n.as_u64().and_then(|n| u32::try_from(n).ok()).map(|n| n as usize),
         Value::String(s) => {
             let s = s.trim();
             match s.strip_prefix("0x").or_else(|| s.strip_prefix("0X")) {
-                Some(h) => usize::from_str_radix(h, 16).ok(),
-                None => s.parse().ok(),
+                Some(h) => u32::from_str_radix(h, 16).ok().map(|n| n as usize),
+                None => s.parse::<u32>().ok().map(|n| n as usize),
             }
         }
         _ => None,
@@ -282,6 +282,7 @@ mod tests {
         assert!(Preset::from_json(r#"{"values":[{"path":"gold","value":1}]}"#).unwrap_err().contains("/"));
         assert!(Preset::from_json(r#"{"values":[{"path":"/gold","value":{}}]}"#).unwrap_err().contains("plain"));
         assert!(Preset::from_json(r#"{"bytes":[{"offset":"0x10","hex":"ABC"}]}"#).unwrap_err().contains("hex"));
+        assert!(Preset::from_json(r#"{"bytes":[{"offset":"0xFFFFFFFFFFFFFFFF","hex":"00 00"}]}"#).is_err());
         let p = Preset::from_json(r#"{"bytes":[{"offset":16,"hex":"ab cd"}]}"#).unwrap();
         assert_eq!(p.bytes[0].bytes, vec![0xAB, 0xCD]);
         assert_eq!(p.bytes[0].name, "Offset 0x10");
