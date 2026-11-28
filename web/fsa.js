@@ -1,5 +1,5 @@
 // Saving back to the file the player opened, where the browser allows it (Chrome and Edge:
-// the File System Access API), and the copy of each file as it was before the first such save,
+// the File System Access API), and copies of each file as it was before it was written,
 // kept in this browser's own storage (IndexedDB). Used by src/web.rs through `saveEditorFiles`.
 // Nothing here is sent anywhere.
 (function (g) {
@@ -9,8 +9,24 @@
   // What is kept: the newest MAX_COUNT originals, at most MAX_BYTES in all.
   const MAX_COUNT = 10;
   const MAX_BYTES = 200 * 1024 * 1024;
-  // Handles whose original is already kept during this visit.
-  const kept = new WeakSet();
+  // Per handle, the SHA-256 of: what this page last read from or wrote to the file (a file
+  // that no longer matches was changed by something else), what it last wrote, and the copy
+  // it last kept.
+  const known = new WeakMap();
+  const written = new WeakMap();
+  const keptHash = new WeakMap();
+
+  async function sha256(bytes) {
+    const d = new Uint8Array(await g.crypto.subtle.digest('SHA-256', bytes));
+    return Array.from(d, (b) => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // The file behind `handle` as it is now; it becomes what this page knows the file to hold.
+  async function read(handle) {
+    const data = new Uint8Array(await (await handle.getFile()).arrayBuffer());
+    known.set(handle, await sha256(data));
+    return data;
+  }
 
   function message(e) {
     if (e && typeof e === 'object') return String(e.message || e.name || e);
@@ -32,7 +48,9 @@
     }
     const handle = handles[0];
     const file = await handle.getFile();
-    return { name: file.name, data: new Uint8Array(await file.arrayBuffer()), handle };
+    const data = new Uint8Array(await file.arrayBuffer());
+    known.set(handle, await sha256(data));
+    return { name: file.name, data, handle };
   }
 
   function request(r) {
@@ -162,8 +180,14 @@
   //   { status: 'refused', error }              no permission to write; the file wasn't touched
   //   { status: 'nobackup', error }             the original couldn't be kept; the file wasn't touched
   //   { status: 'failed', error, changed, kept } changed: 'no' or 'unknown'
-  // `kept` is true when the original was kept by this call (the first save to this file).
-  async function write(handle, bytes) {
+  //   { status: 'changed' }                     the file isn't what this page last read or
+  //                                             wrote (something else wrote it); not touched
+  // With `anyway`, a changed file is written over all the same (after keeping a copy of it).
+  // `kept` is true when this call kept a copy of the file as it was: that happens whenever
+  // the file differs both from the copy kept last and from what this page last wrote, so the
+  // file as first opened and any version written by something else are kept, but not each
+  // of this page's own saves.
+  async function write(handle, bytes, anyway) {
     try {
       let p = await handle.queryPermission({ mode: 'readwrite' });
       if (p !== 'granted') p = await handle.requestPermission({ mode: 'readwrite' });
@@ -171,20 +195,22 @@
     } catch (e) {
       return { status: 'refused', error: message(e) };
     }
-    let before;
+    let before, was;
     try {
       before = new Uint8Array(await (await handle.getFile()).arrayBuffer());
+      was = await sha256(before);
     } catch (e) {
       return { status: 'nobackup', error: message(e) };
     }
+    if (!anyway && known.has(handle) && known.get(handle) !== was) return { status: 'changed' };
     let keptNow = false;
-    if (!kept.has(handle)) {
+    if (keptHash.get(handle) !== was && written.get(handle) !== was) {
       try {
         await keepOriginal(handle.name, before);
       } catch (e) {
         return { status: 'nobackup', error: message(e) };
       }
-      kept.add(handle);
+      keptHash.set(handle, was);
       keptNow = true;
     }
     // createWritable writes to a temporary file; the browser puts it in place of the file only
@@ -206,7 +232,15 @@
       }
     }
     const now = await whatIsThere(handle, before, bytes);
-    if (now === 'new') return { status: 'saved', kept: keptNow };
+    if (now === 'new') {
+      const h = await sha256(bytes);
+      known.set(handle, h);
+      written.set(handle, h);
+      return { status: 'saved', kept: keptNow };
+    }
+    // Still as it was: that is what this page knows it to hold. Otherwise the next save finds
+    // it changed and asks.
+    if (now === 'old') known.set(handle, was);
     return {
       status: 'failed',
       error: error || 'the file did not read back as written',
@@ -215,5 +249,5 @@
     };
   }
 
-  g.saveEditorFiles = { supported, pick, write, originals, downloadOriginal, keepOriginal, toDrop, MAX_COUNT, MAX_BYTES };
+  g.saveEditorFiles = { supported, pick, read, write, originals, downloadOriginal, keepOriginal, toDrop, MAX_COUNT, MAX_BYTES };
 })(globalThis);

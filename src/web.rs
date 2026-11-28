@@ -17,8 +17,12 @@ thread_local! {
     /// Files picked with "Open to save in place": the browser's handle to each, until the app
     /// says whether the file that opens may be written back through it (`settle_handle`).
     static PENDING: RefCell<HashMap<PathBuf, JsValue>> = RefCell::new(HashMap::new());
-    /// The handle each open file's saves are written back through.
-    static HANDLES: RefCell<HashMap<PathBuf, JsValue>> = RefCell::new(HashMap::new());
+    /// The handles documents save back through, by the id the document holds. Only the
+    /// document that opened a file has its id; nothing looks a handle up by file name.
+    static HANDLES: RefCell<HashMap<u64, JsValue>> = RefCell::new(HashMap::new());
+    static NEXT_ID: Cell<u64> = const { Cell::new(1) };
+    /// What reading a file again through its handle came to, for the app to take.
+    static REREAD: RefCell<Option<(u64, Result<Vec<u8>, String>)>> = const { RefCell::new(None) };
     /// The next save is a download even if the file has a handle ("Save a copy as").
     static DOWNLOAD_NEXT: Cell<bool> = const { Cell::new(false) };
     /// The kept originals, once the browser has listed them.
@@ -36,7 +40,9 @@ extern "C" {
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = pick)]
     fn js_pick() -> Result<js_sys::Promise, JsValue>;
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = write)]
-    fn js_write(handle: &JsValue, bytes: &js_sys::Uint8Array) -> Result<js_sys::Promise, JsValue>;
+    fn js_write(handle: &JsValue, bytes: &js_sys::Uint8Array, anyway: bool) -> Result<js_sys::Promise, JsValue>;
+    #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = read)]
+    fn js_read(handle: &JsValue) -> Result<js_sys::Promise, JsValue>;
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = originals)]
     fn js_originals() -> Result<js_sys::Promise, JsValue>;
     #[wasm_bindgen(catch, js_namespace = saveEditorFiles, js_name = downloadOriginal)]
@@ -74,13 +80,12 @@ pub async fn start(canvas_id: String) -> Result<(), JsValue> {
         .await
 }
 
-/// Keeps a file the user gave the page, under its own name, and returns where it is. A save
-/// there no longer goes back through the handle of an earlier file of that name.
+/// Keeps a file the user gave the page, under its own name, and returns where it is. A handle
+/// picked earlier under that name and not yet settled is let go.
 pub fn keep(name: &str, data: &[u8]) -> PathBuf {
     let name = name.rsplit(['/', '\\']).next().filter(|n| !n.is_empty()).unwrap_or("save");
     let p = PathBuf::from(name);
     let _ = crate::vfs::write(&p, data);
-    HANDLES.with(|h| h.borrow_mut().remove(&p));
     PENDING.with(|h| h.borrow_mut().remove(&p));
     p
 }
@@ -152,18 +157,21 @@ pub fn take_pick_error() -> Option<String> {
     PICK_ERROR.with(|f| f.borrow_mut().take())
 }
 
-/// Saves of `path` go back to the file it was just picked from (`use_it`), or stay downloads.
-pub fn settle_handle(path: &Path, use_it: bool) {
-    if let Some(h) = PENDING.with(|h| h.borrow_mut().remove(path)) {
-        if use_it {
-            HANDLES.with(|m| m.borrow_mut().insert(path.to_path_buf(), h));
-        }
+/// The handle of the file just picked as `path`, if it was picked to save in place: with
+/// `use_it`, its id for the document that opens it to hold; otherwise it is let go.
+pub fn settle_handle(path: &Path, use_it: bool) -> Option<u64> {
+    let h = PENDING.with(|h| h.borrow_mut().remove(path))?;
+    if !use_it {
+        return None;
     }
+    let id = NEXT_ID.with(|n| n.replace(n.get() + 1));
+    HANDLES.with(|m| m.borrow_mut().insert(id, h));
+    Some(id)
 }
 
-/// Whether a save of `path` is written back to the player's file.
-pub fn has_handle(path: &Path) -> bool {
-    HANDLES.with(|h| h.borrow().contains_key(path))
+/// Lets go of handle `id` (its document didn't open, or let go of it).
+pub fn release_handle(id: u64) {
+    HANDLES.with(|m| m.borrow_mut().remove(&id));
 }
 
 /// Makes the next save a download, whatever the file was opened with.
@@ -179,8 +187,8 @@ pub fn take_download_next() -> bool {
 /// How writing back to the player's file went.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum InPlace {
-    /// Written and read back as written. `kept`: the file as it was before is now kept in the
-    /// browser (the first save to this file).
+    /// Written and read back as written. `kept`: the file as it was before this write is now
+    /// kept in the browser (it differed from the copy kept last).
     Saved { kept: bool },
     /// The browser gave no permission to write (the player said no, or it couldn't ask). The
     /// file wasn't touched.
@@ -190,6 +198,11 @@ pub enum InPlace {
     /// Writing failed. `maybe_changed`: false when the file reads back as it was before, true
     /// when that can't be told.
     Failed { error: String, maybe_changed: bool },
+    /// The file isn't what this page last read from or wrote to it (the game or another
+    /// program wrote it meanwhile), so it wasn't touched.
+    Changed,
+    /// The handle is gone (nothing was written).
+    NoHandle,
 }
 
 /// The answer of `saveEditorFiles.write`.
@@ -199,18 +212,21 @@ fn in_place_outcome(v: &JsValue) -> InPlace {
         "saved" => InPlace::Saved { kept: field(v, "kept").as_bool().unwrap_or(false) },
         "refused" => InPlace::Refused(error),
         "nobackup" => InPlace::NoBackup(error),
+        "changed" => InPlace::Changed,
         _ => InPlace::Failed { error, maybe_changed: field_text(v, "changed") != "no" },
     }
 }
 
-/// Writes `bytes` back to the file `path` was picked from, asking the browser for permission
-/// first and keeping the original before the first write, then calls `done` with the outcome.
-pub fn write_in_place(ctx: &egui::Context, path: &Path, bytes: &[u8], done: impl FnOnce(InPlace) + 'static) {
-    let Some(handle) = HANDLES.with(|h| h.borrow().get(path).cloned()) else {
-        return done(InPlace::Refused(String::new()));
+/// Writes `bytes` back to the file behind handle `id`, asking the browser for permission first,
+/// then calls `done` with the outcome. Unless `anyway`, a file that changed since this page
+/// last read or wrote it is left alone (`InPlace::Changed`). Whatever is in the file is kept
+/// in the browser first when it differs from what was last kept there.
+pub fn write_in_place(ctx: &egui::Context, id: u64, bytes: &[u8], anyway: bool, done: impl FnOnce(InPlace) + 'static) {
+    let Some(handle) = HANDLES.with(|h| h.borrow().get(&id).cloned()) else {
+        return done(InPlace::NoHandle);
     };
     // A copy the browser owns: a view into the program's memory could move while it writes.
-    let promise = match js_write(&handle, &js_sys::Uint8Array::from(bytes)) {
+    let promise = match js_write(&handle, &js_sys::Uint8Array::from(bytes), anyway) {
         Ok(p) => p,
         // Nothing was started, so nothing was written.
         Err(e) => return done(InPlace::Failed { error: js_text(&e), maybe_changed: false }),
@@ -225,6 +241,31 @@ pub fn write_in_place(ctx: &egui::Context, path: &Path, bytes: &[u8], done: impl
         done(outcome);
         ctx.request_repaint();
     });
+}
+
+/// Reads the file behind handle `id` again; `take_reread` has the bytes once they're in.
+pub fn reread(ctx: &egui::Context, id: u64) {
+    let set = move |r: Result<Vec<u8>, String>| REREAD.with(|x| *x.borrow_mut() = Some((id, r)));
+    let Some(handle) = HANDLES.with(|h| h.borrow().get(&id).cloned()) else {
+        return set(Err(String::new()));
+    };
+    let promise = match js_read(&handle) {
+        Ok(p) => p,
+        Err(e) => return set(Err(js_text(&e))),
+    };
+    let ctx = ctx.clone();
+    wasm_bindgen_futures::spawn_local(async move {
+        set(match wasm_bindgen_futures::JsFuture::from(promise).await {
+            Ok(v) => Ok(js_sys::Uint8Array::new(&v).to_vec()),
+            Err(e) => Err(js_text(&e)),
+        });
+        ctx.request_repaint();
+    });
+}
+
+/// The file read again by `reread`, once: the handle id and its bytes (or what went wrong).
+pub fn take_reread() -> Option<(u64, Result<Vec<u8>, String>)> {
+    REREAD.with(|x| x.borrow_mut().take())
 }
 
 /// A copy of a file as it was before it was first saved in place, kept in the browser.

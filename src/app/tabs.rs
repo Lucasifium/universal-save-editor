@@ -107,6 +107,24 @@ impl App {
         !elsewhere && !here_unsaved
     }
 
+    /// Browser version: gives the document that just opened from `p` (after `loads_before`
+    /// files had been read) the handle `id` to save back through. False, and nothing given,
+    /// when what is on screen isn't a fresh read of `p`: it failed to open, it waits behind
+    /// "save changes?", or another tab was shown instead.
+    #[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))]
+    pub(super) fn attach_handle(&mut self, p: &Path, id: u64, loads_before: u64) -> bool {
+        if self.loads == loads_before || self.loading.is_some() || self.pending_open.is_some() || self.dirty {
+            return false;
+        }
+        match self.doc.as_mut() {
+            Some(d) if d.path == p && d.handle.is_none() => {
+                d.handle = Some(super::HandleId(id));
+                true
+            }
+            _ => false,
+        }
+    }
+
     /// Any tab, shown or not, with unsaved changes.
     pub(super) fn any_dirty(&self) -> bool {
         self.dirty || self.tabs.list.iter().enumerate().any(|(i, p)| i != self.tabs.active && p.dirty)
