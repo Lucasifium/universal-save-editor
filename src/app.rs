@@ -25,6 +25,13 @@ use tools::{Bulk, NamesAction, PresetApply, PresetSave, ShareNames};
 mod tabs;
 mod compare;
 use compare::Compare;
+mod pinning;
+mod open_as;
+mod review;
+mod slots;
+use slots::CopySlots;
+mod xbox_steam;
+use xbox_steam::XboxSteam;
 
 /// The browser version: no folders to look through, files arrive from the page's picker and
 /// leave as downloads.
@@ -455,18 +462,11 @@ impl GamePicker {
     }
 }
 
-/// The "copy a character to another slot" dialog (Elden Ring).
-struct CopySlots {
-    slots: Vec<crate::fmt::slot_copy::Slot>,
-    from: usize,
-    to: usize,
-}
-
 /// The "about to save" dialog: what changed, and whether the game is open.
 struct SaveReview {
     path: PathBuf,
     running: Option<String>,
-    lines: Vec<String>,
+    lines: Vec<review::Line>,
 }
 
 /// Tools › Cheat patches: the patch file picked and the codes ticked in it.
@@ -562,6 +562,8 @@ pub struct App {
     disp: Vec<Disp>,
     disp_key: Option<(String, bool, u64, u64, u64)>,
     scroll_to_row: Option<usize>,
+    /// Values pinned to the top of the Values list, per game.
+    pins: crate::pins::Pins,
     /// Text typed in the game screen's find box, and which match is current.
     game_find: String,
     game_find_idx: usize,
@@ -594,6 +596,7 @@ pub struct App {
     compare: Option<Compare>,
     save_review: Option<SaveReview>,
     copy_slots: Option<CopySlots>,
+    xbox_steam: Option<XboxSteam>,
     game_picker: Option<GamePicker>,
     /// Bulk edit in the Values tab, while it is on.
     bulk: Option<Bulk>,
@@ -738,6 +741,7 @@ impl App {
             disp: vec![],
             disp_key: None,
             scroll_to_row: None,
+            pins: crate::pins::Pins::load(),
             game_find: String::new(),
             game_find_idx: 0,
             focus_game_find: false,
@@ -758,6 +762,7 @@ impl App {
             compare: None,
             save_review: None,
             copy_slots: None,
+            xbox_steam: None,
             game_picker: None,
             bulk: None,
             preset_save: None,
@@ -970,6 +975,8 @@ impl App {
             self.pending_open = None;
         } else if self.copy_slots.is_some() {
             self.copy_slots = None;
+        } else if self.xbox_steam.is_some() {
+            self.xbox_steam = None;
         } else if self.game_picker.is_some() {
             self.game_picker = None;
         } else if self.rebind.is_some() {
@@ -1135,6 +1142,8 @@ impl App {
     /// Shows a decoded file (from `load_with` or the worker thread).
     fn finish_load(&mut self, path: &Path, opts: formats::Options, raw_len: usize, p: Prepared) {
         let Prepared { decoded, baseline, names, note, game, model, running, stamp, cjk } = p;
+        // Opened without the game screen (File \u{203A} Open as).
+        let game = game.filter(|_| opts.read_as != formats::ReadAs::NoScreen);
         self.need_cjk |= cjk || theme::has_cjk(&path.to_string_lossy());
         let desc = friendly_kind(&decoded.layers, &decoded.content);
         if let Some(n) = game.and_then(|g| g.name()).filter(|n| crate::games::GAMES.iter().any(|g| g.name == *n)) {
@@ -1781,7 +1790,7 @@ impl App {
             return self.save_to(&path);
         }
         self.running = running.clone();
-        self.save_review = Some(SaveReview { path, running, lines: self.change_lines() });
+        self.save_review = Some(SaveReview { path, running, lines: self.review_lines() });
     }
 
     /// The unsaved changes in words: "Inventory \u{203A} Scrap Iron: 12 -> 99".
@@ -1857,163 +1866,6 @@ impl App {
                 // The remembered folder is out of date: say so and offer a new search.
                 gp.missing = Some(p);
             }
-        }
-    }
-
-    fn copy_slots_dialog(&mut self, ctx: &egui::Context) {
-        let Some(c) = &mut self.copy_slots else { return };
-        let label = |i: usize, s: &crate::fmt::slot_copy::Slot| {
-            if s.active {
-                trf("Slot {0}: {1} (level {2})", &[&(i + 1), &s.name, &s.level])
-            } else {
-                trf("Slot {0}: empty", &[&(i + 1)])
-            }
-        };
-        let mut choice = None;
-        modal(ctx, tr("Copy character"), |ui| {
-            egui::Grid::new("copy_slots").num_columns(2).spacing([12.0, 8.0]).show(ui, |ui| {
-                ui.label(tr("Copy"));
-                egui::ComboBox::from_id_salt("copy_from").width(260.0).selected_text(label(c.from, &c.slots[c.from])).show_ui(ui, |ui| {
-                    for (i, s) in c.slots.iter().enumerate().filter(|(_, s)| s.active) {
-                        ui.selectable_value(&mut c.from, i, label(i, s));
-                    }
-                });
-                ui.end_row();
-                ui.label(tr("Into"));
-                egui::ComboBox::from_id_salt("copy_to").width(260.0).selected_text(label(c.to, &c.slots[c.to])).show_ui(ui, |ui| {
-                    for (i, s) in c.slots.iter().enumerate() {
-                        ui.selectable_value(&mut c.to, i, label(i, s));
-                    }
-                });
-                ui.end_row();
-            });
-            let dest = &c.slots[c.to];
-            if c.to == c.from {
-                ui.colored_label(theme::fg(ui, theme::WARN), tr("Pick a different slot to copy into."));
-            } else if dest.active {
-                ui.colored_label(theme::fg(ui, theme::WARN), trf("This replaces {0} (level {1}) in slot {2}.", &[&dest.name, &dest.level, &(c.to + 1)]));
-            }
-            ui.weak(tr("The file is backed up first (Backups \u{203A} Quick restore)."));
-            ui.add_space(8.0);
-            ui.horizontal(|ui| {
-                let ok = c.to != c.from && c.slots[c.from].active;
-                if ui.add_enabled(ok, egui::Button::new(RichText::new(tr("Copy character")).color(Color32::WHITE)).fill(theme::ACCENT)).clicked() {
-                    choice = Some(true);
-                }
-                if ui.button(tr("Cancel")).clicked() {
-                    choice = Some(false);
-                }
-            });
-        });
-        match choice {
-            Some(true) => {
-                let c = self.copy_slots.take().unwrap();
-                self.copy_character(c.from, c.to, &c.slots[c.from]);
-            }
-            Some(false) => self.copy_slots = None,
-            None => {}
-        }
-    }
-
-    fn copy_character(&mut self, from: usize, to: usize, who: &crate::fmt::slot_copy::Slot) {
-        let Some(path) = self.doc.as_ref().map(|d| d.path.clone()) else { return };
-        if let Some(game) = crate::running::game_for(&path) {
-            return self.fail(trf("{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.", &[&game]));
-        }
-        let raw = match crate::vfs::read(&path) {
-            Ok(r) => r,
-            Err(e) => return self.fail(trf("Couldn't read {0}: {1}", &[&path.display(), &e])),
-        };
-        let out = match crate::fmt::slot_copy::er_copy(&raw, from, to) {
-            Ok(o) => o,
-            Err(e) => return self.fail(trf("Couldn't copy the character: {0}. The save wasn't changed.", &[&e])),
-        };
-        // Read the result back before anything on disk is touched.
-        if let Err(e) = crate::fmt::slot_copy::er_verify_copy(&raw, &out, from, to) {
-            return self.fail(trf("Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.", &[&e]));
-        }
-        if !WEB {
-            if let Err(e) = crate::backups::take(&path) {
-                return self.fail(trf("Couldn't back up the file first: {0}. Nothing was changed.", &[&e]));
-            }
-        }
-        if let Err(e) = write_in_place(&path, &out) {
-            // In the browser the download may already have happened.
-            return self.fail(if WEB { trf("Couldn't write {0}: {1}", &[&path.display(), &e]) } else { trf("Couldn't write {0}: {1}. The file on disk wasn't changed.", &[&path.display(), &e]) });
-        }
-        self.load(&path);
-        self.ok(trf("Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.", &[&who.name, &who.level, &(to + 1)]));
-    }
-
-    fn save_review_dialog(&mut self, ctx: &egui::Context) {
-        let Some(r) = &self.save_review else { return };
-        let mut choice = None;
-        let mut dont_ask = !self.settings.confirm_save;
-        modal(ctx, tr("Save changes?"), |ui| {
-            ui.set_max_width(520.0);
-            if let Some(game) = &r.running {
-                theme::card(ui, |ui| {
-                    ui.label(RichText::new(trf("{0} looks like it's running.", &[game])).color(theme::fg(ui, theme::WARN)).strong());
-                    ui.label(tr("Games keep the save in memory and write it back when they autosave or quit, which would undo these changes. Quit the game completely (not just to the title screen), then save.",
-                    ));
-                });
-                ui.add_space(6.0);
-            }
-            ui.label(if r.lines.len() == 1 { trf("{0} change to {1}:", &[&r.lines.len(), &file_name(&r.path)]) } else { trf("{0} changes to {1}:", &[&r.lines.len(), &file_name(&r.path)]) });
-            ScrollArea::vertical().show_list_fit(ui, "app_list1", 280.0, |ui| {
-                for l in &r.lines {
-                    ui.label(format!("\u{2022} {l}"));
-                }
-                if r.lines.is_empty() {
-                    ui.weak(tr("(nothing that the list can describe)"));
-                }
-            });
-            ui.add_space(4.0);
-            if let Some(c) = crate::cloud::service_for(&r.path) {
-                ui.weak(trf("This save is in a folder that {0} syncs. If it asks which copy to keep, choose the local one.", &[&c]));
-            }
-            ui.weak(if WEB {
-                tr("Your browser downloads the edited file. Keep a copy of the original before you replace it.")
-            } else {
-                tr("The save on disk now is backed up first. Backups \u{203A} Quick restore brings it back.")
-            });
-            ui.add_space(8.0);
-            ui.horizontal_wrapped(|ui| {
-                let label = if r.running.is_some() { tr("Save anyway") } else { tr("Save") };
-                let first = ui.add(egui::Button::new(RichText::new(label).color(Color32::WHITE)).fill(theme::ACCENT));
-                if first.clicked() {
-                    choice = Some(0);
-                }
-                if r.running.is_some() && ui.button(tr("Check again")).clicked() {
-                    choice = Some(1);
-                }
-                if safe_choice(ui.button(tr("Cancel"))).clicked() {
-                    choice = Some(2);
-                }
-                let last = crate::widgets::checkbox(ui, &mut dont_ask, tr("Don't show this list again"));
-                tab_ring(&first, &last);
-            });
-        });
-        if dont_ask == self.settings.confirm_save {
-            self.settings.confirm_save = !dont_ask;
-            self.settings.save();
-        }
-        match choice {
-            Some(0) => {
-                let p = self.save_review.take().unwrap().path;
-                self.save_to(&p);
-            }
-            Some(1) => {
-                let r = self.save_review.as_mut().unwrap();
-                r.running = crate::running::game_for(&r.path);
-                self.running = r.running.clone();
-                if r.running.is_none() && !self.settings.confirm_save {
-                    let p = self.save_review.take().unwrap().path;
-                    self.save_to(&p);
-                }
-            }
-            Some(_) => self.save_review = None,
-            None => {}
         }
     }
 
@@ -2229,6 +2081,14 @@ impl App {
                         }
                     }
                 });
+                let mut way = None;
+                ui.add_enabled_ui(has, |ui| {
+                    ui.menu_button(tr("Open as"), |ui| way = self.open_as_items(ui)).response.on_hover_text(tr("Read this file another way, for when the editor guessed wrong"));
+                });
+                if let Some(w) = way {
+                    ui.close_menu();
+                    self.open_as(w);
+                }
                 ui.separator();
                 if ui.add_enabled(has, egui::Button::new(tr("Save")).shortcut_text("Ctrl+S")).clicked() {
                     ui.close_menu();
@@ -2525,24 +2385,8 @@ impl App {
                         }
                     });
                 }
-                let archive = self.doc.as_ref().and_then(|d| {
-                    d.layers.iter().find_map(|l| if let Layer::Bnd4 { archive, .. } = l { Some(archive.clone()) } else { None })
-                });
-                if let Some(slots) = archive.and_then(|a| crate::fmt::slot_copy::er_slots(&a)) {
-                    if ui
-                        .button(tr("Copy character to another slot\u{2026}"))
-                        .on_hover_text(tr("Duplicate an Elden Ring character, e.g. to try something out on the copy"))
-                        .clicked()
-                    {
-                        ui.close_menu();
-                        if self.dirty {
-                            self.fail(tr("Save or revert your changes first. Copying works on the file as it is on disk."));
-                        } else {
-                            let to = slots.iter().position(|s| !s.active).unwrap_or(1);
-                            self.copy_slots = Some(CopySlots { slots, from: 0, to });
-                        }
-                    }
-                }
+                self.copy_slot_button(ui);
+                self.xbox_steam_button(ui);
                 ui.separator();
                 if let (Some(d), Some(label)) = (&self.doc, reveal_text(false)) {
                     if ui.button(label).clicked() {
@@ -3469,6 +3313,14 @@ impl App {
 
     /// The chips after the file name: its format (when `with_format`) and any warnings.
     fn file_chips(&mut self, ui: &mut egui::Ui, with_format: bool) {
+        let mut open_as_pick = None;
+        self.file_chips_inner(ui, with_format, &mut open_as_pick);
+        if let Some(w) = open_as_pick {
+            self.open_as(w);
+        }
+    }
+
+    fn file_chips_inner(&mut self, ui: &mut egui::Ui, with_format: bool, open_as_pick: &mut Option<formats::ReadAs>) {
         let Some(doc) = &self.doc else { return };
         if with_format {
             let kind = friendly_kind(&doc.layers, &doc.content);
@@ -3486,7 +3338,13 @@ impl App {
                 None => kind_label(&kind),
             };
             let hover = if named.is_some() { trf("Detected format: {0} ({1})", &[&kind, &described]) } else { trf("Detected format: {0}", &[&described]) };
-            Self::chip(ui, &chip_text, theme::ACCENT).on_hover_text(hover);
+            let (chip_text, color) = match open_as::chosen_label(doc.opts.read_as) {
+                Some(l) => (l.to_string(), theme::WARN),
+                None => (chip_text, theme::ACCENT),
+            };
+            let chip = Self::chip(ui, &chip_text, color).interact(egui::Sense::click());
+            let chip = widgets::named(chip, egui::WidgetType::Button, &chip_text).on_hover_text(format!("{hover}\n{}", tr("Click to open it another way (Open as).")));
+            *open_as_pick = self.open_as_popup(ui, &chip);
         }
         if doc.layers.iter().any(|l| matches!(l, Layer::RenpyZip { signed: true, .. } | Layer::RenpyPersistent { signed: true })) {
             if crate::renpy_sign::can_sign() {
@@ -3859,6 +3717,7 @@ impl App {
         let hi = self.has_icons;
         let mut edits: Vec<(String, Value)> = Vec::new();
         let (mut copy, mut paste_at) = (None, None);
+        let mut pin_click: Option<(String, usize)> = None;
         match self.tab {
             Tab::Game => {
                 let d = self.doc.as_ref().unwrap();
@@ -3974,10 +3833,13 @@ impl App {
                 if typing {
                     ui.ctx().request_repaint_after(std::time::Duration::from_millis(120));
                 }
+                let pin_key = crate::pins::game_key(&d.path, &d.content.kind());
+                let pinned: Vec<usize> = self.pins.of(&pin_key).iter().filter_map(|p| self.model.by_ptr.get(p.as_str()).copied()).collect();
                 if self.disp_key.as_ref() != Some(&key) && !typing {
-                    self.disp = values_view::filter(&self.model, r, &self.search, self.settings.show_advanced, &self.collapsed);
+                    self.disp = values_view::filter_with(&self.model, r, &self.search, self.settings.show_advanced, &self.collapsed, &pinned, d.game.is_none());
                     self.disp_key = Some(key);
                 }
+                let pinned: HashSet<usize> = pinned.into_iter().collect();
                 if self.disp.is_empty() {
                     ui.add_space(40.0);
                     ui.vertical_centered(|ui| {
@@ -4011,8 +3873,11 @@ impl App {
                     can_paste_one: self.tabs.clip.as_ref().is_some_and(|c| c.values.len() == 1),
                     copy: None,
                     paste_at: None,
+                    pins: Some(&pinned),
+                    toggle_pin: None,
                 };
                 values_view::show(ui, &self.model, &self.disp, &self.collapsed, &mut ctx);
+                pin_click = ctx.toggle_pin.take().map(|i| (pin_key, i));
                 copy = ctx.copy.take();
                 paste_at = ctx.paste_at.take();
                 if let Some(p) = ctx.show_in_tree.take() {
@@ -4032,6 +3897,9 @@ impl App {
             }
         }
         self.apply_edits(edits, now);
+        if let Some((key, i)) = pin_click {
+            self.toggle_pin(&key, i);
+        }
         if let Some((what, values)) = copy {
             self.copy_values(what, values);
         }
@@ -5098,6 +4966,7 @@ impl App {
         self.poll_saving(ctx, now);
         self.save_review_dialog(ctx);
         self.copy_slots_dialog(ctx);
+        self.xbox_steam_dialog(ctx);
         self.game_picker_dialog(ctx);
         self.preset_save_dialog(ctx);
         self.preset_apply_dialog(ctx, now);
@@ -5540,6 +5409,14 @@ fn game_picker_window(ctx: &egui::Context, gp: &mut GamePicker) -> (Option<PathB
                                         theme::card(ui, |ui| {
                                             if ui.link(RichText::new(s.label.clone().unwrap_or_else(|| file_name(&s.path))).strong()).clicked() {
                                                 *open = Some(s.path.clone());
+                                            }
+                                            // Who is in the save (characters, slots), read in the background.
+                                            match crate::preview::cached_details(&s.path, s.modified) {
+                                                Some(Some(who)) => {
+                                                    ui.add(egui::Label::new(who.clone()).truncate()).on_hover_text(who);
+                                                }
+                                                Some(None) => {}
+                                                None => ui.ctx().request_repaint_after(std::time::Duration::from_millis(150)),
                                             }
                                             let when = s
                                                 .modified

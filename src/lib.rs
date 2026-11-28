@@ -30,6 +30,7 @@ mod memory;
 mod names;
 mod oodle;
 mod pickle;
+mod pins;
 mod par;
 mod platform;
 mod openwith;
@@ -50,6 +51,7 @@ mod theme;
 mod update;
 mod values_view;
 mod vfs;
+mod xbox_steam;
 mod xgp;
 #[cfg(target_arch = "wasm32")]
 mod web;

@@ -66,9 +66,6 @@ If the game keeps them somewhere else (another drive, a cloud folder), use Open�
 ‹ All games
 = ‹ Tous les jeux
 
-Copy character
-= Copier le personnage
-
 Copy
 = Copier
 
@@ -299,12 +296,6 @@ Compare with another save…
 
 Open another file in this archive
 = Ouvrir un autre fichier de cette archive
-
-Copy character to another slot…
-= Copier le personnage vers un autre emplacement…
-
-Duplicate an Elden Ring character, e.g. to try something out on the copy
-= Dupliquer un personnage d'Elden Ring, par ex. pour tester quelque chose sur la copie
 
 Save or revert your changes first.
 = Enregistrez ou annulez d'abord vos modifications.
@@ -1183,7 +1174,6 @@ Advanced
 
 Opened {0} ({1}) — {2}.
 = {0} ouvert ({1}) — {2}.
-
 
 Filter the tree by name or value  (Ctrl+F)
 = Filtrer l'arbre par nom ou valeur  (Ctrl+F)
@@ -26916,9 +26906,6 @@ Changed the Steam ID in {0} places. Save to write the file.
 Copied 1 change as text.
 = 1 modification copiée en texte.
 
-Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
-= {0} (niveau {1}) copié dans l'emplacement {2}. Il apparaît dans l'écran de chargement de partie du jeu.
-
 Copied {0} changes as text.
 = {0} modifications copiées en texte.
 
@@ -29004,7 +28991,6 @@ Detected format: {0}
 {0} is running
 = {0} est en cours d'exécution
 
-
 (missing)
 = (absent)
 
@@ -29058,9 +29044,6 @@ Couldn't change that backup: {0}
 
 Couldn't check for a new version. Check your internet connection and try again.
 = Impossible de vérifier s'il existe une nouvelle version. Vérifiez votre connexion Internet et réessayez.
-
-Couldn't copy the character: {0}. The save wasn't changed.
-= Impossible de copier le personnage : {0}. La sauvegarde n'a pas été modifiée.
 
 Couldn't delete the backup: {0}. It is still in the list.
 = Impossible de supprimer la copie : {0}. Elle est toujours dans la liste.
@@ -29302,9 +29285,6 @@ Signed, will be re-signed
 Slot {0}: empty
 = Emplacement {0} : vide
 
-Slot {0}: {1} (level {2})
-= Emplacement {0} : {1} (niveau {2})
-
 Start over
 = Recommencer
 
@@ -29334,9 +29314,6 @@ These checksums hold for the file:
 
 This checksum holds for the file:
 = Cette somme de contrôle correspond au fichier :
-
-This replaces {0} (level {1}) in slot {2}.
-= Cela remplace {0} (niveau {1}) dans l'emplacement {2}.
 
 Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
 = Saisissez le nouveau nombre à côté de son nom et appuyez sur Définir, puis enregistrez avec Ctrl+S. Chargez la sauvegarde dans le jeu pour vérifier.
@@ -29436,9 +29413,6 @@ type a name for the backup
 
 {0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
 = {0} semble être lancé. Quittez-le d'abord, sinon il risque d'écraser la sauvegarde restaurée. Rien n'a été restauré.
-
-{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
-= {0} semble être lancé. Quittez-le d'abord, sinon il écrasera le personnage copié. Rien n'a été copié.
 
 {0} looks like it's running. Quit it first, then try again. The save wasn't changed.
 = {0} semble être lancé. Quittez-le d'abord, puis réessayez. La sauvegarde n'a pas été modifiée.
@@ -30017,7 +29991,6 @@ Sets every character's Another Mode EXP to 472,000, the most the game holds (eve
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = Porte à 999 chaque matériau d'artisanat, la limite affichée par le jeu (beaucoup sont à 999 dans une sauvegarde terminée), y compris ceux que vous ne possédez pas encore.
 
-
 Exosuit cargo
 = Soute de l'exocombinaison
 
@@ -30312,7 +30285,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = Monte les ressources communes et peu communes à 200, les rares à 35 et les très rares à 15, les plus grandes capacités de la sacoche de ressources indiquées par le wiki Horizon (une estimation : aucun fichier de données ne les donne, et les sauvegardes faites avec d'autres outils en contiennent davantage). Les ressources légendaires, la nourriture, les munitions, les tenues et les objets clés ne sont pas touchés.
 
-
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = Écran du jeu : argent et prime de poursuite d'un fichier de profil (formats PC et PlayStation 2) ; le MD5 du fichier est recalculé à l'enregistrement. Construit d'après des offsets publiés, pas encore essayé sur un vrai profil
 
@@ -30368,9 +30340,6 @@ Cloud sync: {0}
 This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
 = Cette sauvegarde est dans un dossier synchronisé par {0}. Quittez le jeu avant d'enregistrer ; si {0} demande ensuite quelle copie garder, choisissez la locale.
 
-Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
-= Impossible de copier le personnage : le nouveau fichier ne se relit pas comme prévu ({0}). La sauvegarde n'a pas été modifiée.
-
 # favourites, recent games, reset to original, tab shortcuts
 
 Favourites
@@ -30399,7 +30368,6 @@ Open another save in a new tab
 
 Next / previous tab
 = Onglet suivant / précédent
-
 
 Appearances
 = Apparences
@@ -30519,8 +30487,6 @@ Walker Gear
 
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = {0} sur {1} développés. Les objets sont listés par numéro de développement ; leurs noms ne figurent pas dans la sauvegarde.
-
-
 
 Hotbar
 = Barre rapide
@@ -30771,7 +30737,6 @@ Zombie kills
 
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = players.db depuis Zomboid\Saves\<mode>\<nom de la sauvegarde> (le dossier de la sauvegarde). Heures survécues, victimes, poids et état de mort de chaque personnage, leurs besoins et états, la santé de chaque partie du corps, et le niveau et l'expérience de chaque compétence. Ferme d'abord le jeu. Pour ramener un personnage mort, décoche « Mort » et remonte la santé des parties du corps.
-
 
 # data/games: Epic Battle Fantasy 5, Road 96
 
@@ -31168,7 +31133,6 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = savegameNN.sav depuis Documents\Almost Human\Legend of Grimrock (un en-tête GRIM et des données zlib, décompressés puis recompressés pour vous). La santé et l'énergie de chaque membre du groupe, les quatre stats, les points de compétence inutilisés et les niveaux de compétence. Les objets, les traits et le donjon sont dans l'arbre. Fermez d'abord le jeu.
-
 
 # data/games: Dead Space 2, Just Cause 2
 
@@ -31843,3 +31807,286 @@ built in
 
 {0} (each): {1}
 = {0} (chacun) : {1}
+
+# slot copy, save details, Xbox app to Steam
+
+{0} more
+= {0} de plus
+
+Copied slot {0} into slot {1}. It shows up in the game's own load menu.
+= L'emplacement {0} a été copié dans l'emplacement {1}. Il apparaît dans le menu de chargement du jeu.
+
+Copied to {0}. Start the Steam version to load it.
+= Copié dans {0}. Lancez la version Steam pour le charger.
+
+Copy a slot
+= Copier un emplacement
+
+Copy a slot to another slot…
+= Copier un emplacement vers un autre…
+
+Copy slot
+= Copier l'emplacement
+
+Copy to the Steam version
+= Copier vers la version Steam
+
+Copy to the Steam version…
+= Copier vers la version Steam…
+
+Couldn't copy the save: {0}. The Steam version's save wasn't changed.
+= Impossible de copier la sauvegarde : {0}. La sauvegarde de la version Steam n'a pas été modifiée.
+
+Couldn't copy the slot: {0}. The save wasn't changed.
+= Impossible de copier l'emplacement : {0}. La sauvegarde n'a pas été modifiée.
+
+Duplicate a {0} save slot, e.g. to try something out on the copy
+= Dupliquer un emplacement de sauvegarde de {0}, par ex. pour essayer quelque chose sur la copie
+
+File name
+= Nom du fichier
+
+Folder
+= Dossier
+
+If the Steam version says the save belongs to someone else, open the copy here and use Tools › Change Steam account in this save.
+= Si la version Steam indique que la sauvegarde appartient à quelqu'un d'autre, ouvrez la copie ici et utilisez Outils › Changer le compte Steam dans cette sauvegarde.
+
+No folder of the Steam version was found on this computer. Start the game on Steam once and save, then try again.
+= Aucun dossier de la version Steam n'a été trouvé sur cet ordinateur. Lancez le jeu une fois sur Steam et sauvegardez, puis réessayez.
+
+Put a copy of this Xbox app save where the game's Steam version looks for its saves. The Xbox app's save is left as it is.
+= Placer une copie de cette sauvegarde de l'application Xbox là où la version Steam du jeu cherche ses sauvegardes. La sauvegarde de l'application Xbox reste telle quelle.
+
+Replace the save that is there (it is backed up first)
+= Remplacer la sauvegarde existante (elle est d'abord sauvegardée)
+
+Slot {0}: {1}
+= Emplacement {0} : {1}
+
+The Xbox app's save is left as it is. If Steam asks which copy to keep, choose the one on this computer.
+= La sauvegarde de l'application Xbox reste telle quelle. Si Steam demande quelle copie garder, choisissez celle de cet ordinateur.
+
+This replaces slot {0} ({1}).
+= Cela remplace l'emplacement {0} ({1}).
+
+couldn't back up {0} first: {1}
+= impossible de sauvegarder {0} d'abord : {1}
+
+couldn't read the Xbox app's save: {0}
+= impossible de lire la sauvegarde de l'application Xbox : {0}
+
+pick two different slots
+= choisissez deux emplacements différents
+
+slot {0} can't be read
+= l'emplacement {0} est illisible
+
+slot {0} doesn't read back as expected
+= l'emplacement {0} ne se relit pas comme prévu
+
+that folder belongs to the Xbox app; pick the Steam version's folder
+= ce dossier appartient à l'application Xbox ; choisissez le dossier de la version Steam
+
+that slot is empty
+= cet emplacement est vide
+
+the character's data is damaged
+= les données du personnage sont endommagées
+
+the file is shorter than its slots
+= le fichier est plus court que ses emplacements
+
+the new file doesn't read as the same kind of save
+= le nouveau fichier ne se lit pas comme le même type de sauvegarde
+
+this isn't an Elden Ring save with ten slots
+= ce n'est pas une sauvegarde Elden Ring à dix emplacements
+
+this isn't an Ocarina of Time save
+= ce n'est pas une sauvegarde d'Ocarina of Time
+
+this kind of save has no slots that can be copied
+= ce type de sauvegarde n'a pas d'emplacements copiables
+
+type a plain file name, without a folder
+= saisissez un simple nom de fichier, sans dossier
+
+{0} gold
+= {0} or
+
+{0} isn't a folder on this computer
+= {0} n'est pas un dossier de cet ordinateur
+
+{0} isn't a name {1} uses for its saves ({2})
+= {0} n'est pas un nom que {1} utilise pour ses sauvegardes ({2})
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied slot. Nothing was copied.
+= {0} semble être en cours d'exécution. Quittez-le d'abord, sinon il écrasera l'emplacement copié. Rien n'a été copié.
+
+{0} looks like it's running. Quit it first. Nothing was copied.
+= {0} semble être en cours d'exécution. Quittez-le d'abord. Rien n'a été copié.
+
+{0} save slot in use
+= {0} emplacement de sauvegarde utilisé
+
+{0} save slots in use
+= {0} emplacements de sauvegarde utilisés
+
+{0} stars
+= {0} étoiles
+
+{0}, level {1}
+= {0}, niveau {1}
+
+{0}, level {1}, {2}
+= {0}, niveau {1}, {2}
+
+{0}, {1} energy
+= {0}, {1} d'énergie
+
+{0}, {1}, level {2}
+= {0}, {1}, niveau {2}
+
+{0}, {1}:{2}
+= {0}, {1}:{2}
+
+{0}: “{1}” from the Xbox app.
+= {0} : « {1} » de l'application Xbox.
+
+the slot's data is damaged
+= les données de l'emplacement sont endommagées
+
+only its backup copy reads
+= seule sa copie de secours est lisible
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 modification non cochée a été annulée et non enregistrée ; Annuler la rétablit.
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} modifications non cochées ont été annulées et non enregistrées ; Annuler les rétablit.
+
+As detected
+= Tel que détecté
+
+Click to open it another way (Open as).
+= Cliquez pour l'ouvrir autrement (Ouvrir comme).
+
+Common edits
+= Modifications courantes
+
+Couldn't keep the pin: {0}
+= Impossible de conserver l'épingle : {0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= Exactement ce qui est sur le disque, rien n'est décompressé. L'enregistrement écrit les octets tels quels.
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= Quand l'écran de jeu correspond à un autre jeu : les mêmes données, sous forme de liste de valeurs.
+
+Made by one button together with other values: kept or left out together.
+= Fait par un seul bouton avec d'autres valeurs : conservées ou écartées ensemble.
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= Rien n'est coché : toutes les modifications seront annulées et rien ne sera écrit.
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= Plus rien à enregistrer : les modifications non cochées ont été annulées et le fichier n'a pas été modifié. Annuler les rétablit.
+
+Open as
+= Ouvrir comme
+
+Opened as text
+= Ouvert comme texte
+
+Opened as the file's bytes
+= Ouvert comme octets du fichier
+
+Opened as unpacked bytes
+= Ouvert comme octets décompressés
+
+Opened without the game screen
+= Ouvert sans l'écran de jeu
+
+Pin
+= Épingler
+
+Pin to the top
+= Épingler en haut
+
+Pin: show this value at the top of the list for every save of this game
+= Épingler : afficher cette valeur en haut de la liste pour chaque sauvegarde de ce jeu
+
+Pinned
+= Épinglées
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= {0} épinglé. Il reste en haut de la liste pour chaque sauvegarde de ce jeu.
+
+Put them back
+= Les annuler
+
+Read this file another way, for when the editor guessed wrong
+= Lire ce fichier autrement, si l'éditeur s'est trompé
+
+Read this file another way, for when the editor guessed wrong.
+= Lire ce fichier autrement, si l'éditeur s'est trompé.
+
+Save or revert your changes before opening the file another way.
+= Enregistrez ou annulez vos modifications avant d'ouvrir le fichier autrement.
+
+Save ticked
+= Enregistrer la sélection
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= Les données à l'intérieur de l'emballage du fichier (compression, chiffrement, archive) sous forme d'octets. L'enregistrement les réemballe de la même façon.
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= Le fichier en texte brut, rien n'est décompressé. L'enregistrement écrit le texte tel quel.
+
+The file's own bytes in the hex view
+= Les octets du fichier dans la vue hexadécimale
+
+The way the editor reads this file on its own.
+= La façon dont l'éditeur lit ce fichier de lui-même.
+
+The whole file as text
+= Le fichier entier comme texte
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= Ce fichier n'est pas du texte brut : il est affiché en octets dans la vue hexadécimale.
+
+Tick all
+= Tout cocher
+
+Unpacked data in the hex view
+= Données décompressées dans la vue hexadécimale
+
+Unpin
+= Désépingler
+
+Unpin: stop showing this value at the top for this game's saves
+= Désépingler : ne plus afficher cette valeur en haut pour les sauvegardes de ce jeu
+
+Unpinned {0}.
+= {0} désépinglé.
+
+Untick a change to leave it out of this save.
+= Décochez une modification pour l'écarter de cet enregistrement.
+
+Unticked changes are put back before saving. Undo brings them back.
+= Les modifications non cochées sont annulées avant l'enregistrement. Annuler les rétablit.
+
+Values only, without the game screen
+= Valeurs seules, sans l'écran de jeu
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= Valeurs dont le nom ressemble à de l'argent, des niveaux, de l'expérience, de la santé, des points ou des quantités d'objets. Chacune figure aussi dans sa propre section.
+
+Values you pinned. They stay at the top for every save of this game.
+= Les valeurs que vous avez épinglées. Elles restent en haut pour chaque sauvegarde de ce jeu.
+
+You can pin up to {0} values per game. Unpin one first.
+= Vous pouvez épingler jusqu'à {0} valeurs par jeu. Désépinglez-en une d'abord.

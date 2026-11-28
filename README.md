@@ -113,6 +113,20 @@ binary and stays an ironman save. It isn't converted to a normal one.
 
 The start page lists **Your games**, newest first, each one click away from its newest save. Games found on this computer come first (*Only games found here* hides the rest), and each game has a badge for how far the editor goes with it: *Screen* (a screen of its own), *Values* (every value by name) or *Hex* (hex view and value search). Found folders are remembered and checked first; the whole computer (every fixed drive; USB and network drives only if turned on in Settings) is searched on the first start, about once a week, and whenever you press *Search again*.
 
+Each found save shows who is in it where the file says so cheaply: the characters and levels in
+Elden Ring, Dark Souls (Remastered), Dark Souls II and III and Sekiro `.sl2` files, a Diablo II
+character's name, class and level, a Pokémon trainer and play time, and what each slot holds in the
+multi-slot saves listed under *Copy a slot* below. It is read in the background, only for the saves on
+screen.
+
+**Copy a slot** (*Tools › Copy a slot to another slot…*) duplicates a save slot inside the same file,
+for example to try something out on the copy: Elden Ring characters (with the title screen's
+summary), Final Fantasy VII (PC), and the emulator saves of Super Mario 64, Ocarina of Time, A Link
+to the Past, Super Metroid, Chrono Trigger and Final Fantasy VI, where it does what the game's own
+copy menu does (the slot, its spare copy where the game keeps one, and its checksum). The copy is
+read back first, with every other slot byte for byte as it was, and the file is backed up before it
+is written.
+
 <details>
 <summary>Other places saves live (Flash, Unity, Xbox app, console memory cards)</summary>
 
@@ -168,7 +182,10 @@ editor reads the container's index and lists the files under the names the game 
 the *Xbox app / PC Game Pass saves (any game)* entry and under the game's own entry (Control,
 Hades, Palworld, Persona 5 Royal, Final Fantasy XV, Yakuza 0, Clair Obscur: Expedition 33 and
 others). The files inside are the same as the Steam ones, so each opens with the game's own screen,
-and saving writes the file back in place. Let the Xbox app finish syncing before you open a save,
+and saving writes the file back in place. To move a save to the Steam version of the same game,
+open it and use *Tools › Copy to the Steam version…*: it puts a copy in a folder where the Steam
+version keeps its saves, under a file name that version uses, and backs up a Steam save it replaces.
+Nothing is written into the Xbox app's container. Let the Xbox app finish syncing before you open a save,
 and keep the game closed while you edit: cloud sync can replace an edited file. Pick a game, then a save, to open it; if none are found it says so. *Open…* and dragging
 a file onto the window work as before for anything else.
 
@@ -408,6 +425,13 @@ compression, encryption and checksums.
 - **Bulk edit** (Values tab): tick values, or search and *Tick all shown*, then set them all to one
   value, add to them or multiply them. Set only changes values of the kind typed (a number sets
   numbers, never a name). One *Undo* puts them all back.
+- **Pinned values and Common edits** (Values tab): the pin beside any value keeps it in a
+  *Pinned* group at the top of the list for every save of that game. Saves without a game screen
+  also get a *Common edits* group above the sections, listing the values whose names look like
+  money, levels, experience, health, points or item counts.
+- **Open as** (*File › Open as*, or click the format chip): when the editor guessed wrong, open the
+  file again *without the game screen* (the same data as a list of values), as the *unpacked data*
+  in the hex view (packed again the same way on save), as *text*, or as *the file's own bytes*.
 - **Presets** (*Tools › Presets*, or *Save as preset…* in the Changes panel): keep a set of changes
   and make them again on another save or slot of the game; preset files can be shared (*Open a preset
   file…* shows what one holds before it is applied). A few ready-made presets come with the program,
@@ -432,7 +456,7 @@ compression, encryption and checksums.
 
 ## Safety
 
-- **Verified saves**: the new file is decoded again *before* anything is written (copying an Elden Ring character is checked the same way). If it doesn't
+- **Verified saves**: the new file is decoded again *before* anything is written (copying a save slot is checked the same way). If it doesn't
   read back exactly as shown on screen, the save is aborted and your file is left untouched.
 - **Changed on disk**: if the save was written by something else after it was opened (the game
   autosaved, a cloud sync ran), saving stops and asks: reload the newer file, save anyway (the newer
@@ -447,7 +471,7 @@ compression, encryption and checksums.
 - **Export and import**: *File › Export decoded data* writes the unpacked data (JSON, text or bytes) for any other tool; *File › Import edited data* brings the edited file back, and saving packs, encrypts and checksums it the way the save was
 - **Game running**: if the game that owns the save is running, the app says so when opening and warns before saving (games write their save back when they autosave or quit)
 - **Cloud sync**: a save in a folder that Steam Cloud, OneDrive, Dropbox, Google Drive, iCloud Drive or Ubisoft Connect syncs shows a small *Cloud sync* label, and the save list and the message after saving say to choose the local copy if the service asks which to keep
-- **Review before saving**: Save lists every change in words first (can be turned off in that dialog)
+- **Review before saving**: Save lists every change in words first, each with a tick box: untick a change to leave it out of this save (it is put back first, and *Undo* brings it back; values one button changed together stay together). Long lists are grouped by section, and risky values carry their note (the list can be turned off in that dialog)
   (*File › Restore original from backup*).
 - You're asked before closing or opening another file with unsaved changes.
 - Values are range-checked for their real type (a 16-bit number can't be set to 70000, etc.).

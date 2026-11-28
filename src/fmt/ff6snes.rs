@@ -12,7 +12,7 @@ use crate::tree::TreeDoc;
 use std::sync::OnceLock;
 
 pub const KIND: &str = "Final Fantasy VI (SNES) save";
-const SLOT: usize = 0xa00;
+pub(crate) const SLOT: usize = 0xa00;
 
 struct Names {
     items: Vec<(u64, String)>,
@@ -39,11 +39,11 @@ fn names() -> &'static Names {
     })
 }
 
-fn sum(d: &[u8], s: usize) -> u16 {
+pub(crate) fn sum(d: &[u8], s: usize) -> u16 {
     d[s..s + 0x9fe].iter().fold(0u16, |a, &b| a.wrapping_add(b as u16))
 }
 
-fn valid(d: &[u8], n: usize) -> bool {
+pub(crate) fn valid(d: &[u8], n: usize) -> bool {
     let s = n * SLOT;
     let have = u16::from_le_bytes([d[s + 0x9fe], d[s + 0x9ff]]);
     have != 0 && sum(d, s) == have

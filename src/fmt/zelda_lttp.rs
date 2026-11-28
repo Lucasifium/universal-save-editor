@@ -10,13 +10,13 @@ use super::fields::{Builder, Checksum, Kind};
 use crate::tree::TreeDoc;
 
 pub const KIND: &str = "A Link to the Past save";
-const SLOT: usize = 0x500;
+pub(crate) const SLOT: usize = 0x500;
 
 fn word_sum(d: &[u8], s: usize) -> u16 {
     d[s..s + 0x4fe].chunks(2).fold(0u16, |a, w| a.wrapping_add(u16::from_le_bytes([w[0], w[1]])))
 }
 
-fn valid(d: &[u8], n: usize) -> bool {
+pub(crate) fn valid(d: &[u8], n: usize) -> bool {
     let s = n * SLOT;
     word_sum(d, s).wrapping_add(u16::from_le_bytes([d[s + 0x4fe], d[s + 0x4ff]])) == 0x5a5a
 }

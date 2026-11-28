@@ -66,9 +66,6 @@ If the game keeps them somewhere else (another drive, a cloud folder), use Open�
 ‹ All games
 = ‹ 全部游戏
 
-Copy character
-= 复制角色
-
 Copy
 = 复制
 
@@ -299,12 +296,6 @@ Compare with another save…
 
 Open another file in this archive
 = 打开此压缩包中的其他文件
-
-Copy character to another slot…
-= 将角色复制到其他存档位…
-
-Duplicate an Elden Ring character, e.g. to try something out on the copy
-= 复制一个 Elden Ring 角色，例如在副本上做尝试。
 
 Save or revert your changes first.
 = 请先保存或还原更改。
@@ -1183,7 +1174,6 @@ Advanced
 
 Opened {0} ({1}) — {2}.
 = 已打开 {0}（{1}）— {2}。
-
 
 Filter the tree by name or value  (Ctrl+F)
 = 按名称或数值筛选树  (Ctrl+F)
@@ -26966,9 +26956,6 @@ Changed the Steam ID in {0} places. Save to write the file.
 Copied 1 change as text.
 = 已将 1 项更改复制为文本。
 
-Copied {0} (level {1}) into slot {2}. It shows up on the game's Load Game screen.
-= 已将 {0}（等级 {1}）复制到栏位 {2}。它会出现在游戏的读取存档界面。
-
 Copied {0} changes as text.
 = 已将 {0} 项更改复制为文本。
 
@@ -29054,7 +29041,6 @@ Detected format: {0}
 {0} is running
 = {0} 正在运行
 
-
 (missing)
 = （缺失）
 
@@ -29108,9 +29094,6 @@ Couldn't change that backup: {0}
 
 Couldn't check for a new version. Check your internet connection and try again.
 = 无法检查新版本。请检查网络连接后重试。
-
-Couldn't copy the character: {0}. The save wasn't changed.
-= 无法复制角色：{0}。存档未被更改。
 
 Couldn't delete the backup: {0}. It is still in the list.
 = 无法删除备份：{0}。它仍在列表中。
@@ -29352,9 +29335,6 @@ Signed, will be re-signed
 Slot {0}: empty
 = 槽位 {0}：空
 
-Slot {0}: {1} (level {2})
-= 槽位 {0}：{1}（等级 {2}）
-
 Start over
 = 重新开始
 
@@ -29384,9 +29364,6 @@ These checksums hold for the file:
 
 This checksum holds for the file:
 = 此校验和与文件相符：
-
-This replaces {0} (level {1}) in slot {2}.
-= 这会替换槽位 {2} 中的 {0}（等级 {1}）。
 
 Type the new number next to its name and press Set, then save with Ctrl+S. Load the save in the game to check.
 = 在名称旁输入新数字并点击“设置”，然后按 Ctrl+S 保存。在游戏中读取存档进行确认。
@@ -29486,9 +29463,6 @@ type a name for the backup
 
 {0} looks like it's running. Quit it first, or it may overwrite the restored save. Nothing was restored.
 = {0} 似乎正在运行。请先退出，否则它可能覆盖恢复的存档。未恢复任何内容。
-
-{0} looks like it's running. Quit it first, or it will overwrite the copied character. Nothing was copied.
-= {0} 似乎正在运行。请先退出，否则它会覆盖复制的角色。未复制任何内容。
 
 {0} looks like it's running. Quit it first, then try again. The save wasn't changed.
 = {0} 似乎正在运行。请先退出再重试。存档未被更改。
@@ -30061,7 +30035,6 @@ Sets every character's Another Mode EXP to 472,000, the most the game holds (eve
 Raises every crafting material to 999, the limit the game shows (many are at 999 in a completed save), including ones you don't own yet.
 = 将每种制作材料提升到游戏显示的上限 999（在已通关的存档中许多都是 999），包括你还没有的。
 
-
 Exosuit cargo
 = 外骨骼服货舱
 
@@ -30356,7 +30329,6 @@ autosave1.dat, manualsave0.dat, quicksave0.dat ... (the profile file next to the
 Raises common and uncommon resources to 200, rare ones to 35 and very rare ones to 15, the largest Resource Pouch capacities the Horizon wiki lists (an estimate: no data file states them, and saves made with other tools hold more). Legendary resources, food, ammunition, outfits and key items are left alone.
 = 将普通和不常见资源提高到 200，稀有资源提高到 35，非常稀有资源提高到 15，这是 Horizon 维基列出的资源袋最大容量（估计值：没有数据文件给出这些数字，用其他工具制作的存档数量更多）。传奇资源、食物、弹药、服装和关键物品保持不变。
 
-
 Game screen: money and pursuit bounty of a profile file (PC and PlayStation 2 layouts); the file's MD5 is made again on save. Built from published offsets, not yet tried on a real profile
 = 游戏界面：配置文件的金钱和追捕悬赏（PC 和 PlayStation 2 格式）；保存时重新计算文件的 MD5。依据公开的偏移量构建，尚未在真实配置文件上试过
 
@@ -30412,9 +30384,6 @@ Cloud sync: {0}
 This save is in a folder that {0} syncs. Quit the game before saving, and if {0} asks which copy to keep afterwards, choose the local one.
 = 此存档位于 {0} 同步的文件夹中。保存前请退出游戏；之后如果 {0} 询问保留哪个副本，请选择本地副本。
 
-Couldn't copy the character: the new file didn't read back as expected ({0}). The save wasn't changed.
-= 无法复制角色：新文件回读结果不符合预期（{0}）。存档未被更改。
-
 # favourites, recent games, reset to original, tab shortcuts
 
 Favourites
@@ -30443,7 +30412,6 @@ Open another save in a new tab
 
 Next / previous tab
 = 下一个 / 上一个标签页
-
 
 Appearances
 = 外观
@@ -30563,8 +30531,6 @@ Walker Gear
 
 {0} of {1} developed. Items are listed by their development number; the game's item names are not in the save.
 = 已开发 {0} / {1}。物品按开发编号列出；存档中不含物品名称。
-
-
 
 Hotbar
 = 快捷栏
@@ -30815,7 +30781,6 @@ Zombie kills
 
 players.db from Zomboid\\Saves\\<mode>\\<save name> (the save's folder). Every character's hours survived, kills, weight and death flag, their needs and conditions, the health of each body part, and every skill's level and experience. Close the game first. To bring a dead character back, untick Dead and raise the body parts' health.
 = Zomboid\Saves\<模式>\<存档名> 中的 players.db(存档所在文件夹)。每个角色的存活小时数、击杀数、体重和死亡标记,他们的需求与状态,各身体部位的健康,以及每项技能的等级和经验。请先关闭游戏。要让死亡的角色复活,取消勾选“已死亡”并提高各部位的健康。
-
 
 # data/games: Epic Battle Fantasy 5, Road 96
 
@@ -31212,7 +31177,6 @@ savegame.lua, the profile of Invisible, Inc. (plain Lua text from the game's ser
 
 savegameNN.sav from Documents\Almost Human\Legend of Grimrock (a GRIM header and zlib data, unpacked and packed again for you). Each party member's health and energy, the four stats, unused skill points and skill levels. Items, traits and the dungeon are in the Tree. Close the game first.
 = 来自 Documents\Almost Human\Legend of Grimrock 的 savegameNN.sav(GRIM 文件头和 zlib 数据,会自动为你解开并重新封装)。每位队伍成员的生命值和能量、四项属性、未使用的技能点和技能等级。物品、特质和地下城在树状视图中。请先关闭游戏。
-
 
 # data/games: Dead Space 2, Just Cause 2
 
@@ -31887,3 +31851,286 @@ built in
 
 {0} (each): {1}
 = {0}（每个）：{1}
+
+# slot copy, save details, Xbox app to Steam
+
+{0} more
+= 另外 {0} 个
+
+Copied slot {0} into slot {1}. It shows up in the game's own load menu.
+= 已将槽位 {0} 复制到槽位 {1}。它会出现在游戏自己的读档菜单中。
+
+Copied to {0}. Start the Steam version to load it.
+= 已复制到 {0}。启动 Steam 版即可读取。
+
+Copy a slot
+= 复制槽位
+
+Copy a slot to another slot…
+= 将槽位复制到另一个槽位…
+
+Copy slot
+= 复制槽位
+
+Copy to the Steam version
+= 复制到 Steam 版
+
+Copy to the Steam version…
+= 复制到 Steam 版…
+
+Couldn't copy the save: {0}. The Steam version's save wasn't changed.
+= 无法复制存档:{0}。Steam 版的存档没有改动。
+
+Couldn't copy the slot: {0}. The save wasn't changed.
+= 无法复制槽位:{0}。存档没有改动。
+
+Duplicate a {0} save slot, e.g. to try something out on the copy
+= 复制一个 {0} 存档槽位,例如在副本上做尝试
+
+File name
+= 文件名
+
+Folder
+= 文件夹
+
+If the Steam version says the save belongs to someone else, open the copy here and use Tools › Change Steam account in this save.
+= 如果 Steam 版提示存档属于其他人,请在这里打开副本并使用 工具 › 更改此存档中的 Steam 账户。
+
+No folder of the Steam version was found on this computer. Start the game on Steam once and save, then try again.
+= 在这台电脑上没有找到 Steam 版的文件夹。请先在 Steam 上启动游戏并存档一次,然后再试。
+
+Put a copy of this Xbox app save where the game's Steam version looks for its saves. The Xbox app's save is left as it is.
+= 把这个 Xbox 应用存档的副本放到游戏 Steam 版查找存档的位置。Xbox 应用的存档保持不变。
+
+Replace the save that is there (it is backed up first)
+= 替换那里已有的存档(会先备份)
+
+Slot {0}: {1}
+= 槽位 {0}:{1}
+
+The Xbox app's save is left as it is. If Steam asks which copy to keep, choose the one on this computer.
+= Xbox 应用的存档保持不变。如果 Steam 询问保留哪个副本,请选择这台电脑上的那个。
+
+This replaces slot {0} ({1}).
+= 这会替换槽位 {0}({1})。
+
+couldn't back up {0} first: {1}
+= 无法先备份 {0}:{1}
+
+couldn't read the Xbox app's save: {0}
+= 无法读取 Xbox 应用的存档:{0}
+
+pick two different slots
+= 请选择两个不同的槽位
+
+slot {0} can't be read
+= 无法读取槽位 {0}
+
+slot {0} doesn't read back as expected
+= 槽位 {0} 读回的内容与预期不符
+
+that folder belongs to the Xbox app; pick the Steam version's folder
+= 该文件夹属于 Xbox 应用;请选择 Steam 版的文件夹
+
+that slot is empty
+= 该槽位是空的
+
+the character's data is damaged
+= 角色数据已损坏
+
+the file is shorter than its slots
+= 文件比其槽位还短
+
+the new file doesn't read as the same kind of save
+= 新文件读起来不是同一种存档
+
+this isn't an Elden Ring save with ten slots
+= 这不是有十个槽位的艾尔登法环存档
+
+this isn't an Ocarina of Time save
+= 这不是时之笛的存档
+
+this kind of save has no slots that can be copied
+= 这种存档没有可以复制的槽位
+
+type a plain file name, without a folder
+= 请输入不带文件夹的纯文件名
+
+{0} gold
+= {0} 金币
+
+{0} isn't a folder on this computer
+= {0} 不是这台电脑上的文件夹
+
+{0} isn't a name {1} uses for its saves ({2})
+= {0} 不是 {1} 用于存档的名称({2})
+
+{0} looks like it's running. Quit it first, or it will overwrite the copied slot. Nothing was copied.
+= {0} 似乎正在运行。请先退出,否则它会覆盖复制的槽位。没有复制任何内容。
+
+{0} looks like it's running. Quit it first. Nothing was copied.
+= {0} 似乎正在运行。请先退出。没有复制任何内容。
+
+{0} save slot in use
+= {0} 个存档槽位在用
+
+{0} save slots in use
+= {0} 个存档槽位在用
+
+{0} stars
+= {0} 颗星
+
+{0}, level {1}
+= {0},等级 {1}
+
+{0}, level {1}, {2}
+= {0},等级 {1},{2}
+
+{0}, {1} energy
+= {0},能量 {1}
+
+{0}, {1}, level {2}
+= {0},{1},等级 {2}
+
+{0}, {1}:{2}
+= {0},{1}:{2}
+
+{0}: “{1}” from the Xbox app.
+= {0}:来自 Xbox 应用的“{1}”。
+
+the slot's data is damaged
+= 槽位数据已损坏
+
+only its backup copy reads
+= 只有备份副本可以读取
+
+# Pinned values, Open as and the save review
+
+1 unticked change was put back and not saved; Undo brings it back.
+= 1 项未勾选的更改已还原且未保存；撤销可将其恢复。
+
+{0} unticked changes were put back and not saved; Undo brings them back.
+= {0} 项未勾选的更改已还原且未保存；撤销可将其恢复。
+
+As detected
+= 按检测结果
+
+Click to open it another way (Open as).
+= 点击以其他方式打开（打开方式）。
+
+Common edits
+= 常用修改
+
+Couldn't keep the pin: {0}
+= 无法保存固定：{0}
+
+Exactly what is on disk, nothing unpacked. Saving writes the bytes as they are.
+= 就是磁盘上的内容，不做任何解包。保存时按原样写入这些字节。
+
+For when the game screen belongs to another game: the same data, as the list of values.
+= 当游戏界面属于另一款游戏时：以数值列表显示相同的数据。
+
+Made by one button together with other values: kept or left out together.
+= 由一个按钮与其他数值一起修改：一起保留或一起排除。
+
+Nothing is ticked, so saving puts every change back and writes nothing.
+= 没有勾选任何项，因此会还原所有更改，不写入任何内容。
+
+Nothing left to save: the unticked changes were put back, and the file wasn't changed. Undo brings them back.
+= 没有要保存的内容：未勾选的更改已还原，文件未被修改。撤销可将其恢复。
+
+Open as
+= 打开方式
+
+Opened as text
+= 已作为文本打开
+
+Opened as the file's bytes
+= 已作为文件字节打开
+
+Opened as unpacked bytes
+= 已作为解包后的字节打开
+
+Opened without the game screen
+= 已不使用游戏界面打开
+
+Pin
+= 固定
+
+Pin to the top
+= 固定到顶部
+
+Pin: show this value at the top of the list for every save of this game
+= 固定：在此游戏的每个存档中都将此数值显示在列表顶部
+
+Pinned
+= 已固定
+
+Pinned {0}. It stays at the top of the list for every save of this game.
+= 已固定 {0}。它会在此游戏的每个存档中留在列表顶部。
+
+Put them back
+= 全部还原
+
+Read this file another way, for when the editor guessed wrong
+= 在编辑器判断错误时，以其他方式读取此文件
+
+Read this file another way, for when the editor guessed wrong.
+= 在编辑器判断错误时，以其他方式读取此文件。
+
+Save or revert your changes before opening the file another way.
+= 以其他方式打开文件前，请先保存或还原你的更改。
+
+Save ticked
+= 保存已勾选项
+
+The data inside the file's packing (compression, encryption, archive) as bytes. Saving packs it again the same way.
+= 以字节显示文件封装（压缩、加密、归档）内部的数据。保存时会以同样方式重新封装。
+
+The file as plain text, nothing unpacked. Saving writes the text as it is.
+= 将文件作为纯文本，不做任何解包。保存时按原样写入文本。
+
+The file's own bytes in the hex view
+= 在十六进制视图中显示文件本身的字节
+
+The way the editor reads this file on its own.
+= 编辑器自行读取此文件的方式。
+
+The whole file as text
+= 将整个文件作为文本
+
+This file isn't plain text, so it is shown as bytes in the hex view.
+= 此文件不是纯文本，因此以字节显示在十六进制视图中。
+
+Tick all
+= 全部勾选
+
+Unpacked data in the hex view
+= 在十六进制视图中显示解包后的数据
+
+Unpin
+= 取消固定
+
+Unpin: stop showing this value at the top for this game's saves
+= 取消固定：不再在此游戏的存档中将此数值显示在顶部
+
+Unpinned {0}.
+= 已取消固定 {0}。
+
+Untick a change to leave it out of this save.
+= 取消勾选某项更改即可在本次保存中排除它。
+
+Unticked changes are put back before saving. Undo brings them back.
+= 未勾选的更改会在保存前还原。撤销可将其恢复。
+
+Values only, without the game screen
+= 仅数值，不使用游戏界面
+
+Values whose names look like money, levels, experience, health, points or item counts. Each is also listed in its own section.
+= 名称看起来像金钱、等级、经验、生命、点数或物品数量的数值。每项也会列在其所属的分区中。
+
+Values you pinned. They stay at the top for every save of this game.
+= 你固定的数值。它们会在此游戏的每个存档中留在顶部。
+
+You can pin up to {0} values per game. Unpin one first.
+= 每款游戏最多可固定 {0} 个数值。请先取消固定一个。

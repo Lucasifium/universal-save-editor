@@ -1341,6 +1341,8 @@ fn frame_timing() {
                     can_paste_one: false,
                     copy: None,
                     paste_at: None,
+                    pins: None,
+                    toggle_pin: None,
                 };
                 crate::values_view::show(ui, &model, &disp, &Default::default(), &mut vc);
             });
