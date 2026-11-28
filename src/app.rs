@@ -3791,6 +3791,8 @@ impl App {
                 let w = (ui.available_width() - sb).max(100.0);
                 crate::game_ui::begin_find(ui.ctx(), &self.game_find, self.game_find_idx);
                 crate::game_ui::set_active_section(ui.ctx(), Some(&self.game_section));
+                // Changes with every edit, undo, revert, load and save (and with the open tab of files).
+                crate::game_ui::set_data_version(ui.ctx(), self.edit_gen.wrapping_mul(1 << 16).wrapping_add(self.tabs.active as u64));
                 crate::game_ui::set_header_facts(ui.ctx(), header::facts(d.stamp.as_ref().and_then(|s| s.modified()), r));
                 ScrollArea::both().auto_shrink([false, false]).max_width(w + sb).show_locked(ui, |ui| {
                     ui.set_max_width(w);
@@ -7349,6 +7351,43 @@ pub(crate) mod layout_tests {
         assert_eq!(on_second.matches(&format!("{second}\n")).count(), 2, "its tab label and its panel title");
         assert_eq!(on_second.matches(&format!("{first}\n")).count(), 1, "the first panel is gone, its tab label stays");
         assert_eq!(crate::game_ui::sections(&ctx), secs, "every section is still drawn, so the tabs stay");
+    }
+
+    /// Hidden tabs are not laid out again while the data stays the same, but their edit marks
+    /// and quick actions still follow every change, whichever tab is open.
+    #[test]
+    fn hidden_tabs_keep_their_marks_without_being_laid_out_again() {
+        let _lock = crate::i18n::LANG_TEST_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        crate::i18n::set(Some("en"));
+        let path = knight_save("tabcache");
+        let ctx = window();
+        let mut app = App::with(&ctx, Settings::default(), false);
+        app.load(&path);
+        let (w, h) = (1100.0, 900.0);
+        run_frames(&mut app, &ctx, w, h, 4);
+        let titles: Vec<String> = crate::game_ui::sections(&ctx).iter().map(|s| s.title.clone()).collect();
+        assert!(titles.len() >= 2);
+        let marks = |app: &mut App| -> Vec<Vec<bool>> {
+            titles
+                .iter()
+                .map(|t| {
+                    app.game_section = t.clone();
+                    run_frames(app, &ctx, w, h, 3);
+                    crate::game_ui::sections(&ctx).iter().map(|s| s.edited).collect()
+                })
+                .collect()
+        };
+        let before = marks(&mut app);
+        assert!(before.iter().all(|m| m.iter().all(|e| !e)), "nothing edited yet: {before:?}");
+        // Nail damage is on the Nail & soul tab, which isn't the first one.
+        app.apply_edit("/playerData/nailDamage".into(), json!(9), 0.0);
+        let after = marks(&mut app);
+        let nail = titles.iter().position(|t| t == "Nail & soul").expect("a Nail & soul tab");
+        assert!(after[0][nail] && after[0].iter().filter(|&&e| e).count() == 1, "the edit is marked on its tab only: {after:?}");
+        assert!(after.iter().all(|m| *m == after[0]), "the same marks whichever tab is open: {after:?}");
+        app.undo_redo(true);
+        let undone = marks(&mut app);
+        assert_eq!(undone, before, "undo takes the mark away again");
     }
 
     #[test]

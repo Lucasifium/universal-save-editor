@@ -687,6 +687,24 @@ fn edits_so_far(ui: &Ui) -> usize {
     ui.ctx().data(|d| d.get_temp::<usize>(egui::Id::new(SEC_EDITS))).unwrap_or(0)
 }
 
+/// Stands for the save's data as drawn: set by the window (see [`set_data_version`]).
+const DATA_VERSION: &str = "game_data_version";
+
+/// What a tab showed the last time it was laid out, for the data version it was laid out for.
+#[derive(Clone, Default)]
+struct TabCache {
+    version: u64,
+    edited: bool,
+    actions: Vec<QuickAction>,
+}
+
+/// A number that changes whenever the save's data (or what it is compared with) may have:
+/// hidden tabs are laid out again only when it does. Without it, every tab is laid out on
+/// every frame.
+pub fn set_data_version(ctx: &egui::Context, v: u64) {
+    ctx.data_mut(|d| d.insert_temp(egui::Id::new(DATA_VERSION), v));
+}
+
 /// Draws a top-level panel's body as a tab: in place when it is the open tab, out of sight (and
 /// not clickable) when it isn't. Both take the same ids, so what a panel remembers (an open
 /// group, a scroll position) survives switching tabs.
@@ -701,21 +719,46 @@ fn tab_body(ui: &mut Ui, title: &str, body: impl FnOnce(&mut Ui)) {
     // The open tab; a title the screen no longer draws leaves the first one open.
     let shown = sections(&ctx);
     let open = active_section(&ctx).filter(|_| !shown.is_empty() && page_tabs(&ctx).is_none()).map(|a| if shown.iter().any(|s| s.title == a) { a } else { shown[0].title.clone() });
+    let hidden = open.as_ref().is_some_and(|o| o != title);
+    // A hidden tab whose data hasn't changed since it was last laid out isn't laid out again:
+    // its edit mark and quick actions are taken from then (a screen with hundreds of tabs took
+    // several times as long per frame otherwise). It is laid out whenever something may differ:
+    // a change to the save, a quick action clicked, a search on the screen.
+    let screen = ctx.data(|d| d.get_temp::<egui::Id>(egui::Id::new(SCREEN_SALT))).unwrap_or(egui::Id::NULL);
+    let key = egui::Id::new(("game_tab_cache", screen, title));
+    let version: Option<u64> = ctx.data(|d| d.get_temp(egui::Id::new(DATA_VERSION)));
+    let busy = ctx.data(|d| d.get_temp::<String>(egui::Id::new(QA_CLICK)).is_some() || d.get_temp::<String>(egui::Id::new(FIND_NEEDLE)).is_some_and(|n| !n.is_empty()));
+    if let (true, Some(v), false) = (hidden, version, busy) {
+        if let Some(c) = ctx.data(|d| d.get_temp::<TabCache>(key)).filter(|c| c.version == v) {
+            ctx.data_mut(|d| {
+                let list = d.get_temp_mut_or_default::<Vec<QuickAction>>(egui::Id::new(QA_NOW));
+                for a in c.actions {
+                    if !list.iter().any(|x| x.label == a.label) {
+                        list.push(a);
+                    }
+                }
+                d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW)).push(Section { title: title.to_string(), edited: c.edited });
+            });
+            return;
+        }
+    }
+    let actions_before = ctx.data(|d| d.get_temp::<Vec<QuickAction>>(egui::Id::new(QA_NOW)).map_or(0, |l| l.len()));
     set_section_depth(&ctx, 1);
-    match open {
-        Some(open) if open != title => {
-            let away = egui::vec2(-100_000.0, 0.0);
-            let rect = ui.available_rect_before_wrap().translate(away);
-            let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect));
-            child.set_invisible();
-            body(&mut child);
-        }
-        _ => {
-            ui.scope(body);
-        }
+    if hidden {
+        let away = egui::vec2(-100_000.0, 0.0);
+        let rect = ui.available_rect_before_wrap().translate(away);
+        let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect));
+        child.set_invisible();
+        body(&mut child);
+    } else {
+        ui.scope(body);
     }
     set_section_depth(&ctx, 0);
     let edited = edits_so_far(ui) > edits;
+    if let Some(v) = version {
+        let actions: Vec<QuickAction> = ctx.data(|d| d.get_temp::<Vec<QuickAction>>(egui::Id::new(QA_NOW)).map(|l| l.get(actions_before..).unwrap_or_default().to_vec()).unwrap_or_default());
+        ctx.data_mut(|d| d.insert_temp(key, TabCache { version: v, edited, actions }));
+    }
     ctx.data_mut(|d| d.get_temp_mut_or_default::<Vec<Section>>(egui::Id::new(SEC_NOW)).push(Section { title: title.to_string(), edited }));
 }
 
