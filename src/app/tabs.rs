@@ -96,6 +96,17 @@ impl App {
         self.tabs.list.len()
     }
 
+    /// Browser version: whether a file just picked as `p` may be saved back through its handle.
+    /// Only when opening it shows that file: not when another tab already has `p` open (that
+    /// tab is shown instead) or the file on screen is `p` with unsaved changes (saving those
+    /// first must not write them into the newly picked file).
+    #[cfg_attr(not(target_arch = "wasm32"), allow(dead_code))]
+    pub(super) fn handle_may_follow(&self, p: &Path) -> bool {
+        let elsewhere = (0..self.tab_count()).any(|i| i != self.tabs.active && self.tab_path(i) == Some(p));
+        let here_unsaved = self.dirty && self.doc.as_ref().is_some_and(|d| d.path == p);
+        !elsewhere && !here_unsaved
+    }
+
     /// Any tab, shown or not, with unsaved changes.
     pub(super) fn any_dirty(&self) -> bool {
         self.dirty || self.tabs.list.iter().enumerate().any(|(i, p)| i != self.tabs.active && p.dirty)

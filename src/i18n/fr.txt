@@ -31800,3 +31800,73 @@ Yes, tell me
 
 No thanks
 = Non merci
+
+# Saving in place in the browser
+Couldn't open the file: {0}
+= Impossible d’ouvrir le fichier : {0}
+
+Open to save in place…
+= Ouvrir pour enregistrer sur place…
+
+Save then writes back to the file you pick, once you allow it in the browser, instead of downloading it. The file as it was is kept in this browser first. The browser refuses some system folders this way; use Open… for those.
+= Enregistrer écrit alors directement dans le fichier choisi, une fois que vous l’autorisez dans le navigateur, au lieu de le télécharger. Le fichier tel qu’il était est d’abord gardé dans ce navigateur. Le navigateur refuse certains dossiers système de cette façon ; utilisez Ouvrir… pour ceux-là.
+
+Originals kept in this browser…
+= Originaux gardés dans ce navigateur…
+
+Download a file as it was before you first saved it in place
+= Télécharger un fichier tel qu’il était avant son premier enregistrement sur place
+
+The browser asks whether this page may change the file, then writes it back to the file you opened. Before the first save, the file as it was is kept in this browser: Backups › Originals kept in this browser.
+= Le navigateur demande si cette page peut modifier le fichier, puis l’écrit dans le fichier que vous avez ouvert. Avant le premier enregistrement, le fichier tel qu’il était est gardé dans ce navigateur : Copies de secours › Originaux gardés dans ce navigateur.
+
+Your browser downloaded {0} as it was before it was first saved here.
+= Votre navigateur a téléchargé {0} tel qu’il était avant son premier enregistrement ici.
+
+That copy isn't kept in this browser any more.
+= Cette copie n’est plus gardée dans ce navigateur.
+
+Couldn't hand over the kept copy: {0}
+= Impossible de fournir la copie gardée : {0}
+
+Originals kept in this browser
+= Originaux gardés dans ce navigateur
+
+Before the first save to a file opened with Open to save in place, the file as it was is kept here. These copies live in this browser's own storage, not in a folder on your computer: clearing this site's data in the browser removes them. The newest {0} are kept, up to {1} MB in all.
+= Avant le premier enregistrement d’un fichier ouvert avec « Ouvrir pour enregistrer sur place », le fichier tel qu’il était est gardé ici. Ces copies se trouvent dans le stockage propre à ce navigateur, pas dans un dossier de votre ordinateur : effacer les données de ce site dans le navigateur les supprime. Les {0} plus récentes sont gardées, jusqu’à {1} Mo au total.
+
+Reading the browser's storage…
+= Lecture du stockage du navigateur…
+
+The browser's storage couldn't be read: {0}
+= Le stockage du navigateur n’a pas pu être lu : {0}
+
+Nothing is kept yet.
+= Rien n’est encore gardé.
+
+Your browser downloaded the edited file instead.
+= Votre navigateur a téléchargé le fichier modifié à la place.
+
+{0} The download didn't start either ({1}). Your changes are still here.
+= {0} Le téléchargement n’a pas démarré non plus ({1}). Vos modifications sont toujours là.
+
+Written back to {0} on your computer. The file as it was before is kept in this browser: Backups › Originals kept in this browser.
+= Réécrit dans {0} sur votre ordinateur. Le fichier tel qu’il était avant est gardé dans ce navigateur : Copies de secours › Originaux gardés dans ce navigateur.
+
+Written back to {0} on your computer.
+= Réécrit dans {0} sur votre ordinateur.
+
+The browser wasn't allowed to change {0}, so that file wasn't changed.
+= Le navigateur n’a pas eu le droit de modifier {0}, ce fichier n’a donc pas été modifié.
+
+The browser couldn't ask to change {0} ({1}), so that file wasn't changed.
+= Le navigateur n’a pas pu demander à modifier {0} ({1}), ce fichier n’a donc pas été modifié.
+
+{0} wasn't changed: a copy of it couldn't be kept in this browser first ({1}).
+= {0} n’a pas été modifié : une copie n’a pas pu être gardée dans ce navigateur au préalable ({1}).
+
+Couldn't save to {0}: {1}. The file on your computer wasn't changed. Your changes are still here: save again, or use Save a copy as to download them.
+= Impossible d’enregistrer dans {0} : {1}. Le fichier sur votre ordinateur n’a pas été modifié. Vos modifications sont toujours là : enregistrez à nouveau, ou utilisez « Enregistrer une copie sous » pour les télécharger.
+
+Couldn't save to {0}: {1}. The browser can't tell whether the file on your computer changed. Your changes are still here, and the file as it was before your first save is kept in this browser: Backups › Originals kept in this browser.
+= Impossible d’enregistrer dans {0} : {1}. Le navigateur ne peut pas dire si le fichier sur votre ordinateur a changé. Vos modifications sont toujours là, et le fichier tel qu’il était avant votre premier enregistrement est gardé dans ce navigateur : Copies de secours › Originaux gardés dans ce navigateur.
