@@ -57,7 +57,7 @@ parked! {
     preset_apply: Option<PresetApply>,
     disk_changed: bool,
     disk_seen: Option<Stamp>,
-    stale_save: Option<PathBuf>,
+    stale_save: Option<(PathBuf, AfterSave)>,
     stale_ok: bool,
     model_from_baseline: bool,
 }

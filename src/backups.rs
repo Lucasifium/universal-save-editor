@@ -229,7 +229,8 @@ pub fn write_verified(dest: &Path, bytes: &[u8], replace: bool) -> Result<(), St
         if std::fs::read(&tmp)? != bytes {
             return Err(std::io::Error::other(tr("the written file read back differently from what was written")));
         }
-        if !replace && dest.exists() {
+        // Anything there counts, a link that leads nowhere too.
+        if !replace && std::fs::symlink_metadata(dest).is_ok() {
             return Err(std::io::Error::new(std::io::ErrorKind::AlreadyExists, trf("{0} already exists", &[&dest.display()])));
         }
         std::fs::rename(&tmp, dest)?;

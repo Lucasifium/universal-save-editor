@@ -13,7 +13,7 @@ pub(super) const BACKGROUND_SAVE_ROWS: usize = 20_000;
 pub(super) const SAVING_BOX_AFTER: f64 = OPENING_BOX_AFTER;
 
 /// What to do once a save has gone through (nothing, when it failed: the changes stay).
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub(super) enum AfterSave {
     Stay,
     CloseFile,
@@ -85,7 +85,12 @@ pub(super) fn write_save(path: &Path, layers: &[Layer], content: &Content, opts:
             bak.push(".bak");
             let bak = PathBuf::from(bak);
             if !bak.exists() {
-                crate::vfs::copy(path, &bak).map_err(|e| trf("Couldn't save: the backup {0} couldn't be made ({1}). The save on disk wasn't changed.", &[&bak.display(), &e]))?;
+                // Written whole or not at all: a copy cut off half way (a full disk) would
+                // otherwise stay as the "original" for good, as it is never made again.
+                crate::vfs::read(path)
+                    .map_err(|e| e.to_string())
+                    .and_then(|b| crate::backups::write_verified(&bak, &b, false))
+                    .map_err(|e| trf("Couldn't save: the backup {0} couldn't be made ({1}). The save on disk wasn't changed.", &[&bak.display(), &e]))?;
                 note = Some(trf("Original backed up as {0}.", &[&file_name(&bak)]));
             }
             // Every earlier version stays restorable from Backups \u{203A} Quick restore.
@@ -195,7 +200,7 @@ impl App {
         let Some(doc) = &self.doc else { return };
         // Something else wrote the file since it was read: don't silently put older data over it.
         if !std::mem::take(&mut self.stale_ok) && doc.path == path && safety::changed(&doc.path, doc.stamp.as_ref()) {
-            self.stale_save = Some(path.to_path_buf());
+            self.stale_save = Some((path.to_path_buf(), then));
             return;
         }
         // Only this document's own handle, and only for its own file.

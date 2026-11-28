@@ -361,8 +361,9 @@ pub struct App {
     disk_changed: bool,
     /// The changed file the player chose to keep working past ("Keep what's shown").
     disk_seen: Option<Stamp>,
-    /// Saving over a file that changed on disk: waiting for Reload / Save anyway / Cancel.
-    stale_save: Option<PathBuf>,
+    /// Saving over a file that changed on disk: waiting for Reload / Save anyway / Cancel,
+    /// with what was to happen once the save went through.
+    stale_save: Option<(PathBuf, AfterSave)>,
     /// "Save anyway" was chosen for the next save.
     stale_ok: bool,
     /// Whether the window had the keyboard focus last frame (a file check runs on return).

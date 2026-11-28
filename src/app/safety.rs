@@ -429,8 +429,8 @@ impl App {
 
     /// "This file changed on disk since you opened it": Reload / Save anyway / Cancel.
     pub(super) fn stale_dialog(&mut self, ctx: &egui::Context) {
-        let Some(path) = self.stale_save.clone() else { return };
-        let mut choice = None;
+        let Some((path, then)) = self.stale_save.clone() else { return };
+        let mut choice: Option<u8> = None;
         modal(ctx, tr("The save changed on disk"), |ui| {
             ui.set_max_width(460.0);
             let name = file_name(&path);
@@ -459,19 +459,26 @@ impl App {
                 tab_ring(reload.as_ref().unwrap_or(&save), &cancel);
             });
         });
+        if let Some(c) = choice {
+            self.stale_answer(&path, then, c);
+        }
+    }
+
+    /// The answer to "The save changed on disk": 0 reload, 1 save anyway, anything else cancel.
+    pub(super) fn stale_answer(&mut self, path: &Path, then: super::AfterSave, choice: u8) {
         match choice {
-            Some(0) => self.reload_from_disk(),
-            Some(1) => {
+            0 => self.reload_from_disk(),
+            1 => {
                 self.stale_save = None;
                 self.stale_ok = true;
-                self.save_to(&path);
+                // Then whatever the save was for: closing the file, opening another, quitting.
+                self.save_to_then(path, then);
                 self.stale_ok = false;
             }
-            Some(_) => {
+            _ => {
                 self.stale_save = None;
                 self.info(tr("Not saved. Your changes are still here."));
             }
-            None => {}
         }
     }
 
